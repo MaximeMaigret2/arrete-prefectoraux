@@ -53,12 +53,14 @@ Fonction pure `computeDepartementState(code: string, date: DateISO): { etat: 've
 Algorithme :
 
 1. Si aucun `Connecteur` (actif ou l'ayant été) ne couvre `code` → retourner `{ etat: 'gris', evenement_applicable: null }`.
-2. Filtrer les événements de `code` dont l'intervalle `[date_debut, date_fin ?? +∞)` contient `date` (bornes incluses ; `date_fin` marque la fin de la journée concernée, cf. Edge Case "portion de journée").
-3. Parmi les événements filtrés de type `interdiction` ou `prolongation` non annulés par une `levee` postérieure à leur propre `date_debut` et antérieure ou égale à `date` → si au moins un existe, retourner `{ etat: 'rouge', evenement_applicable: <le plus récent par date_debut> }`.
-4. Sinon → retourner `{ etat: 'vert', evenement_applicable: null }` (couvert, aucune interdiction active à cette date).
+2. **(1bis)** Si des événements existent pour `code` et que `date` est strictement antérieure à la `date_debut` du plus ancien d'entre eux → retourner `{ etat: 'gris', evenement_applicable: null }`. Un département couvert mais dont la donnée collectée ne remonte pas jusqu'à `date` ne doit jamais être présumé "vert par défaut" (FR-016, Acceptance Scenario US2.4 : "date antérieure à l'existence de toute donnée collectée"). Cette étape ne s'applique pas si `code` n'a jamais aucun événement : dans ce cas, c'est un dossier "propre" et l'étape 4 (vert) s'applique à toute date.
+3. Filtrer les événements de `code` dont l'intervalle `[date_debut, date_fin ?? +∞)` contient `date` (bornes incluses ; `date_fin` marque la fin de la journée concernée, cf. Edge Case "portion de journée").
+4. Parmi les événements filtrés de type `interdiction` ou `prolongation` non annulés par une `levee` postérieure à leur propre `date_debut` et antérieure ou égale à `date` → si au moins un existe, retourner `{ etat: 'rouge', evenement_applicable: <le plus récent par date_debut> }`.
+5. Sinon → retourner `{ etat: 'vert', evenement_applicable: null }` (couvert, aucune interdiction active à cette date, et soit aucun événement connu, soit `date` postérieure ou égale au premier événement connu).
 
 **Gestion explicite des cas limites** (issus des Edge Cases du spec, à couvrir par les tests unitaires) :
-- Aucun arrêté pour un département couvert → `vert`.
+- Aucun arrêté pour un département couvert → `vert`, à toute date (dossier "propre", distinct d'une absence de couverture temporelle — voir étape 1bis).
+- Département couvert avec des événements connus, à une date antérieure au premier d'entre eux → `gris`, jamais `vert` (étape 1bis, FR-016/US2.4).
 - Arrêté avec `date_fin = null` → considéré actif pour toute `date ≥ date_debut`.
 - Deux arrêtés qui se chevauchent (ex. prolongation posée avant l'expiration du précédent) → l'état reste `rouge` sans double-comptage ; `evenement_applicable` retourne l'événement le plus pertinent (le plus récemment débuté) pour l'infobulle.
 - `date` strictement égale à `date_debut` → jour inclus en `rouge`. `date` strictement égale au jour suivant `date_fin` → `vert` (fin exclusive au lendemain).
