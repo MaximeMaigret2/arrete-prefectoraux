@@ -1,0 +1,25 @@
+# Dépendances et builds (chaque sous-projet a aussi son propre .gitignore)
+node_modules/
+dist/
+coverage/
+*.log
+
+# Env
+.env
+.env.*
+
+# Artefacts de test e2e
+test-results/
+playwright-report/
+
+# Fichiers temporaires générés par Vite/Vitest lors de rechargements à chaud
+# (config timestampée recréée à chaque redémarrage du serveur de dev)
+*.timestamp-*.mjs
+*.tsbuildinfo
+
+# Fichiers de vérification ad hoc laissés par erreur
+*.tmp.ts
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db

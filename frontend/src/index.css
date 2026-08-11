@@ -1,0 +1,155 @@
+:root {
+  --color-vert: #1b8a3f;
+  --color-rouge: #c62828;
+  --color-gris: #9e9e9e;
+  --color-text: #1a1a1a;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background: #fafafa;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.app-header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.app-disclaimer {
+  font-size: 0.85rem;
+  color: #555;
+  border-left: 3px solid var(--color-gris);
+  padding-left: 0.6rem;
+}
+
+.app-freshness {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.app-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.app-error {
+  color: var(--color-rouge);
+  font-size: 0.9rem;
+}
+
+.calendar-widget {
+  position: relative;
+}
+
+.calendar-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.calendar-trigger:hover,
+.calendar-trigger[aria-expanded='true'] {
+  border-color: #999;
+}
+
+.calendar-trigger-label {
+  font-size: 0.7rem;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.calendar-trigger-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.calendar-popover {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 20;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem;
+}
+
+.map-legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.map-container {
+  position: relative;
+  flex: 1 1 640px;
+  min-width: 320px;
+}
+
+.map-svg {
+  width: 100%;
+  height: auto;
+}
+
+.map-departement {
+  stroke: #fff;
+  stroke-width: 0.5;
+  cursor: pointer;
+  transition: opacity 0.1s ease;
+}
+
+.map-departement:hover,
+.map-departement:focus-visible {
+  opacity: 0.75;
+  outline: 2px solid #000;
+}
+
+.map-departement--vert {
+  fill: var(--color-vert);
+}
+
+.map-departement--rouge {
+  fill: var(--color-rouge);
+}
+
+.map-departement--gris {
+  fill: var(--color-gris);
+}

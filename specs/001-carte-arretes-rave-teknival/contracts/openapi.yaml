@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: API Carte des arrêtés d'interdiction de rassemblements musicaux non déclarés
+  description: >
+    API publique en lecture seule exposant l'état des départements français
+    (vert / rouge / gris) et l'historique complet des arrêtés préfectoraux
+    d'interdiction des rassemblements musicaux non déclarés (rave party,
+    teknival). Cet outil est un service d'information et ne remplace pas une
+    vérification officielle auprès de la préfecture ou du Recueil des Actes
+    Administratifs (RAA) concerné.
+  version: "1.0.0"
+servers:
+  - url: /api/v1
+    description: Version 1 de l'API (lecture seule, publique, sans authentification)
+
+paths:
+  /departements:
+    get:
+      operationId: getDepartementsAtDate
+      summary: État de tous les départements à une date donnée
+      description: >
+        Retourne, pour chaque département, son état (vert/rouge/gris) à la
+        date demandée, ainsi que la référence de l'arrêté applicable pour les
+        départements en rouge et le connecteur associé pour les départements
+        couverts.
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Date au format ISO 8601 (YYYY-MM-DD), interprétée en fuseau Europe/Paris.
+          schema:
+            type: string
+            format: date
+            example: "2026-08-10"
+      responses:
+        "200":
+          description: État de tous les départements à la date demandée.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DepartementsStateResponse"
+        "400":
+          description: Paramètre `date` manquant ou mal formé.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /departements/{code}/evenements:
+    get:
+      operationId: getDepartementHistory
+      summary: Historique complet des événements d'un département
+      description: >
+        Retourne la liste chronologique complète des événements (arrêtés,
+        prolongations, levées) d'un département. Si le département n'a jamais
+        été couvert par un connecteur, retourne une liste vide accompagnée du
+        statut "non couvert".
+      parameters:
+        - name: code
+          in: path
+          required: true
+          description: Code INSEE du département (ex. `75`, `2A`, `971`).
+          schema:
+            type: string
+            example: "77"
+      responses:
+        "200":
+          description: Historique du département (peut être vide si non couvert).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DepartementHistoryResponse"
+        "404":
+          description: Code de département inconnu (ne correspond à aucun département français).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /evenements:
+    get:
+      operationId: listEvenements
+      summary: Tous les événements sur un intervalle de dates, tous départements confondus
+      parameters:
+        - name: debut
+          in: query
+          required: true
+          description: Borne de début de l'intervalle (ISO 8601, YYYY-MM-DD, incluse).
+          schema:
+            type: string
+            format: date
+            example: "2026-01-01"
+        - name: fin
+          in: query
+          required: true
+          description: Borne de fin de l'intervalle (ISO 8601, YYYY-MM-DD, incluse).
+          schema:
+            type: string
+            format: date
+            example: "2026-12-31"
+      responses:
+        "200":
+          description: Liste des événements dont l'intervalle d'application recoupe la période demandée.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  derniere_mise_a_jour:
+                    type: string
+                    format: date-time
+                    description: Date de dernière mise à jour du jeu de données global (FR-012).
+                  evenements:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Evenement"
+        "400":
+          description: Paramètres `debut`/`fin` manquants, mal formés, ou `fin` antérieure à `debut`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    Etat:
+      type: string
+      enum: [vert, rouge, gris]
+      description: >
+        vert = aucun arrêté d'interdiction actif (département couvert) ;
+        rouge = arrêté d'interdiction actif ; gris = aucun connecteur de
+        collecte actif pour ce département à cette date (donnée non
+        disponible, ne signifie pas "aucune interdiction").
+
+    DepartementState:
+      type: object
+      required: [code, nom, etat]
+      properties:
+        code:
+          type: string
+          example: "77"
+        nom:
+          type: string
+          example: "Seine-et-Marne"
+        etat:
+          $ref: "#/components/schemas/Etat"
+        evenement_applicable:
+          allOf:
+            - $ref: "#/components/schemas/Evenement"
+          nullable: true
+          description: Présent uniquement quand `etat` est `rouge`.
+        connecteur_id:
+          type: string
+          nullable: true
+          description: Identifiant du connecteur ayant produit la donnée ; `null` si `etat` est `gris`.
+
+    DepartementsStateResponse:
+      type: object
+      required: [date, derniere_mise_a_jour, departements]
+      properties:
+        date:
+          type: string
+          format: date
+          example: "2026-08-10"
+        derniere_mise_a_jour:
+          type: string
+          format: date-time
+          description: Date de dernière mise à jour du jeu de données global (FR-012).
+        departements:
+          type: array
+          items:
+            $ref: "#/components/schemas/DepartementState"
+
+    DepartementHistoryResponse:
+      type: object
+      required: [code, nom, couvert, evenements]
+      properties:
+        code:
+          type: string
+          example: "77"
+        nom:
+          type: string
+          example: "Seine-et-Marne"
+        couvert:
+          type: boolean
+          description: false si aucun connecteur n'a jamais couvert ce département ("non couvert").
+        evenements:
+          type: array
+          items:
+            $ref: "#/components/schemas/Evenement"
+
+    Evenement:
+      type: object
+      required:
+        - id
+        - departement_code
+        - type_evenement
+        - date_debut
+        - date_fin
+        - date_saisie
+        - connecteur_id
+        - methode_collecte
+      properties:
+        id:
+          type: string
+          format: uuid
+        departement_code:
+          type: string
+          example: "77"
+        type_evenement:
+          type: string
+          enum: [interdiction, levee, prolongation]
+        date_debut:
+          type: string
+          format: date-time
+          description: ISO 8601 UTC.
+        date_fin:
+          type: string
+          format: date-time
+          nullable: true
+          description: ISO 8601 UTC ; `null` = actif jusqu'à preuve du contraire.
+        reference_arrete:
+          type: string
+          nullable: true
+          example: "AP-2026-0842"
+        source_url:
+          type: string
+          format: uri
+          nullable: true
+        date_saisie:
+          type: string
+          format: date-time
+          description: Date d'entrée de l'événement dans le système (distincte de date_debut).
+        connecteur_id:
+          type: string
+          example: "prefecture-77"
+        methode_collecte:
+          type: string
+          enum: [automatique, manuelle_verifiee]
+
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          example: "invalid_parameter"
+        message:
+          type: string
+          example: "Le paramètre 'date' doit être au format YYYY-MM-DD."

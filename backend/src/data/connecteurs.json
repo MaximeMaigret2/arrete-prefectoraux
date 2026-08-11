@@ -1,0 +1,23 @@
+[
+  {
+    "id": "prefecture-77",
+    "nom": "Préfecture de Seine-et-Marne",
+    "departements_couverts": ["77"],
+    "actif": true,
+    "derniere_collecte": "2026-08-11T06:00:00Z"
+  },
+  {
+    "id": "prefecture-13",
+    "nom": "Préfecture des Bouches-du-Rhône",
+    "departements_couverts": ["13"],
+    "actif": true,
+    "derniere_collecte": "2026-08-11T06:00:00Z"
+  },
+  {
+    "id": "prefecture-33",
+    "nom": "Préfecture de la Gironde",
+    "departements_couverts": ["33"],
+    "actif": true,
+    "derniere_collecte": "2026-08-11T06:00:00Z"
+  }
+]

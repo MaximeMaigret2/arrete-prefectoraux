@@ -1,0 +1,26 @@
+[
+  {
+    "id": "8e6f1a10-1a2b-4c3d-9e4f-000000000131",
+    "departement_code": "13",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-05-01T00:00:00Z",
+    "date_fin": null,
+    "reference_arrete": "AP-2026-0501",
+    "source_url": null,
+    "date_saisie": "2026-05-01T18:00:00Z",
+    "connecteur_id": "prefecture-13",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "8e6f1a10-1a2b-4c3d-9e4f-000000000132",
+    "departement_code": "13",
+    "type_evenement": "levee",
+    "date_debut": "2026-05-16T00:00:00Z",
+    "date_fin": null,
+    "reference_arrete": null,
+    "source_url": null,
+    "date_saisie": "2026-05-16T08:00:00Z",
+    "connecteur_id": "prefecture-13",
+    "methode_collecte": "manuelle_verifiee"
+  }
+]

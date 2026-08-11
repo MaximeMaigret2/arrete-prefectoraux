@@ -1,0 +1,14 @@
+[
+  {
+    "id": "8e6f1a10-1a2b-4c3d-9e4f-000000000077",
+    "departement_code": "77",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-06-01T00:00:00Z",
+    "date_fin": null,
+    "reference_arrete": "AP-2026-0842",
+    "source_url": null,
+    "date_saisie": "2026-06-02T09:15:00Z",
+    "connecteur_id": "prefecture-77",
+    "methode_collecte": "manuelle_verifiee"
+  }
+]
