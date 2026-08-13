@@ -7,6 +7,7 @@ function makeEvent(overrides: Partial<Evenement> & Pick<Evenement, 'id' | 'depar
   return {
     date_fin: null,
     reference_arrete: null,
+    autorite_signataire: 'Le Préfet de test',
     source_url: null,
     date_saisie: overrides.date_debut,
     connecteur_id: 'test-connecteur',
@@ -32,6 +33,9 @@ function makeStore(events: Evenement[], couverts: string[]): DataStore {
     evenementsByDepartement: byDept,
     departementsCouverts: new Set(couverts),
     derniereMiseAJour: '2026-08-11T00:00:00Z',
+    executions: [],
+    anomalies: [],
+    registreSources: [],
   };
 }
 

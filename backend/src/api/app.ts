@@ -1,6 +1,7 @@
 import Fastify, { type FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
+import { registerAdminAuth } from './routes/admin/auth.js';
 import { registerDepartementsRoutes } from './routes/departements.js';
 import { registerEvenementsRoutes } from './routes/evenements.js';
 
@@ -50,6 +51,18 @@ export async function buildApp(): Promise<FastifyInstance> {
     async (v1) => {
       await registerDepartementsRoutes(v1);
       await registerEvenementsRoutes(v1);
+
+      // Sous-ensemble authentifié (HTTP Basic Auth, FR-015, research.md §7),
+      // strictement distinct de l'API publique ci-dessus. `registerAdminAuth`
+      // protège tout ce qui est enregistré dans ce même contexte `admin` —
+      // les routes elles-mêmes (anomalies : T051-T054, connecteurs :
+      // T035/T063) s'y ajouteront sans dupliquer la protection.
+      await v1.register(
+        async (admin) => {
+          await registerAdminAuth(admin);
+        },
+        { prefix: '/admin' },
+      );
     },
     { prefix: '/api/v1' },
   );

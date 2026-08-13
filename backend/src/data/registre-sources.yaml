@@ -1,0 +1,921 @@
+# backend/src/data/registre-sources.yaml
+#
+# Registre des sources — où trouver la publication officielle des arrêtés
+# préfectoraux, département par département (FR-017/FR-018,
+# contracts/registre-sources.schema.md). Une entrée par département
+# français, y compris ceux sans connecteur (statut: a_investiguer).
+# Édité manuellement — pas d'interface d'administration dédiée (règle 4).
+#
+# Statuts 'identifiee' (2026-08-13) : source identifiée par recherche web
+# (page officielle Publications/RAA du site gouv.fr de la préfecture) mais
+# aucun connecteur développé — à vérifier/affiner avant implémentation d'un
+# connecteur (structure exacte de la page, éventuelles pièces jointes PDF).
+
+- departement_code: "01"
+  statut: identifiee
+  autorite: "Préfecture de l'Ain"
+  point_acces: "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "02"
+  statut: identifiee
+  autorite: "Préfecture de l'Aisne"
+  point_acces: "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "03"
+  statut: identifiee
+  autorite: "Préfecture de l'Allier"
+  point_acces: "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "04"
+  statut: identifiee
+  autorite: "Préfecture des Alpes-de-Haute-Provence"
+  point_acces: "https://www.alpes-de-haute-provence.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "05"
+  statut: identifiee
+  autorite: "Préfecture des Hautes-Alpes"
+  point_acces: "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "06"
+  statut: identifiee
+  autorite: "Préfecture des Alpes-Maritimes"
+  point_acces: "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "07"
+  statut: identifiee
+  autorite: "Préfecture de l'Ardèche"
+  point_acces: "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "08"
+  statut: identifiee
+  autorite: "Préfecture des Ardennes"
+  point_acces: "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "09"
+  statut: identifiee
+  autorite: "Préfecture de l'Ariège"
+  point_acces: "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "10"
+  statut: identifiee
+  autorite: "Préfecture de l'Aube"
+  point_acces: "https://www.aube.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "11"
+  statut: identifiee
+  autorite: "Préfecture de l'Aude"
+  point_acces: "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "12"
+  statut: identifiee
+  autorite: "Préfecture de l'Aveyron"
+  point_acces: "https://www.aveyron.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "13"
+  statut: connecteur_developpe
+  autorite: "Préfecture des Bouches-du-Rhône"
+  point_acces: "https://www.bouches-du-rhone.gouv.fr/Publications/RAA-et-Archives"
+  format_attendu: page_web
+  connecteur_id: prefecture-13
+  notes: "RAA publié en pages HTML, archives classées par année."
+  derniere_verification: "2026-08-01"
+
+- departement_code: "14"
+  statut: identifiee
+  autorite: "Préfecture du Calvados"
+  point_acces: "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "15"
+  statut: identifiee
+  autorite: "Préfecture du Cantal"
+  point_acces: "https://www.cantal.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "16"
+  statut: identifiee
+  autorite: "Préfecture de la Charente"
+  point_acces: "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "17"
+  statut: identifiee
+  autorite: "Préfecture de la Charente-Maritime"
+  point_acces: "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "18"
+  statut: identifiee
+  autorite: "Préfecture du Cher"
+  point_acces: "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "19"
+  statut: identifiee
+  autorite: "Préfecture de la Corrèze"
+  point_acces: "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "2A"
+  statut: identifiee
+  autorite: "Préfecture de la Corse-du-Sud"
+  point_acces: "https://www.corse-du-sud.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "2B"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Corse"
+  point_acces: "https://www.haute-corse.gouv.fr/Publications/Publications-administratives-et-legales/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "21"
+  statut: identifiee
+  autorite: "Préfecture de la Côte-d'Or"
+  point_acces: "https://www.cote-dor.gouv.fr/Publications/Recueils-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "22"
+  statut: identifiee
+  autorite: "Préfecture des Côtes-d'Armor"
+  point_acces: "https://www.cotes-darmor.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "23"
+  statut: identifiee
+  autorite: "Préfecture de la Creuse"
+  point_acces: "https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "24"
+  statut: identifiee
+  autorite: "Préfecture de la Dordogne"
+  point_acces: "https://www.dordogne.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "25"
+  statut: identifiee
+  autorite: "Préfecture du Doubs"
+  point_acces: "https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "26"
+  statut: identifiee
+  autorite: "Préfecture de la Drôme"
+  point_acces: "https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "27"
+  statut: identifiee
+  autorite: "Préfecture de l'Eure"
+  point_acces: "https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "28"
+  statut: identifiee
+  autorite: "Préfecture d'Eure-et-Loir"
+  point_acces: "https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "29"
+  statut: identifiee
+  autorite: "Préfecture du Finistère"
+  point_acces: "https://www.finistere.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "30"
+  statut: identifiee
+  autorite: "Préfecture du Gard"
+  point_acces: "https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "31"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Garonne"
+  point_acces: "https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "32"
+  statut: identifiee
+  autorite: "Préfecture du Gers"
+  point_acces: "https://www.gers.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "33"
+  statut: connecteur_developpe
+  autorite: "Préfecture de la Gironde"
+  point_acces: "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: prefecture-33
+  notes: "RAA publié en pages HTML, classé par année et par mois."
+  derniere_verification: "2026-08-01"
+
+- departement_code: "34"
+  statut: identifiee
+  autorite: "Préfecture de l'Hérault"
+  point_acces: "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "35"
+  statut: identifiee
+  autorite: "Préfecture d'Ille-et-Vilaine"
+  point_acces: "https://www.ille-et-vilaine.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "36"
+  statut: identifiee
+  autorite: "Préfecture de l'Indre"
+  point_acces: "https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "37"
+  statut: identifiee
+  autorite: "Préfecture d'Indre-et-Loire"
+  point_acces: "https://www.indre-et-loire.gouv.fr/Publications/Recueil-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "38"
+  statut: identifiee
+  autorite: "Préfecture de l'Isère"
+  point_acces: "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "39"
+  statut: identifiee
+  autorite: "Préfecture du Jura"
+  point_acces: "https://www.jura.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "40"
+  statut: identifiee
+  autorite: "Préfecture des Landes"
+  point_acces: "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "41"
+  statut: identifiee
+  autorite: "Préfecture de Loir-et-Cher"
+  point_acces: "https://www.loir-et-cher.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "42"
+  statut: identifiee
+  autorite: "Préfecture de la Loire"
+  point_acces: "https://www.loire.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "43"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Loire"
+  point_acces: "https://www.haute-loire.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "44"
+  statut: identifiee
+  autorite: "Préfecture de la Loire-Atlantique"
+  point_acces: "https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "45"
+  statut: identifiee
+  autorite: "Préfecture du Loiret"
+  point_acces: "https://www.loiret.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "46"
+  statut: identifiee
+  autorite: "Préfecture du Lot"
+  point_acces: "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "47"
+  statut: identifiee
+  autorite: "Préfecture de Lot-et-Garonne"
+  point_acces: "https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "48"
+  statut: identifiee
+  autorite: "Préfecture de la Lozère"
+  point_acces: "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "49"
+  statut: identifiee
+  autorite: "Préfecture de Maine-et-Loire"
+  point_acces: "https://www.maine-et-loire.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "50"
+  statut: identifiee
+  autorite: "Préfecture de la Manche"
+  point_acces: "https://www.manche.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "51"
+  statut: identifiee
+  autorite: "Préfecture de la Marne"
+  point_acces: "https://www.marne.gouv.fr/Publications/Publications-administratives-et-legales/RAA-Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "52"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Marne"
+  point_acces: "https://www.haute-marne.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "53"
+  statut: identifiee
+  autorite: "Préfecture de la Mayenne"
+  point_acces: "https://www.mayenne.gouv.fr/Publications/Recueil-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "54"
+  statut: identifiee
+  autorite: "Préfecture de Meurthe-et-Moselle"
+  point_acces: "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "55"
+  statut: identifiee
+  autorite: "Préfecture de la Meuse"
+  point_acces: "https://www.meuse.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "56"
+  statut: identifiee
+  autorite: "Préfecture du Morbihan"
+  point_acces: "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "57"
+  statut: identifiee
+  autorite: "Préfecture de la Moselle"
+  point_acces: "https://www.moselle.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "58"
+  statut: identifiee
+  autorite: "Préfecture de la Nièvre"
+  point_acces: "https://www.nievre.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "59"
+  statut: identifiee
+  autorite: "Préfecture du Nord"
+  point_acces: "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "60"
+  statut: identifiee
+  autorite: "Préfecture de l'Oise"
+  point_acces: "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "61"
+  statut: identifiee
+  autorite: "Préfecture de l'Orne"
+  point_acces: "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "62"
+  statut: identifiee
+  autorite: "Préfecture du Pas-de-Calais"
+  point_acces: "https://www.pas-de-calais.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "63"
+  statut: identifiee
+  autorite: "Préfecture du Puy-de-Dôme"
+  point_acces: "https://www.puy-de-dome.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "64"
+  statut: identifiee
+  autorite: "Préfecture des Pyrénées-Atlantiques"
+  point_acces: "https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "65"
+  statut: identifiee
+  autorite: "Préfecture des Hautes-Pyrénées"
+  point_acces: "https://www.hautes-pyrenees.gouv.fr/Publications/Recueil-d-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "66"
+  statut: identifiee
+  autorite: "Préfecture des Pyrénées-Orientales"
+  point_acces: "https://www.pyrenees-orientales.gouv.fr/Publications/Le-recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "67"
+  statut: identifiee
+  autorite: "Préfecture du Bas-Rhin"
+  point_acces: "https://www.bas-rhin.gouv.fr/Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "68"
+  statut: identifiee
+  autorite: "Préfecture du Haut-Rhin"
+  point_acces: "https://www.haut-rhin.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "69"
+  statut: identifiee
+  autorite: "Préfecture du Rhône"
+  point_acces: "https://www.rhone.gouv.fr/Publications/Recueil-des-actes-administratifs-du-Rhone-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "70"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Saône"
+  point_acces: "https://www.haute-saone.gouv.fr/Publications/RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "71"
+  statut: identifiee
+  autorite: "Préfecture de Saône-et-Loire"
+  point_acces: "https://www.saone-et-loire.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "72"
+  statut: identifiee
+  autorite: "Préfecture de la Sarthe"
+  point_acces: "https://www.sarthe.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "73"
+  statut: identifiee
+  autorite: "Préfecture de la Savoie"
+  point_acces: "https://www.savoie.gouv.fr/Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "74"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Savoie"
+  point_acces: "https://www.haute-savoie.gouv.fr/Publications/Actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "75"
+  statut: identifiee
+  autorite: "Préfecture de Paris (préfecture de région Île-de-France)"
+  point_acces: "https://www.prefectures-regions.gouv.fr/ile-de-france/Region-et-institutions/Demarches-administratives/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "76"
+  statut: identifiee
+  autorite: "Préfecture de la Seine-Maritime"
+  point_acces: "https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "77"
+  statut: connecteur_developpe
+  autorite: "Préfecture de Seine-et-Marne"
+  point_acces: "https://www.seine-et-marne.gouv.fr/Publications/RAA"
+  format_attendu: page_web
+  connecteur_id: prefecture-77
+  notes: "RAA publié en pages HTML avec pièces jointes PDF selon les arrêtés."
+  derniere_verification: "2026-08-01"
+
+- departement_code: "78"
+  statut: identifiee
+  autorite: "Préfecture des Yvelines"
+  point_acces: "https://www.yvelines.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "79"
+  statut: identifiee
+  autorite: "Préfecture des Deux-Sèvres"
+  point_acces: "https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "80"
+  statut: identifiee
+  autorite: "Préfecture de la Somme"
+  point_acces: "https://www.somme.gouv.fr/Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "81"
+  statut: identifiee
+  autorite: "Préfecture du Tarn"
+  point_acces: "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "82"
+  statut: identifiee
+  autorite: "Préfecture de Tarn-et-Garonne"
+  point_acces: "https://www.tarn-et-garonne.gouv.fr/Publications/Recueils-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "83"
+  statut: identifiee
+  autorite: "Préfecture du Var"
+  point_acces: "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "84"
+  statut: identifiee
+  autorite: "Préfecture de Vaucluse"
+  point_acces: "https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "85"
+  statut: identifiee
+  autorite: "Préfecture de la Vendée"
+  point_acces: "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "86"
+  statut: identifiee
+  autorite: "Préfecture de la Vienne"
+  point_acces: "https://www.vienne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "87"
+  statut: identifiee
+  autorite: "Préfecture de la Haute-Vienne"
+  point_acces: "https://www.haute-vienne.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "88"
+  statut: identifiee
+  autorite: "Préfecture des Vosges"
+  point_acces: "https://www.vosges.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "89"
+  statut: identifiee
+  autorite: "Préfecture de l'Yonne"
+  point_acces: "https://www.yonne.gouv.fr/Publications/Publications-legales/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "90"
+  statut: identifiee
+  autorite: "Préfecture du Territoire de Belfort"
+  point_acces: "https://www.territoire-de-belfort.gouv.fr/Publications/Le-recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "91"
+  statut: identifiee
+  autorite: "Préfecture de l'Essonne"
+  point_acces: "https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "92"
+  statut: identifiee
+  autorite: "Préfecture des Hauts-de-Seine"
+  point_acces: "https://www.hauts-de-seine.gouv.fr/Publications/Annonces-avis/Le-Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "93"
+  statut: identifiee
+  autorite: "Préfecture de la Seine-Saint-Denis"
+  point_acces: "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "94"
+  statut: identifiee
+  autorite: "Préfecture du Val-de-Marne"
+  point_acces: "https://www.val-de-marne.gouv.fr/Publications/Publications-legales/RAA-Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "95"
+  statut: identifiee
+  autorite: "Préfecture du Val-d'Oise"
+  point_acces: "https://www.val-doise.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "971"
+  statut: identifiee
+  autorite: "Préfecture de la Guadeloupe"
+  point_acces: "https://www.guadeloupe.gouv.fr/Publications/Le-Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "972"
+  statut: identifiee
+  autorite: "Préfecture de la Martinique"
+  point_acces: "https://www.martinique.gouv.fr/Publications/Recueils-des-actes-administratifs-publies"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "973"
+  statut: identifiee
+  autorite: "Préfecture de la Guyane"
+  point_acces: "https://www.guyane.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "974"
+  statut: identifiee
+  autorite: "Préfecture de La Réunion"
+  point_acces: "https://www.reunion.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-actes-administratifs-RAA"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"
+
+- departement_code: "976"
+  statut: identifiee
+  autorite: "Préfecture de Mayotte"
+  point_acces: "https://www.mayotte.gouv.fr/Publications/Recueil-des-actes-administratifs-R.A.A"
+  format_attendu: page_web
+  connecteur_id: null
+  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
+  derniere_verification: "2026-08-13"

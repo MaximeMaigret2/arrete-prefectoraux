@@ -1,0 +1,397 @@
+openapi: 3.0.3
+info:
+  title: API d'administration — Résolution des anomalies de collecte
+  description: >
+    Extension privée de l'API publique décrite dans
+    `specs/001-carte-arretes-rave-teknival/contracts/openapi.yaml`. Ces
+    endpoints sont protégés par une authentification dédiée (FR-015),
+    indépendante et distincte de l'API publique en lecture seule qui reste
+    inchangée et sans authentification. Réservés à l'espace de résolution des
+    anomalies de collecte (FR-009) et au pilotage des connecteurs (FR-012,
+    FR-014).
+  version: "1.0.0"
+servers:
+  - url: /api/v1/admin
+    description: Sous-ensemble authentifié de l'API v1 (HTTP Basic Auth, compte unique)
+
+security:
+  - basicAuth: []
+
+paths:
+  /anomalies:
+    get:
+      operationId: listAnomaliesEnAttente
+      summary: Liste des anomalies de collecte en attente de résolution
+      description: >
+        Ne retourne que les anomalies de statut `en_attente` (FR-009) — les
+        anomalies déjà confirmées ou rejetées ne sont pas incluses par défaut
+        pour garder l'espace de résolution centré sur ce qui reste à traiter.
+      parameters:
+        - name: statut
+          in: query
+          required: false
+          description: Filtre optionnel sur le statut (par défaut `en_attente`).
+          schema:
+            type: string
+            enum: [en_attente, confirmee, rejetee]
+            default: en_attente
+      responses:
+        "200":
+          description: Liste des anomalies correspondant au filtre.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnomalieCollecte"
+        "401":
+          description: Authentification manquante ou invalide.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /anomalies/{id}/confirmer:
+    post:
+      operationId: confirmerAnomalie
+      summary: Confirmer une anomalie (avec correction éventuelle) et publier l'événement résultant
+      description: >
+        Publie un événement avec `methode_collecte = manuelle_verifiee`
+        (FR-006, Acceptance Scenario US4.3) à partir des champs fournis
+        (typiquement les `champs_extraits` de l'anomalie, corrigés par
+        l'opérateur si besoin). L'anomalie passe au statut `confirmee` et
+        référence l'événement créé.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmationAnomalieRequest"
+      responses:
+        "201":
+          description: Événement publié, anomalie marquée `confirmee`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnomalieCollecte"
+        "400":
+          description: Champs fournis invalides ou incomplets pour publier un événement.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Anomalie inconnue.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Anomalie déjà résolue (statut différent de `en_attente`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /anomalies/{id}/rejeter:
+    post:
+      operationId: rejeterAnomalie
+      summary: Rejeter une anomalie — aucun événement n'est créé
+      description: >
+        L'anomalie passe au statut `rejetee` (état terminal). Elle reste
+        tracée en interne (source, raison) mais ne produit et ne référence
+        jamais d'événement visible dans l'API publique ou sur la carte
+        (FR-016, Acceptance Scenario US4.4).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                commentaire:
+                  type: string
+                  description: Justification optionnelle du rejet, conservée avec l'anomalie.
+      responses:
+        "200":
+          description: Anomalie marquée `rejetee`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnomalieCollecte"
+        "404":
+          description: Anomalie inconnue.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Anomalie déjà résolue (statut différent de `en_attente`).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /connecteurs/{id}/collecter:
+    post:
+      operationId: declencherCollecteManuelle
+      summary: Déclencher manuellement la collecte d'un connecteur (FR-014)
+      description: >
+        Exécute le même chemin de code que le cycle planifié quotidien
+        (FR-013) pour un connecteur donné, hors de son cycle habituel — utile
+        pour rattraper une publication manquée. Répond dès l'exécution
+        terminée avec le résumé de l'Exécution de collecte produite.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "prefecture-77"
+      responses:
+        "200":
+          description: Exécution terminée (succès, échec ou partiel).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExecutionCollecte"
+        "404":
+          description: Connecteur inconnu.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Connecteur désactivé — ne peut pas être déclenché.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /connecteurs/{id}:
+    patch:
+      operationId: modifierStatutConnecteur
+      summary: Activer ou désactiver un connecteur (FR-012)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "prefecture-77"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [actif]
+              properties:
+                actif:
+                  type: boolean
+      responses:
+        "200":
+          description: >
+            Connecteur mis à jour. La désactivation n'efface pas l'historique
+            déjà publié ; le département concerné affiche "non couvert" pour
+            les dates postérieures à la désactivation (Edge Case, SC-004).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Connecteur"
+        "404":
+          description: Connecteur inconnu.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >
+        Compte unique (pas de gestion multi-utilisateurs dans cette version,
+        cf. Assumptions du spec). Identifiants fournis via variables
+        d'environnement du backend (research.md §7).
+
+  schemas:
+    SourceBrute:
+      type: object
+      required: [type, url, contenu_brut_reference, date_collecte]
+      properties:
+        type:
+          type: string
+          enum: [page_web, pdf]
+        url:
+          type: string
+          format: uri
+        contenu_brut_reference:
+          type: string
+          description: Référence vers la copie conservée de la source (ex. chemin du PDF archivé).
+        date_collecte:
+          type: string
+          format: date-time
+
+    AnomalieCollecte:
+      type: object
+      required:
+        - id
+        - connecteur_id
+        - execution_id
+        - type_anomalie
+        - departement_code
+        - source_brute
+        - raison
+        - statut
+        - date_creation
+      properties:
+        id:
+          type: string
+          format: uuid
+        connecteur_id:
+          type: string
+        execution_id:
+          type: string
+          format: uuid
+        type_anomalie:
+          type: string
+          enum: [champ_manquant, date_ambigue, doublon_potentiel, echec_lecture_source]
+        departement_code:
+          type: string
+          example: "77"
+        champs_extraits:
+          type: object
+          description: Champs partiellement extraits (mêmes clés qu'Événement, sans id/date_saisie), certains à null.
+          nullable: true
+        source_brute:
+          $ref: "#/components/schemas/SourceBrute"
+        raison:
+          type: string
+        statut:
+          type: string
+          enum: [en_attente, confirmee, rejetee]
+        date_creation:
+          type: string
+          format: date-time
+        date_resolution:
+          type: string
+          format: date-time
+          nullable: true
+        evenement_resultant_id:
+          type: string
+          format: uuid
+          nullable: true
+
+    ConfirmationAnomalieRequest:
+      type: object
+      required: [departement_code, type_evenement, date_debut, reference_arrete, autorite_signataire]
+      description: >
+        Valeurs finales à publier, typiquement pré-remplies depuis
+        `champs_extraits` puis corrigées par l'opérateur si besoin.
+      properties:
+        departement_code:
+          type: string
+        type_evenement:
+          type: string
+          enum: [interdiction, levee, prolongation]
+        date_debut:
+          type: string
+          format: date-time
+        date_fin:
+          type: string
+          format: date-time
+          nullable: true
+        reference_arrete:
+          type: string
+        autorite_signataire:
+          type: string
+          description: Voir data-model.md « Entité Événement (extension) » — obligatoire pour tout événement publié (FR-006).
+        source_url:
+          type: string
+          format: uri
+          nullable: true
+          description: >
+            Optionnel : si omis, dérivé automatiquement de `source_brute.url`
+            de l'anomalie confirmée, pour garantir que tout événement publié
+            reste rattaché à une source consultable (SC-002).
+
+    ExecutionCollecte:
+      type: object
+      required:
+        - id
+        - connecteur_id
+        - date_execution
+        - declenchement
+        - statut
+        - nombre_evenements_publies
+        - nombre_anomalies
+      properties:
+        id:
+          type: string
+          format: uuid
+        connecteur_id:
+          type: string
+        date_execution:
+          type: string
+          format: date-time
+        declenchement:
+          type: string
+          enum: [planifie, manuel]
+        statut:
+          type: string
+          enum: [succes, echec, partiel]
+        nombre_evenements_publies:
+          type: integer
+          minimum: 0
+        nombre_anomalies:
+          type: integer
+          minimum: 0
+        message_erreur:
+          type: string
+          nullable: true
+
+    Connecteur:
+      type: object
+      required: [id, nom, departements_couverts, actif, derniere_collecte]
+      properties:
+        id:
+          type: string
+        nom:
+          type: string
+        departements_couverts:
+          type: array
+          items:
+            type: string
+        actif:
+          type: boolean
+        derniere_collecte:
+          type: string
+          format: date-time
+          nullable: true
+
+    ErrorResponse:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          example: "not_found"
+        message:
+          type: string
+          example: "Aucune anomalie ne correspond à cet identifiant."

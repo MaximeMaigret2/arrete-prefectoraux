@@ -1,8 +1,8 @@
 # Constitution du projet : Carte des Arrêtés Rave/Teknival
 
-**Version** : 2.2.0
+**Version** : 2.3.0
 **Ratifiée le** : 2026-08-10
-**Dernière modification** : 2026-08-10
+**Dernière modification** : 2026-08-12
 
 ## Contexte
 
@@ -196,8 +196,18 @@ attendre une couverture complète avant de livrer quoi que ce soit.
   tests unitaires incluant au minimum : absence d'arrêté, arrêté en cours sans
   date de fin, chevauchement de deux arrêtés, date exactement égale à une
   borne (début/fin).
-- Toute donnée ajoutée (nouvel arrêté) DOIT être relue/vérifiée avant fusion —
-  pas de saisie non sourcée acceptée dans les jeux de données versionnés.
+- Toute donnée ajoutée (nouvel arrêté) DOIT être rattachée à une source
+  identifiable (Principe 1) — pas de saisie non sourcée acceptée dans les jeux
+  de données versionnés.
+- Une donnée produite automatiquement par un connecteur (Principe 10) DOIT être
+  publiée sans relecture humaine préalable lorsque son extraction est complète
+  et non ambiguë. Elle DOIT en revanche être mise en attente de résolution par
+  un opérateur, avant toute publication, lorsque l'extraction échoue, reste
+  ambiguë (champ manquant, date illisible) ou révèle un doublon potentiel avec
+  un événement déjà publié.
+- Toute donnée saisie manuellement, hors d'un connecteur automatisé, DOIT
+  toujours être relue/vérifiée avant fusion dans les jeux de données
+  versionnés — cet assouplissement ne vaut que pour les connecteurs.
 
 ## Gouvernance
 
@@ -210,6 +220,12 @@ attendre une couverture complète avant de livrer quoi que ce soit.
 
 ## Historique des amendements
 
+- **2.3.0** (2026-08-12) : Assouplissement de la règle de relecture (Workflow
+  de développement) — une donnée produite automatiquement par un connecteur
+  peut être publiée sans relecture humaine si l'extraction est complète et non
+  ambiguë ; la relecture/résolution par un opérateur reste obligatoire en cas
+  d'anomalie (échec, ambiguïté, doublon potentiel) ou pour toute saisie
+  manuelle hors connecteur.
 - **2.2.0** (2026-08-10) : Passage d'un modèle 2 états (vert/rouge) à 3 états
   (vert/rouge/gris "non couvert") ; mise à jour des Principes 3 et 4, du
   modèle de données et des endpoints API en conséquence.

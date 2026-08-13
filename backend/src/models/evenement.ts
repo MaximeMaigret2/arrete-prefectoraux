@@ -21,6 +21,7 @@ export const EvenementSchema = z
       .union([z.string().datetime({ offset: true }), z.string().datetime(), z.null()])
       .default(null),
     reference_arrete: z.string().nullable().default(null),
+    autorite_signataire: z.string().min(1),
     source_url: z.string().url().nullable().default(null),
     date_saisie: z.string().datetime({ offset: true }).or(z.string().datetime()),
     connecteur_id: z.string().min(1),
