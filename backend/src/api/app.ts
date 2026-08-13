@@ -2,6 +2,7 @@ import Fastify, { type FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import { registerAdminAuth } from './routes/admin/auth.js';
+import { registerAdminConnecteursRoutes } from './routes/admin/connecteurs.js';
 import { registerDepartementsRoutes } from './routes/departements.js';
 import { registerEvenementsRoutes } from './routes/evenements.js';
 
@@ -60,6 +61,7 @@ export async function buildApp(): Promise<FastifyInstance> {
       await v1.register(
         async (admin) => {
           await registerAdminAuth(admin);
+          await registerAdminConnecteursRoutes(admin);
         },
         { prefix: '/admin' },
       );
