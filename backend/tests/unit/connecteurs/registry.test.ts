@@ -57,15 +57,13 @@ beforeEach(async () => {
   snapshotConfigActif = await lireOuAbsent(FAKE_ACTIF_CONFIG_PATH);
   snapshotConfigInvalide = await lireOuAbsent(FAKE_INVALIDE_CONFIG_PATH);
 
-  // connecteurs.json réel n'a pas encore `type_connecteur` (bug préexistant,
-  // T005A/T032-034, hors périmètre ici) : patché temporairement, avec trois
-  // connecteurs factices (actif valide / actif à config invalide / inactif)
-  // pour tester le filtrage et l'isolation des échecs.
+  // connecteurs.json réel a désormais `type_connecteur` pour tous ses
+  // connecteurs (T032-T034) : les entrées réelles sont reprises telles
+  // quelles, avec trois connecteurs factices ajoutés (actif valide / actif
+  // à config invalide / inactif) pour tester le filtrage et l'isolation des
+  // échecs sans dépendre des connecteurs réels.
   const reels = JSON.parse(snapshotConnecteurs ?? '[]') as Array<Record<string, unknown>>;
-  const patches: Array<Record<string, unknown>> = reels.map((c) => ({
-    ...c,
-    type_connecteur: c.type_connecteur ?? 'page_web',
-  }));
+  const patches: Array<Record<string, unknown>> = [...reels];
   patches.push(
     {
       id: FAKE_ACTIF_ID,
@@ -187,7 +185,14 @@ describe('chargerConnecteursActifs', () => {
 
     const resultats = await chargerConnecteursActifs();
 
-    expect(resultats.map((c) => c.id)).toEqual([FAKE_ACTIF_ID]);
+    // Depuis T032-T034, prefecture-77/13/33 ont une configuration déclarative
+    // réelle (configs/prefecture-*.yaml) et se chargent donc aussi avec
+    // succès — seul FAKE_INVALIDE_ID (configuration invalide) et
+    // FAKE_INACTIF_ID (actif: false) doivent être absents du résultat.
+    const ids = resultats.map((c) => c.id);
+    expect(ids).toContain(FAKE_ACTIF_ID);
+    expect(ids).not.toContain(FAKE_INVALIDE_ID);
+    expect(ids).not.toContain(FAKE_INACTIF_ID);
 
     const messages = erreurSpy.mock.calls.map((call) => String(call[0]));
     // Configuration invalide (FAKE_INVALIDE_ID) : écarté avec un message
