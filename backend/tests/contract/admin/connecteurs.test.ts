@@ -22,12 +22,20 @@ import { resetDataStoreCache } from '../../../src/data/loader.js';
  * (actif) et '05' (désactivé) — inutilisés par les autres suites de tests
  * (cf. '2A'/'2B' dans les tests unitaires, '2B' dans
  * `tests/integration/connecteurs/ajoutConnecteur.test.ts`).
+ *
+ * `anomalies.json`/`executions.json` sauvegardés/restaurés ici aussi
+ * (absent jusqu'ici, constaté après coup en T042-047) : `POST .../collecter`
+ * exécute le vrai `runner.ts`, qui y écrit dès que la 3ᵉ publication de
+ * `publication-propre.html` ('2026-77-0520', sans PDF suivi ici) produit
+ * son anomalie `champ_manquant` habituelle.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, '../../../src/data');
 const CONFIGS_DIR = path.join(__dirname, '../../../src/connecteurs/configs');
 const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
+const EXECUTIONS_PATH = path.join(DATA_DIR, 'executions.json');
+const ANOMALIES_PATH = path.join(DATA_DIR, 'anomalies.json');
 const EVENTS_04_PATH = path.join(DATA_DIR, 'events', '04.json');
 const FIXTURE_CONFIG_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/config-test.yaml');
 const FIXTURE_HTML_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-propre.html');
@@ -54,6 +62,8 @@ async function lireOuAbsent(filePath: string): Promise<string | null> {
 let app: FastifyInstance;
 let snapshotConnecteurs: string | null;
 let snapshotConfigActif: string | null;
+let snapshotExecutions: string | null;
+let snapshotAnomalies: string | null;
 let snapshotEvents04: string | null;
 let html: string;
 
@@ -69,6 +79,8 @@ afterAll(async () => {
 beforeEach(async () => {
   snapshotConnecteurs = await lireOuAbsent(CONNECTEURS_PATH);
   snapshotConfigActif = await lireOuAbsent(CONFIG_ACTIF_PATH);
+  snapshotExecutions = await lireOuAbsent(EXECUTIONS_PATH);
+  snapshotAnomalies = await lireOuAbsent(ANOMALIES_PATH);
   snapshotEvents04 = await lireOuAbsent(EVENTS_04_PATH);
   html = await readFile(FIXTURE_HTML_PATH, 'utf-8');
 
@@ -118,6 +130,8 @@ afterEach(async () => {
     snapshotConfigActif ?? '# fixture de test (contract/admin/connecteurs.test.ts), inutilisée\n',
     'utf-8',
   );
+  await writeFile(EXECUTIONS_PATH, snapshotExecutions ?? '[]\n', 'utf-8');
+  await writeFile(ANOMALIES_PATH, snapshotAnomalies ?? '[]\n', 'utf-8');
   await writeFile(EVENTS_04_PATH, snapshotEvents04 ?? '[]\n', 'utf-8');
   resetDataStoreCache();
   vi.unstubAllGlobals();

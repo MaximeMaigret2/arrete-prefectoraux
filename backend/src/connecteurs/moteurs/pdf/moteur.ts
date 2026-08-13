@@ -50,7 +50,21 @@ export async function telechargerEtExtraireTextePdf(url: string): Promise<TexteP
     throw new Error(`Téléchargement du PDF "${url}" échoué (HTTP ${reponse.status}).`);
   }
   const buffer = Buffer.from(await reponse.arrayBuffer());
-  const { text } = await pdfParse(buffer);
+  // `new Uint8Array(buffer)` plutôt que `buffer` directement : passer un
+  // `Buffer` Node tel quel à `pdf-parse` (pdf.js v1.10.100 embarqué) produit
+  // une erreur `bad XRef entry` sur *tout* PDF, y compris parfaitement
+  // valide (constaté en écrivant les fixtures de T042/T044 avec un vrai
+  // PDF généré par reportlab puis re-vérifié avec pikepdf : la même erreur
+  // apparaît indépendamment du contenu, uniquement selon le type concret du
+  // buffer passé) — bug latent qui aurait fait échouer `echec_global` sur
+  // toute collecte PDF réelle, jamais détecté faute de test exerçant le
+  // vrai `pdf-parse` (T028/T030 le mockaient entièrement). Un `Uint8Array`
+  // brut (copie des mêmes octets) contourne le problème sans changer le
+  // texte extrait. `@types/pdf-parse` type le paramètre en `Buffer` (trop
+  // étroit : pdf.js n'exige qu'un objet indexable par octet) — le cast est
+  // nécessaire pour exprimer ce contournement, `pdfParse` ne lit jamais de
+  // méthode propre à `Buffer` (`write`, `equals`, etc.) en interne.
+  const { text } = await pdfParse(new Uint8Array(buffer) as unknown as Buffer);
   const texte = text.trim();
   return {
     texte: texte.length >= LONGUEUR_TEXTE_MINIMALE ? texte : null,

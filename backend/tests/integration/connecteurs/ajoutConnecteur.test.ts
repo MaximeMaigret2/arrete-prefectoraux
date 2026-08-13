@@ -33,12 +33,23 @@ import { computeDepartementState } from '../../../src/services/computeDepartemen
  * où le premier test le vérifie) ; l'ajout effectif du connecteur est
  * déclenché explicitement par `ajouterConnecteurDeTest()`, appelée à
  * l'intérieur des tests qui en ont besoin.
+ *
+ * `anomalies.json`/`executions.json` (journaux globaux, pas par
+ * département) sont aussi sauvegardés/restaurés ici, comme dans
+ * `runnerJournalisation.test.ts`/T020A et `scheduler.test.ts`/T040 — absent
+ * jusqu'ici (constaté après coup, T042-047) : la 3ᵉ publication de
+ * `publication-propre.html` ('2026-77-0520', sans PDF suivi dans
+ * `config-test.yaml`) produit une anomalie `champ_manquant` à chaque
+ * exécution de ce test, qui restait donc dans les vrais fichiers au lieu
+ * d'être nettoyée.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, '../../../src/data');
 const CONFIGS_DIR = path.join(__dirname, '../../../src/connecteurs/configs');
 const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
+const EXECUTIONS_PATH = path.join(DATA_DIR, 'executions.json');
+const ANOMALIES_PATH = path.join(DATA_DIR, 'anomalies.json');
 const EVENTS_2B_PATH = path.join(DATA_DIR, 'events', '2B.json');
 const FIXTURE_CONFIG_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/config-test.yaml');
 const FIXTURE_HTML_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-propre.html');
@@ -58,12 +69,16 @@ async function lireOuAbsent(filePath: string): Promise<string | null> {
 
 let snapshotConnecteurs: string | null;
 let snapshotConfig: string | null;
+let snapshotExecutions: string | null;
+let snapshotAnomalies: string | null;
 let snapshotEvents2B: string | null;
 let html: string;
 
 beforeEach(async () => {
   snapshotConnecteurs = await lireOuAbsent(CONNECTEURS_PATH);
   snapshotConfig = await lireOuAbsent(CONFIG_PATH);
+  snapshotExecutions = await lireOuAbsent(EXECUTIONS_PATH);
+  snapshotAnomalies = await lireOuAbsent(ANOMALIES_PATH);
   snapshotEvents2B = await lireOuAbsent(EVENTS_2B_PATH);
   html = await readFile(FIXTURE_HTML_PATH, 'utf-8');
   resetDataStoreCache();
@@ -93,6 +108,8 @@ afterEach(async () => {
     snapshotConfig ?? '# fixture de test (ajoutConnecteur.test.ts), inutilisée\n',
     'utf-8',
   );
+  await writeFile(EXECUTIONS_PATH, snapshotExecutions ?? '[]\n', 'utf-8');
+  await writeFile(ANOMALIES_PATH, snapshotAnomalies ?? '[]\n', 'utf-8');
   await writeFile(EVENTS_2B_PATH, snapshotEvents2B ?? '[]\n', 'utf-8');
   resetDataStoreCache();
   vi.unstubAllGlobals();

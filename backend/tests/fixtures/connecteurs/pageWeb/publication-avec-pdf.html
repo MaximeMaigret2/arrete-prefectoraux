@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Recueil des actes administratifs — fixture de test (publication avec pièce jointe PDF, T042)</title>
+  </head>
+  <body>
+    <!--
+      Fixture T042 (US3, contracts/connecteur-interface.md §2) : une
+      publication dont le titre seul est insuffisant (aucune référence ni
+      date) et qui renvoie vers une pièce jointe PDF portant, elle, le texte
+      complet (référence, dates) — backend/tests/fixtures/connecteurs/pdf/piece-jointe.pdf.
+      Utilisée par moteurPageWeb.test.ts (T043) pour vérifier que le moteur
+      suit ce lien et extrait depuis le texte réel du PDF (pdf-parse non
+      mocké), et par ajoutConnecteur-style tests si besoin. Une seconde
+      publication non pertinente est présente pour vérifier que le filtrage
+      par mots-clés s'applique aussi dans ce fichier.
+    -->
+    <ul class="raa-liste">
+      <li class="raa-item">
+        <span class="raa-item__titre"
+          >Arrêté portant interdiction de rassemblement musical non déclaré (rave party) — voir pièce jointe</span
+        >
+        <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-jointe.pdf">Télécharger le PDF</a>
+      </li>
+      <li class="raa-item">
+        <span class="raa-item__titre"
+          >Arrêté n° 2026-77-0499 portant délégation de signature</span
+        >
+      </li>
+    </ul>
+  </body>
+</html>

@@ -105,4 +105,38 @@ describe('evaluerCandidat — les 5 branches de la logique de décision (data-mo
       expect(resultat.candidat.reference_arrete).toBe('2026-77-0100');
     }
   });
+
+  it(
+    'T046A (SC-002) : quand action === "publier", le candidat retourné porte toujours un source.url non-null ' +
+      '— c\'est exactement ce que `construireEvenement` (runner.ts) affecte à `Evenement.source_url`, donc un ' +
+      'événement publié automatiquement n\'est jamais sans source consultable',
+    () => {
+      const resultat = evaluerCandidat(makeCandidat(), []);
+      expect(resultat.action).toBe('publier');
+      if (resultat.action === 'publier') {
+        expect(resultat.candidat.source.url).toBeTruthy();
+        expect(typeof resultat.candidat.source.url).toBe('string');
+      }
+    },
+  );
+
+  it('T046A (SC-002) : vrai pour toute source (page_web, pdf, rss), pas seulement page_web', () => {
+    for (const type of ['page_web', 'pdf', 'rss'] as const) {
+      const resultat = evaluerCandidat(
+        makeCandidat({
+          source: {
+            type,
+            url: `https://exemple.gouv.fr/source-${type}`,
+            contenu_brut_reference: `https://exemple.gouv.fr/source-${type}`,
+            date_collecte: '2026-08-12T06:00:00.000Z',
+          },
+        }),
+        [],
+      );
+      expect(resultat.action).toBe('publier');
+      if (resultat.action === 'publier') {
+        expect(resultat.candidat.source.url).toBe(`https://exemple.gouv.fr/source-${type}`);
+      }
+    }
+  });
 });

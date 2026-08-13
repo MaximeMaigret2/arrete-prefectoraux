@@ -1,14 +1,31 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-
-vi.mock('pdf-parse', () => ({
-  default: vi.fn(),
-}));
-
-import pdfParse from 'pdf-parse';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { creerConnecteur, resoudreUrlPdf } from '../../../src/connecteurs/moteurs/pdf/moteur.js';
 import type { Connecteur as ConnecteurEntree } from '../../../src/models/index.js';
 
-const pdfParseMock = vi.mocked(pdfParse);
+/**
+ * T044 (US3) — tests du moteur `pdf` contre les fixtures réelles sur disque,
+ * `pdf-parse` NON mocké (même constat/correctif qu'en T043 : voir sa note
+ * d'en-tête — `telechargerEtExtraireTextePdf` passait un `Buffer` Node à
+ * `pdf-parse`, ce qui levait `bad XRef entry` sur tout PDF sans rapport avec
+ * son contenu ; corrigé en `new Uint8Array(buffer)`).
+ *
+ * `piece-jointe.pdf` (T042) est réutilisé tel quel pour le cas "texte
+ * extractible" plutôt que de dupliquer une fixture équivalente — son
+ * contenu textuel (référence "2026-77-0520") est indépendant du département
+ * de configuration du connecteur de test ci-dessous ('33'/Gironde,
+ * inchangé par rapport à l'ancienne version mockée de ce fichier) : seule
+ * `autorite_signataire`/`departement_code` proviennent de la config, jamais
+ * du texte du PDF (cf. `construireCandidat`).
+ * `page-sans-texte.pdf` (créée pour T044, page blanche valide — FR-005,
+ * aucun OCR) couvre le cas "texte insuffisant".
+ */
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const FIXTURE_PDF_LISIBLE_PATH = path.join(__dirname, '../../fixtures/connecteurs/pdf/piece-jointe.pdf');
+const FIXTURE_PDF_SANS_TEXTE_PATH = path.join(__dirname, '../../fixtures/connecteurs/pdf/page-sans-texte.pdf');
 
 const ENTREE: ConnecteurEntree = {
   id: 'test-pdf',
@@ -30,6 +47,10 @@ const CONFIG_BASE = {
   pattern_reference: 'Arrêté n°\\s*(?<reference>[0-9-]+)',
 };
 
+function arrayBufferDe(buffer: Buffer): ArrayBuffer {
+  return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+}
+
 describe('resoudreUrlPdf', () => {
   it('retourne une URL fixe telle quelle', () => {
     expect(resoudreUrlPdf('https://exemple.gouv.fr/fixe.pdf')).toBe('https://exemple.gouv.fr/fixe.pdf');
@@ -43,27 +64,16 @@ describe('resoudreUrlPdf', () => {
 });
 
 describe('moteur pdf — collecter()', () => {
-  beforeEach(() => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => ({ ok: true, status: 200, arrayBuffer: async () => new ArrayBuffer(8) }) as unknown as Response),
-    );
-  });
-
   afterEach(() => {
     vi.unstubAllGlobals();
-    pdfParseMock.mockReset();
   });
 
-  it('extrait un candidat complet depuis un PDF lisible', async () => {
-    pdfParseMock.mockResolvedValueOnce({
-      text: "Arrêté n° 2026-33-0042 à compter du 10/08/2026 jusqu'au 12/08/2026",
-      numpages: 1,
-      numrender: 1,
-      info: {},
-      metadata: {},
-      version: 'default',
-    });
+  it('extrait un candidat complet depuis un PDF lisible (T042, pdf-parse non mocké)', async () => {
+    const pdfBuffer = await readFile(FIXTURE_PDF_LISIBLE_PATH);
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, status: 200, arrayBuffer: async () => arrayBufferDe(pdfBuffer) }) as unknown as Response),
+    );
 
     const connecteur = creerConnecteur(ENTREE, CONFIG_BASE);
     const resultat = await connecteur.collecter();
@@ -71,23 +81,20 @@ describe('moteur pdf — collecter()', () => {
     expect(resultat.echec_global).toBeUndefined();
     expect(resultat.candidats).toHaveLength(1);
     const [candidat] = resultat.candidats;
-    expect(candidat.reference_arrete).toBe('2026-33-0042');
-    expect(candidat.date_debut).toBe(new Date(Date.UTC(2026, 7, 10)).toISOString());
-    expect(candidat.date_fin).toBe(new Date(Date.UTC(2026, 7, 12)).toISOString());
+    expect(candidat.reference_arrete).toBe('2026-77-0520');
+    expect(candidat.date_debut).toBe(new Date(Date.UTC(2026, 7, 20)).toISOString());
+    expect(candidat.date_fin).toBe(new Date(Date.UTC(2026, 7, 22)).toISOString());
     expect(candidat.departement_code).toBe('33');
     expect(candidat.autorite_signataire).toBe('Le Préfet de la Gironde');
     expect(candidat.source.type).toBe('pdf');
   });
 
-  it("signale un échec_global (sans OCR) si le PDF n'a pas de texte extractible", async () => {
-    pdfParseMock.mockResolvedValueOnce({
-      text: '',
-      numpages: 1,
-      numrender: 1,
-      info: {},
-      metadata: {},
-      version: 'default',
-    });
+  it("signale un échec_global (sans OCR) si le PDF n'a pas de texte extractible (page blanche)", async () => {
+    const pdfBuffer = await readFile(FIXTURE_PDF_SANS_TEXTE_PATH);
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: true, status: 200, arrayBuffer: async () => arrayBufferDe(pdfBuffer) }) as unknown as Response),
+    );
 
     const connecteur = creerConnecteur(ENTREE, CONFIG_BASE);
     const resultat = await connecteur.collecter();
