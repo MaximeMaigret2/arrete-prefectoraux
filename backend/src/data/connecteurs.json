@@ -2,25 +2,131 @@
   {
     "id": "prefecture-77",
     "nom": "Préfecture de Seine-et-Marne",
-    "departements_couverts": ["77"],
+    "departements_couverts": [
+      "77"
+    ],
     "actif": true,
-    "derniere_collecte": "2026-08-11T06:00:00Z",
+    "derniere_collecte": "2026-08-13T10:00:00.000Z",
     "type_connecteur": "page_web"
   },
   {
     "id": "prefecture-13",
     "nom": "Préfecture des Bouches-du-Rhône",
-    "departements_couverts": ["13"],
+    "departements_couverts": [
+      "13"
+    ],
     "actif": true,
-    "derniere_collecte": "2026-08-11T06:00:00Z",
+    "derniere_collecte": "2026-08-14T08:41:25.899Z",
     "type_connecteur": "page_web"
   },
   {
     "id": "prefecture-33",
     "nom": "Préfecture de la Gironde",
-    "departements_couverts": ["33"],
+    "departements_couverts": [
+      "33"
+    ],
     "actif": true,
-    "derniere_collecte": "2026-08-11T06:00:00Z",
+    "derniere_collecte": "2026-08-13T10:00:00.000Z",
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-01",
+    "nom": "Préfecture de l'Ain",
+    "departements_couverts": [
+      "01"
+    ],
+    "actif": true,
+    "derniere_collecte": "2026-08-14T07:38:28.000Z",
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-02",
+    "nom": "Préfecture de l'Aisne",
+    "departements_couverts": [
+      "02"
+    ],
+    "actif": true,
+    "derniere_collecte": "2026-08-14T07:38:28.000Z",
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-03",
+    "nom": "Préfecture de l'Allier",
+    "departements_couverts": [
+      "03"
+    ],
+    "actif": true,
+    "derniere_collecte": "2026-08-14T07:38:28.000Z",
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-04",
+    "nom": "Préfecture des Alpes-de-Haute-Provence",
+    "departements_couverts": [
+      "04"
+    ],
+    "actif": true,
+    "derniere_collecte": "2026-08-14T07:38:28.000Z",
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-05",
+    "nom": "Préfecture des Hautes-Alpes",
+    "departements_couverts": [
+      "05"
+    ],
+    "actif": true,
+    "derniere_collecte": "2026-08-14T07:38:28.000Z",
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-06",
+    "nom": "Préfecture des Alpes-Maritimes",
+    "departements_couverts": [
+      "06"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-07",
+    "nom": "Préfecture de l'Ardèche",
+    "departements_couverts": [
+      "07"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-08",
+    "nom": "Préfecture des Ardennes",
+    "departements_couverts": [
+      "08"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-09",
+    "nom": "Préfecture de l'Ariège",
+    "departements_couverts": [
+      "09"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-10",
+    "nom": "Préfecture de l'Aube",
+    "departements_couverts": [
+      "10"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
     "type_connecteur": "page_web"
   }
 ]

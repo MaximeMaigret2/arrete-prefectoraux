@@ -90,9 +90,23 @@ describe('configs/*.yaml — validation contre le schéma zod du type_connecteur
     }
   });
 
-  it('les 3 connecteurs réels (prefecture-77/13/33, T032-034) sont bien de type page_web et présents', async () => {
+  it('les 13 connecteurs réels (prefecture-77/13/33 + 01-05 + 06-10, Phase 5bis + élargie + élargie 2) sont bien de type page_web et présents', async () => {
     const configs = await chargerConfigsYaml();
-    const ids = ['prefecture-77', 'prefecture-13', 'prefecture-33'];
+    const ids = [
+      'prefecture-77',
+      'prefecture-13',
+      'prefecture-33',
+      'prefecture-01',
+      'prefecture-02',
+      'prefecture-03',
+      'prefecture-04',
+      'prefecture-05',
+      'prefecture-06',
+      'prefecture-07',
+      'prefecture-08',
+      'prefecture-09',
+      'prefecture-10',
+    ];
     for (const id of ids) {
       const config = configs.find((c) => c.fichier === `${id}.yaml`);
       expect(config, `${id}.yaml introuvable dans configs/`).toBeDefined();

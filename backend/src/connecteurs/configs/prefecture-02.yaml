@@ -1,0 +1,61 @@
+# backend/src/connecteurs/configs/prefecture-02.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Aisne.
+# Sélecteurs établis le 2026-08-14 (Phase 5bis élargie) contre une capture
+# réelle du site (inspection Chrome, DOM déjà rendu).
+#
+# Structure réelle, différente de prefecture-01/13/33 : `url_liste` est une
+# page RACINE listant une carte par année (`.fr-card`) ; la page de l'année
+# n'est PAS découpée par mois mais liste TOUTES les publications de l'année
+# en une seule collection, PAGINÉE (10 par page, ordre chronologique
+# CROISSANT — la page 1 montre donc les publications les plus ANCIENNES de
+# l'année, pas les plus récentes). D'où le 2e niveau de `navigation` : un
+# saut direct vers la DERNIÈRE page de pagination (`.fr-pagination__link--last`,
+# offset dynamique — jamais un numéro de page codé en dur), qui contient les
+# publications les plus récentes. `optionnelle: true` sur cette étape : en
+# tout début d'année, l'année entière peut tenir sur une seule page — le
+# lien "dernière page" n'existe alors pas du tout dans le HTML, ce qui doit
+# être traité comme "rien à faire" plutôt qu'une dérive de structure
+# (contracts/connecteur-interface.md §2quater).
+#
+# Chaque publication de la page (`.fr-card__link`) ne pointe PAS directement
+# vers un PDF mais vers une page de détail HTML → `page_detail` (comme
+# prefecture-77), où `a.fr-link--download` porte le vrai lien PDF.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin
+# ("RAA_Août_02-2026-163") ne mentionne jamais son contenu — c'est le moteur
+# `page_web` (scan de contenu PDF) qui retente la pertinence sur le texte du
+# PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les 4 autres connecteurs de cette session) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "-Annee-2026",
+  # donc par "-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+  # Page de l'année (paginée, ordre chronologique croissant) → dernière
+  # page (publications les plus récentes). Absente si l'année tient déjà
+  # sur une seule page (ex. tout début janvier).
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)/\\d+$"
+    optionnelle: true
+selecteur_publications: ".fr-card__link"
+# Sélecteur volontairement sans correspondance (l'élément est une simple
+# balise <a>, texte direct, aucun descendant pertinent) : force le repli
+# sur $publication.text(), déjà le bon libellé (comme prefecture-77).
+selecteur_titre: ".jamais-de-descendant-dans-un-lien-fr-card"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  attribut_lien: "href"
+autorite_signataire: "La Préfète de l'Aisne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

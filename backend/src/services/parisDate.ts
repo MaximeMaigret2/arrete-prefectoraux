@@ -93,3 +93,19 @@ export function toParisCalendarDate(isoInstant: string): string {
   });
   return dtf.format(new Date(isoInstant));
 }
+
+/**
+ * Année et mois courants (Europe/Paris) pour un instant UTC donné — utilisé
+ * par la résolution de `navigation` du moteur `page_web`
+ * (contracts/connecteur-interface.md §2) pour substituer les placeholders
+ * `{annee}`/`{mois_numero}`/`{mois_fr}` d'un motif déclaratif, sans jamais
+ * coder en dur une année ou un mois dans une configuration de connecteur.
+ */
+export function parisAnneeMoisCourant(maintenant: Date = new Date()): { annee: string; moisNumero: string } {
+  const dtf = new Intl.DateTimeFormat('en-CA', { timeZone: PARIS_TZ, year: 'numeric', month: '2-digit' });
+  const parts = dtf.formatToParts(maintenant).reduce<Record<string, string>>((acc, p) => {
+    acc[p.type] = p.value;
+    return acc;
+  }, {});
+  return { annee: parts.year, moisNumero: parts.month };
+}

@@ -1,6 +1,95 @@
 import { z } from 'zod';
 
 /**
+ * Une période nommée au sein d'une étape de navigation par période (V009,
+ * Phase 5bis élargie, 2026-08-14, cf. `EtapeNavigationSchema` ci-dessous) :
+ * `motif` (mêmes placeholders/règles qu'un `pattern_lien` simple) est
+ * utilisé pour cette étape uniquement quand le mois courant (Europe/Paris)
+ * tombe dans `[mois_debut, mois_fin]` (inclusif ; wraparound autorisé si
+ * `mois_debut > mois_fin`, ex. une période novembre→février).
+ */
+const EtapePeriodeSchema = z.object({
+  motif: z.string().min(1),
+  mois_debut: z.number().int().min(1).max(12),
+  mois_fin: z.number().int().min(1).max(12),
+});
+
+/**
+ * Une étape de navigation pré-liste (V001/V001c, Phase 5bis) : depuis la
+ * page courante, trouve le premier lien via `selecteur_liens` dont l'URL
+ * résolue correspond au motif de cette étape, et en fait la page courante
+ * de l'étape suivante. Sert à résoudre dynamiquement un `url_liste` que le
+ * site ne publie pas à une adresse fixe (ex. Gironde : racine → carte de
+ * l'année courante → carte du mois courant).
+ *
+ * Le motif est testé contre l'URL résolue (jamais le texte du lien, sujet
+ * aux accents/variations d'affichage) et peut contenir les placeholders
+ * `{annee}` (AAAA), `{mois_numero}` (MM) et `{mois_fr}` / `{mois_fr_minuscule}`
+ * (nom du mois français sans accent, capitalisé ou non — ex. `Aout`),
+ * substitués à l'exécution avec la date courante (Europe/Paris) — jamais une
+ * année/un mois codé en dur dans la configuration (contrat §5, règle 8 :
+ * uniquement des données déclaratives). Deux formes mutuellement exclusives
+ * pour désigner ce motif (cf. `superRefine` ci-dessous) :
+ * - `pattern_lien` (forme historique) : un motif unique, valide pour toute
+ *   date d'exécution — suffisant dès que le nom/numéro du mois courant
+ *   apparaît toujours dans l'URL de la page à atteindre (ex. `/Aout-2026`).
+ * - `periodes` (V009, Phase 5bis élargie, 2026-08-14, découvert sur
+ *   prefecture-04/Alpes-de-Haute-Provence) : une liste de motifs
+ *   alternatifs, chacun associé à une plage de mois — nécessaire quand la
+ *   source archive par période irrégulière (ex. semestre inégal
+ *   janvier-à-juillet / août-à-décembre) plutôt que par mois calendaire,
+ *   auquel cas le nom du mois courant n'apparaît pas forcément dans l'URL
+ *   de la période qui le contient (`{mois_fr}` seul ne suffit plus).
+ *
+ * `optionnelle` (V010, Phase 5bis élargie, 2026-08-14, découvert sur
+ * prefecture-02/05) : par défaut (`false`), une étape dont aucun lien ne
+ * correspond au motif est un échec de résolution (dérive de structure,
+ * cf. `resoudreNavigation`). Mettre `optionnelle: true` quand l'ABSENCE de
+ * lien correspondant a une signification légitime — ex. un lien de
+ * pagination « dernière page » qui n'existe tout simplement pas quand tout
+ * tient déjà sur la page courante (mois/année avec peu de publications,
+ * notamment en tout début de période) : l'étape est alors sautée (la page
+ * courante devient directement la page suivante) plutôt que de produire un
+ * `echec_global` pour une situation parfaitement normale.
+ */
+const EtapeNavigationSchema = z
+  .object({
+    selecteur_liens: z.string().min(1),
+    pattern_lien: z.string().min(1).optional(),
+    periodes: z.array(EtapePeriodeSchema).min(1).optional(),
+    optionnelle: z.boolean().default(false),
+  })
+  .superRefine((etape, ctx) => {
+    const nbFormes = Number(etape.pattern_lien !== undefined) + Number(etape.periodes !== undefined);
+    if (nbFormes !== 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          'Une étape de navigation doit définir exactement une forme de motif : pattern_lien OU periodes, jamais les deux ni aucune des deux.',
+      });
+    }
+  });
+
+/**
+ * Résolution d'une page de détail intermédiaire, par publication, avant
+ * d'y chercher le lien PDF réel (V001/V001c, Phase 5bis — ex.
+ * Seine-et-Marne : chaque `<option>` d'une liste déroulante ne pointe pas
+ * directement vers un PDF mais vers une page HTML qui, elle, contient le
+ * lien PDF). `attribut_lien` est l'attribut de l'élément publication
+ * (trouvé via `selecteur_publications`) qui porte l'URL de cette page de
+ * détail — `href` pour un `<a>`, `value` pour un `<option>` de
+ * `<select>` (dont l'attribut n'est pas nommé `href`).
+ *
+ * Quand `page_detail` est renseigné, `selecteur_lien_pdf` est appliqué à
+ * la page de détail récupérée plutôt qu'à l'intérieur de l'élément
+ * publication lui-même — c'est pourquoi `selecteur_lien_pdf` DOIT alors
+ * être non nul (cf. `superRefine` ci-dessous).
+ */
+const PageDetailSchema = z.object({
+  attribut_lien: z.string().min(1).default('href'),
+});
+
+/**
  * Configuration déclarative d'un connecteur `page_web` (contracts/connecteur-interface.md
  * §2). Aucune valeur codée en dur : toute variation entre deux connecteurs
  * `page_web` passe exclusivement par ce schéma (contrat §5, règle 7).
@@ -10,24 +99,51 @@ import { z } from 'zod';
  * connecteur, `CandidatEvenement.type_evenement` resterait toujours `null`,
  * ce qui déclencherait systématiquement une anomalie `champ_manquant` même
  * pour une extraction propre, contredisant FR-007/US3.
+ *
+ * `navigation`/`page_detail` (V001c, Phase 5bis, 2026-08-13) : extension
+ * générique pour les sources nécessitant une navigation multi-niveaux
+ * avant d'atteindre la liste de publications elle-même, ou une page de
+ * détail par publication avant d'atteindre le PDF — toutes deux optionnelles
+ * et vides par défaut, sans impact sur les connecteurs `page_web` existants
+ * à liste plate (ex. prefecture-13). La forme `periodes` d'une étape de
+ * `navigation` (V009, Phase 5bis élargie, 2026-08-14) est elle aussi
+ * optionnelle (alternative à `pattern_lien`, jamais utilisée par défaut) —
+ * aucun impact sur les connecteurs existants qui n'en ont pas besoin.
  */
-export const PageWebConfigSchema = z.object({
-  url_liste: z.string().url(),
-  // Sélecteur CSS listant chaque publication (ligne/lien).
-  selecteur_publications: z.string().min(1),
-  // Sélecteur CSS du libellé/titre de la publication.
-  selecteur_titre: z.string().min(1),
-  // Sélecteur CSS du lien PDF joint ; `null` si le titre seul suffit à l'extraction.
-  selecteur_lien_pdf: z.string().min(1).nullable(),
-  autorite_signataire: z.string().min(1),
-  type_evenement_par_defaut: z.enum(['interdiction', 'levee', 'prolongation']),
-  // Filtrage par pertinence (rave/teknival), insensible à la casse.
-  mots_cles_filtrage: z.array(z.string().min(1)).min(1),
-  patterns_dates: z.object({
-    debut: z.string().min(1),
-    fin: z.string().min(1).nullable(),
-  }),
-  pattern_reference: z.string().min(1),
-});
+export const PageWebConfigSchema = z
+  .object({
+    url_liste: z.string().url(),
+    // Sélecteur CSS listant chaque publication (ligne/lien).
+    selecteur_publications: z.string().min(1),
+    // Sélecteur CSS du libellé/titre de la publication.
+    selecteur_titre: z.string().min(1),
+    // Sélecteur CSS du lien PDF joint ; `null` si le titre seul suffit à l'extraction.
+    // Interprété relativement à l'élément publication lui-même, sauf si
+    // `page_detail` est renseigné (auquel cas il est appliqué à la page de
+    // détail résolue pour cette publication).
+    selecteur_lien_pdf: z.string().min(1).nullable(),
+    autorite_signataire: z.string().min(1),
+    type_evenement_par_defaut: z.enum(['interdiction', 'levee', 'prolongation']),
+    // Filtrage par pertinence (rave/teknival), insensible à la casse.
+    mots_cles_filtrage: z.array(z.string().min(1)).min(1),
+    patterns_dates: z.object({
+      debut: z.string().min(1),
+      fin: z.string().min(1).nullable(),
+    }),
+    pattern_reference: z.string().min(1),
+    // Navigation pré-liste optionnelle (défaut : aucune, url_liste utilisée telle quelle).
+    navigation: z.array(EtapeNavigationSchema).default([]),
+    // Page de détail par publication optionnelle (défaut : aucune, selecteur_lien_pdf cherché dans la publication elle-même).
+    page_detail: PageDetailSchema.nullable().default(null),
+  })
+  .superRefine((config, ctx) => {
+    if (config.page_detail !== null && config.selecteur_lien_pdf === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['selecteur_lien_pdf'],
+        message: 'selecteur_lien_pdf est obligatoire quand page_detail est renseigné (il est appliqué à la page de détail).',
+      });
+    }
+  });
 
 export type PageWebConfig = z.infer<typeof PageWebConfigSchema>;

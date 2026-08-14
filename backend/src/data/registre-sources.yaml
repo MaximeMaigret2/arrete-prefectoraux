@@ -12,94 +12,94 @@
 # connecteur (structure exacte de la page, éventuelles pièces jointes PDF).
 
 - departement_code: "01"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Ain"
   point_acces: "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-01
+  notes: "RAA publié en pages HTML, navigation racine → année → mois, liste plate finale (comme prefecture-13/33). Inspection directe 2026-08-14 (Phase 5bis élargie)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "02"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Aisne"
   point_acces: "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-02
+  notes: "RAA publié en pages HTML, année non découpée par mois mais paginée (saut vers la dernière page, étape optionnelle si absente — V010) puis page de détail par publication (comme prefecture-77). Inspection directe 2026-08-14 (Phase 5bis élargie)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "03"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Allier"
   point_acces: "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-03
+  notes: "RAA publié en pages HTML, carte année redirigeant serveur-side vers une liste plate complète (suivie nativement par fetch). Inspection directe 2026-08-14 (Phase 5bis élargie)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "04"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Alpes-de-Haute-Provence"
-  point_acces: "https://www.alpes-de-haute-provence.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  point_acces: "https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-04
+  notes: "RAA publié en pages HTML, découpage par semestre IRRÉGULIER (janvier-juillet / août-décembre) — extension générique du moteur page_web (navigation.periodes, V009) plutôt que {mois_fr}. Inspection directe 2026-08-14 (Phase 5bis élargie)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "05"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Hautes-Alpes"
   point_acces: "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-05
+  notes: "RAA publié en pages HTML, navigation année → mois → dernière page (optionnelle, V010) puis page de détail par publication ; lien PDF ciblé par attribut href (a[href$='.pdf']) à cause d'un bug de markup réel qui casse l'attribut class sur cette page. Inspection directe 2026-08-14 (Phase 5bis élargie)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "06"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Alpes-Maritimes"
   point_acces: "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-06
+  notes: "RAA publié en pages HTML, navigation racine → année → mois, liste plate finale déjà en ordre décroissant (comme prefecture-01/13, sans étape de pagination supplémentaire). Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 2)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "07"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Ardèche"
   point_acces: "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-07
+  notes: "RAA publié en pages HTML, navigation racine → année → mois (sans suffixe d'année dans l'URL du mois), liste plate finale non paginée (fr-downloads-group), lien PDF ciblé par attribut href (a[href$='.pdf']) à cause d'un bug de markup réel identique à prefecture-05. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 2)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "08"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Ardennes"
   point_acces: "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-08
+  notes: "RAA publié en pages HTML, navigation racine → liste annuelle DÉJÀ plate (un seul niveau, pas de découpage par mois dans l'URL), non paginée, lien PDF ciblé par attribut href (a[href$='.pdf']) car une partie des liens porte un bug de markup identique à prefecture-05/07. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 2)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "09"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Ariège"
   point_acces: "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-09
+  notes: "RAA publié en pages HTML, navigation racine → collection d'archives fixe (motif littéral, pas de placeholder de date) → mois, liste plate finale non paginée (fr-downloads-group), lien PDF ciblé par attribut href (a[href$='.pdf']) à cause d'un bug de markup réel identique à prefecture-05/07. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 2)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "10"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Aube"
-  point_acces: "https://www.aube.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
+  point_acces: "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-10
+  notes: "RAA publié en pages HTML, navigation racine → liste annuelle DÉJÀ plate (un seul niveau), déjà en ordre décroissant, non paginée à l'échelle de la page 1. point_acces corrigé : l'URL initialement identifiée redirige serveur-side vers Recueil-des-Actes-Administratifs-RAA2 (confirmé par fetch, comme prefecture-04). Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 2)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "11"
   statut: identifiee

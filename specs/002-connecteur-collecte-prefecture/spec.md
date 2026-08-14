@@ -89,6 +89,24 @@ En tant que mainteneur technique, je veux pouvoir désactiver un connecteur en �
 
 ---
 
+### User Story 6 - Reconstituer l'historique des arrêtés sur plusieurs années (Priority: P6)
+
+En tant qu'opérateur du projet, je veux pouvoir lancer, à part et de façon asynchrone une fois l'application fonctionnelle, un script ponctuel de rétro-collecte (« backfill ») qui parcourt pour un ou tous les connecteurs les publications historiques de leur source (par défaut les 5 dernières années) et fait passer chaque candidat extrait par le même pipeline de décision que la collecte quotidienne (publication directe si l'extraction est propre, anomalie de collecte sinon), afin de reconstituer un historique exploitable sans ressaisie manuelle ni développement spécifique à chaque connecteur.
+
+**Why this priority**: Moins prioritaire que US1–US5 : la carte et l'historique récent fonctionnent déjà sans cette capacité (US2/US3 couvrent la collecte courante), et le backfill est explicitement pensé comme une opération ponctuelle et asynchrone, à exécuter une fois l'application déjà fonctionnelle plutôt que comme un prérequis à sa mise en service. Reste toutefois nécessaire pour que l'historique affiché ne se limite pas à la date de mise en service de chaque connecteur.
+
+**Independent Test**: Exécuter le script de backfill contre un connecteur pointant vers un jeu de fixtures couvrant plusieurs périodes passées (ex. plusieurs mois/années) et vérifier que les candidats extraits traversent le même pipeline de décision que la collecte courante (publication directe ou anomalie selon le cas), sans doublon en cas de ré-exécution sur une période déjà traitée, et sans qu'aucun code spécifique à ce connecteur n'ait été nécessaire pour le faire fonctionner.
+
+**Acceptance Scenarios**:
+
+1. **Given** un connecteur configuré normalement (déclaratif, `page_web` ou `pdf`), **When** le script de backfill est exécuté pour lui sur une plage de dates (5 dernières années par défaut), **Then** il parcourt chaque période historique de sa source et traite chaque candidat extrait via le même pipeline de décision (`evaluerCandidat`/`executerConnecteur`) que la collecte planifiée ou manuelle, sans code spécifique à ce connecteur.
+2. **Given** un candidat extrait pendant le backfill dont l'extraction est ambiguë ou incomplète, **When** il est traité, **Then** une anomalie de collecte est créée exactement comme lors d'une collecte courante (US4) — jamais de publication automatique en masse.
+3. **Given** une source dont les périodes historiques ne sont plus navigables au-delà d'une certaine ancienneté (le site ne remonte pas plus loin), **When** le backfill atteint cette limite pour un connecteur, **Then** il s'arrête pour ce connecteur sans faire échouer l'ensemble de l'exécution, et journalise jusqu'où il est allé.
+4. **Given** un backfill déjà exécuté pour un connecteur sur une période donnée, **When** il est ré-exécuté sur une période chevauchante, **Then** aucun événement n'est dupliqué (même mécanisme de détection de doublon que la collecte courante, FR-010).
+5. **Given** le script de backfill, **When** il est invoqué, **Then** il s'exécute indépendamment du cycle quotidien planifié (FR-013) — jamais déclenché automatiquement — et peut cibler un connecteur donné ou l'ensemble des connecteurs actifs.
+
+---
+
 ### Edge Cases
 
 - Que se passe-t-il quand un PDF collecté est un scan/image sans texte extractible (nécessitant une reconnaissance optique) ?
@@ -98,6 +116,8 @@ En tant que mainteneur technique, je veux pouvoir désactiver un connecteur en �
 - Que se passe-t-il quand deux connecteurs différents couvrent le même département (ex. portail régional et préfecture) et produisent des événements concurrents ?
 - Que se passe-t-il quand la source d'un connecteur est temporairement indisponible (site en panne) au moment d'une collecte planifiée ?
 - Que se passe-t-il quand une source répertoriée change d'adresse ou disparaît avant même qu'un connecteur n'ait été développé pour elle ?
+- Que se passe-t-il quand le script de backfill est interrompu en cours d'exécution (redémarrage, erreur réseau) — faut-il reprendre depuis le début ou depuis la dernière période traitée ?
+- Que se passe-t-il quand un connecteur ajouté après une première campagne de backfill est lui-même backfillé plus tard — l'historique doit-il rester cohérent avec celui des connecteurs déjà backfillés ?
 
 ## Requirements *(mandatory)*
 
@@ -121,11 +141,17 @@ En tant que mainteneur technique, je veux pouvoir désactiver un connecteur en �
 - **FR-016**: Une anomalie de collecte rejetée par l'opérateur DOIT rester tracée en interne (source, raison) mais NE DOIT jamais produire d'événement visible dans l'API publique ou sur la carte.
 - **FR-017**: Le système DOIT maintenir un registre des sources couvrant l'ensemble des départements, indiquant pour chacun soit une source identifiée (autorité, point d'accès/URL, format attendu de la publication), soit l'absence explicite de source connue à ce jour.
 - **FR-018**: Le registre des sources DOIT pouvoir être consulté et mis à jour indépendamment du développement ou du déploiement d'un connecteur — identifier une source ne doit pas nécessiter d'écrire du code.
+- **FR-019**: Le système DOIT fournir un script de rétro-collecte (« backfill ») ponctuel, distinct du cycle quotidien planifié (FR-013) et non déclenché automatiquement, capable de lancer la collecte historique pour un connecteur donné ou pour l'ensemble des connecteurs actifs.
+- **FR-020**: Le script de backfill DOIT être générique pour l'ensemble des connecteurs, présents et futurs — sans code spécifique à un connecteur — en réutilisant la même interface `Connecteur` et le même pipeline de décision (`evaluerCandidat`/`executerConnecteur`) que la collecte planifiée ou manuelle.
+- **FR-021**: Le script de backfill DOIT faire passer chaque candidat extrait par le même mécanisme de résolution d'anomalie que la collecte courante (FR-008, FR-009) — une extraction ambiguë ou incomplète produit une anomalie de collecte, jamais une publication automatique en masse.
+- **FR-022**: Le script de backfill DOIT couvrir par défaut les 5 dernières années pour chaque connecteur, avec une plage de dates configurable à l'invocation.
+- **FR-023**: Le script de backfill DOIT s'appuyer sur le même mécanisme de détection de doublon que la collecte courante (FR-010) afin de pouvoir être ré-exécuté sans risque sur une période déjà traitée.
+- **FR-024**: Le script de backfill DOIT journaliser chaque exécution avec la même entité « Exécution de collecte » que la collecte planifiée ou manuelle (FR-011), en la distinguant par une valeur de `declenchement` dédiée, pour garder la traçabilité des runs de backfill séparée de celle des collectes courantes.
 
 ### Key Entities
 
 - **Connecteur**: (déjà défini en specs/001) — étendu ici avec la notion d'exécution planifiée/déclenchable et de format(s) de source supporté(s) (page web, PDF).
-- **Exécution de collecte**: Trace d'un run d'un connecteur donné — date, statut (succès/échec/partiel), nombre d'événements publiés automatiquement, nombre d'anomalies produites, message d'erreur éventuel. Alimente la fraîcheur des données (Principe 7).
+- **Exécution de collecte**: Trace d'un run d'un connecteur donné — date, statut (succès/échec/partiel), nombre d'événements publiés automatiquement, nombre d'anomalies produites, message d'erreur éventuel. Alimente la fraîcheur des données (Principe 7). Le `declenchement` distingue déjà `planifie` (FR-013) de `manuel` (FR-014) ; le backfill (US6, FR-019) introduit une troisième origine distincte pour ne jamais confondre un run de rétro-collecte avec la fraîcheur de la collecte courante.
 - **Événement**: (déjà défini en specs/001) — peut désormais être créé directement par un connecteur, sans étape intermédiaire, dès que l'extraction est complète et non ambiguë (`methode_collecte = automatique`).
 - **Anomalie de collecte**: Cas où un connecteur n'a pas pu produire un événement fiable automatiquement (champ manquant, ambiguïté, doublon suspecté, échec de lecture de la source). Créée uniquement dans ce cas — il n'existe pas d'étape intermédiaire pour les extractions réussies. Reste en attente de résolution par l'opérateur : confirmation (avec correction si besoin) produisant un événement `methode_collecte = manuelle_verifiee`, ou rejet ne produisant aucun événement.
 - **Source brute**: Document ou page originale collectée (URL de la page, ou fichier PDF récupéré) à partir de laquelle un événement ou une anomalie a été produit ; conservée pour la traçabilité (Principe 1) et, en cas d'anomalie, pour la résolution par l'opérateur.
@@ -142,6 +168,7 @@ En tant que mainteneur technique, je veux pouvoir désactiver un connecteur en �
 - **SC-005**: L'opérateur peut passer d'une anomalie de collecte à la décision (confirmation ou rejet) sans quitter l'espace de résolution, source brute originale comprise dans la même vue.
 - **SC-006**: Pour une source bien structurée et stable, une extraction propre (sans champ manquant ni doublon) est publiée sans qu'aucune action humaine ne soit nécessaire.
 - **SC-007**: 100% des départements disposent d'une entrée dans le registre des sources — identifiée ou explicitement marquée "à investiguer" — jamais d'absence non documentée.
+- **SC-008**: Pour un connecteur donné, une exécution de backfill sur les 5 dernières années produit un historique dont chaque événement (publié automatiquement ou après résolution d'anomalie) respecte les mêmes garanties que la collecte courante (SC-002 source consultable, SC-003 anomalies non publiées) ; une seconde exécution du backfill sur une période déjà traitée ne crée aucun événement dupliqué.
 
 ## Assumptions
 
@@ -155,3 +182,5 @@ En tant que mainteneur technique, je veux pouvoir désactiver un connecteur en �
 - Cette spec s'appuie sur un assouplissement de la règle de gouvernance "toute donnée ajoutée doit être relue avant fusion" (voir amendement de la constitution) : cet assouplissement ne vaut que pour les données produites automatiquement par un connecteur ; toute saisie manuelle hors connecteur reste soumise à relecture systématique.
 - Le registre des sources est un artefact léger (ex. fichier structuré tenu à jour manuellement), pas un service à part entière : l'identifier comme un livrable distinct des connecteurs n'implique pas de développement spécifique au-delà de sa structure et de son suivi. Le découpage technique des connecteurs par type de source (accès via API, scraping + lecture de PDF, etc.) et le degré de généricité/configuration au sein d'un même type seront précisés lors de `/speckit-plan` : cette spec fixe le besoin (registre préalable, publication directe vs anomalie) sans imposer d'architecture.
 - Le registre des sources n'est PAS automatiquement synchronisé avec le cycle de vie d'un connecteur : désactiver un connecteur (US5, FR-012) ne modifie pas automatiquement le `statut`/`connecteur_id` de son entrée dans le registre — celle-ci reste `connecteur_developpe` jusqu'à mise à jour manuelle par l'opérateur. Ce choix découle directement de FR-018 (le registre s'édite indépendamment du code) : introduire une synchronisation automatique créerait un couplage entre le registre et le déploiement des connecteurs, contraire à cette indépendance voulue.
+- Le backfill (US6) est un script ponctuel exécuté à la demande, PAS une fonctionnalité permanente ni une étape du cycle quotidien (FR-013) : il n'expose pas de nouvel endpoint API public, n'a pas d'interface dédiée dans cette spec, et est pensé pour être lancé de façon asynchrone une fois l'application déjà fonctionnelle — pas comme un prérequis à sa mise en service ni à celle d'un nouveau connecteur (US2 reste utilisable seule, sans backfill).
+- Pour rester générique (FR-020), le backfill doit pouvoir faire varier la période ciblée sans code spécifique à un connecteur ; cela suppose que l'URL de départ de chaque connecteur (`url_liste` dans la config `page_web`) puisse elle aussi dépendre de la période visée, au même titre que les étapes de `navigation` (déjà paramétrables via `{annee}`/`{mois_fr}`, cf. `contracts/connecteur-interface.md` §2bis). C'est un point de conception à trancher lors du passage à l'implémentation (`/speckit-plan`), pas dans cette spec — noté ici car `prefecture-13.yaml` fixe aujourd'hui l'année "2026" en dur dans `url_liste`, ce qui bloquerait un backfill générique sur ce connecteur tant que ce n'est pas corrigé.

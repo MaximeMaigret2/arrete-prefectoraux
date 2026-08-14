@@ -27,6 +27,19 @@ const MOIS_FR: Record<string, number> = {
   decembre: 11,
 };
 
+/**
+ * Noms des mois français, capitalisés et sans accent (index 0 = janvier),
+ * dans la casse/orthographe utilisée par les segments d'URL des sites
+ * gouvernementaux observés (ex. `Aout-2026`, jamais `Août-2026`) — partagé
+ * par tout moteur ayant besoin de construire une URL ou un motif de
+ * correspondance dépendant du mois courant (ex. `navigation` du moteur
+ * `page_web`, contracts/connecteur-interface.md §2). Dérivé de `MOIS_FR`
+ * ci-dessus pour ne pas dupliquer la liste des mois.
+ */
+export const NOMS_MOIS_FR: readonly string[] = Object.keys(MOIS_FR)
+  .sort((a, b) => MOIS_FR[a] - MOIS_FR[b])
+  .map((nom) => nom.charAt(0).toUpperCase() + nom.slice(1));
+
 /** Retire les accents pour normaliser un nom de mois avant recherche dans MOIS_FR. */
 function sansAccents(texte: string): string {
   return texte.normalize('NFD').replace(/[\u0300-\u036f]/g, '');

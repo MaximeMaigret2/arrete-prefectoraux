@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>RAA N°05-2026-327 SPECIAL AOUT 2026 - Hautes-Alpes</title>
+  </head>
+  <body>
+    <!--
+      Reconstruction fidèle d'une page de détail (inspection Chrome,
+      2026-08-14 — cf. SOURCE.md). Piège découvert et vérifié en direct sur
+      cette page (texte brut de la réponse serveur ET DOM Chrome, identiques)
+      : le lien de téléchargement porte un bug d'attribut —
+      `<a id= class="fr-link fr-link--download" href="...">` (id SANS valeur,
+      immédiatement suivi d'un espace puis `class=...`) — qui casse
+      l'attribut `class` pour tout parseur HTML conforme (le tokenizer
+      consomme `class="fr-link` comme valeur de `id`, et ce qui suit devient
+      un attribut `fr-link--download"=""` séparé). La classe CSS
+      `fr-link--download` n'existe donc, structurellement, jamais sur cet
+      élément — `prefecture-05.yaml` cible directement l'attribut `href`
+      (`a[href$='.pdf']`), insensible à ce bug.
+    -->
+    <h1>RAA N°05-2026-327 SPECIAL AOUT 2026</h1>
+    <a id= class="fr-link fr-link--download" href="/contenu/telechargement/15001/85001/file/RAA-N-05-2026-327-Special-Aout.pdf">
+      Télécharger RAA N°05-2026-327 SPECIAL AOUT 2026
+      <span class="fr-link__detail">PDF - 0,71 Mb - 13/08/2026</span>
+    </a>
+  </body>
+</html>

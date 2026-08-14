@@ -1,0 +1,71 @@
+# backend/src/connecteurs/configs/prefecture-05.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture des
+# Hautes-Alpes. Sélecteurs établis le 2026-08-14 (Phase 5bis élargie)
+# contre une capture réelle du site (inspection Chrome, DOM déjà rendu).
+#
+# Structure réelle, la plus profonde des 5 : racine (`.fr-card` par année)
+# → page de l'année (`.fr-card` par mois, `/Aout-2026`) → page du mois,
+# PAGINÉE (10 par page, ordre chronologique CROISSANT comme prefecture-02 :
+# la page 1 montre les publications les plus ANCIENNES du mois). D'où un 3e
+# niveau de `navigation`, un saut vers la DERNIÈRE page (`.fr-pagination__link--last`,
+# offset dynamique), `optionnelle: true` : absente si le mois tient déjà sur
+# une seule page (peu de publications en tout début de mois) — cf.
+# contracts/connecteur-interface.md §2quater.
+#
+# Chaque publication (`.fr-card__link`) pointe vers une page de détail HTML
+# → `page_detail` (comme prefecture-77/02), où le vrai lien PDF est présent.
+#
+# Piège découvert sur la page de détail : le HTML réel y contient un bug
+# d'attribut sur le lien de téléchargement — `<a id= class="fr-link
+# fr-link--download" href="...">` (id sans valeur, immédiatement suivi
+# d'un espace puis `class=...`) — qui casse l'attribut `class` pour TOUT
+# parseur HTML conforme (vérifié identique dans Chrome ET en lisant le texte
+# brut de la réponse serveur, ce que cheerio verrait aussi) : le tokenizer
+# HTML consomme `class="fr-link` comme valeur de `id`, et ce qui suit
+# devient un attribut `fr-link--download"=""` séparé — la classe CSS
+# `fr-link--download` n'existe donc, structurellement, jamais sur cet
+# élément. `selecteur_lien_pdf` cible directement l'attribut `href` (`a[href$='.pdf']`),
+# insensible à ce bug, plutôt que la classe cassée.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin ("RAA
+# N°05-2026-317 SPECIAL AOUT 2026") ne mentionne jamais son contenu — c'est
+# le moteur `page_web` (scan de contenu PDF) qui retente la pertinence sur
+# le texte du PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les 4 autres connecteurs de cette session) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+  # Page de l'année → carte du mois courant (href se termine par "/Aout-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}-{annee}$"
+  # Page du mois (paginée, ordre chronologique croissant) → dernière page
+  # (publications les plus récentes). Absente si le mois tient déjà sur une
+  # seule page.
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)/\\d+$"
+    optionnelle: true
+selecteur_publications: ".fr-card__link"
+# Sélecteur volontairement sans correspondance (l'élément est une simple
+# balise <a>, texte direct, aucun descendant pertinent) : force le repli
+# sur $publication.text(), déjà le bon libellé (comme prefecture-77/02).
+selecteur_titre: ".jamais-de-descendant-dans-un-lien-fr-card"
+# Cible directement l'attribut href (pas la classe, cassée sur cette page
+# de détail — cf. commentaire ci-dessus).
+selecteur_lien_pdf: "a[href$='.pdf']"
+page_detail:
+  attribut_lien: "href"
+autorite_signataire: "Le Préfet des Hautes-Alpes"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

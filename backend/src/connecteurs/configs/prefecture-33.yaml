@@ -1,26 +1,51 @@
 # backend/src/connecteurs/configs/prefecture-33.yaml
 #
 # Config déclarative du connecteur page_web pour la Préfecture de la
-# Gironde (T034). Même patron que prefecture-77.yaml — seules les
-# valeurs changent (contrat §6, règle 7 : aucune variation ne passe par
-# le moteur lui-même).
+# Gironde. Sélecteurs CORRIGÉS le 2026-08-13 (Phase 5bis, V001c) contre une
+# capture réelle du site (inspection Chrome, DOM déjà rendu — cf.
+# backend/tests/fixtures/connecteurs/reel/prefecture-33/SOURCE.md) : les
+# valeurs précédentes (`.raa-liste .raa-item`, placeholder jamais vérifié,
+# identique aux 2 autres connecteurs) ne correspondaient à rien de réel.
 #
-# Sélecteurs CSS non vérifiés en conditions réelles contre le HTML actuel
-# de gironde.gouv.fr (pas d'accès web sortant depuis cet environnement) —
-# à confirmer/affiner avant la première collecte réelle
-# (registre-sources.yaml, notes du département 33 : "classé par année et
-# par mois"). En cas de désaccord avec le HTML réel, le connecteur
-# échoue explicitement (echec_global) plutôt que de produire un résultat
-# silencieusement faux (contrat §6, règles 2 et 6).
+# Structure réelle (DSFR gouvernemental, comme prefecture-13) : `url_liste`
+# est une page RACINE listant une carte par année (`.fr-card`) ; chaque
+# année mène à une page listant une carte par MOIS ; chaque page de mois
+# liste les bulletins RAA du mois (une carte par bulletin, lien direct vers
+# le PDF — pas de page de détail intermédiaire, contrairement à
+# prefecture-77). D'où les 2 niveaux de `navigation` ci-dessous pour
+# atteindre dynamiquement la page du mois courant, jamais une URL figée qui
+# se périmerait au changement de mois.
+#
+# Comme prefecture-13 : chaque bulletin ("RAA 33 SPECIAL N°2026-243"...)
+# regroupe potentiellement plusieurs arrêtés dans un même PDF ; son texte de
+# lien ne mentionne jamais le contenu — c'est le moteur `page_web` (§2,
+# étendu le 2026-08-13) qui retente la pertinence sur le texte du PDF
+# téléchargé avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (aucun outil de cette session ne permet de télécharger le
+# contenu binaire d'un vrai PDF) — `patterns_dates`/`pattern_reference`
+# ci-dessous reprennent l'hypothèse déjà posée pour prefecture-13 (mêmes
+# `\s+` non-littéraux, pour la même raison : `pdf-parse` reflue le texte
+# selon la mise en page d'origine) — à confirmer avant collecte réelle.
 type_connecteur: page_web
 url_liste: "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
-selecteur_publications: ".raa-liste .raa-item"
-selecteur_titre: ".raa-item__titre"
-selecteur_lien_pdf: ".raa-item__piece-jointe a[href$='.pdf']"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "-de-l-annee-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-de-l-annee-{annee}$"
+  # Page de l'année → carte du mois courant (href se termine par "/Aout-2026",
+  # nom de mois français sans accent, capitalisé — jamais "Août-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}-{annee}$"
+selecteur_publications: ".fr-card"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-13, a.fr-link--download).
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
 autorite_signataire: "Le Préfet de la Gironde"
 type_evenement_par_defaut: interdiction
 mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
 patterns_dates:
-  debut: "à compter du (?<date>\\d{2}/\\d{2}/\\d{4})"
-  fin: "jusqu'au (?<date>\\d{2}/\\d{2}/\\d{4})"
-pattern_reference: "Arrêté n°\\s*(?<reference>[A-Z0-9-]+)"
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

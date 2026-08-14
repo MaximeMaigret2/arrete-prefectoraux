@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Août - RAA 2026 - Ardèche</title>
+  </head>
+  <body>
+    <!--
+      Reconstruction fidèle de la page "Aout" (fetch direct, 2026-08-14 — cf.
+      SOURCE.md) : 2 des 9 bulletins réels du mois, non paginée (tous
+      tiennent sur une seule page). Piège réel vérifié sur les 9 liens de
+      cette page : `<a id= class="fr-link fr-link--download" href="...">`
+      (id VIDE, casse l'attribut `class` — même bug que prefecture-05,
+      contract §2quater) — `selecteur_titre`/`selecteur_lien_pdf` ciblent
+      donc `a[href$='.pdf']`. Les 2 PDF sont SYNTHÉTIQUES (reportlab).
+    -->
+    <div class="fr-grid-row">
+      <div class="fr-col-12">
+        <div class="fr-downloads-group fr-downloads-group--bordered">
+          <h2 class="fr-downloads-group__title">Documents associés</h2>
+          <ul>
+            <li>
+              <div class="">
+                <a id= class="fr-link fr-link--download" href="/contenu/telechargement/34138/274587/file/recueil-07-2026-249-recueil-du 05 août 2026 special-1.pdf" target="_blank">
+                  Télécharger recueil-07-2026-249-recueil-du 05 août 2026 special-1
+                  <span class="fr-link__detail">PDF - 0,24 Mb - 05/08/2026</span>
+                </a>
+              </div>
+            </li>
+            <li>
+              <div class="">
+                <a id= class="fr-link fr-link--download" href="/contenu/telechargement/34242/275320/file/recueil-07-2026-257-recueil-du 12 août 2026.pdf" target="_blank">
+                  Télécharger recueil-07-2026-257-recueil-du 12 août 2026
+                  <span class="fr-link__detail">PDF - 2,30 Mb - 12/08/2026</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

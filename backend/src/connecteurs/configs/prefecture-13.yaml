@@ -1,26 +1,44 @@
 # backend/src/connecteurs/configs/prefecture-13.yaml
 #
 # Config déclarative du connecteur page_web pour la Préfecture des
-# Bouches-du-Rhône (T033). Même patron que prefecture-77.yaml — seules
-# les valeurs changent (contrat §6, règle 7 : aucune variation ne passe
-# par le moteur lui-même).
+# Bouches-du-Rhône. Sélecteurs CORRIGÉS le 2026-08-13 (Phase 5bis) contre
+# une capture réelle de la page (inspection Chrome, cf.
+# backend/tests/fixtures/connecteurs/reel/prefecture-13/SOURCE.md) : les
+# valeurs précédentes (`.raa-liste .raa-item`, placeholder jamais vérifié
+# et identique aux 2 autres connecteurs) ne correspondaient à rien sur le
+# site réel — DSFR (`.fr-card`/`.fr-link` gouvernemental), liste PLATE
+# sans découpage par mois, ~270 bulletins/an sur cette seule URL.
 #
-# Sélecteurs CSS non vérifiés en conditions réelles contre le HTML actuel
-# de bouches-du-rhone.gouv.fr (pas d'accès web sortant depuis cet
-# environnement) — à confirmer/affiner avant la première collecte réelle
-# (registre-sources.yaml, notes du département 13 : "archives classées
-# par année"). En cas de désaccord avec le HTML réel, le connecteur
-# échoue explicitement (echec_global) plutôt que de produire un résultat
-# silencieusement faux (contrat §6, règles 2 et 6).
+# Particularité importante : chaque bulletin ("RAA SPECIAL", "RAA
+# NOMINATIFS"...) regroupe PLUSIEURS arrêtés dans un même PDF ; son texte
+# de lien ("Télécharger recueil-13-2026-249-...") ne mentionne jamais le
+# contenu. `mots_cles_filtrage` ne peut donc jamais matcher sur le titre
+# seul — c'est le moteur `page_web` (étendu le 2026-08-13, cf.
+# moteurs/pageWeb/moteur.ts) qui retente la pertinence sur le texte du
+# PDF téléchargé avant d'abandonner un candidat, comportement générique
+# qui s'applique dès qu'un `selecteur_lien_pdf` est déclaré.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF
+# NON vérifiée (aucun outil de cette session ne permet de télécharger un
+# PDF binaire réel) — `patterns_dates`/`pattern_reference` ci-dessous
+# restent une hypothèse à confirmer avant collecte réelle (cf. SOURCE.md).
+#
+# `\s+` (pas un espace littéral unique) avant chaque groupe capturé : un
+# texte de PDF réel passe par `pdf-parse`, qui insère des retours à la
+# ligne au gré de la mise en page d'origine — un espace littéral figé
+# casserait l'extraction dès qu'une formule ("à compter du", "jusqu'au",
+# "Arrêté n°") est coupée sur deux lignes, ce qu'un fixture de test réel
+# (V004, tests/fixtures/connecteurs/reel/prefecture-13/bulletin-avec-arrete.pdf)
+# a effectivement révélé.
 type_connecteur: page_web
-url_liste: "https://www.bouches-du-rhone.gouv.fr/Publications/RAA-et-Archives"
-selecteur_publications: ".raa-liste .raa-item"
-selecteur_titre: ".raa-item__titre"
-selecteur_lien_pdf: ".raa-item__piece-jointe a[href$='.pdf']"
+url_liste: "https://www.bouches-du-rhone.gouv.fr/Publications/RAA-et-Archives/RAA-2026"
+selecteur_publications: "div.fr-text--lead.fr-my-3w > div"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
 autorite_signataire: "Le Préfet des Bouches-du-Rhône"
 type_evenement_par_defaut: interdiction
 mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
 patterns_dates:
-  debut: "à compter du (?<date>\\d{2}/\\d{2}/\\d{4})"
-  fin: "jusqu'au (?<date>\\d{2}/\\d{2}/\\d{4})"
-pattern_reference: "Arrêté n°\\s*(?<reference>[A-Z0-9-]+)"
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

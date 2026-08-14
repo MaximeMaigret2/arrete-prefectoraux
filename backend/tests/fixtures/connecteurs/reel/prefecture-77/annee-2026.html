@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>RAA 2026 - Recueils des actes administratifs (RAA) - Seine-et-Marne</title>
+  </head>
+  <body>
+    <!--
+      Reconstruction fidèle de
+      https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/RAA-2026
+      (inspection Chrome, 2026-08-13 — cf. SOURCE.md) : le <select> réel a
+      ~248 options, dont 2 reproduites ici (plus l'option placeholder
+      "Liste", value="", vérifiée réelle et présente en première position).
+
+      Détail important vérifié en direct : la `value` de chaque <option>
+      est un chemin relatif à la RACINE du site MAIS SANS le "/" de tête
+      ("Publications/Recueils-des-actes-administratifs-RAA/RAA-2026/RAA-n-D77-13-08-2026"),
+      contrairement à un `href` classique — d'où `resoudreUrl` (moteur
+      page_web) qui normalise ce cas.
+    -->
+    <select id="Liste-liste-docs" name="Liste-liste-docs">
+      <option value="">Liste</option>
+      <option value="Publications/Recueils-des-actes-administratifs-RAA/RAA-2026/RAA-n-D77-13-08-2026" title="RAA n° D77-13-08-2026">RAA n° D77-13-08-2026</option>
+      <option value="Publications/Recueils-des-actes-administratifs-RAA/RAA-2026/RAA-n-D77-12-08-2026-nominatifs" title="RAA n°D77-12-08-2026-nominatifs ">RAA n°D77-12-08-2026-nominatifs</option>
+    </select>
+  </body>
+</html>

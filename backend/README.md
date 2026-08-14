@@ -31,6 +31,25 @@ npm run test:integration  # cohérence API ↔ calcul (SC-005)
 npm test                  # toute la suite
 ```
 
+### Tests de dérive des connecteurs réels (`test:live-drift`)
+
+```bash
+npm run test:live-drift   # JAMAIS dans npm test / CI — déclenchement manuel uniquement
+```
+
+Suite séparée (`vitest.live.config.ts`, `tests/live/connecteurs/*.live.test.ts`) qui fait un **vrai
+appel réseau** vers le site de chaque préfecture connectée (une requête, pas de scan complet) pour
+vérifier que les sélecteurs de `src/connecteurs/configs/*.yaml` matchent encore la structure HTML
+réelle — sans jamais rien affirmer sur le *contenu* (titres, dates, nombre de bulletins), qui change
+en permanence et n'est pas sous notre contrôle : seule la *structure* (sélecteurs, présence d'un lien
+PDF, page joignable) est vérifiée, pour ne pas produire de faux échecs à chaque publication normale.
+
+Volontairement exclue de `vitest.config.ts` (`exclude: [..., 'tests/live/**']`) et donc absente de
+`npm test`/`test:unit`/`test:contract`/`test:integration` et de toute CI. À lancer à la main, sans
+cadence imposée — par exemple avant de réactiver un connecteur resté inactif un moment, ou en cas de
+doute sur une baisse silencieuse du volume d'événements collectés pour un département. Un échec
+signale une dérive de structure à examiner (site redesigné, URL changée), pas un bug de code.
+
 ## Données
 
 Stockage fichier JSON versionné (`src/data/departements.json`, `src/data/connecteurs.json`,

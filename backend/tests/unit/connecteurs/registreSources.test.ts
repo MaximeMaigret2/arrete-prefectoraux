@@ -48,11 +48,11 @@ describe('registre-sources.yaml — complétude (SC-007, FR-017)', () => {
     expect(store.registreSources.length).toBe(store.departements.length);
   });
 
-  it('marque les départements avec connecteur développé (77, 13, 33) en statut connecteur_developpe', async () => {
+  it('marque les départements avec connecteur développé (77, 13, 33 + 01-05 + 06-10, Phase 5bis élargie 2) en statut connecteur_developpe', async () => {
     const store = await loadDataStore();
     const byCode = new Map(store.registreSources.map((e) => [e.departement_code, e]));
 
-    for (const code of ['77', '13', '33']) {
+    for (const code of ['77', '13', '33', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10']) {
       const entree = byCode.get(code);
       expect(entree?.statut).toBe('connecteur_developpe');
       expect(entree?.connecteur_id).toBeTruthy();
@@ -63,7 +63,7 @@ describe('registre-sources.yaml — complétude (SC-007, FR-017)', () => {
 
   it('marque tous les autres départements en identifiee ou a_investiguer, jamais connecteur_developpe', async () => {
     const store = await loadDataStore();
-    const developpes = new Set(['77', '13', '33']);
+    const developpes = new Set(['77', '13', '33', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10']);
 
     for (const entree of store.registreSources) {
       if (developpes.has(entree.departement_code)) continue;

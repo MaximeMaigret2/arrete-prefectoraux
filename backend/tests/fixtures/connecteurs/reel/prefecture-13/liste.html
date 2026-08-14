@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>RAA 2026 - RAA et Archives - Publications - Les services de l'État dans les Bouches-du-Rhône</title>
+  </head>
+  <body>
+    <!--
+      Fixture V002 (Phase 5bis, 2026-08-13) — reconstruction de la structure
+      RÉELLE de https://www.bouches-du-rhone.gouv.fr/Publications/RAA-et-Archives/RAA-2026,
+      inspectée en direct (Chrome, javascript_tool) le 2026-08-13. Le site
+      publie le RAA comme une liste PLATE (aucun découpage par mois pour ce
+      département, contrairement à la Gironde) de bulletins compilés : chaque
+      lien `a.fr-link--download` pointe directement vers un PDF regroupant
+      PLUSIEURS arrêtés. Le texte du lien (titre) ne mentionne jamais le
+      contenu ("Télécharger recueil-13-2026-249-...") — la pertinence ne peut
+      être déterminée qu'en lisant le texte du PDF (cf. l'extension du moteur
+      page_web, backend/src/connecteurs/moteurs/pageWeb/moteur.ts).
+
+      Cette fixture ne contient que 2 des ~270 bulletins réels de l'année en
+      cours (échantillon suffisant pour les tests) : un bulletin AVEC un
+      arrêté rave/teknival (bulletin-avec-arrete.pdf) et un bulletin SANS
+      (bulletin-sans-arrete-pertinent.pdf) pour vérifier le filtrage dans les
+      deux sens. Classes CSS (`fr-text--lead fr-my-3w`, `fr-link--download`,
+      `fr-link__detail`) copiées à l'identique de la page réelle — cf.
+      SOURCE.md dans ce dossier pour le détail de la capture.
+    -->
+    <main id="main">
+      <h1>RAA 2026</h1>
+      <div class="fr-text--lead fr-my-3w">
+        <div class="">
+          <a
+            id="faeb270244e11bf55e706500a8420499"
+            class="fr-link fr-link--download"
+            href="/contenu/telechargement/65030/454163/file/recueil-13-2026-249-recueil-des-actes-administratifs-special-bis.pdf"
+            target="_blank"
+          >
+            Télécharger recueil-13-2026-249-recueil-des-actes-administratifs-special-bis du 13 août 2026
+            <span class="fr-link__detail">PDF - 0,81 Mb - 13/08/2026</span>
+          </a>
+        </div>
+        <div class="">
+          <a
+            id="a1b2c3d4e5f60718293a4b5c6d7e8f90"
+            class="fr-link fr-link--download"
+            href="/contenu/telechargement/65020/454100/file/recueil-13-2026-246-recueil-des-actes-administratifs-special.pdf"
+            target="_blank"
+          >
+            Télécharger recueil-13-2026-246-recueil-des-actes-administratifs-special du 12 août 2026
+            <span class="fr-link__detail">PDF - 0,22 Mb - 12/08/2026</span>
+          </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

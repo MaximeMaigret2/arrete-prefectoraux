@@ -1,0 +1,42 @@
+# backend/src/connecteurs/configs/prefecture-03.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Allier.
+# Sélecteurs établis le 2026-08-14 (Phase 5bis élargie) contre une capture
+# réelle du site (inspection Chrome, DOM déjà rendu).
+#
+# Structure réelle, la plus simple des 5 : `url_liste` est une page RACINE
+# listant une carte par année (`.fr-card`) ; le lien de cette carte redirige
+# (redirection HTTP standard, suivie nativement par `fetch`) vers une page
+# qui liste déjà TOUTES les publications de l'année en liste PLATE, sans
+# pagination ni découpage par mois (comme prefecture-13) — un seul niveau de
+# `navigation` suffit, la redirection serveur fait le reste sans qu'aucune
+# étape supplémentaire ne soit nécessaire côté configuration.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin ("recueil
+# nominatif édité le 05 janvier 2026") ne mentionne jamais son contenu —
+# c'est le moteur `page_web` (scan de contenu PDF) qui retente la pertinence
+# sur le texte du PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les 4 autres connecteurs de cette session) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "-annee-2026",
+  # donc par "-2026") ; la page atteinte redirige serveur-side vers la
+  # liste complète, suivie automatiquement par fetch.
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+selecteur_publications: "div.fr-col-12.fr-col-md-8 > div"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-13).
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le Préfet de l'Allier"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

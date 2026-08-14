@@ -1,0 +1,53 @@
+# backend/src/connecteurs/configs/prefecture-06.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture des
+# Alpes-Maritimes. Sélecteurs établis le 2026-08-14 (Phase 5bis élargie 2)
+# contre une capture réelle du site (fetch direct depuis le sandbox cloud,
+# qui dispose ici d'un accès réseau sortant vers ce domaine — à la
+# différence des connecteurs précédents, capturé sans dépendre d'une
+# inspection Chrome manuelle).
+#
+# Structure réelle : `url_liste` RACINE liste une carte par année
+# (`.fr-card`, href se terminant par "-2026") ; la page de l'année liste une
+# carte par mois (`/{mois_fr}-2026`) ; la page du mois est PAGINÉE (10 par
+# page) mais, à la différence de prefecture-02/05, l'ordre y est
+# DÉCROISSANT (le bulletin le plus récent en tête de la page 1) — vérifié en
+# comparant la page 1 (offset 0 : bulletins du 13/08 au 05/08/2026) et la
+# page 2 (offset 10 : 04/08 et 03/08/2026). La page 1 suffit donc déjà,
+# aucune étape de navigation supplémentaire vers la "dernière page" n'est
+# nécessaire ici (contrairement à prefecture-02/05/V010).
+#
+# Chaque bulletin ("Recueil 277-2026-06") est une simple carte `.fr-card`
+# dont `.fr-card__title a` porte à la fois le titre et le lien PDF direct
+# (pas de page de détail intermédiaire) — même idiome que prefecture-01/13.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin ne mentionne
+# jamais son contenu — c'est le moteur `page_web` (scan de contenu PDF) qui
+# retente la pertinence sur le texte du PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les connecteurs précédents — aucun PDF binaire
+# réel téléchargé, seule la page HTML listant les bulletins a été
+# inspectée) — `patterns_dates`/`pattern_reference` reprennent l'hypothèse
+# déjà posée ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+  # Page de l'année → carte du mois courant (href se termine par
+  # "/Aout-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}-{annee}$"
+selecteur_publications: ".fr-card"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-01/13).
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le Préfet des Alpes-Maritimes"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Les actes administratifs de l'année 2026 - Ardennes</title>
+  </head>
+  <body>
+    <!--
+      Reconstruction fidèle de la page "Les-actes-administratifs-de-l-annee-2026"
+      (fetch direct, 2026-08-14 — cf. SOURCE.md) : DÉJÀ la liste finale,
+      PLATE (2 des 258 bulletins réels de l'année, regroupés visuellement
+      sous des intertitres de mois `<b>Août 2026</b>` mais SANS lien
+      distinct par mois — un seul niveau de `navigation` suffit). Ordre
+      chronologique DÉCROISSANT (août 2026 en tête).
+      Piège réel : SEULE UNE PARTIE des liens de cette page (129 sur 258 au
+      moment de la capture, vérifié en direct) porte le bug de markup
+      `<a id= class="fr-link fr-link--download">` (id vide, casse `class`) —
+      les 2 bulletins repris ici ont, eux, un id hexadécimal valide (classe
+      intacte), mais `selecteur_titre`/`selecteur_lien_pdf` de
+      `prefecture-08.yaml` ciblent quand même `a[href$='.pdf']` de façon
+      uniforme, pour rester corrects sur le reste de la page où le bug est
+      bien présent. `selecteur_publications` cible `.fr-col-md-8 li`
+      (colonne de contenu principale) plutôt que `li` seul, qui inclurait
+      aussi les liens de partage de page (hors de cette fixture tronquée).
+    -->
+    <div class="fr-col-12 fr-col-md-8">
+      <ul>
+        <li>
+          <div class="">
+            <a id="bc0e4527fcc0c445359bd935f56e0f57" class="fr-link fr-link--download" href="/contenu/telechargement/15969/112689/file/RAA 8-2026-129 du 12 aout 2026.pdf" target="_blank">
+              Télécharger RAA 8-2026-129 du 12 aout 2026
+              <span class="fr-link__detail">PDF - 1,06 Mb - 12/08/2026</span>
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="">
+            <a id="8d4d73ed755ae3fff70bda8cbb3f5fba" class="fr-link fr-link--download" href="/contenu/telechargement/15953/112609/file/RAA 8-2026-128 du 10 aout 2026.pdf" target="_blank">
+              Télécharger RAA 8-2026-128 du 10 aout 2026
+              <span class="fr-link__detail">PDF - 3,84 Mb - 10/08/2026</span>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

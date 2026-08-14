@@ -1,27 +1,65 @@
 # backend/src/connecteurs/configs/prefecture-77.yaml
 #
 # Config déclarative du connecteur page_web pour la Préfecture de
-# Seine-et-Marne (T032). Reprend l'exemple illustratif de
-# contracts/connecteur-interface.md (section "Exemple : configuration
-# page_web pour prefecture-77"), complété par type_evenement_par_defaut
-# (PageWebConfigSchema).
+# Seine-et-Marne. Sélecteurs CORRIGÉS le 2026-08-13 (Phase 5bis, V001c)
+# contre une capture réelle du site (inspection Chrome, DOM déjà rendu —
+# cf. backend/tests/fixtures/connecteurs/reel/prefecture-77/SOURCE.md).
+# L'ancienne `url_liste` (.../Publications/RAA) était une 404 ; la
+# structure réelle diffère aussi de prefecture-13/33 par un niveau de
+# navigation supplémentaire :
 #
-# Sélecteurs CSS non vérifiés en conditions réelles contre le HTML actuel
-# de seine-et-marne.gouv.fr (pas d'accès web sortant depuis cet
-# environnement) — à confirmer/affiner avant la première collecte réelle
-# (registre-sources.yaml, notes du département 77 : "structure exacte de
-# la page ... à vérifier"). En cas de désaccord avec le HTML réel, le
-# connecteur échoue explicitement (echec_global) plutôt que de produire
-# un résultat silencieusement faux (contrat §6, règles 2 et 6).
+#   racine (url_liste, DSFR .fr-card par année)
+#     → page de l'année courante (navigation, 1 niveau)
+#       → <select id="Liste-liste-docs"> listant ~250 RAA journaliers,
+#         chaque <option value="Publications/.../RAA-n-D77-JJ-MM-AAAA">
+#         (SANS "/" de tête, à la différence d'un href — cf. moteur
+#         `resoudreUrl`) ne pointe PAS directement vers un PDF mais vers
+#         une page de détail HTML → page_detail.attribut_lien: "value"
+#           → page de détail : un seul lien a.fr-link--download vers le
+#             PDF réel (vérifié sur 2 jours différents, dont un "-nominatifs").
+#
+# Un jour peut avoir PLUSIEURS options distinctes dans le <select> (ex.
+# "RAA n° D77-12-08-2026" et "RAA n° D77-12-08-2026-nominatifs" le même
+# jour) — chacune est sa PROPRE page de détail avec son propre PDF, pas
+# plusieurs PDF sur une même page de détail : le moteur (page_detail) n'a
+# donc besoin de résoudre qu'UN SEUL lien PDF par page de détail.
+#
+# `selecteur_titre` ne peut pas cibler un descendant d'un `<option>` (qui
+# n'en a aucun) : volontairement un sélecteur qui ne matche jamais, pour
+# retomber sur le texte propre de l'élément lui-même (`$publication.text()`),
+# qui vaut déjà le libellé complet ("RAA n° D77-13-08-2026") — vérifié
+# identique à l'attribut `title` de l'`<option>`.
+#
+# Comme prefecture-13/33 : le libellé d'un RAA journalier est une date, pas
+# un sujet d'arrêté — la pertinence ne peut donc jamais se décider sur le
+# titre seul, uniquement sur le texte du PDF réel (moteur `page_web`, §2).
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (aucun outil de cette session ne permet de télécharger le
+# contenu binaire d'un vrai PDF) — `patterns_dates`/`pattern_reference`
+# reprennent l'hypothèse déjà posée pour prefecture-13/33 — à confirmer
+# avant collecte réelle.
 type_connecteur: page_web
-url_liste: "https://www.seine-et-marne.gouv.fr/Publications/RAA"
-selecteur_publications: ".raa-liste .raa-item"
-selecteur_titre: ".raa-item__titre"
-selecteur_lien_pdf: ".raa-item__piece-jointe a[href$='.pdf']"
+url_liste: "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+navigation:
+  # Racine → page de l'année courante (href se termine par "/RAA-2026",
+  # jamais confondu avec le lien PDF "à la une" présent sur la même page,
+  # dont l'href se termine par ".pdf").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/RAA-{annee}$"
+selecteur_publications: "#Liste-liste-docs option"
+# Sélecteur intentionnellement sans correspondance à l'intérieur d'un
+# <option> (aucun descendant) : force le repli sur $publication.text().
+selecteur_titre: ".jamais-de-descendant-dans-une-option"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  # L'URL de la page de détail est portée par `value`, pas `href`
+  # (l'élément publication est un <option>, pas un <a>).
+  attribut_lien: "value"
 autorite_signataire: "Le Préfet de Seine-et-Marne"
 type_evenement_par_defaut: interdiction
 mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
 patterns_dates:
-  debut: "à compter du (?<date>\\d{2}/\\d{2}/\\d{4})"
-  fin: "jusqu'au (?<date>\\d{2}/\\d{2}/\\d{4})"
-pattern_reference: "Arrêté n°\\s*(?<reference>[A-Z0-9-]+)"
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

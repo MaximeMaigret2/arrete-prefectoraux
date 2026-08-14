@@ -80,16 +80,95 @@ const PageWebConfigSchema = z.object({
     fin: z.string().nullable(),
   }),
   pattern_reference: z.string(), // regex capturant la référence de l'arrêté
+  // Extension V001c (Phase 5bis, 2026-08-13) — voir "Navigation multi-niveaux" ci-dessous.
+  navigation: z.array(z.object({
+    selecteur_liens: z.string(),
+    pattern_lien: z.string(), // regex testée contre l'URL résolue ; placeholders {annee}/{mois_numero}/{mois_fr}/{mois_fr_minuscule}
+  })).default([]),
+  page_detail: z.object({
+    attribut_lien: z.string().default('href'), // attribut de la publication portant l'URL de sa page de détail (ex. "value" pour un <option>)
+  }).nullable().default(null),
 });
 ```
 
 **Comportement générique** (identique pour tout connecteur `page_web`, quelle que soit la configuration) :
-1. Récupérer `url_liste` (fetch natif).
-2. Lister les publications via `selecteur_publications` + `selecteur_titre` (cheerio).
-3. Filtrer par `mots_cles_filtrage` (insensible à la casse) — seules les publications pertinentes pour rave/teknival deviennent des candidats.
-4. Pour chaque publication retenue : si `selecteur_lien_pdf` est renseigné et trouve un lien, télécharger ce PDF et en extraire le texte (réutilise la logique du moteur `pdf`, §3) ; sinon, le texte du titre/de la ligne sert de base à l'extraction.
-5. Appliquer `pattern_reference` et `patterns_dates` (`extraction/champsCommuns.ts`, partagé avec le moteur `pdf`) sur ce texte pour produire les champs du candidat ; `autorite_signataire` est reprise telle quelle de la configuration.
-6. Si `url_liste` est inaccessible → `echec_global`. Si une publication retenue ne produit aucun champ exploitable → le candidat est renvoyé avec les champs correspondants à `null` (jamais omis silencieusement, cf. Règle 2 ci-dessous).
+1. Résoudre l'URL de la page liste effective : si `navigation` est vide, c'est `url_liste` telle quelle ; sinon, suivre chaque étape de `navigation` (§2bis ci-dessous) pour l'obtenir dynamiquement.
+2. Récupérer cette page liste (fetch natif).
+3. Lister les publications via `selecteur_publications` + `selecteur_titre` (cheerio).
+4. Filtrer par `mots_cles_filtrage` (insensible à la casse) — seules les publications pertinentes pour rave/teknival deviennent des candidats.
+5. Pour chaque publication retenue : résoudre son PDF (soit directement via `selecteur_lien_pdf` dans la publication, soit — si `page_detail` est renseigné — en récupérant d'abord la page de détail pointée par `page_detail.attribut_lien` puis en y appliquant `selecteur_lien_pdf`, §2bis) et en extraire le texte (réutilise la logique du moteur `pdf`, §3) ; sinon, le texte du titre/de la ligne sert de base à l'extraction.
+6. Appliquer `pattern_reference` et `patterns_dates` (`extraction/champsCommuns.ts`, partagé avec le moteur `pdf`) sur ce texte pour produire les champs du candidat ; `autorite_signataire` est reprise telle quelle de la configuration.
+7. Si la résolution de `navigation` échoue, ou si la page liste effective est inaccessible → `echec_global`. Si une publication retenue ne produit aucun champ exploitable → le candidat est renvoyé avec les champs correspondants à `null` (jamais omis silencieusement, cf. Règle 2 ci-dessous). Un échec de résolution de `page_detail` propre à UNE publication n'est jamais global (isolation à l'échelle du candidat, Règle 6).
+
+### 2bis. Navigation multi-niveaux et page de détail (V001c, Phase 5bis — extension générique du moteur `page_web`)
+
+Certaines sources ne publient pas leur liste de publications à une adresse fixe : elle est atteinte en suivant des liens depuis une page racine (ex. année → mois), et/ou chaque publication ne pointe pas directement vers son PDF mais vers une page de détail intermédiaire (ex. une option d'une liste déroulante renvoyant vers une page HTML qui, elle, contient le lien PDF). `navigation` et `page_detail` couvrent ces deux besoins **sans branche par connecteur** (Règle 7) — toute variation reste dans la configuration déclarative de chaque connecteur.
+
+- **`navigation`** (tableau, vide par défaut) : chaque étape trouve, sur la page courante (`url_liste` pour la première étape), le premier lien via `selecteur_liens` dont l'URL résolue correspond à `pattern_lien` (regex testée contre l'URL, jamais le texte affiché — insensible aux accents/variations de libellé), et en fait la page courante de l'étape suivante. `pattern_lien` peut contenir les placeholders `{annee}` (AAAA), `{mois_numero}` (MM) et `{mois_fr}`/`{mois_fr_minuscule}` (nom du mois français sans accent, ex. `Aout`), substitués avec la date de la collecte (Europe/Paris) — jamais une année/un mois codé en dur (Règle 8). La page atteinte après la dernière étape devient la page liste effective des étapes 3-7 ci-dessus.
+- **`page_detail`** (objet nullable, `null` par défaut) : quand renseigné, la publication ne porte pas elle-même le PDF mais l'URL d'une page de détail, lue depuis l'attribut `page_detail.attribut_lien` de l'élément publication (`href` par défaut ; ex. `value` pour un `<option>` de `<select>`, dont l'attribut n'est pas nommé `href`). Cette page est récupérée, et `selecteur_lien_pdf` (obligatoire dans ce cas) y est appliqué à la place d'une recherche à l'intérieur de la publication elle-même.
+
+**Exemple : `prefecture-33` (Gironde) — navigation à 2 niveaux, pas de page de détail**
+
+```yaml
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-de-l-annee-{annee}$"       # racine → carte de l'année courante
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}-{annee}$"        # page année → carte du mois courant
+# selecteur_publications/selecteur_titre/selecteur_lien_pdf s'appliquent ensuite
+# à la page du mois, exactement comme un connecteur sans navigation.
+```
+
+**Exemple : `prefecture-77` (Seine-et-Marne) — navigation à 1 niveau + page de détail**
+
+```yaml
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/RAA-{annee}$"              # racine → page de l'année courante
+selecteur_publications: "select#Liste-liste-docs option[value]"
+selecteur_lien_pdf: "a.fr-link--download"      # appliqué à la page de détail, pas à l'<option>
+page_detail:
+  attribut_lien: "value"                       # l'<option> porte l'URL de sa page de détail dans `value`, pas `href`
+```
+
+### 2ter. Navigation par périodes irrégulières (V009, Phase 5bis élargie, 2026-08-14 — extension générique du moteur `page_web`)
+
+Une étape de `navigation` (§2bis) désigne normalement le lien à suivre via `pattern_lien`, un motif unique valide quelle que soit la date d'exécution (ex. `/{mois_fr}-{annee}$`) — suffisant tant que le nom/numéro du mois courant apparaît toujours dans l'URL de la page à atteindre. Certaines sources archivent par une période plus large que le mois, et **irrégulière** (ex. `prefecture-04`, Alpes-de-Haute-Provence : un semestre inégal janvier-à-juillet / août-à-décembre, pas un découpage 6/6) — dans ce cas, le nom du mois courant n'apparaît dans l'URL que pour les mois de bornes de chaque période (ici janvier, juillet, août, décembre), jamais pour les mois intermédiaires : `{mois_fr}` seul devient insuffisant.
+
+`periodes` est une **forme alternative** à `pattern_lien` pour une étape de `navigation` (mutuellement exclusives — une étape déclare l'une ou l'autre, jamais les deux, jamais aucune) : une liste de motifs candidats, chacun associé à une plage de mois `[mois_debut, mois_fin]` (1-12, wraparound autorisé si `mois_debut > mois_fin`). Le moteur retient le motif de la période dont la plage contient le mois courant (Europe/Paris), puis poursuit exactement comme pour `pattern_lien` (mêmes placeholders `{annee}`/`{mois_numero}`/`{mois_fr}`/`{mois_fr_minuscule}`, même recherche du premier lien correspondant via `selecteur_liens`). Aucune période ne couvrant le mois courant (périodes déclarées incomplètes) est traité comme un échec de résolution de cette étape — même traitement qu'un lien introuvable (§6, règle 6 : isolé à ce connecteur).
+
+**Exemple : `prefecture-04` (Alpes-de-Haute-Provence) — navigation à 1 niveau par périodes**
+
+```yaml
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    periodes:
+      - motif: "/{annee}-de-janvier-a-juillet$"   # carte du semestre janvier-juillet
+        mois_debut: 1
+        mois_fin: 7
+      - motif: "/{annee}-de-aout-a-decembre$"     # carte du semestre août-décembre
+        mois_debut: 8
+        mois_fin: 12
+```
+
+### 2quater. Étape de navigation optionnelle (V010, Phase 5bis élargie, 2026-08-14 — extension générique du moteur `page_web`)
+
+Une source peut paginer sa liste de publications (ex. `prefecture-02`/Aisne : pagination de la page ANNÉE entière ; `prefecture-05`/Hautes-Alpes : pagination de chaque page MOIS) — auquel cas une étape de `navigation` supplémentaire saute directement à la dernière page (celle qui contient les publications les plus récentes, cf. exemple ci-dessous) plutôt que de rester sur la première page (la plus ANCIENNE de la période, contrairement à l'intuition — ces sites paginent en ordre chronologique croissant). Problème : le contrôle de pagination lui-même (ex. le lien « dernière page ») **n'existe pas dans le HTML** quand tout tient déjà sur une seule page — situation parfaitement normale en tout début de mois/année, quand peu de publications ont encore paru. Sans traitement particulier, l'étape échouerait alors à tort (« aucun lien ne correspond »), alors que la page courante est déjà, dans ce cas, la bonne liste à utiliser telle quelle.
+
+`optionnelle: true` sur une étape de `navigation` (défaut : `false`, comportement historique inchangé) déclare explicitement cette tolérance : si aucun lien ne correspond au motif de cette étape, elle est simplement **sautée** (la page courante devient directement la page de l'étape suivante, ou la page liste effective si c'était la dernière étape) au lieu de produire un échec. Une étape non `optionnelle` reste un échec strict (dérive de structure) en l'absence de lien correspondant — c'est le comportement par défaut pour toute navigation qui ne relève pas de ce cas de pagination-optionnelle.
+
+**Exemple : `prefecture-05` (Hautes-Alpes) — navigation à 3 niveaux (année → mois → dernière page de pagination, optionnelle)**
+
+```yaml
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"                    # racine → carte de l'année courante
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}-{annee}$"           # page année → carte du mois courant
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)/\\d+$"            # dernière page (publications les plus récentes du mois)
+    optionnelle: true                             # absente si le mois tient déjà sur une seule page
+```
 
 ## 3. Moteur `pdf`
 

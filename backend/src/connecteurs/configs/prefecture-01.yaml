@@ -1,0 +1,48 @@
+# backend/src/connecteurs/configs/prefecture-01.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Ain.
+# Sélecteurs établis le 2026-08-14 (Phase 5bis élargie) contre une capture
+# réelle du site (inspection Chrome, DOM déjà rendu) : structure DSFR
+# gouvernementale, comme prefecture-13/33/77.
+#
+# Structure réelle : `url_liste` est une page RACINE listant une carte par
+# année (`.fr-card`) ; chaque année mène à une page listant une carte par
+# MOIS (format `{mois_numero}-{MOIS_FR}`, ex. `08-AOUT` — insensible à la
+# casse donc compatible avec le placeholder `{mois_fr}` existant) ; chaque
+# page de mois liste les bulletins RAA du mois en liste PLATE, lien direct
+# vers le PDF (pas de page de détail intermédiaire) — mêmes 2 niveaux de
+# `navigation` que prefecture-33 (Gironde), mais liste finale plate comme
+# prefecture-13 (Bouches-du-Rhône).
+#
+# Comme prefecture-13/33 : chaque bulletin ("recueil-01-2026-XXX-...") ne
+# mentionne jamais son contenu dans son nom — c'est le moteur `page_web`
+# (scan de contenu PDF) qui retente la pertinence sur le texte du PDF
+# téléchargé avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (aucun outil de cette session ne permet de télécharger le
+# contenu binaire d'un vrai PDF) — `patterns_dates`/`pattern_reference`
+# reprennent l'hypothèse déjà posée pour prefecture-13/33/77 (mêmes `\s+`
+# non-littéraux, `pdf-parse` reflue le texte selon la mise en page
+# d'origine) — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+  # Page de l'année → carte du mois courant (href se termine par "/08-AOUT",
+  # numéro de mois + nom de mois français majuscule sans accent).
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_numero}-{mois_fr}$"
+selecteur_publications: "div.fr-text--lead > div"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-13).
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le Préfet de l'Ain"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"
