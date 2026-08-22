@@ -1,0 +1,65 @@
+# backend/src/connecteurs/configs/prefecture-31.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Haute-Garonne. Sélecteurs établis le 2026-08-14 (lot 31-36) contre une
+# capture réelle du site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-31/SOURCE.md
+# pour le détail complet) :
+# - `url_liste` (racine) liste DEUX cartes DSFR (`.fr-card__title a`) :
+#   « Recueil des Actes Administratifs (Haute-Garonne) » et « ... (Occitanie) »
+#   — DÉSAMBIGUÏSATION nécessaire comme prefecture-21/2A, la racine
+#   couvrant aussi le niveau régional. `pattern_lien: "Haute-Garonne$"`
+#   cible spécifiquement la carte départementale (jamais la carte
+#   régionale, dont l'URL se termine par `-Occitanie`).
+# - La page « Haute-Garonne » liste une carte DSFR par MOIS (`.fr-card__title
+#   a`, href se terminant par `{mois_fr}-{annee}`, ex. `Aout-2026`) — 137
+#   cartes au moment de la capture (mois depuis 2016). Deuxième étape de
+#   `navigation` : `pattern_lien: "{mois_fr}-{annee}$"`.
+# - La page du mois liste chaque bulletin comme une VRAIE carte DSFR
+#   complète (`.fr-card`, avec `.fr-card__title` en `<h2>`), PAS un simple
+#   `<div class="">`/`<li>` autour d'un `a.fr-link--download` comme la
+#   majorité des connecteurs déjà déployés — PARTICULARITÉ NOUVELLE parmi
+#   les 33 connecteurs à ce jour : le lien PDF direct est directement
+#   `.fr-card__title a` (comme prefecture-30/Gard pour le sélecteur de
+#   navigation, mais ICI aussi comme sélecteur de PUBLICATION — même motif
+#   que la page racine). `selecteur_publications: ".fr-card"` — sans risque
+#   de sur-matching par ancêtres (contrairement à `:has()`, `.fr-card` est
+#   une classe directe unique par carte, vérifiée 10/10 correspondances
+#   exactes contre `.fr-card__title a` sur la page réelle).
+# - Page du mois PAGINÉE (`fr-pagination`, 10 bulletins par page), mais en
+#   ordre chronologique DÉCROISSANT (le plus récent en tête, à la
+#   différence de prefecture-36/Indre ci-après) : les bulletins les plus
+#   récents du mois courant sont donc TOUJOURS sur la page 1 — vérifié le
+#   14/08/2026 (bulletin n°466 du 14/08 en position 0) — aucune étape de
+#   pagination supplémentaire nécessaire (à la différence de 36).
+#
+# Signataire réel : préfet actuel de la Haute-Garonne confirmé par décret
+# de nomination (Légifrance, 27 mai 2026) : M. Fabrice RIGOULET-ROZE —
+# `autorite_signataire` = « Le préfet de la Haute-Garonne » (masculin).
+#
+# LIMITE DE CAPTURE : comme la majorité des connecteurs du lot 26-30, le
+# endpoint `/contenu/telechargement/...` de ce site refuse systématiquement
+# les téléchargements automatisés depuis le sandbox cloud de cette session
+# (HTTP 503 immédiat, cf. SOURCE.md) — aucun vrai PDF n'a pu être
+# échantillonné. `bulletin-avec-arrete.pdf`/`bulletin-sans-arrete-pertinent.pdf`
+# sont donc synthétiques (`reportlab`) ; `patterns_dates`/`pattern_reference`
+# reprennent l'hypothèse générique déjà posée pour la plupart des
+# connecteurs précédents.
+type_connecteur: page_web
+url_liste: "https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Haute-Garonne$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}-{annee}$"
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet de la Haute-Garonne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

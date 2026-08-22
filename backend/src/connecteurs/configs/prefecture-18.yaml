@@ -1,0 +1,70 @@
+# backend/src/connecteurs/configs/prefecture-18.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Cher.
+# Sélecteurs établis le 2026-08-14 contre une capture réelle du site (fetch
+# direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-18/SOURCE.md
+# pour le détail complet) :
+# - `url_liste` (racine) ne contient qu'UNE seule carte DSFR
+#   (`div.fr-card h2.fr-card__title a`) menant à la page qui liste vraiment
+#   les publications ("Recueil des actes administratifs") — d'autres liens
+#   portant le même libellé existent ailleurs sur la page (menu/mega-menu)
+#   mais avec un `href` différent, sans ambiguïté avec l'ancrage `$` du motif.
+# - Cette page liste une carte par ANNÉE (même sélecteur, href se terminant
+#   par l'année, ex. ".../2026") ; l'année mène à une carte par MOIS (même
+#   sélecteur, href se terminant par le nom du mois français capitalisé SANS
+#   accent, ex. ".../2026/Aout") — 3 niveaux de navigation au total, NOUVEAU
+#   parmi les 20 connecteurs à ce jour (jusqu'ici maximum 2 niveaux, ex.
+#   prefecture-01/33), mais chaque étape reste `pattern_lien` + attribut
+#   `href` par défaut : AUCUNE extension moteur nécessaire (le moteur boucle
+#   déjà sur un nombre arbitraire d'étapes).
+# - La page du mois est, elle, une structure NOUVELLE parmi les 20
+#   connecteurs à ce jour pour la liste finale : chaque publication est un
+#   `<p>` (pas un `<div>` comme prefecture-01, ni un `.fr-card` comme
+#   prefecture-13/17/33/77) au sein d'un unique `div.fr-text--lead`,
+#   contenant un unique `<a class="fr-link fr-link--download">` qui porte à
+#   la fois le titre ET le lien PDF DIRECT — pas de page de détail
+#   intermédiaire, comme prefecture-01/13/17/33/77. Couverte telle quelle par
+#   `selecteur_publications`/`selecteur_titre`/`selecteur_lien_pdf`
+#   existants.
+# - Ordre chronologique décroissant et NON paginée (17 bulletins d'août 2026
+#   tous listés sur une seule page au moment de la capture) : comme
+#   prefecture-01/03/13/17/33, la première page du mois courant suffit déjà.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin
+# ("Recueil des actes administratifs [spécial|nominatif] n° 18-2026-08-XXX
+# publié le ...") ne mentionne jamais son contenu réglementaire — c'est le
+# moteur `page_web` (scan de contenu PDF) qui retente la pertinence sur le
+# texte du PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les connecteurs précédents) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires"
+navigation:
+  # Racine → page "Recueil des actes administratifs" (lien unique, statique,
+  # aucun placeholder de date nécessaire à cette étape).
+  - selecteur_liens: "div.fr-card h2.fr-card__title a"
+    pattern_lien: "/Recueil-des-actes-administratifs$"
+  # Page "Recueil..." → carte de l'année courante (href se termine par
+  # "/{annee}").
+  - selecteur_liens: "div.fr-card h2.fr-card__title a"
+    pattern_lien: "/{annee}$"
+  # Page de l'année → carte du mois courant (href se termine par
+  # "/{mois_fr}", nom du mois français capitalisé sans accent, ex. "Aout").
+  - selecteur_liens: "div.fr-card h2.fr-card__title a"
+    pattern_lien: "/{mois_fr}$"
+selecteur_publications: "div.fr-text--lead p"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-01).
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le Préfet du Cher"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

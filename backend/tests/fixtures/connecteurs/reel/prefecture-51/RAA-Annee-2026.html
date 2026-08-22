@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><title>RAA Année 2026 - RAA - Recueils des actes administratifs de la préfecture de la Marne - Les services de l'État dans la Marne</title></head>
+<body>
+<!--
+  Reconstruction fidèle (capture Chrome réelle, 2026-08-19 — cf. SOURCE.md).
+  8 <select class="fr-select"> réels observés (un par mois publié), les
+  `id` sont DUPLIQUÉS/INCOHÉRENTS entre mois sur ce site réel
+  ("Liste-des-RAA--liste-docs" pour janvier vs "Liste-des-RAA-liste-docs"
+  pour les autres) — d'où l'usage de la classe `select.fr-select` plutôt
+  que d'un id comme racine de `selecteur_publications`. Chaque <option
+  value="Media/Files/..."> (SANS "/" de tête, comme prefecture-77) mène à
+  une page de détail HTML, jamais directement à un PDF. Réduit ici à 2
+  <select> (2 mois) avec 1 placeholder + 1 option réelle chacun.
+-->
+<main>
+  <h1>RAA Année 2026</h1>
+  <p>■ JUILLET 2026</p>
+  <p>Sélectionnez une option dans la liste ci-dessous</p>
+  <select class="fr-select" id="Liste-des-RAA-liste-docs" name="Liste-des-RAA-liste-docs" size="1" required="required">
+    <option selected disabled hidden value="">Liste des RAA</option>
+    <option value="Media/Files/Prefecture/RAA/2026/Juillet/RAA-N-51-2026-156-du-30-juillet-2026" title="RAA N°51-2026-156 du 30 juillet 2026">RAA N°51-2026-156 du 30 juillet 2026</option>
+  </select>
+  <p>■ AOÛT 2026</p>
+  <p>Sélectionnez une option dans la liste ci-dessous</p>
+  <select class="fr-select" id="Liste-des-RAA-liste-docs" name="Liste-des-RAA-liste-docs" size="1" required="required">
+    <option selected disabled hidden value="">Liste des RAA</option>
+    <option value="Media/Files/Prefecture/RAA/2026/Aout/RAA-n-51-2026-167-du-17-aout-2026" title="RAA n° 51-2026-167 du 17 août 2026">RAA n° 51-2026-167 du 17 août 2026</option>
+  </select>
+</main>
+</body>
+</html>

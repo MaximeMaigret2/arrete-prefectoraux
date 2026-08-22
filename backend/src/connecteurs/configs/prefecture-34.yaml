@@ -1,0 +1,61 @@
+# backend/src/connecteurs/configs/prefecture-34.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Hérault.
+# Sélecteurs établis le 2026-08-14 (lot 31-36) contre une capture réelle du
+# site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-34/SOURCE.md
+# pour le détail complet) :
+# - `url_liste` (racine) liste une carte DSFR par ANNÉE (`.fr-card__title
+#   a`, href se terminant par `administratifs-{annee}`) + une carte DÉCOYE
+#   sans rapport (« Arrêté massif jusqu'au 30 septembre 2024 », dont l'URL
+#   se termine aussi par `-2024`) — `pattern_lien:
+#   "-actes-administratifs-{annee}$"` cible spécifiquement les cartes
+#   RAA annuelles, jamais la carte décoye (peu importe l'année courante,
+#   par prudence pour les années futures).
+# - La page de l'année liste DIRECTEMENT tous les bulletins de l'année (235
+#   liens `a.fr-link--download` au moment de la capture — la page comporte
+#   aussi 235 liens dupliqués de classe différente pointant vers les mêmes
+#   fichiers, sans incidence, `selecteur_lien_pdf` cible spécifiquement
+#   `a.fr-link--download`), chaque bulletin étant un `<div class="">`
+#   contenant un unique `<a class="fr-link fr-link--download">` avec un
+#   titre INFORMATIF ("Télécharger Recueil n°211 du 14 août 2026 - Partie
+#   2") + lien PDF DIRECT — pas de page de détail.
+# - Piège `:has()` par remontée d'ancêtres (même famille que
+#   23/25/26/28/29/30/32) : `div:has(a.fr-link--download)` matche 238
+#   correspondances contre la page réelle, pour seulement 235 liens réels.
+#   `selecteur_publications` qualifié en `div[class='']:has(a.fr-link--download)`
+#   dès la conception de ce connecteur (235/235 exact).
+# - Page NON paginée (235 bulletins de 2026 au moment de la capture, tous
+#   sur une seule page HTML).
+#
+# Signataire réel : préfète actuelle de l'Hérault confirmée par décret de
+# nomination (Légifrance, 2 décembre 2025) : Mme Chantal MAUCHET (féminin)
+# — `autorite_signataire` = « La préfète de l'Hérault ». Non confirmé par
+# un vrai PDF (téléchargement bloqué, cf. ci-dessous).
+#
+# LIMITE DE CAPTURE : comme la majorité des connecteurs du lot 26-30, le
+# endpoint `/contenu/telechargement/...` de ce site refuse systématiquement
+# les téléchargements automatisés depuis le sandbox cloud de cette session
+# (HTTP 503 immédiat) — aucun vrai PDF n'a pu être échantillonné, malgré un
+# bulletin très récent (« Recueil n°211 du 14 août 2026 », le jour même du
+# déploiement de ce connecteur) dont le titre seul ne permet pas de
+# préjuger du contenu. `bulletin-avec-arrete.pdf`/`bulletin-sans-arrete-pertinent.pdf`
+# sont donc synthétiques (`reportlab`) ; `patterns_dates`/`pattern_reference`
+# reprennent l'hypothèse générique déjà posée pour la plupart des
+# connecteurs précédents.
+type_connecteur: page_web
+url_liste: "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-actes-administratifs-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète de l'Hérault"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -1,0 +1,49 @@
+# backend/src/connecteurs/configs/prefecture-51.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Marne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19
+# (lot 47-51) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live : racine → 2 cartes (RAA départemental actuel
+# + ancien RAA "région Champagne-Ardenne", à ne pas confondre — le
+# sélecteur cible explicitement la carte "RAA-Recueils-des-actes-administratifs-de-la-prefecture-de-la-Marne")
+# → page "RAA-Annee-{annee}" listant TOUT le RAA de l'année en une seule
+# page (pas de subdivision par mois), organisée en 8 `<select class="fr-select">`
+# (un par mois publié), chaque `<option value="Media/Files/.../RAA-N-...">`
+# (SANS "/" de tête, comme prefecture-77) menant à une page de DÉTAIL HTML
+# — jamais directement au PDF — d'où `page_detail`. Sur la page de détail,
+# le lien de téléchargement porte `a.fr-link--download` (pas de piège,
+# comme prefecture-46) — MÊME FAMILLE que prefecture-77 (Seine-et-Marne),
+# à un niveau de navigation près (77 utilise `#Liste-liste-docs`, ici
+# `select.fr-select` car les `id` des `<select>` sont dupliqués/incohérents
+# entre mois sur ce site — "Liste-des-RAA--liste-docs" pour janvier vs
+# "Liste-des-RAA-liste-docs" pour les autres mois, confirmé en live —
+# d'où l'usage de la classe plutôt que l'id comme sélecteur racine).
+#
+# 8 options placeholder (une par `<select>`, value="") comptées dans
+# `selecteur_publications` mais sans effet : `page_detail.attribut_lien`
+# résout une chaîne vide, traitée comme absente par le moteur
+# (`resoudreUrlPdfPublication`), donc aucun candidat ni requête réseau
+# pour elles.
+type_connecteur: page_web
+url_liste: "https://www.marne.gouv.fr/Publications/Publications-administratives-et-legales/RAA-Recueils-des-actes-administratifs/RAA-Recueils-des-actes-administratifs-de-la-prefecture-de-la-Marne"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+selecteur_publications: "select.fr-select option"
+# Sélecteur intentionnellement sans correspondance à l'intérieur d'une
+# <option> (aucun descendant) : force le repli sur $publication.text().
+selecteur_titre: ".jamais-de-descendant-dans-une-option-marne"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  # L'URL de la page de détail est portée par `value`, pas `href`
+  # (l'élément publication est un <option>, pas un <a>) — comme
+  # prefecture-77.
+  attribut_lien: "value"
+autorite_signataire: "Le préfet de la Marne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

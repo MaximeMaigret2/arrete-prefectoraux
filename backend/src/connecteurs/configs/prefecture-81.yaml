@@ -1,0 +1,55 @@
+# backend/src/connecteurs/configs/prefecture-81.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Tarn.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21 (lot
+# 78-82) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/RAA-Recueil-des-Actes-Administratifs" : navigation à
+# TROIS niveaux (même profondeur que 59/61/81) — racine → unique carte
+# fixe "RAA" (motif littéral "RAA$", sans placeholder) → carte de
+# l'année ("{annee}$") → carte du mois ("{mois_fr}$", ex. href
+# ".../2026/Aout"). Page du mois : liste en cartes DSFR de type
+# "actualité" (image+titre), PAGINÉE (10 `.fr-card` par page, triée du
+# plus récent au plus ancien — page 1 suffit, même convention que
+# 58/60/74). Chaque `a.fr-card__link` mène à une page de détail HTML —
+# MÊME FAMILLE que prefecture-44/58/60/77 : `page_detail` avec l'attribut
+# par défaut (`href`).
+#
+# IMPORTANT (contrat du moteur, relu avant écriture) :
+# `page_detail.attribut_lien` est lu directement sur l'élément
+# `selecteur_publications` lui-même (`$publication.attr(...)`, jamais un
+# `.find()`) — `selecteur_publications` DOIT donc être l'`<a>` porteur du
+# `href` lui-même (`a.fr-card__link`), jamais la carte `.fr-card` qui
+# l'enveloppe. `selecteur_titre` reste volontairement sans correspondance
+# (aucun descendant à l'intérieur d'un `<a>`) : repli sur
+# `$publication.text()`. Page de détail : bloc "Documents associés"
+# (`.fr-downloads-group`), un seul lien `a[href$=".pdf"]` vers le PDF réel
+# (vérifié en live sur "RAA HEBDOMADAIRE N°336", `recueil-81-2026-336-...`) —
+# pas de classe `fr-link--download` sur ce site, à la différence des
+# lots précédents.
+#
+# Signataire confirmé (recherche web/Légifrance, 2026-08-21) : M. Simon
+# Bertoux, préfet du Tarn (nommé par décret du 22 octobre 2025, toujours
+# en poste — directrice de cabinet nommée le 10 août 2026 "auprès du
+# préfet du Tarn") — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}$"
+selecteur_publications: "a.fr-card__link"
+selecteur_titre: ".jamais-de-descendant-dans-un-a-tarn"
+selecteur_lien_pdf: "a[href$='.pdf']"
+page_detail: {}
+autorite_signataire: "Le préfet du Tarn"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

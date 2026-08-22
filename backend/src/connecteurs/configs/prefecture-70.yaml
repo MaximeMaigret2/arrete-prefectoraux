@@ -1,0 +1,41 @@
+# backend/src/connecteurs/configs/prefecture-70.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Haute-Saône. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 67-71) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/RAA" : PAS de carte
+# d'année — `url_liste` EST directement la liste paginée de toutes les
+# publications, triée du plus récent au plus ancien (146 pages de 10
+# `.fr-card` au 2026-08-21, page 1 suffit) — SANS `navigation` (comme
+# prefecture-13, mais paginé).
+#
+# Piège `page_detail` sur carte DSFR (cf. règle ajoutée lot 58-61) :
+# chaque `.fr-card__title a` mène à une page de détail HTML (PAS de lien
+# PDF direct sur la carte). `selecteur_publications` doit donc être
+# l'`<a>` lui-même (`.fr-card__title a`, porteur du `href`), JAMAIS le
+# conteneur `.fr-card` — sous peine du piège silencieux `candidats: []`
+# déjà rencontré sur 58/60. Page de détail : un seul lien
+# `a.fr-link--download` vers le PDF réel (vérifié sur 2 pages de détail
+# différentes, dont un "RAA Spécial (nominatifs)").
+#
+# Signataire confirmé (page "Serge JACOB, Préfet — Le corps préfectoral",
+# haute-saone.gouv.fr, 2026-08-21) : M. Serge Jacob, préfet de la
+# Haute-Saône — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.haute-saone.gouv.fr/Publications/RAA"
+navigation: []
+selecteur_publications: ".fr-card__title a"
+# Sélecteur factice volontairement sans correspondance (l'<a> n'a pas de
+# descendant pertinent) — repli sur $publication.text(), même idiome que
+# 58/60.
+selecteur_titre: ".jamais-de-descendant-dans-un-lien"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail: {}
+autorite_signataire: "Le préfet de la Haute-Saône"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

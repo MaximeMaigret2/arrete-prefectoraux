@@ -1,0 +1,117 @@
+# backend/src/connecteurs/configs/prefecture-23.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Creuse. Sélecteurs établis le 2026-08-14 contre une capture réelle du
+# site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-23/SOURCE.md
+# pour le détail complet — département À LIRE EN PRIORITÉ, cf. note finale
+# ci-dessous) :
+# - `url_liste` (racine) liste une carte DSFR par ANNÉE (`.fr-card__title
+#   a`, href se terminant par `Annee-{annee}`), comme prefecture-01/13/18/
+#   19/33/77.
+# - La page de l'année NE liste PAS directement les bulletins : elle les
+#   répartit en TROIS catégories, chacune une carte DSFR séparée
+#   (`.fr-card__title a` toujours) — « Spéciaux » (`/Speciaux`), «
+#   Réguliers » (`/Reguliers`), « Nominatifs » (`/Nominatifs`) —
+#   PARTICULARITÉ NOUVELLE parmi les 27 connecteurs à ce jour (jamais de
+#   découpage par CATÉGORIE plutôt que par mois/pagination). Deuxième
+#   étape de `navigation` : `pattern_lien: "/Speciaux$"` cible
+#   spécifiquement la catégorie « Spéciaux ».
+#
+#   LIMITE DE COUVERTURE ASSUMÉE (contrat §5 règle 8 : le moteur ne suit
+#   qu'UNE seule chaîne de navigation linéaire) : les bulletins publiés
+#   dans « Réguliers »/« Nominatifs » ne sont PAS couverts par ce
+#   connecteur. Choix justifié par la preuve directe obtenue lors de cette
+#   capture (cf. ci-dessous) : les arrêtés anti rave-party de ce
+#   département sont publiés en RAA « Spéciaux » (hors période de
+#   publication régulière), pas en « Réguliers »/« Nominatifs » — cohérent
+#   avec leur caractère par nature urgent/exceptionnel (délai de 2-3 jours
+#   entre publication et événement, cf. SOURCE.md).
+# - La page « Spéciaux » liste DIRECTEMENT tous les bulletins de l'année
+#   (82 au moment de la capture), chaque bulletin étant un `<div class="">`
+#   contenant un unique `<a class="fr-link fr-link--download">` avec le
+#   texte "Télécharger {reference}" + lien PDF DIRECT — pas de page de
+#   détail. Comme d'autres `<div class="">` sans rapport existent ailleurs
+#   sur la page, `selecteur_publications` utilise `:has()` (CSS4, comme
+#   prefecture-21).
+# - Page NON paginée (82 bulletins « Spéciaux » de 2026 au moment de la
+#   capture, tous sur une seule page HTML).
+#
+# CORRECTIF (2026-08-14, lot 31-36, suite à l'action prioritaire notée au
+# lot 26-30) : `div:has(a.fr-link--download)` seul matche aussi les `<div>`
+# ANCÊTRES du lien (même bug que 25/26/28/29/30) — vérifié 85
+# correspondances contre la page « Spéciaux » réelle recapturée
+# (2026-08-14), pour seulement 82 bulletins réels. Reproduit aussi dans la
+# fixture offline existante (4 contre 3 liens réels) — les fixtures
+# n'étaient donc PAS « trop plates » pour reproduire ce cas, simplement
+# jamais revérifiées après coup. `selecteur_publications` qualifié en
+# `div[class='']:has(a.fr-link--download)` (82/82 exact) — sans effet sur
+# le candidat retenu (`bulletin-avec-arrete.pdf` reste enveloppé par un
+# `<div class="">` direct, toujours matché).
+#
+# ====================================================================
+# DÉCOUVERTE MAJEURE (2026-08-14, Phase 5bis élargie 9) : PREMIER arrêté
+# anti rave-party RÉEL confirmé parmi tous les connecteurs déployés à ce
+# jour (les 26 précédents n'avaient jamais trouvé de correspondance réelle
+# dans les échantillons PDF téléchargés). Le bulletin `2026-081.pdf`
+# (11/08/2026, RAA spécial n°23-2026-136) contient un arrêté préfectoral
+# RÉEL n°23-2026-08-11-0015 « portant interdiction temporaire de
+# rassemblements festifs à caractère musical dans le département de la
+# Creuse », EN VIGUEUR du vendredi 14 août 2026 17h au lundi 17 août 2026
+# inclus — donc actif au moment même du déploiement de ce connecteur
+# (14/08/2026). Ce PDF réel (téléchargé intégralement, 9 pages) sert de
+# fixture `bulletin-avec-arrete.pdf` — PAS un fichier synthétique, une
+# PREMIÈRE parmi les connecteurs déployés.
+#
+# `pattern_reference`/`patterns_dates` ci-dessous ont donc pu être
+# CALIBRÉS contre ce vrai texte (extraction bout en bout vérifiée avec
+# `extraireChampsCommuns` avant écriture de cette config), plutôt que de
+# reprendre l'hypothèse générique jamais confirmée des connecteurs
+# précédents :
+# - Le texte réel emploie « ARRÊTÉ PRÉFECTORAL Nº <ref> DU <date> » suivi
+#   du titre (jamais « Arrêté n° » comme l'hypothèse générique) —
+#   `pattern_reference` ancre spécifiquement sur le TITRE caractéristique
+#   qui suit (« portant interdiction temporaire de rassemblements »), pour
+#   distinguer l'arrêté qui interdit RÉELLEMENT le rassemblement d'un
+#   arrêté voisin dans le même PDF compilé (ex. l'arrêté de circulation
+#   PL, qui partage exactement la même fenêtre de dates mais un objet
+#   différent) — plutôt qu'un premier match générique sur "Nº" qui
+#   capturerait la référence du mauvais arrêté.
+# - Les dates ne suivent PAS le format numérique JJ/MM/AAAA de
+#   l'hypothèse générique, mais un format littéral complet avec nom du
+#   jour ("du vendredi 14 août 2026 à 17h au lundi 17 août 2026 inclus") —
+#   `patterns_dates` capture le nom du jour puis la date littérale,
+#   compatible avec `parserDateFrancaise` (format "JJ mois AAAA" déjà
+#   supporté).
+# - `mots_cles_filtrage` élargi avec la variante orthographique réelle
+#   "technival" (le texte source écrit "technival", pas "teknival") et la
+#   formulation réelle "rassemblement festif à caractère musical" — les
+#   entrées historiques ("rave", "teknival", "rassemblement musical non
+#   déclaré") restent présentes par cohérence avec les autres connecteurs
+#   et parce que "rave" seul matche déjà "rave-party" (VU cité dans le
+#   texte réel).
+#
+# Signataire réel confirmé : « Le préfet de la Creuse » (l'arrêté est
+# SIGNÉ par délégation par le secrétaire général — Ottman ZAÏR — mais
+# `autorite_signataire` reste l'autorité légale déclarative, jamais
+# extraite du texte, cf. `moteur.ts`/`construireCandidat`, comme pour tous
+# les connecteurs précédents).
+type_connecteur: page_web
+url_liste: "https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/Speciaux$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet de la Creuse"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage:
+  ["rave", "teknival", "technival", "rassemblement musical non déclaré", "rassemblement festif à caractère musical"]
+patterns_dates:
+  debut: "du\\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâï]+\\s+\\d{4})"
+  fin: "au\\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâï]+\\s+\\d{4})"
+pattern_reference: "N[ºo°]\\s*(?:N[ºo°]\\s*)?(?<reference>[0-9-]+)\\s*DU\\s*\\d{1,2}\\s*[A-ZÉÛ]+\\s*\\d{4}\\s*portant\\s+interdiction\\s+temporaire\\s+de\\s+rassemblements"

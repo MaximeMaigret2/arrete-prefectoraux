@@ -102,22 +102,22 @@
   derniere_verification: "2026-08-14"
 
 - departement_code: "11"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Aude"
   point_acces: "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-11
+  notes: "RAA publié en pages HTML, navigation racine → année → mois (sans suffixe d'année dans l'URL du mois), liste plate finale non paginée (fr-downloads-group), lien PDF ciblé par attribut href (a[href$='.pdf']) à cause d'un bug de markup réel identique à prefecture-05/07/08/09. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 3)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "12"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Aveyron"
   point_acces: "https://www.aveyron.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-12
+  notes: "RAA publié en pages HTML, navigation racine → année (Recueils-2026) → mois, liste plate finale non paginée (fr-downloads-group), lien PDF ciblé par attribut href (a[href$='.pdf']) à cause d'un bug de markup réel identique à prefecture-05/07/08/09/11. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 3)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "13"
   statut: connecteur_developpe
@@ -129,184 +129,184 @@
   derniere_verification: "2026-08-01"
 
 - departement_code: "14"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Calvados"
   point_acces: "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-14
+  notes: "RAA publié en pages HTML, navigation racine → branche départementale (motif littéral fixe, comme prefecture-09) → année, liste plate finale non paginée (fr-downloads-group, 323 bulletins/an), lien PDF ciblé par attribut href (a[href$='.pdf']) à cause d'un bug de markup réel identique à prefecture-05/07/08/09/11/12. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 3)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "15"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Cantal"
-  point_acces: "https://www.cantal.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  point_acces: "https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-15
+  notes: "RAA publié en pages HTML, navigation racine → année, liste plate finale déjà en ordre décroissant (comme prefecture-06/10, sans étape de pagination supplémentaire). point_acces corrigé : l'URL initialement identifiée redirige serveur-side (HTTP 301) vers Recueil-des-Actes-Administratifs (casse majuscule), confirmé par curl, comme prefecture-04/10. Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 3)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "16"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Charente"
   point_acces: "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-16
+  notes: "RAA publié en pages HTML, navigation racine → année, liste finale en bloc de texte enrichi (.fr-text--lead, sans .fr-card ni .fr-downloads-group — structure nouvelle) où chaque bulletin pointe vers une page de détail HTML (page_detail, comme prefecture-02/05/77), lien PDF intact sur la page de détail (pas de bug id=). Inspection directe (fetch depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 3)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "17"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Charente-Maritime"
   point_acces: "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-17
+  notes: "RAA publié en pages HTML. Racine : navigation vers la page de l'année via la value d'un <option> de <select> (aucun <a href> équivalent, extension moteur V011 navigation[].attribut_lien). Page année : structure .fr-card classique avec lien PDF direct (pas de page_detail), ordre décroissant, paginée mais 1ère page suffisante. Inspection directe (fetch/curl depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 4)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "18"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Cher"
   point_acces: "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-18
+  notes: "RAA publié en pages HTML, navigation à 3 niveaux racine → page « Recueil des actes administratifs » → année → mois (nouveau, jusqu'ici max 2 niveaux), liste finale en <p><a.fr-link--download> avec PDF direct (structure nouvelle mais aucune extension moteur nécessaire). Inspection directe 2026-08-14."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "19"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Corrèze"
   point_acces: "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-19
+  notes: "RAA publié en pages HTML, navigation à UN SEUL niveau (racine → année), le plus court observé à ce jour parmi les 21 connecteurs (jusqu'ici toujours >= 2 niveaux) : la page de l'année liste directement tous les bulletins de l'année (regroupés par mois en <p> indicatifs, sans page mensuelle séparée), chacun en <li><a class=\"fr-link fr-link--download\"> portant titre + PDF direct. Aucune extension moteur nécessaire. Inspection directe (fetch/curl depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 6)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "2A"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Corse-du-Sud"
   point_acces: "https://www.corse-du-sud.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-2A
+  notes: "RAA publié en pages HTML, navigation à 2 niveaux (racine → recueil de la préfecture de la Corse-du-Sud, désambiguïsé de la carte « Région Corse » présente sur la même racine → année) : la racine liste deux RAA (régional et départemental), situation nouvelle parmi les 21 connecteurs précédents. La page de l'année liste directement tous les bulletins (comme prefecture-19), chacun en <li><a class=\"fr-link fr-link--download\"> portant titre + PDF direct. Aucune extension moteur nécessaire. Inspection directe (fetch/curl depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 7)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "2B"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Corse"
   point_acces: "https://www.haute-corse.gouv.fr/Publications/Publications-administratives-et-legales/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-2B
+  notes: "RAA publié en pages HTML, navigation à 2 niveaux (racine → année → mois) : la racine liste directement une carte par année (pas de désambiguïsation nécessaire, contrairement à 2A). La page du mois expose deux groupes reprenant les mêmes bulletins : une liste narrative avec id valide, et un groupe de téléchargements DSFR (div.fr-downloads-group li) avec id vide malformé (même bug que 2A) — ciblé via selecteur_titre/selecteur_lien_pdf \"a\" sans classe. Aucune extension moteur nécessaire. Inspection directe (fetch/curl depuis le sandbox cloud) 2026-08-14 (Phase 5bis élargie 8)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "21"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Côte-d'Or"
   point_acces: "https://www.cote-dor.gouv.fr/Publications/Recueils-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-21
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → « année en cours », désambiguïsation d'une racine à deux cartes comme 2A) puis liste plate <li><a> (id non vide mais non quoté, sans bug contrairement à 2A/2B). Inspection directe 2026-08-14 (Phase 5bis élargie 9)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "22"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Côtes-d'Armor"
   point_acces: "https://www.cotes-darmor.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-22
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → mois, sans carte année intermédiaire) puis cartes DSFR paginées (page 1 suffisante, ordre décroissant). Inspection directe 2026-08-14 (Phase 5bis élargie 9)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "23"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Creuse"
   point_acces: "https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-23
+  notes: "RAA publié en pages HTML, navigation à 2 niveaux (racine → année → catégorie « Spéciaux », couverture partielle assumée — « Réguliers »/« Nominatifs » hors périmètre). PREMIER arrêté anti rave-party RÉEL trouvé (11/08/2026, en vigueur 14-17/08/2026) — patterns calibrés contre ce vrai texte. Inspection directe 2026-08-14 (Phase 5bis élargie 9)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "24"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Dordogne"
   point_acces: "https://www.dordogne.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-24
+  notes: "RAA publié en pages HTML, navigation à 3 niveaux (racine → année → mois) puis cartes DSFR. Inspection directe 2026-08-14 (Phase 5bis élargie 9)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "25"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Doubs"
   point_acces: "https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-25
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → année, racine paginée mais année courante déjà sur la page 1). SECOND arrêté anti rave-party RÉEL trouvé (13/08/2026, en vigueur 14-17/08/2026, même week-end que 23) mais corps scanné (image), non extractible par pdf-parse (jamais d'OCR, FR-005) — limite documentée. Inspection directe 2026-08-14 (Phase 5bis élargie 9)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "26"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Drôme"
   point_acces: "https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-26
+  notes: "RAA publié en pages HTML, navigation à 2 niveaux (racine → année → mois). Piège découvert cette session : `div:has(a.fr-link--download)` matche aussi les div ancêtres, sélecteur corrigé en `div[class=''] :has(...)`. Aucun arrêté anti rave-party réel trouvé parmi 6 PDF échantillonnés. Inspection directe 2026-08-14 (Phase 5bis élargie 10, lot 26-30)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "27"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Eure"
   point_acces: "https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-27
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → année) puis page_detail. Endpoint /contenu/telechargement/ bloque les téléchargements automatisés depuis ce sandbox (WAF) — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (Phase 5bis élargie 10, lot 26-30)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "28"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture d'Eure-et-Loir"
   point_acces: "https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-28
+  notes: "RAA publié en pages HTML, navigation à 2 niveaux (racine → année → mois), liste des actes individuels (pas de convention de nommage uniforme). Même piège div:has() que 26. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (Phase 5bis élargie 10, lot 26-30)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "29"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Finistère"
   point_acces: "https://www.finistere.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-29
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → année, déjà liste complète). Même piège div:has() que 26/28. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (Phase 5bis élargie 10, lot 26-30)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "30"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Gard"
   point_acces: "https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-30
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → année, déjà liste complète, ordre croissant). Même piège div:has() que 26/28/29. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (Phase 5bis élargie 10, lot 26-30)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "31"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Garonne"
   point_acces: "https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-31
+  notes: "RAA publié en pages HTML, navigation à 2 niveaux (racine → Haute-Garonne vs Occitanie → mois). Bulletins en VRAIES cartes DSFR (.fr-card), pas div/li autour d'un a.fr-link--download. Ordre décroissant (page 1 = plus récents). Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (lot 31-36)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "32"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Gers"
   point_acces: "https://www.gers.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-32
+  notes: "RAA publié en VRAI <table> HTML (particularité nouvelle), navigation à 1 niveau (racine → année, déjà liste complète). Même piège div:has() que 23/25/26/28/29/30, qualifié dès la conception. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (lot 31-36)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "33"
   statut: connecteur_developpe
@@ -318,211 +318,211 @@
   derniere_verification: "2026-08-01"
 
 - departement_code: "34"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Hérault"
   point_acces: "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-34
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → année, déjà liste complète). Même piège div:has() que 23/25/26/28/29/30/32, qualifié dès la conception. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (lot 31-36)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "35"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture d'Ille-et-Vilaine"
   point_acces: "https://www.ille-et-vilaine.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-35
+  notes: "RAA publié en pages HTML, navigation à 1 niveau (racine → année, déjà liste complète). Même piège div:has() que 23/25/26/28/29/30/32/34, qualifié dès la conception. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (lot 31-36)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "36"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Indre"
   point_acces: "https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-36
+  notes: "RAA publié en VRAIES cartes DSFR (.fr-card), navigation à 3 niveaux (racine → année → mois → Dernière page, cette 3e étape optionnelle). Ordre croissant (page 1 = plus anciens) — à la différence de 31, nécessite de cibler la dernière page. Endpoint de téléchargement bloqué — aucun PDF réel échantillonné. Inspection directe 2026-08-14 (lot 31-36)."
+  derniere_verification: "2026-08-14"
 
 - departement_code: "37"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture d'Indre-et-Loire"
   point_acces: "https://www.indre-et-loire.gouv.fr/Publications/Recueil-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-37
+  notes: "RAA publie en liste plate (hypothese div[class='']:has(a.fr-link--download), meme famille que 23/25/26/28/29/30/32/34/35). Navigation a 1 niveau (racine -> annee). STRUCTURE NON VERIFIEE PAR CAPTURE LIVE (lot 37-41, fetch web bloque sur tous les sous-chemins du domaine cette session, y compris /robots.txt) -- selecteurs extrapoles de la structure DSFR majoritaire + URLs confirmees par recherche web. A verifier en priorite. Endpoint de telechargement jamais teste. Inspection 2026-08-15."
+  derniere_verification: "2026-08-15"
 
 - departement_code: "38"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Isère"
   point_acces: "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-38
+  notes: "RAA publie en liste plate (hypothese div[class='']:has(a.fr-link--download)). Navigation a 1 niveau (racine -> annee). STRUCTURE NON VERIFIEE PAR CAPTURE LIVE (lot 37-41, meme limite que 37/39/40/41) -- plusieurs URLs PDF reelles indexees confirment le format de nom de fichier et le prefixe /contenu/telechargement/. A verifier en priorite. Inspection 2026-08-15."
+  derniere_verification: "2026-08-15"
 
 - departement_code: "39"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Jura"
   point_acces: "https://www.jura.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-39
+  notes: "Hypothese page_detail (chaque bulletin a sa propre page HTML au slug descriptif, meme famille que prefecture-02/77) deduite des URLs indexees -- PAS observee directement, hypothese la moins etayee du lot. Navigation a 1 niveau (racine -> annee). STRUCTURE NON VERIFIEE PAR CAPTURE LIVE (lot 37-41). A verifier en priorite absolue avant activation. Inspection 2026-08-15."
+  derniere_verification: "2026-08-15"
 
 - departement_code: "40"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Landes"
   point_acces: "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-40
+  notes: "Meme hypothese page_detail que 39 (deduite des URLs indexees, PAS observee directement). Navigation a 1 niveau (racine -> annee, segment nu sans prefixe Annee-). Resultats de recherche montrant un prefixe /index.php/ pour certaines publications anterieures a 2026 (generation de site precedente) -- url_liste retient la forme sans prefixe. STRUCTURE NON VERIFIEE PAR CAPTURE LIVE (lot 37-41). A verifier en priorite. Inspection 2026-08-15."
+  derniere_verification: "2026-08-15"
 
 - departement_code: "41"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Loir-et-Cher"
   point_acces: "https://www.loir-et-cher.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-41
+  notes: "RAA publie en liste plate (hypothese div[class='']:has(a.fr-link--download)). Seul connecteur du lot avec un 2e niveau de navigation confirme par les URLs indexees (racine -> annee -> mois, format {mois_fr}-{annee} type Aout-2026), meme si aout 2026 lui-meme n'a jamais ete observe dans l'index. STRUCTURE NON VERIFIEE PAR CAPTURE LIVE (lot 37-41). A verifier en priorite. Inspection 2026-08-15."
+  derniere_verification: "2026-08-15"
 
 - departement_code: "42"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Loire"
   point_acces: "https://www.loire.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-42
+  notes: "RAA publié en pages HTML, navigation racine → carte annuelle unique '{annee} numeros speciaux' (plus de declinaison mensuelle pour les annees recentes), liste plate finale dans .fr-downloads-group li (146 bulletins, aucune pagination). Validation live (Chrome reel) 2026-08-19 (lot 42-46)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "43"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Loire"
   point_acces: "https://www.haute-loire.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-43
+  notes: "RAA publié en pages HTML, navigation racine → annee, liste plate finale dans .fr-downloads-group li (190 bulletins uniques, aucune pagination) — piege de bloc duplique (380 ancres au total, 190 hors du bloc qualifie) confirme en live. Validation live (Chrome reel) 2026-08-19 (lot 42-46)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "44"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Loire-Atlantique"
   point_acces: "https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-44
+  notes: "RAA publié en pages HTML, navigation racine → annee → mois (liens PDF 'a la une' melanges parmi les cartes, ignores car motif ancre en fin de chaine), cartes a lien PDF direct deja triees decroissant (aucune pagination necessaire). Validation live (Chrome reel) 2026-08-19 (lot 42-46)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "45"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Loiret"
-  point_acces: "https://www.loiret.gouv.fr/Publications/Recueil-des-actes-administratifs"
+  point_acces: "https://www.loiret.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departementaux"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-45
+  notes: "RAA publié en pages HTML — deux declinaisons 'regionaux'/'departementaux', seule la departementale est ciblee. Navigation a un seul niveau (racine → mois, PAS de carte annee intermediaire), liste plate finale (fr-link--download qualifie), aucune pagination. Validation live (Chrome reel) 2026-08-19 (lot 42-46)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "46"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Lot"
   point_acces: "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-46
+  notes: "RAA publié en pages HTML, navigation racine → annee → derniere page de pagination (optionnelle) puis page de detail par publication (a.fr-link--download, pas de piege de balisage). Validation live (Chrome reel) 2026-08-19 (lot 42-46)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "47"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Lot-et-Garonne"
   point_acces: "https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-47
+  notes: "RAA publie en pages HTML, navigation racine -> carte annee (\"annee-{annee}$\") -> carte mois (piege : suffixe \"2\" inattendu sur chaque lien de mois, \"Aout2\" jamais \"Aout\"), liste plate finale dans .fr-downloads-group li, lien PDF direct. Validation live (Chrome reel) 2026-08-19 (lot 47-51)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "48"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Lozère"
   point_acces: "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-48
+  notes: "RAA publie en pages HTML, navigation a TROIS niveaux (nouvelle famille) : racine -> carte annee (\"/{annee}$\") -> carte trimestre (periodes irregulieres 1er/2eme/3eme/4eme-trimestre) -> carte mois (\"/{mois_fr}$\"), cartes .fr-card__title/a.fr-card__link, lien PDF direct. Validation live (Chrome reel) 2026-08-19 (lot 47-51)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "49"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Maine-et-Loire"
   point_acces: "https://www.maine-et-loire.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-49
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> carte \"Annee-{annee}$\"), puis liste PLATE de 165 publications sur la seule page de l'annee (aucune subdivision par mois), div[class='']:has(a.fr-link--download), meme famille que 37/41/45. Validation live (Chrome reel) 2026-08-19 (lot 47-51)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "50"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Manche"
   point_acces: "https://www.manche.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-50
+  notes: "RAA publie en pages HTML, navigation a TROIS niveaux avec pagination CONDITIONNELLE (nouvelle technique : periodes appliquee a l'etape de pagination elle-meme, motif inatteignable pour janvier-septembre, la page annee liste 10 cartes/page mois+categories). Publications p:not([class]):has(a.fr-link). Validation live (Chrome reel) 2026-08-19 (lot 47-51)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "51"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Marne"
   point_acces: "https://www.marne.gouv.fr/Publications/Publications-administratives-et-legales/RAA-Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-51
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> \"Annee-{annee}$\"), page listant tout le RAA de l'annee en 8 <select class=\"fr-select\"> (ids dupliques/incoherents entre mois, d'ou selecteur par classe), chaque <option value> mene a une page de detail (page_detail) avant le PDF reel - meme famille que prefecture-77. Validation live (Chrome reel) 2026-08-19 (lot 47-51)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "52"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Marne"
   point_acces: "https://www.haute-marne.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-52
+  notes: "RAA publié en pages HTML, navigation racine → année (liste plate, pas de subdivision mensuelle) — piège de markup réel : publications récentes en <p> sans classe, plus anciennes en <li> orphelins (sans <ul> ouvrant), sélecteur combiné vérifié avec cheerio. Inspection directe 2026-08-19 (lot 52-56)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "53"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Mayenne"
   point_acces: "https://www.mayenne.gouv.fr/Publications/Recueil-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-53
+  notes: "RAA publié en pages HTML, navigation racine → année → mois, liste plate finale (fr-link--download dans des <p> sans classe, comme prefecture-37/41/45/49/55). Inspection directe 2026-08-19 (lot 52-56)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "54"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Meurthe-et-Moselle"
   point_acces: "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-54
+  notes: "RAA publié en pages HTML, navigation racine → année (motif en minuscule 'annee-') vers un <select> listant tout le RAA, chaque <option> menant à une page de détail avant le PDF réel — même famille que prefecture-77/51 (page_detail). Inspection directe 2026-08-19 (lot 52-56)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "55"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Meuse"
   point_acces: "https://www.meuse.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-55
+  notes: "RAA publié en pages HTML, racine sans carte DSFR — sélecteur d'année en <select> dès la première étape (attribut_lien value, comme prefecture-17), puis liste plate finale (comme prefecture-37/41/45/49). Inspection directe 2026-08-19 (lot 52-56)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "56"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Morbihan"
   point_acces: "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-56
+  notes: "RAA publié en pages HTML, racine sans carte DSFR — sélecteur d'année en <select> (attribut_lien value), puis cartes DSFR paginées dont le titre pointe DIRECTEMENT vers le PDF (pas de page_detail, à la différence des autres cartes vues jusqu'ici) ; pagination jamais nécessaire (page 1 = plus récents). Inspection directe 2026-08-19 (lot 52-56)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "57"
   statut: identifiee
@@ -534,175 +534,175 @@
   derniere_verification: "2026-08-13"
 
 - departement_code: "58"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Nièvre"
   point_acces: "https://www.nievre.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-58
+  notes: "RAA publié en pages HTML, navigation racine → année (cartes DSFR, page 1 = plus récents, pagination jamais nécessaire), puis page_detail (attribut href par défaut, comme prefecture-44/77/51) — même famille que prefecture-54 sans le <select>. Inspection directe 2026-08-19 (lot 58-61)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "59"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Nord"
   point_acces: "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-59
+  notes: "RAA publié en pages HTML, navigation à TROIS niveaux (racine → carte fixe → année → mois, la plus profonde rencontrée à ce jour), puis liste plate finale (div[class=''], comme prefecture-37/41/45/49/52/55). Inspection directe 2026-08-19 (lot 58-61)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "60"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Oise"
   point_acces: "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-60
+  notes: "RAA publié en pages HTML, navigation racine → année, puis page_detail (attribut href par défaut) — piège de markup réel : une page de détail porte souvent deux liens a.fr-link--download (un « sommaire » listé en premier, puis le PDF réel), d'où :not([href*='_sommaire']). Inspection directe 2026-08-19 (lot 58-61)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "61"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Orne"
   point_acces: "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-61
+  notes: "RAA publié en pages HTML, navigation à TROIS niveaux (racine → carte fixe → année → mois, comme prefecture-59), avec redirection HTTP réelle vers une sous-page « Spéciaux » suivie nativement par fetch() ; liste finale sans aucune classe CSS (li:has(a[href$='.pdf'])), balisage inédit dans ce lot. Inspection directe 2026-08-19 (lot 58-61)."
+  derniere_verification: "2026-08-19"
 
 - departement_code: "62"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Pas-de-Calais"
   point_acces: "https://www.pas-de-calais.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-62
+  notes: "RAA publié en pages HTML, navigation à UN niveau (racine → carte de l'année, motif ancré \"{annee}-Recueils-des-actes-administratifs$\" pour écarter la variante « speciaux » vue sur 2023), puis liste plate SANS pagination (242 publications sur une seule page au 2026-08-20) — même famille que prefecture-37/41/45/49/52/55/59. Inspection directe 2026-08-20 (lot 62-66)."
+  derniere_verification: "2026-08-20"
 
 - departement_code: "63"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Puy-de-Dôme"
   point_acces: "https://www.puy-de-dome.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-63
+  notes: "RAA publié en pages HTML, navigation à DEUX niveaux (racine → carte thématique « Puy-de-Dôme » ancrée pour écarter la carte sœur « Auvergne » → carte de l'année), avec redirection HTTP réelle sur l'URL de l'année (suivie nativement par fetch, même mécanisme que 61/Orne) vers une liste plate SANS pagination (221 publications sur une seule page au 2026-08-20) — même famille que prefecture-37/41/45/49/52/55/59/62. Préfète (Mme FRACKOWIAK-JACOBS, décret du 17/12/2025) : grammaire au féminin. Inspection directe 2026-08-20 (lot 62-66)."
+  derniere_verification: "2026-08-20"
 
 - departement_code: "64"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Pyrénées-Atlantiques"
   point_acces: "https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-64
+  notes: "RAA publié en pages HTML, navigation à TROIS niveaux (racine → année → mois) avec une 3e étape optionnelle inédite : la page du mois est paginée et triée du PLUS ANCIEN au plus récent (contrairement à tous les connecteurs précédents), l'étape cible donc .fr-pagination__link--last pour sauter directement à la dernière page (optionnelle: true, absente/sans href si le mois tient sur une seule page). Publications en cartes DSFR complètes (.fr-card) pointant directement vers le PDF, sans page de détail. Préfet : Simon Fetet (nommé ~juillet 2026, succède à Jean-Marie Girier parti aux Alpes-Maritimes) — grammaire au masculin. Inspection directe 2026-08-20 (lot 62-66)."
+  derniere_verification: "2026-08-20"
 
 - departement_code: "65"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Hautes-Pyrénées"
   point_acces: "https://www.hautes-pyrenees.gouv.fr/Publications/Recueil-d-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-65
+  notes: "RAA publié en pages HTML, navigation à UN niveau (racine → carte de l'année, motif RAA-{annee}$) vers une liste plate SANS pagination (297 publications sur une seule page au 2026-08-20) — même famille que prefecture-37/41/45/49/52/55/59/62/65. Préfète : Sibylle Samoyault (nommée ~juillet 2026, succède à Jean Salomon parti dans l'Yonne) — grammaire au féminin. Inspection directe 2026-08-20 (lot 62-66)."
+  derniere_verification: "2026-08-20"
 
 - departement_code: "66"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Pyrénées-Orientales"
   point_acces: "https://www.pyrenees-orientales.gouv.fr/Publications/Le-recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-66
+  notes: "RAA publié en pages HTML, navigation à UN niveau (racine → carte de l'année, motif Annee-{annee}$) vers une liste plate SANS pagination (197 publications sur une seule page au 2026-08-20) — même famille que prefecture-37/41/45/49/52/55/59/62/65. Particularité de markup : liens d'année en <h3><a> (pas de .fr-card), selecteur_liens: 'h3 a' exclut naturellement un lien factice de menu latéral '[TEST] RAA'. Préfet : Étienne Régnault de la Mothe. Inspection directe 2026-08-20 (lot 62-66)."
+  derniere_verification: "2026-08-20"
 
 - departement_code: "67"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Bas-Rhin"
   point_acces: "https://www.bas-rhin.gouv.fr/Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-67"
+  notes: "Connecteur developpe et deploye (lot 67-71, 2026-08-21). Structure confirmee en live : navigation 1 niveau (racine -> carte de annee, motif RAA-ANNEE-{annee}$), page annee avec 8 <select class=fr-select> (un par mois), page_detail attribut_lien value (meme famille que prefecture-38/77). Signataire : M. Amaury de Saint-Quentin, prefet du Bas-Rhin."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "68"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Haut-Rhin"
   point_acces: "https://www.haut-rhin.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-68"
+  notes: "Connecteur developpe et deploye (lot 67-71, 2026-08-21). Structure confirmee en live : navigation 1 niveau (racine -> carte de annee, motif /{annee}$ porte par le href, pas le texte du lien), page annee paginee, lien PDF direct sur .fr-card__title a (pas de page_detail), meme famille que prefecture-13/33. Signataire : M. Emmanuel Aubry, prefet du Haut-Rhin."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "69"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Rhône"
   point_acces: "https://www.rhone.gouv.fr/Publications/Recueil-des-actes-administratifs-du-Rhone-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-69"
+  notes: "Connecteur developpe et deploye (lot 67-71, 2026-08-21). Structure confirmee en live : navigation 2 niveaux (racine -> annee -> mois, motif Recueils-d(e)?-{mois_fr_minuscule}$ couvrant elision d/de devant voyelle), liste plate finale sans pagination, meme famille que 37/41/45/49/52/55/59/62/65/66. Signataire : M. Etienne Guyot, prefet du Rhone."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "70"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Saône"
   point_acces: "https://www.haute-saone.gouv.fr/Publications/RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-70"
+  notes: "Connecteur developpe et deploye (lot 67-71, 2026-08-21). Structure confirmee en live : PAS de carte annee, url_liste directement la liste paginee (146 pages), page_detail sur carte DSFR (selecteur_publications = a, pas le conteneur .fr-card, meme piege que 58/60). Signataire : M. Serge Jacob, prefet de la Haute-Saone."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "71"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Saône-et-Loire"
   point_acces: "https://www.saone-et-loire.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-71"
+  notes: "Connecteur developpe et deploye (lot 67-71, 2026-08-21). Structure confirmee en live : PAS de carte annee, url_liste directement la liste paginee (227 pages), page_detail sur carte DSFR, lien PDF de la page de detail sans classe fr-link--download habituelle (selecteur_lien_pdf cible le href directement). Signataire : M. Dominique Dufour, prefet de Saone-et-Loire."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "72"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Sarthe"
   point_acces: "https://www.sarthe.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-72"
+  notes: "Connecteur developpe et deploye (lot 72-76, 2026-08-21). Structure confirmee en live : navigation 1 niveau vers carte annee (motif RAA-Sarthe-annee), liste plate SANS pagination (toute l'annee sur une seule page, 181 publications 2026 constatees), meme famille que 37/41/45/49/52/55/59/62/65/66/69. Signataire : M. Sebastien Jallet, prefet de la Sarthe."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "73"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Savoie"
   point_acces: "https://www.savoie.gouv.fr/Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-73"
+  notes: "Connecteur developpe et deploye (lot 72-76, 2026-08-21). Particularite : le decoupage des cartes n'est pas mensuel/semestriel fixe mais par seuil de volume (tranche 2026-2 = 02/08 au 20/08/2026 seulement) ; motif non ancre sur un numero precis (annee-\\d+$) retient toujours la tranche la plus recente. Liste plate sans pagination. Signataire : Mme Vanina Nicoli, prefete de la Savoie."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "74"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Savoie"
   point_acces: "https://www.haute-savoie.gouv.fr/Publications/Actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-74"
+  notes: "Connecteur developpe et deploye (lot 72-76, 2026-08-21). Structure confirmee en live : navigation 1 niveau vers carte annee, liste paginee (39 pages de 10 .fr-card), lien PDF direct sur .fr-card__title a (pas de page_detail), meme famille que prefecture-13/33/68. Signataire : M. Jerome Bonet, prefet de la Haute-Savoie (nomme le 17/08/2026, tres recent par rapport a la capture)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "75"
-  statut: identifiee
-  autorite: "Préfecture de Paris (préfecture de région Île-de-France)"
-  point_acces: "https://www.prefectures-regions.gouv.fr/ile-de-france/Region-et-institutions/Demarches-administratives/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs"
+  statut: connecteur_developpe
+  autorite: "Préfecture de police de Paris"
+  point_acces: "https://www.prefectures-regions.gouv.fr/ile-de-france/tags/view/Ile-de-France/Documents+et+Publications/Recueil+des+actes+administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-75"
+  notes: "Connecteur developpe et deploye (lot 72-76, 2026-08-21). PARTICULARITE MAJEURE : premier connecteur sur la plateforme SPIP prefectures-regions.gouv.fr (pas un site DSFR standard) ; point_acces original du registre obsolete (mise a jour 2015), remplace par la page de recherche par tags reellement navigable. Navigation 2 niveaux (annee puis mois, motif mois non ancre car URL terminee par un fragment #titre), liste plate sans pagination, classe CSS propre a cette plateforme (a.link-download, pas fr-*). Aucune extension du moteur necessaire. Signataire : M. Patrice Faure, prefet de police de Paris."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "76"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Seine-Maritime"
   point_acces: "https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: "prefecture-76"
+  notes: "Connecteur developpe et deploye (lot 72-76, 2026-08-21). Structure confirmee en live : navigation 2 niveaux (annee puis mois), liste plate sans pagination, meme famille que 37/41/45/49/52/55/59/62/65/66/69/72/73. Piege de markup reel repere et ecarte sans code specifique : un bloc 'documents lies' duplique les publications avec un balisage casse (attribut id avalant le class), naturellement exclu par le selecteur (verifie 19/19 en live, aucun doublon). Signataire : M. Jean-Benoit Albertini, prefet de la Seine-Maritime."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "77"
   statut: connecteur_developpe
@@ -714,208 +714,163 @@
   derniere_verification: "2026-08-01"
 
 - departement_code: "78"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Yvelines"
   point_acces: "https://www.yvelines.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-78
+  notes: "Connecteur developpe et deploye (lot 78-82, 2026-08-21). Navigation 2 niveaux (annee puis mois, cartes DSFR), liste plate div[class=''] avec a.fr-link--download, pas de page_detail. Valide par capture live."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "79"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Deux-Sèvres"
   point_acces: "https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-79
+  notes: "Connecteur developpe et deploye (lot 78-82, 2026-08-21). Racine via select.fr-select (attribut value), carte de mois, redirection HTTP transparente suivie nativement par fetch(), liste plate div[class=''] avec a.fr-link--download. Valide par capture live."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "80"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Somme"
   point_acces: "https://www.somme.gouv.fr/Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-80
+  notes: "Connecteur developpe et deploye (lot 78-82, 2026-08-21). Navigation 1 niveau (annee), toute l'annee sur une seule page sans decoupage par mois, liste en p sans classe avec a.fr-link direct vers pdf (markup inedit). Valide par capture live."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "81"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Tarn"
   point_acces: "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-81
+  notes: "Connecteur developpe et deploye (lot 78-82, 2026-08-21). Navigation 3 niveaux (carte fixe RAA puis annee puis mois), liste en cartes actualite paginee (page 1), page_detail (a.fr-card__link vers page HTML avec bloc Documents associes). Valide par capture live."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "82"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Tarn-et-Garonne"
   point_acces: "https://www.tarn-et-garonne.gouv.fr/Publications/Recueils-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-82
+  notes: "Connecteur developpe et deploye (lot 78-82, 2026-08-21). Navigation 2 niveaux (annee puis mois avec elision d/de RAA-d(e)?-mois), liste plate div[class=''] avec a.fr-link--download. Valide par capture live."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "83"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Var"
   point_acces: "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-83
+  notes: "RAA publie en pages HTML, navigation a TROIS niveaux (racine vers annee vers mois) avec saut optionnel vers la derniere page de pagination (mois trie du plus ancien au plus recent, meme famille que 64/74). Cartes DSFR completes pointant directement vers le PDF. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 83-87)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "84"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de Vaucluse"
   point_acces: "https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-84
+  notes: "RAA publie en pages HTML, navigation a DEUX niveaux (racine vers annee vers mois), liste finale de cartes DSFR triee du plus recent au plus ancien (page 1 suffit, pas de saut de pagination necessaire malgre une pagination presente). Lien PDF direct, pas de page de detail. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 83-87)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "85"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Vendée"
   point_acces: "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-85
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine vers annee). La liste des publications de l'annee n'est pas portee par des cartes DSFR mais par un unique select dont chaque option porte, via l'attribut value, l'URL d'une page de detail HTML (meme famille page_detail que prefecture-77, mais ici le select EST la liste finale). Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 83-87)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "86"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Vienne"
   point_acces: "https://www.vienne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-86
+  notes: "Cas le plus simple du projet : aucune navigation, la page racine EST directement la liste complete de toutes les publications RAA du departement (823 elements en live, aucune pagination), chaque publication dans un simple li portant un lien PDF direct. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 83-87)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "87"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Haute-Vienne"
   point_acces: "https://www.haute-vienne.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-87
+  notes: "RAA publie en pages HTML, navigation a UN niveau mais par PERIODES (semestre calendaire regulier janvier-juin / juillet-decembre, a la difference du semestre irregulier de prefecture-04). Redirection HTTP transparente vers le contenu final, suivie nativement par fetch. Liste finale plate, ordre croissant, sans pagination. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 83-87)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "88"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Vosges"
   point_acces: "https://www.vosges.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-88
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> carte de l'annee, motif '{annee}$'). Liste finale PAGINEE (13 pages de 10 .fr-card au 2026-08-21), triee du plus recent au plus ancien, lien PDF direct sur .fr-card__title a (pas de page_detail) -- meme famille que prefecture-13/33/68/74/92. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 88-92)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "89"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Yonne"
   point_acces: "https://www.yonne.gouv.fr/Publications/Publications-legales/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-89
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> carte de l'annee, motif 'RAA-{annee}$'). Liste finale plate, sans pagination (306 liens a.fr-link--download comptes en live pour 2026) -- meme famille div[class='']:has(a.fr-link--download) que 37/41/45/49/52/55/59/62/65/66/69/72/73/76/78/79/87/90. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 88-92)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "90"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Territoire de Belfort"
   point_acces: "https://www.territoire-de-belfort.gouv.fr/Publications/Le-recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-90
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> lien de l'annee, motif 'Annee-{annee}$'). Particularite de markup : liens d'annee en simples <a> sans classe (pas de carte DSFR), selecteur_liens 'a' large sans ambiguite pratique. Liste finale plate, sans pagination (121 liens a.fr-link--download comptes en live pour 2026) -- meme famille div[class='']:has(a.fr-link--download) que 37/41/45/49/52/55/59/62/65/66/69/72/73/76/78/79/87/89. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 88-92)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "91"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de l'Essonne"
   point_acces: "https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-91
+  notes: "RAA publie en pages HTML, navigation a DEUX niveaux (racine -> annee -> mois, motifs '{annee}$' puis '{mois_fr}$'). Liste finale plate, sans pagination (16 liens a.fr-link--download comptes en live pour aout 2026), chaque publication portee par un <p> (pas un div[class=''] ni une .fr-card) -- meme famille de marquage que prefecture-80. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 88-92)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "92"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture des Hauts-de-Seine"
   point_acces: "https://www.hauts-de-seine.gouv.fr/Publications/Annonces-avis/Le-Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-92
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> carte de l'annee, motif 'RAA-{annee}$'). Liste finale PAGINEE (55 pages de 10 .fr-card au 2026-08-21), triee du plus recent au plus ancien, lien PDF direct sur .fr-card__title a (pas de page_detail) -- meme famille que prefecture-13/33/68/74/88. Validee par capture live (navigateur Chrome reel) le 2026-08-21 (lot 88-92)."
+  derniere_verification: "2026-08-21"
 
 - departement_code: "93"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Seine-Saint-Denis"
   point_acces: "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-93
+  notes: "RAA publie en pages HTML, navigation a DEUX niveaux (racine -> annee, motif 'Annee-{annee}$' -> mois, motif '{mois_fr}$'), avec un 3e niveau OPTIONNEL de saut de pagination ('.fr-pagination__link--last') -- meme mecanisme que 64/74/83, page du mois triee du plus ancien au plus recent. Cartes de mois en MAJUSCULES SANS ACCENT dans le href (ex. AOUT), le placeholder mois_fr matche quand meme via le flag insensible a la casse de la regex de navigation. Liste finale en cartes DSFR completes (.fr-card), lien PDF direct sur .fr-card__title a (pas de page_detail). Validee par capture live (navigateur Chrome reel) le 2026-08-22 (lot 93-95, dernier lot du perimetre 96 departements)."
+  derniere_verification: "2026-08-22"
 
 - departement_code: "94"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Val-de-Marne"
   point_acces: "https://www.val-de-marne.gouv.fr/Publications/Publications-legales/RAA-Recueil-des-actes-administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-94
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> carte de l'annee, motif 'annee-{annee}$', minuscule) vers une page HTML de l'annee (pas un PDF direct sur la carte). Liste finale plate, sans pagination (130 liens a.fr-link--download comptes en live pour 2026) -- meme famille div[class='']:has(a.fr-link--download) que 78/87/89/90. Validee par capture live (navigateur Chrome reel) le 2026-08-22 (lot 93-95, dernier lot du perimetre 96 departements)."
+  derniere_verification: "2026-08-22"
 
 - departement_code: "95"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture du Val-d'Oise"
   point_acces: "https://www.val-doise.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
-
-- departement_code: "971"
-  statut: identifiee
-  autorite: "Préfecture de la Guadeloupe"
-  point_acces: "https://www.guadeloupe.gouv.fr/Publications/Le-Recueil-des-actes-administratifs"
-  format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
-
-- departement_code: "972"
-  statut: identifiee
-  autorite: "Préfecture de la Martinique"
-  point_acces: "https://www.martinique.gouv.fr/Publications/Recueils-des-actes-administratifs-publies"
-  format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
-
-- departement_code: "973"
-  statut: identifiee
-  autorite: "Préfecture de la Guyane"
-  point_acces: "https://www.guyane.gouv.fr/Publications/Recueil-des-actes-administratifs"
-  format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
-
-- departement_code: "974"
-  statut: identifiee
-  autorite: "Préfecture de La Réunion"
-  point_acces: "https://www.reunion.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-actes-administratifs-RAA"
-  format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
-
-- departement_code: "976"
-  statut: identifiee
-  autorite: "Préfecture de Mayotte"
-  point_acces: "https://www.mayotte.gouv.fr/Publications/Recueil-des-actes-administratifs-R.A.A"
-  format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-95
+  notes: "RAA publie en pages HTML, navigation a UN niveau (racine -> carte de l'annee, motif 'RAA-de-{annee}$'). Liste finale plate, sans pagination (152 liens comptes en live pour 2026), chaque publication un lien a sans classe fr-link--download menant a une page de detail HTML -- page_detail, meme famille que 44/58/60/77/81. Validee par capture live (navigateur Chrome reel) le 2026-08-22 (lot 93-95, dernier lot du perimetre 96 departements)."
+  derniere_verification: "2026-08-22"

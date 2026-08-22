@@ -1,0 +1,27 @@
+# backend/src/connecteurs/configs/prefecture-49.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de
+# Maine-et-Loire. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 47-51) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-Actes-Administratifs" :
+# navigation à UN niveau (racine → carte "Annee-{annee}$"), PUIS liste
+# PLATE de 165 publications sur la seule page de l'année (aucune
+# subdivision par mois, à la différence de 42-46/47/48) — même famille
+# `div[class='']:has(a.fr-link--download)` que prefecture-37/41/45,
+# confirmée par comptage exact en live (165 = 165 = 165).
+type_connecteur: page_web
+url_liste: "https://www.maine-et-loire.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet de Maine-et-Loire"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

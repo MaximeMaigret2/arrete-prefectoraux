@@ -1,0 +1,38 @@
+# backend/src/connecteurs/configs/prefecture-89.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de
+# l'Yonne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 88-92) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Publications-legales/Recueil-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte de l'année, motif "RAA-{annee}$",
+# lien porté par ".fr-card__title a") vers une page dont la liste finale
+# est PLATE, SANS PAGINATION (306 liens `a.fr-link--download` comptés en
+# live au 2026-08-21 pour la seule année 2026, tous sur une unique page)
+# — même famille `div[class='']:has(a.fr-link--download)` que
+# 37/41/45/49/52/55/59/62/65/66/69/72/73/76/78/79/87/90. Lien PDF direct,
+# pas de `page_detail`.
+#
+# Signataire : "Le préfet de l'Yonne" (grammaire au masculin, valable
+# quel que soit le titulaire exact à la date d'exécution — transition en
+# cours au moment de la capture : M. Pascal Jan, préfet sortant, doit
+# être remplacé par M. Jean Salomon (ex-préfet des Hautes-Pyrénées,
+# cf. prefecture-65.yaml) le 24 août 2026 selon la presse locale
+# (Agribourgogne, ICI Bourgogne-Franche-Comté, 2026-08-21) — les deux
+# sont de grammaire masculine, donc sans impact sur ce champ.
+type_connecteur: page_web
+url_liste: "https://www.yonne.gouv.fr/Publications/Publications-legales/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet de l'Yonne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -51,6 +51,18 @@ const EtapePeriodeSchema = z.object({
  * notamment en tout début de période) : l'étape est alors sautée (la page
  * courante devient directement la page suivante) plutôt que de produire un
  * `echec_global` pour une situation parfaitement normale.
+ *
+ * `attribut_lien` (V011, Phase 5bis élargie 4, 2026-08-14, découvert sur
+ * prefecture-17/Charente-Maritime) : attribut de l'élément trouvé via
+ * `selecteur_liens` qui porte l'URL à suivre — `href` par défaut (forme
+ * historique, un `<a>`). Certaines sources n'exposent le lien suivant que
+ * comme la `value` d'un `<option>` de `<select>` DÈS la première étape de
+ * navigation (ex. un sélecteur d'année en racine, sans aucun `<a>`
+ * équivalent ailleurs dans la page) — jusqu'ici cette situation n'était
+ * rencontrée que pour la résolution du PDF depuis une page de détail
+ * (`page_detail.attribut_lien`, ci-dessous). Même idiome, même défaut,
+ * réutilisé ici pour la cohérence du schéma plutôt que d'introduire un
+ * concept différent.
  */
 const EtapeNavigationSchema = z
   .object({
@@ -58,6 +70,7 @@ const EtapeNavigationSchema = z
     pattern_lien: z.string().min(1).optional(),
     periodes: z.array(EtapePeriodeSchema).min(1).optional(),
     optionnelle: z.boolean().default(false),
+    attribut_lien: z.string().min(1).default('href'),
   })
   .superRefine((etape, ctx) => {
     const nbFormes = Number(etape.pattern_lien !== undefined) + Number(etape.periodes !== undefined);

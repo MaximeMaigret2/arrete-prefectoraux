@@ -1,0 +1,48 @@
+# backend/src/connecteurs/configs/prefecture-90.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du
+# Territoire de Belfort. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome
+# réel) le 2026-08-21 (lot 88-92) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Le-recueil-des-actes-administratifs" : navigation à
+# UN niveau (racine → lien de l'année, motif "Annee-{annee}$") vers une
+# page dont la liste finale est PLATE, SANS PAGINATION (121 liens
+# `a.fr-link--download` comptés en live au 2026-08-21 pour la seule
+# année 2026, triés du plus ancien au plus récent mais tous présents sur
+# l'unique page) — même famille `div[class='']:has(a.fr-link--download)`
+# que 37/41/45/49/52/55/59/62/65/66/69/72/73/76/78/79/87/89. Lien PDF
+# direct, pas de `page_detail`.
+#
+# PARTICULARITÉ DE MARKUP (site unique dans le projet jusqu'ici) : les
+# liens d'année ne sont PAS des cartes DSFR (`.fr-card__title a`) mais de
+# simples `<a>` sans classe dans une liste `<ul><li>` elle-même sans
+# classe, dans un conteneur `.fr-text--lead` — `selecteur_liens: "a"`
+# (large) utilisé délibérément : la résolution ne retient que le PREMIER
+# lien dont l'URL résolue correspond au motif (`Annee-2026$`, hautement
+# spécifique), donc la largeur du sélecteur n'introduit aucune ambiguïté
+# pratique même si `<a>` matche aussi les liens d'en-tête/pied de page.
+# Piège de contenu du site repéré et sans impact : le lien affiché
+# "Année 2021" pointe en réalité vers "Annee-2022" (bug du site source,
+# deux liens distincts renvoyant vers la même URL "Annee-2022" — vérifié
+# en live) ; comme seule l'année courante (2026) est résolue à
+# l'exécution, ce bug historique n'affecte jamais ce connecteur.
+#
+# Signataire confirmé (page officielle "corps préfectoral",
+# territoire-de-belfort.gouv.fr, 2026-08-21) : M. Alain Charrier, préfet
+# du Territoire de Belfort — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.territoire-de-belfort.gouv.fr/Publications/Le-recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: "a"
+    pattern_lien: "Annee-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet du Territoire de Belfort"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

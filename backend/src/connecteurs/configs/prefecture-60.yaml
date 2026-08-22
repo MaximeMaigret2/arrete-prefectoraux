@@ -1,0 +1,62 @@
+# backend/src/connecteurs/configs/prefecture-60.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Oise.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19
+# (lot 58-61) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Publications-legales/Recueils-des-actes-administratifs-RAA" :
+# navigation à UN niveau (racine → carte de l'année, motif "RAA-{annee}$")
+# vers une page paginée (14 pages de 10 `.fr-card` au 2026-08-19, triée du
+# plus récent au plus ancien — page 1 suffit, comme 56/58). Chaque
+# `.fr-card__title a` mène à une page de détail HTML — MÊME FAMILLE que
+# prefecture-44/58/77/51 (`page_detail`, attribut par défaut `href`).
+#
+# PIÈGE DE MARKUP RÉEL CONFIRMÉ EN LIVE : une page de détail porte souvent
+# DEUX liens `a.fr-link--download` — un PDF "sommaire" (index/table des
+# matières du numéro) LISTÉ EN PREMIER dans le DOM, et le PDF réel du
+# recueil juste après (ex. "20260818_RAA_spécial_sommaire.pdf" puis
+# "20260818_RAA_spécial.pdf"). Le moteur ne retient que le premier
+# `selecteur_lien_pdf` trouvé (`.first()`) : sans exclusion explicite, c'est
+# systématiquement le sommaire (jamais le texte des arrêtés) qui serait lu.
+# D'où `:not([href*="_sommaire"])`, qui écarte cette entrée par convention
+# de nommage de fichier (vérifiée sur plusieurs numéros en live) plutôt que
+# par position dans le DOM (fragile). Limite connue et acceptée : certains
+# numéros (ex. les "Suppléments") portent DEUX PDF de contenu réel sans
+# aucun "sommaire" à exclure (ex. "20260814_Arrêté GDV.pdf" +
+# "20260814_Arrêté spécial FENC.pdf" sur le même numéro) — le moteur
+# (`.first()`, un seul PDF lu par publication, contrat §2 étendu) ne lit
+# alors que le premier des deux ; un arrêté rave-party porté exclusivement
+# par le second PDF d'un tel numéro ne serait pas détecté. Aucune extension
+# générique du moteur ne comble cette limite à ce jour (elle existait déjà,
+# non formulée, pour tout connecteur `page_detail` — première fois qu'elle
+# est rencontrée concrètement sur un numéro réel).
+#
+# IMPORTANT (contrat du moteur, relu avant écriture — bug trouvé et corrigé
+# ici sur ce connecteur, même correctif que 58/Nièvre) : `page_detail.attribut_lien`
+# est lu directement sur l'élément `selecteur_publications` lui-même
+# (`$publication.attr(...)`, jamais un `.find()`) — `selecteur_publications`
+# DOIT donc être l'`<a>` porteur du `href` lui-même (`.fr-card__title a`),
+# jamais la carte `.fr-card` qui l'enveloppe (qui n'a pas de `href` propre).
+# `selecteur_titre` reste volontairement sans correspondance (aucun
+# descendant à l'intérieur d'un `<a>`) : repli sur `$publication.text()`.
+# `selecteur_lien_pdf` n'est pas affecté par ce piège : il est appliqué sur
+# le document de la page de détail une fois celle-ci récupérée, pas via
+# `.find()` sur `$publication` — la logique `:not([href*='_sommaire'])`
+# reste donc inchangée.
+type_connecteur: page_web
+url_liste: "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-{annee}$"
+selecteur_publications: ".fr-card__title a"
+selecteur_titre: ".jamais-de-descendant-dans-un-a-oise"
+selecteur_lien_pdf: "a.fr-link--download:not([href*='_sommaire'])"
+page_detail: {}
+autorite_signataire: "Le préfet de l'Oise"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

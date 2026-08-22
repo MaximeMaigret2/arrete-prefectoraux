@@ -1,0 +1,49 @@
+# backend/src/connecteurs/configs/prefecture-85.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Vendée. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21
+# (lot 83-87) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-actes-administratifs" : navigation à UN
+# niveau (racine → carte de l'année, motif
+# "Recueils-des-Actes-Administratifs-{annee}$") vers une page dont la
+# liste des publications n'est PAS portée par des cartes DSFR mais par un
+# unique `<select class="fr-select">` ("Sélectionnez une option dans la
+# liste ci-dessous") listant TOUTES les publications de l'année (167
+# options au 2026-08-21, la plus récente en tête, value = chemin relatif
+# vers une page de détail HTML — ex.
+# "Publications/.../Recueil-des-actes-administratifs-2026-169-publie-le-21-08-2026",
+# SANS "/" de tête, résolu nativement par le moteur comme un chemin
+# relatif) — même famille `page_detail`/`attribut_lien: "value"` que
+# prefecture-77, mais ici le `<select>` EST directement la liste finale
+# des publications (pas une étape de navigation vers un mois). Le premier
+# `<option>` ("Liste", value="") est un placeholder à exclure explicitement
+# via `:not([value=''])` (aucun mécanisme de pattern ne s'applique à
+# `selecteur_publications`, contrairement à une étape de `navigation`).
+# Page de détail : un seul lien `a.fr-link--download` vers le PDF réel
+# (vérifié en live sur l'option la plus récente, 2026-169 du 21/08/2026).
+#
+# Signataire confirmé (recherche web/Légifrance, 2026-08-21) : M. Éric
+# Freysselinard, préfet de la Vendée (nommé par décret du 2 décembre
+# 2025) — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Recueils-des-Actes-Administratifs-{annee}$"
+selecteur_publications: "select.fr-select option:not([value=''])"
+# Sélecteur intentionnellement sans correspondance à l'intérieur d'un
+# <option> (aucun descendant) : force le repli sur $publication.text(),
+# qui vaut déjà le libellé complet de la publication.
+selecteur_titre: ".jamais-de-descendant-dans-une-option-vendee"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  attribut_lien: "value"
+autorite_signataire: "Le préfet de la Vendée"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

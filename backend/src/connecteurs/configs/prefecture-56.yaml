@@ -1,0 +1,39 @@
+# backend/src/connecteurs/configs/prefecture-56.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du
+# Morbihan. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 52-56) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-Actes-Administratifs-RAA" :
+# racine SANS carte DSFR — sélecteur d'année en <select
+# id="Années-liste-docs" class="fr-select"> (comme prefecture-55/17 —
+# V011, attribut_lien: "value" dès la première étape), chaque
+# <option value="RAA/Annee-{annee}"> (SANS "/" de tête) menant à une page
+# de type "actualités" DSFR paginée (`.fr-pagination`, 10 par page, ~10
+# pages) où chaque publication est une `.fr-card` DONT LE TITRE
+# (`.fr-card__title a`) POINTE DIRECTEMENT VERS LE PDF (pas de page de
+# détail intermédiaire — vérifié en live, href se termine directement par
+# ".pdf"). AUCUNE étape de pagination nécessaire : triée du plus récent
+# au plus ancien, la page 1 (celle que `url_liste`/navigation atteint par
+# défaut) contient déjà les publications les plus récentes — à la
+# différence de prefecture-46 (pagination nécessaire pour ATTEINDRE les
+# plus récents) et prefecture-50 (pagination nécessaire pour les mois
+# passés déjà couverts page 1) : ici la pagination ne sert qu'à accéder à
+# des publications PLUS ANCIENNES, jamais nécessaires pour la collecte
+# courante.
+type_connecteur: page_web
+url_liste: "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+navigation:
+  - selecteur_liens: "#Années-liste-docs option"
+    pattern_lien: "Annee-{annee}$"
+    attribut_lien: "value"
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet du Morbihan"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

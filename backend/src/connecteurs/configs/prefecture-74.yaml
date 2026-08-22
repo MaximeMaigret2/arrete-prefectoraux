@@ -1,0 +1,38 @@
+# backend/src/connecteurs/configs/prefecture-74.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Haute-Savoie. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 72-76) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Actes-administratifs" :
+# navigation à UN niveau (racine → carte de l'année, motif "{annee}$",
+# lien porté par ".fr-card__title a") vers une page PAGINÉE (39 pages de
+# 10 `.fr-card` au 2026-08-21, page 1 = plus récent) où chaque
+# `.fr-card__title a` pointe DIRECTEMENT vers le PDF (pas de page de
+# détail) — même famille que prefecture-13/33/68 : `selecteur_publications`
+# est le conteneur `.fr-card` (jamais le lien lui-même, puisqu'il n'y a
+# pas de `page_detail` ici — `selecteur_lien_pdf` est cherché via
+# `.find()` dans la publication).
+#
+# Signataire confirmé (page "Jérôme Bonet, préfet", haute-savoie.gouv.fr,
+# 2026-08-21) : M. Jérôme Bonet, préfet du Gard, nommé préfet de la
+# Haute-Savoie à compter du 17/08/2026 (décret NOR INTP2619157D, JORF
+# n°0170 du 23/07/2026), succédant à Mme Emmanuelle Dubée — grammaire au
+# masculin. Nomination très récente par rapport à la date de capture
+# (4 jours) : à revérifier si une dérive de signataire apparaît sur ce
+# connecteur dans les mois suivant sa mise en service.
+type_connecteur: page_web
+url_liste: "https://www.haute-savoie.gouv.fr/Publications/Actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet de la Haute-Savoie"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

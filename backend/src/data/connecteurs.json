@@ -16,7 +16,7 @@
       "13"
     ],
     "actif": true,
-    "derniere_collecte": "2026-08-14T08:41:25.899Z",
+    "derniere_collecte": "2026-08-20T20:11:35.805Z",
     "type_connecteur": "page_web"
   },
   {
@@ -124,6 +124,826 @@
     "nom": "Préfecture de l'Aube",
     "departements_couverts": [
       "10"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-11",
+    "nom": "Préfecture de l'Aude",
+    "departements_couverts": [
+      "11"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-12",
+    "nom": "Préfecture de l'Aveyron",
+    "departements_couverts": [
+      "12"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-14",
+    "nom": "Préfecture du Calvados",
+    "departements_couverts": [
+      "14"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-15",
+    "nom": "Préfecture du Cantal",
+    "departements_couverts": [
+      "15"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-16",
+    "nom": "Préfecture de la Charente",
+    "departements_couverts": [
+      "16"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-17",
+    "nom": "Préfecture de la Charente-Maritime",
+    "departements_couverts": [
+      "17"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-18",
+    "nom": "Préfecture du Cher",
+    "departements_couverts": [
+      "18"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-19",
+    "nom": "Préfecture de la Corrèze",
+    "departements_couverts": [
+      "19"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-2A",
+    "nom": "Préfecture de la Corse-du-Sud",
+    "departements_couverts": [
+      "2A"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-2B",
+    "nom": "Préfecture de la Haute-Corse",
+    "departements_couverts": [
+      "2B"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-21",
+    "nom": "Préfecture de la Côte-d'Or",
+    "departements_couverts": [
+      "21"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-22",
+    "nom": "Préfecture des Côtes-d'Armor",
+    "departements_couverts": [
+      "22"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-23",
+    "nom": "Préfecture de la Creuse",
+    "departements_couverts": [
+      "23"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-24",
+    "nom": "Préfecture de la Dordogne",
+    "departements_couverts": [
+      "24"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-25",
+    "nom": "Préfecture du Doubs",
+    "departements_couverts": [
+      "25"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-26",
+    "nom": "Préfecture de la Drôme",
+    "departements_couverts": [
+      "26"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-27",
+    "nom": "Préfecture de l'Eure",
+    "departements_couverts": [
+      "27"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-28",
+    "nom": "Préfecture d'Eure-et-Loir",
+    "departements_couverts": [
+      "28"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-29",
+    "nom": "Préfecture du Finistère",
+    "departements_couverts": [
+      "29"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-30",
+    "nom": "Préfecture du Gard",
+    "departements_couverts": [
+      "30"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-31",
+    "nom": "Préfecture de la Haute-Garonne",
+    "departements_couverts": [
+      "31"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-32",
+    "nom": "Préfecture du Gers",
+    "departements_couverts": [
+      "32"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-34",
+    "nom": "Préfecture de l'Hérault",
+    "departements_couverts": [
+      "34"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-35",
+    "nom": "Préfecture d'Ille-et-Vilaine",
+    "departements_couverts": [
+      "35"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-36",
+    "nom": "Préfecture de l'Indre",
+    "departements_couverts": [
+      "36"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-37",
+    "nom": "Préfecture d'Indre-et-Loire",
+    "departements_couverts": [
+      "37"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-38",
+    "nom": "Préfecture de l'Isère",
+    "departements_couverts": [
+      "38"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-39",
+    "nom": "Préfecture du Jura",
+    "departements_couverts": [
+      "39"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-40",
+    "nom": "Préfecture des Landes",
+    "departements_couverts": [
+      "40"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-41",
+    "nom": "Préfecture de Loir-et-Cher",
+    "departements_couverts": [
+      "41"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-42",
+    "nom": "Préfecture de la Loire",
+    "departements_couverts": [
+      "42"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-43",
+    "nom": "Préfecture de la Haute-Loire",
+    "departements_couverts": [
+      "43"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-44",
+    "nom": "Préfecture de la Loire-Atlantique",
+    "departements_couverts": [
+      "44"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-45",
+    "nom": "Préfecture du Loiret",
+    "departements_couverts": [
+      "45"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-46",
+    "nom": "Préfecture du Lot",
+    "departements_couverts": [
+      "46"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-47",
+    "nom": "Préfecture de Lot-et-Garonne",
+    "departements_couverts": [
+      "47"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-48",
+    "nom": "Préfecture de la Lozère",
+    "departements_couverts": [
+      "48"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-49",
+    "nom": "Préfecture de Maine-et-Loire",
+    "departements_couverts": [
+      "49"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-50",
+    "nom": "Préfecture de la Manche",
+    "departements_couverts": [
+      "50"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-51",
+    "nom": "Préfecture de la Marne",
+    "departements_couverts": [
+      "51"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-52",
+    "nom": "Préfecture de la Haute-Marne",
+    "departements_couverts": [
+      "52"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-53",
+    "nom": "Préfecture de la Mayenne",
+    "departements_couverts": [
+      "53"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-54",
+    "nom": "Préfecture de Meurthe-et-Moselle",
+    "departements_couverts": [
+      "54"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-55",
+    "nom": "Préfecture de la Meuse",
+    "departements_couverts": [
+      "55"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-56",
+    "nom": "Préfecture du Morbihan",
+    "departements_couverts": [
+      "56"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-58",
+    "nom": "Préfecture de la Nièvre",
+    "departements_couverts": [
+      "58"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-59",
+    "nom": "Préfecture du Nord",
+    "departements_couverts": [
+      "59"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-60",
+    "nom": "Préfecture de l'Oise",
+    "departements_couverts": [
+      "60"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-61",
+    "nom": "Préfecture de l'Orne",
+    "departements_couverts": [
+      "61"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-62",
+    "nom": "Préfecture du Pas-de-Calais",
+    "departements_couverts": [
+      "62"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-63",
+    "nom": "Préfecture du Puy-de-Dôme",
+    "departements_couverts": [
+      "63"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-64",
+    "nom": "Préfecture des Pyrénées-Atlantiques",
+    "departements_couverts": [
+      "64"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-65",
+    "nom": "Préfecture des Hautes-Pyrénées",
+    "departements_couverts": [
+      "65"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-66",
+    "nom": "Préfecture des Pyrénées-Orientales",
+    "departements_couverts": [
+      "66"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-67",
+    "nom": "Préfecture du Bas-Rhin",
+    "departements_couverts": [
+      "67"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-68",
+    "nom": "Préfecture du Haut-Rhin",
+    "departements_couverts": [
+      "68"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-69",
+    "nom": "Préfecture du Rhône",
+    "departements_couverts": [
+      "69"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-70",
+    "nom": "Préfecture de la Haute-Saône",
+    "departements_couverts": [
+      "70"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-71",
+    "nom": "Préfecture de Saône-et-Loire",
+    "departements_couverts": [
+      "71"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-72",
+    "nom": "Préfecture de la Sarthe",
+    "departements_couverts": [
+      "72"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-73",
+    "nom": "Préfecture de la Savoie",
+    "departements_couverts": [
+      "73"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-74",
+    "nom": "Préfecture de la Haute-Savoie",
+    "departements_couverts": [
+      "74"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-75",
+    "nom": "Préfecture de police de Paris",
+    "departements_couverts": [
+      "75"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-76",
+    "nom": "Préfecture de la Seine-Maritime",
+    "departements_couverts": [
+      "76"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-78",
+    "nom": "Préfecture des Yvelines",
+    "departements_couverts": [
+      "78"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-79",
+    "nom": "Préfecture des Deux-Sèvres",
+    "departements_couverts": [
+      "79"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-80",
+    "nom": "Préfecture de la Somme",
+    "departements_couverts": [
+      "80"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-81",
+    "nom": "Préfecture du Tarn",
+    "departements_couverts": [
+      "81"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-82",
+    "nom": "Préfecture de Tarn-et-Garonne",
+    "departements_couverts": [
+      "82"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-83",
+    "nom": "Préfecture du Var",
+    "departements_couverts": [
+      "83"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-84",
+    "nom": "Préfecture de Vaucluse",
+    "departements_couverts": [
+      "84"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-85",
+    "nom": "Préfecture de la Vendée",
+    "departements_couverts": [
+      "85"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-86",
+    "nom": "Préfecture de la Vienne",
+    "departements_couverts": [
+      "86"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-87",
+    "nom": "Préfecture de la Haute-Vienne",
+    "departements_couverts": [
+      "87"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-88",
+    "nom": "Préfecture des Vosges",
+    "departements_couverts": [
+      "88"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-89",
+    "nom": "Préfecture de l'Yonne",
+    "departements_couverts": [
+      "89"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-90",
+    "nom": "Préfecture du Territoire de Belfort",
+    "departements_couverts": [
+      "90"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-91",
+    "nom": "Préfecture de l'Essonne",
+    "departements_couverts": [
+      "91"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-92",
+    "nom": "Préfecture des Hauts-de-Seine",
+    "departements_couverts": [
+      "92"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-93",
+    "nom": "Préfecture de la Seine-Saint-Denis",
+    "departements_couverts": [
+      "93"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-94",
+    "nom": "Préfecture du Val-de-Marne",
+    "departements_couverts": [
+      "94"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
+    "id": "prefecture-95",
+    "nom": "Préfecture du Val-d'Oise",
+    "departements_couverts": [
+      "95"
     ],
     "actif": true,
     "derniere_collecte": null,

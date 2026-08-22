@@ -1,0 +1,63 @@
+# backend/src/connecteurs/configs/prefecture-28.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture d'Eure-et-Loir.
+# Sélecteurs établis le 2026-08-14 (Phase 5bis élargie 10, lot 26-30) contre
+# une capture réelle du site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-28/SOURCE.md
+# pour le détail complet) :
+# - `url_liste` (racine) liste une carte DSFR par ANNÉE (`.fr-card__title
+#   a`, href se terminant par `administratifs-{annee}`).
+# - La page de l'année liste une carte DSFR par MOIS (`.fr-card__title a`,
+#   href se terminant simplement par le nom du mois SANS l'année, ex.
+#   `.../Recueil-des-actes-administratifs-2026/Aout` — motif `{mois_fr}$`).
+#   Les 8 mois écoulés de l'année (Janvier à Août) sont déjà des cartes au
+#   moment de la capture (mois futurs absents, à la différence de
+#   prefecture-26).
+# - La page du mois liste directement TOUS les actes administratifs
+#   individuels du mois (pas seulement des "recueils"/bulletins groupés :
+#   délégations de signature, arrêtés isolés, récépissés...) comme des
+#   `<div class="">` contenant chacun un unique `<a class="fr-link
+#   fr-link--download">` — même famille que prefecture-21/23/25/26. 23 actes
+#   pour août 2026 au moment de la capture (14/08 inclus), noms de fichiers
+#   très hétérogènes (jamais de convention "recueil-28-2026-NNN" uniforme,
+#   contrairement à la plupart des autres départements) — confirme que le
+#   texte du lien ne permet jamais de préjuger du contenu réglementaire,
+#   d'où le recours systématique au scan du contenu PDF.
+# - Page NON paginée pour ce mois (23 actes, aucun `fr-pagination` détecté).
+#
+# PIÈGE (identique à prefecture-26, même session) : `div:has(a.fr-link--download)`
+# seul matche aussi les `<div>` ANCÊTRES du lien (28 correspondances contre
+# la page réelle capturée, pour seulement 23 actes réels), pas seulement le
+# `<div class="">` immédiat. `selecteur_publications` cible donc
+# `div[class=""]:has(a.fr-link--download)` (attribut `class` exactement
+# vide) — 23/23 correspondances exactes vérifiées.
+#
+# Signataire réel : « Préfet<br />d'Eure-et-Loir » (logo textuel DSFR de
+# chaque carte, masculin).
+#
+# LIMITE DE CAPTURE : comme prefecture-27 (Eure), le endpoint
+# `/contenu/telechargement/...` de ce site refuse systématiquement les
+# téléchargements automatisés depuis le sandbox cloud de cette session
+# (connexion TLS fermée sans réponse) — aucun vrai PDF n'a pu être
+# échantillonné. `bulletin-avec-arrete.pdf`/`bulletin-sans-arrete-pertinent.pdf`
+# sont donc synthétiques (`reportlab`) ; `patterns_dates`/`pattern_reference`
+# reprennent l'hypothèse générique déjà posée pour la plupart des
+# connecteurs précédents.
+type_connecteur: page_web
+url_liste: "https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "administratifs-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le Préfet d'Eure-et-Loir"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

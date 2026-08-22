@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>RAA - Recueil des Actes Administratifs - Les services de l'État en Charente-Maritime</title>
+  </head>
+  <body>
+    <!--
+      Fixture V011 (Phase 5bis élargie 4, 2026-08-14) — reconstruction fidèle
+      de https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs
+      (fetch direct — cf. SOURCE.md) : le seul <select> d'archives de la
+      page racine (21 <option>, dont le placeholder désactivé et les années
+      2007-2026), reproduit intégralement à l'identique de la structure
+      réelle. Aucun <a href> équivalent n'existe ailleurs sur cette page
+      (vérifié) — c'est pourquoi la navigation lit `value`, pas `href`
+      (V011, cf. prefecture-17.yaml).
+    -->
+    <div class="fr-col-12 fr-col-md-8">
+      <h1 class="">RAA - Recueil des Actes Administratifs </h1>
+      <div class="fr-text--lead fr-my-3w">
+        <p>Le recueil des actes administratifs recense l'ensemble des actes à caractère réglementaire pris par ou au nom du préfet.</p>
+        <div class="fr_col-12">
+          <form method="post" name="Liste-des-actes-a-consulter" class="fr-mb-3w">
+            <div class="fr-select-group">
+              <label class="fr-label" for="Liste-des-actes-a-consulter-liste-docs">Sélectionnez une option dans la liste ci-dessous</label>
+              <select class="fr-select" id="Liste-des-actes-a-consulter-liste-docs" name="Liste-des-actes-a-consulter-liste-docs" size="5" required="required">
+                <option selected disabled hidden value="">Liste des actes à consulter (selectionner puis valider) :</option>
+                <option value="Publications/RAA-Recueil-des-Actes-Administratifs/Annee-2026" title="Année 2026">Année 2026</option>
+                <option value="Publications/RAA-Recueil-des-Actes-Administratifs/Annee-2025" title="Année 2025">Année 2025</option>
+                <option value="Publications/RAA-Recueil-des-Actes-Administratifs/Annee-2024" title="Année 2024">Année 2024</option>
+                <option value="Publications/RAA-Recueil-des-Actes-Administratifs/Annee-2007" title="Année 2007">Année 2007</option>
+              </select>
+            </div>
+            <input type="submit" class="fr-btn" value="Valider" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

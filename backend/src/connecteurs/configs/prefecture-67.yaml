@@ -1,0 +1,52 @@
+# backend/src/connecteurs/configs/prefecture-67.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Bas-Rhin.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21 (lot
+# 67-71) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte de l'année, motif
+# "RAA-ANNEE-{annee}$", lien porté par ".fr-card__title a") vers une page
+# qui liste, PAR MOIS, un <select class="fr-select"> distinct par mois
+# ayant des publications (8 <select> constatés en live au 2026-08-21,
+# janvier à août 2026) — PAS de liste plate ni de <select> unique,
+# contrairement à prefecture-38/77 (un seul <select> chacun). Même famille
+# de mécanisme `page_detail`/`value` que 38/77, mais `selecteur_publications:
+# "select.fr-select option"` (sélecteur générique de classe, pas d'id)
+# matche naturellement sur TOUS les <select> de la page à la fois.
+#
+# Chaque <option value="Media/Files/22.-RAA/{annee}/{Mois}/{slug}">
+# (valeur SANS "/" initial, comme 38/77 — s'appuie sur la normalisation de
+# `resoudreUrl()`) pointe vers une page de détail HTML, jamais directement
+# vers le PDF. Chaque <select> a un premier <option value=""> ("Liste",
+# placeholder, vérifié réel) — sans effet sur le moteur : `value` vide →
+# `resoudreUrlPdfPublication` retourne `null`, le titre replié ("Liste")
+# n'est jamais pertinent (aucun mot-clé), le candidat est simplement
+# ignoré (aucune exclusion explicite nécessaire).
+#
+# Page de détail : un seul lien `a.fr-link--download` vers le PDF réel
+# (vérifié sur 2 pages de détail différentes).
+#
+# Signataire confirmé (page "Le corps préfectoral du Bas-Rhin",
+# bas-rhin.gouv.fr, 2026-08-21) : M. Amaury de Saint-Quentin, préfet de la
+# région Grand Est et préfet du Bas-Rhin — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.bas-rhin.gouv.fr/Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-ANNEE-{annee}$"
+selecteur_publications: "select.fr-select option"
+# L'<option> n'a pas de descendant pertinent — force le repli sur
+# $publication.text(), même idiome que prefecture-38/77.
+selecteur_titre: ".jamais-de-descendant-dans-une-option"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  attribut_lien: "value"
+autorite_signataire: "Le préfet du Bas-Rhin"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

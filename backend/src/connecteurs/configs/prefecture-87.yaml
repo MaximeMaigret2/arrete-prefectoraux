@@ -1,0 +1,56 @@
+# backend/src/connecteurs/configs/prefecture-87.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Haute-Vienne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 83-87) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-actes-administratifs" : navigation à UN
+# niveau, mais découpage par SEMESTRE RÉGULIER (jamais rencontré tel
+# quel jusqu'ici — 04/Alpes-de-Haute-Provence utilisait déjà `periodes`
+# mais pour un semestre IRRÉGULIER janvier-juillet/août-décembre ; ici le
+# découpage est un semestre calendaire strict janvier-juin/juillet-décembre)
+# — d'où `periodes` (V009) avec deux motifs classiques plutôt qu'un
+# `pattern_lien` à base de `{mois_fr}`. Le lien de la carte de semestre
+# (`.fr-card__title a`, motif "JANVIER-JUIN-{annee}$" ou
+# "JUILLET-DECEMBRE-{annee}$") répond par une redirection HTTP
+# transparente vers une sous-page de même nom en minuscules/accentué
+# (ex. ".../JUILLET-DECEMBRE-2026" → ".../JUILLET-DECEMBRE-2026/Juillet-a-Decembre-2026")
+# — suivie nativement par `fetch()`, même mécanisme déjà rencontré pour
+# 61/63/79, aucune étape de navigation supplémentaire nécessaire.
+#
+# Liste finale du semestre : PLATE, ordre chronologique CROISSANT (le
+# premier bulletin du semestre en tête, le plus récent en fin de page —
+# vérifié en live : 44 publications pour juillet-décembre 2026 au
+# 2026-08-21, la dernière étant celle du 21 août, jour de la capture),
+# SANS pagination (tient sur une seule page) — donc pas de saut de
+# pagination nécessaire malgré l'ordre croissant, à la différence de
+# 61/63/64/74/83 où un même ordre croissant imposait un saut vers la
+# dernière page. Chaque publication dans un `div[class='']` contenant un
+# unique `a.fr-link--download` — même famille exacte que
+# 37/41/45/49/52/55/59/62/65/66/69/72/73/76/78/79.
+#
+# Signataire confirmé (recherche web/Légifrance, 2026-08-21) : M. Maurice
+# Baraté, préfet de la Haute-Vienne (nommé par décret du 2 décembre
+# 2025) — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.haute-vienne.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    periodes:
+      - motif: "JANVIER-JUIN-{annee}$"
+        mois_debut: 1
+        mois_fin: 6
+      - motif: "JUILLET-DECEMBRE-{annee}$"
+        mois_debut: 7
+        mois_fin: 12
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet de la Haute-Vienne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

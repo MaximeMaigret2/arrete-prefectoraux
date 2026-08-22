@@ -27,9 +27,13 @@ describe('GET /api/v1/departements/:code/evenements', () => {
   });
 
   it('retourne couvert:false et une liste vide pour un département non couvert', async () => {
-    const res = await request(app.server).get('/api/v1/departements/2A/evenements');
+    // 57 (Moselle), toujours en statut `identifiee` au 2026-08-19 (le
+    // lot 52-56 vient d'être déployé, 52 n'est donc plus un exemple valide de
+    // département non couvert — même mécanique que
+    // 2A→2B→21→26→31→37→42→47→52→57 au fil des sessions).
+    const res = await request(app.server).get('/api/v1/departements/57/evenements');
     expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({ code: '2A', couvert: false, evenements: [] });
+    expect(res.body).toMatchObject({ code: '57', couvert: false, evenements: [] });
   });
 
   it('retourne 404 pour un code de département inconnu', async () => {

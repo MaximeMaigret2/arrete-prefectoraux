@@ -1,0 +1,70 @@
+# backend/src/connecteurs/configs/prefecture-26.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la Drôme.
+# Sélecteurs établis le 2026-08-14 (Phase 5bis élargie 10, lot 26-30) contre
+# une capture réelle du site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-26/SOURCE.md
+# pour le détail complet) :
+# - `url_liste` (racine) liste une carte DSFR par ANNÉE (`.fr-card__title
+#   a`), href NE se terminant PAS par l'année (ex.
+#   ".../RAA-2026-consulter-le-recueil-des-services-de-l-Etat-dans-la-Drome")
+#   — motif `RAA-{annee}-consulter` (substring, pas d'ancrage `$`) plutôt
+#   que le `{annee}$` habituel (prefecture-25), pour rester spécifique face
+#   aux autres cartes de la même page (2015-2021, etc.).
+# - La page de l'année liste une carte DSFR par MOIS (`.fr-card__title a`,
+#   href se terminant par `{Mois}-{annee}` pour la plupart des mois, ex.
+#   `Aout-2026` — SAUF Janvier, qui porte un suffixe `-RAA` supplémentaire
+#   (`Janvier-2026-RAA`) : motif `{mois_fr}-{annee}` SANS ancrage `$` pour
+#   rester valide toute l'année plutôt que de casser en janvier. Tous les 12
+#   mois (dont des mois futurs, ex. Septembre/Octobre 2026) sont déjà des
+#   cartes au moment de la capture — sans incidence, seul le mois courant
+#   est suivi.
+# - La page du mois liste chaque bulletin comme un `<div class="">`
+#   contenant un unique `<a class="fr-link fr-link--download">` (lien PDF
+#   DIRECT, pas de page de détail) — même famille que prefecture-21/23/25.
+# - Page NON paginée (15 bulletins pour août 2026 au moment de la capture).
+#
+# PIÈGE DÉCOUVERT (nouveau par rapport à prefecture-21/23/25) : le
+# sélecteur `div:has(a.fr-link--download)` seul est AMBIGU sur cette page —
+# `:has()` matche aussi les `<div>` ANCÊTRES du lien (ex. `.fr-container#main`,
+# `.fr-grid-row`, `.fr-col-12.fr-col-md-8`, qui contiennent tous
+# transitivement au moins un lien de téléchargement), pas seulement le
+# `<div class="">` immédiat qui l'enveloppe directement — vérifié contre la
+# page réelle capturée : 18 correspondances pour seulement 15 bulletins
+# réels. `selecteur_publications` cible donc `div[class=""]` (attribut
+# `class` exactement vide, propre à chaque wrapper de bulletin sur ce site)
+# `:has(a.fr-link--download)` plutôt que `div` seul — 15/15 correspondances
+# exactes vérifiées. Piège potentiellement aussi présent sur
+# prefecture-21/23/25 (même idiome `div:has(...)` déployé sans ce filtrage
+# supplémentaire) — signalé pour vérification future, hors périmètre de ce
+# lot.
+#
+# Signataire réel confirmé (en-tête de 2 vrais PDF téléchargés, cf.
+# SOURCE.md) : « La préfète de la Drôme » (Madame Marie-Aimée GASPARI).
+#
+# Aucun arrêté anti rave-party réel trouvé parmi les 8 vrais PDF
+# échantillonnés (les plus récents d'août 2026) — un contre un spectacle de
+# M. Dieudonné M'Bala M'Bala, un encadrant un spectacle aérien de drones, un
+# portant interdiction des feux d'artifice (risque incendie), les autres
+# signés par des directions autres que le Cabinet préfectoral. Formulation
+# exacte d'un vrai arrêté anti rave-party de la Drôme donc NON vérifiée —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse générique déjà
+# posée pour la plupart des connecteurs précédents.
+type_connecteur: page_web
+url_liste: "https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-{annee}-consulter"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}-{annee}"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète de la Drôme"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

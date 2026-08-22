@@ -1,0 +1,42 @@
+# backend/src/connecteurs/configs/prefecture-58.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Nièvre. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 58-61) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte ".fr-card__title a" dont le href se
+# termine par "RAA-annee-{annee}") vers la page de l'année (27 pages de 10
+# `.fr-card` au 2026-08-19, triées du plus récent au plus ancien — page 1
+# atteinte par défaut contient déjà les publications les plus récentes,
+# comme 46/50/56 sans pagination nécessaire). Chaque `.fr-card__title a`
+# mène à une page de détail HTML (jamais directement au PDF) — MÊME FAMILLE
+# que prefecture-44/77/51/54 : `page_detail` avec l'attribut par défaut
+# (`href`, l'élément est un `<a>`, à la différence de 54 qui utilise un
+# `<select>`). Page de détail : un seul lien `a.fr-link--download` vers le
+# PDF réel (vérifié en live, `recueil-58-2026-274-...`).
+#
+# IMPORTANT (contrat du moteur, relu avant écriture) : `page_detail.attribut_lien`
+# est lu directement sur l'élément `selecteur_publications` lui-même
+# (`$publication.attr(...)`, jamais un `.find()`) — `selecteur_publications`
+# DOIT donc être l'`<a>` porteur du `href` lui-même (`.fr-card__title a`),
+# jamais la carte `.fr-card` qui l'enveloppe (qui n'a pas de `href` propre).
+# `selecteur_titre` reste volontairement sans correspondance (aucun
+# descendant à l'intérieur d'un `<a>`) : repli sur `$publication.text()`,
+# qui donne déjà un texte exploitable (le slug de la publication).
+type_connecteur: page_web
+url_liste: "https://www.nievre.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-annee-{annee}$"
+selecteur_publications: ".fr-card__title a"
+selecteur_titre: ".jamais-de-descendant-dans-un-a-nievre"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail: {}
+autorite_signataire: "Le préfet de la Nièvre"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

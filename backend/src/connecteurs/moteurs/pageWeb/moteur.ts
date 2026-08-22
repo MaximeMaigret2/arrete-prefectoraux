@@ -5,6 +5,7 @@ import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '
 import { parisAnneeMoisCourant } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { PageWebConfigSchema, type PageWebConfig } from './config.schema.js';
+import { EN_TETES_HTTP_DEFAUT } from '../../httpClient.js';
 
 /**
  * Moteur `page_web` (contracts/connecteur-interface.md §2). Générique :
@@ -102,7 +103,7 @@ async function resoudreNavigation(
 ): Promise<string> {
   let urlCourante = urlDepart;
   for (const etape of etapes) {
-    const reponse = await fetch(urlCourante);
+    const reponse = await fetch(urlCourante, { headers: EN_TETES_HTTP_DEFAUT });
     if (!reponse.ok) {
       throw new Error(`Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`);
     }
@@ -113,7 +114,12 @@ async function resoudreNavigation(
 
     let urlSuivante: string | null = null;
     for (const element of $(etape.selecteur_liens).toArray()) {
-      const href = $(element).attr('href');
+      // V011 (Phase 5bis élargie 4, 2026-08-14, prefecture-17) : l'attribut
+      // portant le lien est configurable (`href` par défaut) — nécessaire
+      // quand la toute première étape de navigation ne trouve son lien
+      // suivant que dans la `value` d'un `<option>` (ex. un sélecteur
+      // d'année en racine, sans `<a>` équivalent).
+      const href = $(element).attr(etape.attribut_lien);
       if (!href) continue;
       const resolue = resoudreUrl(href, urlCourante);
       if (regex.test(resolue)) {
@@ -157,7 +163,7 @@ async function resoudreUrlPdfPublication(
     const lienPublication = $publication.attr(config.page_detail.attribut_lien);
     if (!lienPublication) return null;
     const urlDetail = resoudreUrl(lienPublication, urlListeEffective);
-    const reponse = await fetch(urlDetail);
+    const reponse = await fetch(urlDetail, { headers: EN_TETES_HTTP_DEFAUT });
     if (!reponse.ok) {
       throw new Error(`Page de détail "${urlDetail}" inaccessible (HTTP ${reponse.status}).`);
     }
@@ -241,7 +247,7 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // Étape 1 (contrat §2) : récupérer la page liste.
       let html: string;
       try {
-        const reponse = await fetch(urlListeEffective);
+        const reponse = await fetch(urlListeEffective, { headers: EN_TETES_HTTP_DEFAUT });
         if (!reponse.ok) {
           throw new Error(`HTTP ${reponse.status}`);
         }

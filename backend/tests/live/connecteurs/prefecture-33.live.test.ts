@@ -47,6 +47,12 @@ describe('Dérive structurelle — prefecture-33 (V007, manuel uniquement)', () 
       expect(reponse.ok, `Navigation étape ${i} : "${urlCourante}" inaccessible (HTTP ${reponse.status}).`).toBe(true);
       const html = await reponse.text();
       const $ = cheerio.load(html);
+      if (etape.pattern_lien === undefined) {
+        // Ce test suppose la forme historique `pattern_lien` (cf. config
+        // actuelle de prefecture-33) — si la config est un jour étendue à
+        // `periodes` (V009), ce test devra être adapté en conséquence.
+        throw new Error(`Navigation étape ${i} : "pattern_lien" absent (config passée à "periodes" ?) — ce test de dérive suppose "pattern_lien".`);
+      }
       const motif = substituerPlaceholders(etape.pattern_lien, maintenant);
       const regex = new RegExp(motif, 'i');
       let trouve: string | null = null;

@@ -1,0 +1,36 @@
+# backend/src/connecteurs/configs/prefecture-59.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Nord.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19
+# (lot 58-61) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueils-des-actes-administratifs" :
+# navigation à TROIS niveaux (la plus profonde rencontrée jusqu'ici, devant
+# les 2 niveaux de 53/Mayenne) —
+#   1. racine → unique carte "RAA du département du Nord" (lien fixe, motif
+#      littéral sans placeholder de date : "RAA-du-departement-du-Nord$") ;
+#   2. → carte de l'année ("{annee}$", ex. ".../RAA-du-departement-du-Nord/2026") ;
+#   3. → carte du mois ("{mois_fr}$", ex. ".../2026/Aout").
+# Page du mois : liste PLATE, chaque publication dans un `<div class="">`
+# contenant `a.fr-link--download` — même famille exacte que
+# prefecture-37/41/45/49/52/55 (comptage exact confirmé en live : 17 = 17
+# pour août 2026). Lien PDF direct, pas de `page_detail`.
+type_connecteur: page_web
+url_liste: "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-du-departement-du-Nord$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet du Nord"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

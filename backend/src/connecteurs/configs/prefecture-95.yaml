@@ -1,0 +1,41 @@
+# backend/src/connecteurs/configs/prefecture-95.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du
+# Val-d'Oise. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-22 (lot 93-95, dernier lot du périmètre 96 départements) — cf.
+# claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-Actes-Administratifs" : navigation à UN
+# niveau (racine → carte de l'année, motif "RAA-de-{annee}$") vers une
+# liste finale PLATE, SANS PAGINATION (152 liens comptés en live pour
+# 2026). PARTICULARITÉ : chaque publication est un `<a class="">` (SANS
+# `fr-link--download`) au sein d'un `div[class='']`, menant à une page de
+# DÉTAIL HTML — jamais un PDF direct — même famille `page_detail` que
+# 44/58/60/77/81. Conformément à la règle `page_detail` du contrat moteur
+# (relue avant écriture), `selecteur_publications` cible l'`<a>` lui-même
+# (`div[class=''] > a`, porteur du `href`), jamais le `div` englobant.
+# `selecteur_titre` volontairement sans correspondance (aucun descendant
+# dans un `<a>` sans enfant) : repli sur `$publication.text()`, qui donne
+# déjà le libellé complet ("RAAE n° 158 du 22 août 2026"). Page de détail :
+# un seul lien `a.fr-link--download` vers le PDF réel.
+#
+# Signataire confirmé (page officielle "corps préfectoral",
+# val-doise.gouv.fr) : M. Philippe Court, préfet du Val-d'Oise —
+# grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.val-doise.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-de-{annee}$"
+selecteur_publications: "div[class=''] > a"
+selecteur_titre: ".jamais-de-descendant-dans-un-a-vdoise"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail: {}
+autorite_signataire: "Le préfet du Val-d'Oise"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

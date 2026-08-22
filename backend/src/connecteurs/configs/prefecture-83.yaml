@@ -1,0 +1,46 @@
+# backend/src/connecteurs/configs/prefecture-83.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Var.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21
+# (lot 83-87) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/RAA-Recueil-des-actes-administratifs" : navigation à
+# TROIS niveaux — 1. racine → carte de l'année ("Recueil-des-actes-administratifs-{annee}$",
+# porté par ".fr-card__title a", même lien dupliqué dans le menu latéral
+# fr-sidemenu mais jamais ambigu puisque les deux résolvent à la même URL) ;
+# 2. → carte du mois ("{mois_fr}-{annee}$") ; 3. ÉTAPE OPTIONNELLE — comme
+# 64/74, la page du mois est PAGINÉE (10 publications/page, triées du PLUS
+# ANCIEN au plus récent — vérifié en live août 2026 : page 1 commence par
+# "RAA n°277 du 2 août", la dernière page se termine par "RAA N°307 du 21
+# août") — d'où un saut direct vers `.fr-pagination__link--last`, marquée
+# `optionnelle: true` (absente quand le mois tient sur une seule page).
+#
+# Liste finale : cartes DSFR complètes (`.fr-card`) dont `.fr-card__title a`
+# (classe réelle observée : `fr-card__link menu-item-link`) pointe
+# DIRECTEMENT vers le PDF — pas de page de détail intermédiaire, même
+# famille que 64/74 (carte complète mais lien PDF direct, à distinguer du
+# piège `page_detail` de 58/60/70/71/81).
+#
+# Signataire confirmé (recherche web, 2026-08-21) : M. Simon Babre, préfet
+# du Var — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Recueil-des-actes-administratifs-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}-{annee}$"
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)"
+    optionnelle: true
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet du Var"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

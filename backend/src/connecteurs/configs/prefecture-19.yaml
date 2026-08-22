@@ -1,0 +1,58 @@
+# backend/src/connecteurs/configs/prefecture-19.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la Corrèze.
+# Sélecteurs établis le 2026-08-14 contre une capture réelle du site (fetch
+# direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-19/SOURCE.md
+# pour le détail complet) :
+# - `url_liste` (racine) liste une carte DSFR par ANNÉE (`.fr-card__title a`,
+#   href se terminant par "RAA-annee-{annee}", ex. ".../RAA-annee-2026") —
+#   même famille de structure que prefecture-01/13/18/33/77.
+# - La page de l'année (ex. ".../RAA-annee-2026") liste DIRECTEMENT tous les
+#   bulletins RAA de l'année, regroupés par mois (en-têtes `<p>Janvier</p>`,
+#   `<p>Août</p>`, etc. à titre indicatif seulement, pas de sélecteur dessus)
+#   au sein d'un unique `div.fr-text--lead`, chaque bulletin étant un
+#   `<li><a class="fr-link fr-link--download">` portant à la fois le titre
+#   ET le lien PDF DIRECT (pas de page de détail intermédiaire) — AUCUNE
+#   page mensuelle séparée, contrairement à prefecture-01/18 : navigation à
+#   UN SEUL niveau (racine → année), le plus court observé à ce jour parmi
+#   les 21 connecteurs (jusqu'ici toujours ≥ 2 niveaux). Couverte telle
+#   quelle par `selecteur_publications`/`selecteur_titre`/`selecteur_lien_pdf`
+#   existants (structure `<li><a>` nouvelle en tant que telle — jusqu'ici
+#   `<div>` pour 01, `.fr-card` pour 13/17/33/77, `<p>` pour 18 — mais aucune
+#   extension moteur nécessaire, `selecteur_publications` est un simple
+#   sélecteur CSS déclaratif).
+# - Page NON paginée (125 bulletins de l'année 2026 au moment de la capture,
+#   jusqu'à mi-août, tous sur une seule page HTML) : comme prefecture-01/03/
+#   13/17/18/33, aucune étape de pagination nécessaire.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin ("Raa [spécial]
+# 19-2026-XXX du DD mois AAAA") ne mentionne jamais son contenu réglementaire
+# — c'est le moteur `page_web` (scan de contenu PDF) qui retente la
+# pertinence sur le texte du PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les connecteurs précédents) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  # Racine → carte de l'année courante (href se termine par "annee-{annee}",
+  # insensible à la casse — les années récentes utilisent "RAA-annee-2026",
+  # les plus anciennes "RAA-Annee-2019" : sans incidence, le moteur compile
+  # le motif avec le flag `i`).
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "annee-{annee}$"
+selecteur_publications: "div.fr-text--lead li"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-01/18).
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le Préfet de la Corrèze"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

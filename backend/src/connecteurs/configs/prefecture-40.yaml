@@ -1,0 +1,68 @@
+# backend/src/connecteurs/configs/prefecture-40.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture des Landes.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-18 — cf.
+# claude/etat-connecteurs.md pour le contexte (WebFetch bloqué sur tous les
+# sous-chemins de ce domaine dans le sandbox cloud ; validation faite via
+# navigation Chrome réelle côté utilisateur).
+#
+# Structure confirmée en live sur ".../Le-Recueil-des-Actes-Administratifs-RAA/2026" :
+# chaque bulletin est une carte `.fr-card` dont le lien `.fr-card__link`
+# (dans `.fr-card__title`) pointe vers une page de détail au slug descriptif
+# (ex. ".../2026/RAA-n-276-du-18-aout"), PAS directement vers le PDF — d'où
+# `page_detail`. Sur la page de détail elle-même, le lien de téléchargement
+# n'a PAS la classe `fr-link--download` exploitable (attribut `class` vide
+# constaté en live sur 2 bulletins distincts — probable bug de balisage côté
+# site), mais vit dans un conteneur DSFR standard `.fr-downloads-group`
+# (`<div class="fr-downloads-group fr-downloads-group--bordered">`) —
+# confirmé identique sur les bulletins "RAA n°276" et "RAA n°274" de 2026.
+# `selecteur_lien_pdf: ".fr-downloads-group a"` cible ce conteneur plutôt
+# que la classe du lien lui-même.
+#
+# PAGINATION CONFIRMÉE EN LIVE (absente de la version précédente de cette
+# config) : la page de l'année 2026 a `.fr-pagination__link--last` avec
+# href "..../2026/(offset)/260" (27 pages de 10 bulletins, du plus ancien
+# au plus récent — la dernière page contient donc les bulletins les plus
+# récents). Étape de navigation ajoutée, `optionnelle: true` comme pour
+# prefecture-02/36 (années avec ≤10 bulletins, sans pagination).
+#
+# `selecteur_titre` : `.fr-card__link` (le lien lui-même) n'a pas de
+# descendant — le sélecteur volontairement non-satisfaisable ci-dessous
+# fait retomber le moteur sur le texte du candidat (`.fr-card__link`)
+# lui-même comme titre (ex. "RAA n°276 du 18 août"), déjà utilisé ainsi
+# dans ce lot.
+#
+# Note sur l'historique des URLs indexées : quelques résultats de recherche
+# portent un préfixe "/index.php/" (ex. "/index.php/contenu/telechargement/...")
+# à côté de résultats identiques sans ce préfixe pour des publications plus
+# récentes (2026) — signe probable d'une ancienne génération de site
+# (avant migration DSFR) encore indexée en parallèle. `url_liste` retient la
+# forme SANS "/index.php/", confirmée en live (année 2026) et cohérente
+# avec la forme DSFR utilisée par tous les autres connecteurs déployés.
+#
+# `autorite_signataire` confirmée (décret de nomination du 26 mars 2025,
+# Légifrance) : M. Gilles Clavreul.
+type_connecteur: page_web
+url_liste: "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA"
+navigation:
+  # Racine → carte de l'année courante (confirmée en live :
+  # ".../Le-Recueil-des-Actes-Administratifs-RAA/2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{annee}$"
+  # Dernière page de pagination (bulletins les plus récents de l'année) —
+  # optionnelle : absente pour les années avec ≤10 bulletins.
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)/\\d+$"
+    optionnelle: true
+selecteur_publications: ".fr-card__link"
+selecteur_titre: ".jamais-de-descendant-dans-un-lien-fr-card"
+selecteur_lien_pdf: ".fr-downloads-group a"
+page_detail:
+  attribut_lien: "href"
+autorite_signataire: "Le préfet des Landes"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

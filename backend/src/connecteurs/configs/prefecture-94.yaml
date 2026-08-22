@@ -1,0 +1,33 @@
+# backend/src/connecteurs/configs/prefecture-94.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du
+# Val-de-Marne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-22 (lot 93-95, dernier lot du périmètre 96 départements) — cf.
+# claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Publications-legales/RAA-Recueil-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte de l'année, motif
+# "annee-{annee}$", minuscule) vers une page HTML de l'année (PAS un PDF
+# direct sur la carte d'année). Liste finale PLATE, SANS PAGINATION (130
+# liens `a.fr-link--download` comptés en live pour la seule année 2026) —
+# même famille `div[class='']:has(a.fr-link--download)` que
+# 78/87/89/90/etc. Lien PDF direct, pas de `page_detail`.
+#
+# Signataire confirmé (décret du 22 avril 2026, Légifrance) : M. Stanislas
+# Bourron, préfet du Val-de-Marne — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.val-de-marne.gouv.fr/Publications/Publications-legales/RAA-Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "annee-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet du Val-de-Marne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

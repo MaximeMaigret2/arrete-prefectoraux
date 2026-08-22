@@ -1,0 +1,39 @@
+# backend/src/connecteurs/configs/prefecture-84.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de
+# Vaucluse. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 83-87) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueils-des-actes-administratifs-RAA" : navigation à
+# DEUX niveaux (racine → carte de l'année, motif
+# "Recueil-des-Actes-Administratifs-{annee}$" → carte du mois, motif
+# "{mois_fr}-{annee}$") vers une liste plate de cartes DSFR
+# (`.fr-card`) triées du PLUS RÉCENT au plus ancien (vérifié en live :
+# le premier bulletin de la page d'août 2026 est bien celui du 21 août,
+# jour de la capture) — donc PAS besoin du saut de pagination optionnel
+# rencontré pour 64/74/83, malgré la présence d'une pagination sur cette
+# même page (10 bulletins/page, mais les plus récents sont déjà sur la
+# page 1). Chaque `.fr-card__title a` (classe réelle : `fr-card__link
+# menu-item-link`) pointe DIRECTEMENT vers le PDF — pas de page de détail
+# intermédiaire.
+#
+# Signataire confirmé (recherche web, 2026-08-21) : M. Thierry Suquet,
+# préfet de Vaucluse — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Recueil-des-Actes-Administratifs-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}-{annee}$"
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet de Vaucluse"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

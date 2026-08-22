@@ -1,0 +1,45 @@
+# backend/src/connecteurs/configs/prefecture-91.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de
+# l'Essonne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 88-92) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueils-des-actes-administratifs-RAA" : navigation à
+# DEUX niveaux (racine → carte de l'année, motif "{annee}$" → carte du
+# mois, motif "{mois_fr}$", ex. href ".../2026/Aout") vers une page dont
+# la liste finale est PLATE, SANS PAGINATION (16 liens
+# `a.fr-link--download` comptés en live pour août 2026) — chaque
+# publication est portée par un `<p>` (pas un `div[class='']` ni une
+# `.fr-card`) : `selecteur_publications: "p:has(a.fr-link--download)"`,
+# même famille de marquage que 80/Somme (qui utilisait `p:has(a.fr-link)`
+# pour un cas sans classe `--download`).
+#
+# Piège de contenu du site repéré et sans impact : la page racine liste
+# aussi une carte "Avril" sans année associée (href
+# ".../Recueils-des-actes-administratifs-RAA/Avril", orpheline — probable
+# reliquat d'un ancien sous-menu jamais nettoyé). Le motif "{annee}$" (4
+# chiffres) ne matche jamais ce texte, donc aucune exclusion explicite
+# n'est nécessaire.
+#
+# Signataire confirmé (Légifrance, décret du 27 août 2025 +
+# essonne.gouv.fr "La préfète", 2026-08-21) : Mme Fabienne Balussou,
+# préfète de l'Essonne (en poste depuis fin août 2025, largement établie
+# à la date de capture) — grammaire au féminin.
+type_connecteur: page_web
+url_liste: "https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}$"
+selecteur_publications: "p:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète de l'Essonne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

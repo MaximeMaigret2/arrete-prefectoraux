@@ -1,0 +1,59 @@
+# backend/src/connecteurs/configs/prefecture-15.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Cantal.
+# Sélecteurs établis le 2026-08-14 (Phase 5bis élargie 3) contre une capture
+# réelle du site (fetch direct depuis le sandbox cloud).
+#
+# `point_acces` corrigé par rapport au registre des sources initial
+# (identifié le 2026-08-13 par recherche web) : l'URL alors enregistrée
+# (".../Publications/Recueil-des-actes-administratifs", casse minuscule)
+# redirige aujourd'hui (redirection serveur HTTP 301, suivie nativement par
+# `fetch`) vers ".../Publications/Recueil-des-Actes-Administratifs" (casse
+# majuscule sur "Actes-Administratifs") — c'est cette URL réelle (confirmée
+# par `curl`, code HTTP 301 puis 200) qui est utilisée ci-dessous comme
+# `url_liste`, même situation que prefecture-04/10 en Phase 5bis élargie
+# (point_acces corrigé lors de l'implémentation, cf. registre-sources.yaml).
+#
+# Structure réelle : `url_liste` RACINE liste une carte par année
+# (`.fr-card__title a`, href se terminant par "-2026") ; la page de l'année
+# est DÉJÀ la liste finale, en PLATE (chaque bulletin — "RAA spécial n°
+# 15-2026-160 du 13 août 2026" — est une carte `.fr-card` dont le titre EST
+# le nom du fichier PDF et dont `.fr-card__title a` porte directement le
+# lien PDF, pas de découpage par mois, comme prefecture-10), PAGINÉE (10 par
+# page) mais en ordre DÉCROISSANT (le bulletin le plus récent en tête de la
+# page 1, confirmé par les dates décroissantes 13→13→12→7→7→3→3→3→31→30
+# août/juillet sur cette seule page) — comme prefecture-06/08/09/10, aucune
+# étape supplémentaire vers la "dernière page" n'est nécessaire ici.
+#
+# Nom de fichier ("recueil-15-2026-160-recueil-des-actes-administratifs-special")
+# reprenant directement une numérotation séquentielle globale exploitable
+# ("15-2026-{num}") — utilisée pour choisir un numéro de référence réaliste
+# dans les PDF synthétiques de cette fixture.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin ne mentionne
+# jamais son contenu réglementaire — c'est le moteur `page_web` (scan de
+# contenu PDF) qui retente la pertinence sur le texte du PDF avant
+# d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les connecteurs précédents) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+navigation:
+  # Racine → carte de l'année courante, déjà la liste complète et plate
+  # (href se termine par "-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+selecteur_publications: ".fr-card"
+# Même lien porte le titre ET l'URL du PDF (comme prefecture-01/06/10/13).
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le Préfet du Cantal"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -1,0 +1,32 @@
+# backend/src/connecteurs/configs/prefecture-53.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Mayenne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 52-56) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-Actes-Administratifs" :
+# navigation à DEUX niveaux — racine → carte année ("Annee-{annee}$") →
+# carte mois ("{mois_fr}-{annee}$", ex. "Aout-2026") — même famille que
+# 42/43/47. Page du mois : liste plate de publications, chacune dans un
+# `<p>` SANS attribut class contenant directement `a.fr-link--download`
+# (comptage exact confirmé en live : 14 = 14, deux méthodes de comptage
+# indépendantes concordantes) — même famille de balisage que
+# prefecture-37/41/45/49/55, mais avec subdivision mensuelle ici (pas de
+# liste plate sur toute l'année).
+type_connecteur: page_web
+url_liste: "https://www.mayenne.gouv.fr/Publications/Recueil-Actes-Administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}-{annee}$"
+selecteur_publications: "p:not([class]):has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète de la Mayenne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

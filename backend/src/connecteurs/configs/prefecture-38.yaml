@@ -1,0 +1,50 @@
+# backend/src/connecteurs/configs/prefecture-38.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Isère.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-18 — cf.
+# claude/etat-connecteurs.md pour le contexte (WebFetch bloqué sur tous les
+# sous-chemins de ce domaine dans le sandbox cloud ; validation faite via
+# navigation Chrome réelle côté utilisateur).
+#
+# CORRECTION IMPORTANTE par rapport à l'hypothèse initiale (extrapolée de
+# la structure DSFR majoritaire) : PAS une liste plate. Confirmé en live
+# sur ".../Recueils-des-Actes-Administratifs-de-la-préfecture-de-l'Isère---2026" :
+# un unique `<select class="fr-select">` (327 `<option>` constatés) — même
+# famille que prefecture-77. Chaque `<option value="Publications/RAA-Recueil-des-actes-administratifs/.../slug">`
+# (valeur SANS "/" initial — s'appuie sur la normalisation existante de
+# `resoudreUrl()` dans le moteur) pointe vers une page de détail, PAS
+# directement vers le PDF. Confirmé sur une page de détail réelle :
+# `<a class="fr-link fr-link--download" href="/contenu/telechargement/84641/648555/file/recueil-38-2026-329-recueil-des-actes-administratifs-special.pdf">`.
+#
+# `selecteur_publications: "select.fr-select option"` (un seul `<select>`
+# confirmé présent sur la page), `page_detail.attribut_lien: "value"`
+# (l'URL de détail est dans l'attribut `value`, pas `href`, sur un
+# `<option>`), `selecteur_lien_pdf: "a.fr-link--download"` appliqué à la
+# page de détail récupérée.
+#
+# `url_liste` et le motif de l'étape `navigation` confirmés par l'URL
+# indexée `.../Publications/RAA-Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-de-la-prefecture-de-l-Isere-2024`.
+# `autorite_signataire` confirmée (décret de nomination du 6 novembre 2024,
+# Légifrance) : Mme Catherine Séguin.
+type_connecteur: page_web
+url_liste: "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs"
+navigation:
+  # Racine → carte de l'année courante (URL confirmée par recherche web :
+  # ".../Recueils-des-Actes-Administratifs-de-la-prefecture-de-l-Isere-2024").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+selecteur_publications: "select.fr-select option"
+# L'<option> n'a pas de descendant pertinent — force le repli sur
+# $publication.text() (l'intitulé du bulletin), même idiome que
+# prefecture-77.
+selecteur_titre: ".jamais-de-descendant-dans-une-option"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  attribut_lien: "value"
+autorite_signataire: "La préfète de l'Isère"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

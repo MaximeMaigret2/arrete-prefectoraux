@@ -1,0 +1,49 @@
+# backend/src/connecteurs/configs/prefecture-48.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Lozère. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19
+# (lot 47-51) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Recueil-des-Actes-Administratifs-R.A.A" :
+# navigation à TROIS niveaux (nouvelle famille cette session) — racine →
+# carte de l'année ("/{annee}$") → carte du TRIMESTRE (périodes
+# irrégulières : "1er-trimestre" / "2eme-trimestre" / "3eme-trimestre" /
+# "4eme-trimestre", forme `periodes` V009) → carte du mois ("/{mois_fr}$").
+# La racine mélange aussi une carte "à la une" avec lien PDF direct (classe
+# "fr-card__link menu-item-link") — jamais confondue avec les cartes
+# année/trimestre/mois car les motifs de navigation sont ancrés en fin de
+# chaîne (même principe que prefecture-44/77).
+#
+# Page du mois : `.fr-card__title` / `a.fr-card__link`, lien PDF direct
+# (pas de page_detail) — même famille que prefecture-44.
+type_connecteur: page_web
+url_liste: "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    periodes:
+      - motif: "/1er-trimestre$"
+        mois_debut: 1
+        mois_fin: 3
+      - motif: "/2eme-trimestre$"
+        mois_debut: 4
+        mois_fin: 6
+      - motif: "/3eme-trimestre$"
+        mois_debut: 7
+        mois_fin: 9
+      - motif: "/4eme-trimestre$"
+        mois_debut: 10
+        mois_fin: 12
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}$"
+selecteur_publications: ".fr-card__title"
+selecteur_titre: "a.fr-card__link"
+selecteur_lien_pdf: "a.fr-card__link"
+autorite_signataire: "Le préfet de la Lozère"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

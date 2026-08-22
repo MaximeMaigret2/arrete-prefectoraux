@@ -1,0 +1,38 @@
+# backend/src/connecteurs/configs/prefecture-62.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Pas-de-Calais.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-20 (lot 62-66)
+# — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte de l'année, motif
+# "{annee}-Recueils-des-actes-administratifs$") vers une page listant TOUS
+# les numéros de l'année SANS pagination (242 publications vues sur une
+# seule page au 2026-08-20) — pas de page_detail, liste plate, chaque
+# publication dans un `<div class="">` contenant un unique
+# `a.fr-link--download` — même famille exacte que prefecture-37/41/45/49/52/55/59.
+#
+# ANCRAGE DE FIN DE MOTIF NÉCESSAIRE : la page racine liste, pour au moins
+# une année passée (2023 au 2026-08-20), DEUX cartes distinctes
+# ("2023-Recueils-des-actes-administratifs" ET
+# "2023-Recueils-speciaux-des-actes-administratifs") — un motif non ancré
+# comme "{annee}-Recueils" risquerait un jour de matcher la variante
+# "speciaux" en premier si le même dédoublement apparaissait pour l'année
+# courante. D'où le "$" final, qui exige explicitement le suffixe littéral
+# "-des-actes-administratifs" (absent, par construction du slug, de la
+# variante "speciaux").
+type_connecteur: page_web
+url_liste: "https://www.pas-de-calais.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}-Recueils-des-actes-administratifs$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet du Pas-de-Calais"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -1,0 +1,48 @@
+# backend/src/connecteurs/configs/prefecture-61.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de l'Orne.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19
+# (lot 58-61) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-Actes-Administratifs-RAA" :
+# navigation à TROIS niveaux (même profondeur que 59/Nord) —
+#   1. racine → unique carte "Le Recueil des Actes Administratifs (RAA)"
+#      (lien fixe, motif littéral "Le-Recueil-des-Actes-Administratifs-RAA$") ;
+#   2. → carte de l'année ("{annee}$") ;
+#   3. → carte du mois ("{mois_fr}$", ex. ".../2026/Aout").
+#
+# PARTICULARITÉ CONFIRMÉE EN LIVE : l'URL du mois (".../2026/Aout") répond
+# par une VRAIE redirection HTTP (`fetch().redirected === true`, vérifié en
+# live) vers une sous-page "Spéciaux du mois d'<mois> <année>"
+# (".../Aout/Speciaux-du-mois-d-aout-2026") lorsque le mois ne contient que
+# des numéros spéciaux (cas d'août 2026 comme de juillet 2026 au
+# 2026-08-19) — `fetch()` (natif Node, utilisé par `resoudreNavigation` et
+# le fetch de liste) suit les redirections HTTP par défaut, donc le HTML
+# effectivement chargé est déjà celui de la page cible ; aucune étape de
+# navigation supplémentaire n'est nécessaire pour ce cas. Cette page utilise
+# un balisage RADICALEMENT différent des autres connecteurs de ce lot :
+# aucune carte DSFR, une simple liste `<ul><li><a href="....pdf">` sans
+# AUCUNE classe (ni sur le `<li>` ni sur le `<a>`) — d'où
+# `selecteur_publications: "li:has(a[href$='.pdf'])"` plutôt que les motifs
+# `.fr-card`/`div[class='']`/`p:not([class])` vus jusqu'ici. Liste plate, pas
+# de pagination, 11 spéciaux pour août 2026 au 2026-08-19 (comptage exact
+# confirmé en live). Lien PDF direct, pas de `page_detail`.
+type_connecteur: page_web
+url_liste: "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Le-Recueil-des-Actes-Administratifs-RAA$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}$"
+selecteur_publications: "li:has(a[href$='.pdf'])"
+selecteur_titre: "a[href$='.pdf']"
+selecteur_lien_pdf: "a[href$='.pdf']"
+autorite_signataire: "Le préfet de l'Orne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

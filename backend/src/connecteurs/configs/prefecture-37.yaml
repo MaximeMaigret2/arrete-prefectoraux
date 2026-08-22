@@ -1,0 +1,35 @@
+# backend/src/connecteurs/configs/prefecture-37.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture d'Indre-et-Loire.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-18 — cf.
+# claude/etat-connecteurs.md pour le contexte (WebFetch bloqué sur tous les
+# sous-chemins de ce domaine dans le sandbox cloud ; validation faite via
+# navigation Chrome réelle côté utilisateur).
+#
+# Structure CONFIRMÉE EN LIVE sans aucune correction nécessaire : sur la
+# page réelle ".../Recueil-actes-administratifs/Annee-2026", le sélecteur
+# qualifié `div[class='']:has(a.fr-link--download)` retrouve exactement
+# 417/417 liens de téléchargement réels (contre 421 pour le sélecteur non
+# qualifié `div:has(...)`, qui sur-capture des `<div>` ancêtres — confirme
+# à la fois le motif ET la nécessité de la qualification). Pas de
+# pagination sur cette page (liste à page unique par année).
+#
+# `autorite_signataire` confirmée (décret de nomination, Légifrance) :
+# M. Thomas Campeaux.
+type_connecteur: page_web
+url_liste: "https://www.indre-et-loire.gouv.fr/Publications/Recueil-actes-administratifs"
+navigation:
+  # Racine → carte de l'année courante (URL confirmée par recherche web :
+  # ".../Recueil-actes-administratifs/Annee-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet d'Indre-et-Loire"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

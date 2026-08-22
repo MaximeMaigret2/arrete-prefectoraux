@@ -1,0 +1,36 @@
+# backend/src/connecteurs/configs/prefecture-88.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture des Vosges.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21 (lot
+# 88-92) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-Actes-Administratifs-RAA" : navigation à
+# UN niveau (racine → carte de l'année, motif "{annee}$", lien porté par
+# ".fr-card__title a") vers une page PAGINÉE (13 pages de 10 `.fr-card`
+# au 2026-08-21, triée du plus récent au plus ancien — page 1 suffit,
+# même convention que 58/60/74/83/92) où chaque `.fr-card__title a`
+# pointe DIRECTEMENT vers le PDF (pas de page de détail) — même famille
+# que prefecture-13/33/68/74/92 : `selecteur_publications` est le
+# conteneur `.fr-card` (jamais le lien lui-même, puisqu'il n'y a pas de
+# `page_detail` ici — `selecteur_lien_pdf` est cherché via `.find()` dans
+# la publication).
+#
+# Signataire confirmé (Légifrance, décret du 10 novembre 2025 + actualité
+# officielle vosges.gouv.fr, 2026-08-21) : M. Blaise Gourtay, préfet des
+# Vosges — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.vosges.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet des Vosges"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

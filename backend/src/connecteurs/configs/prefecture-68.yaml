@@ -1,0 +1,34 @@
+# backend/src/connecteurs/configs/prefecture-68.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du
+# Haut-Rhin. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 67-71) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte de l'année, motif "/{annee}$" —
+# le libellé de la carte est juste "2026", contrairement à la plupart des
+# autres préfectures ; c'est le HREF qui se termine par "/{annee}", pas le
+# texte du lien) vers une page PAGINÉE (34 pages de 10 `.fr-card` au
+# 2026-08-21, triée du plus récent au plus ancien — page 1 suffit).
+#
+# PARTICULARITÉ : PAS de `page_detail` — chaque `.fr-card__title a` pointe
+# DIRECTEMENT vers le PDF réel (`href="/contenu/telechargement/.../RAA
+# n°96 du 20 août 2026.pdf"`), contrairement à la plupart des connecteurs
+# récents (58/60/44/38/77) qui passent par une page de détail. Même
+# famille que prefecture-13/33 (lien PDF direct sur une carte), mais avec
+# navigation et pagination en plus.
+type_connecteur: page_web
+url_liste: "https://www.haut-rhin.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{annee}$"
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet du Haut-Rhin"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

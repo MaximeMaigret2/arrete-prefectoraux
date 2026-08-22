@@ -1,0 +1,78 @@
+# backend/src/connecteurs/configs/prefecture-75.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de police
+# de Paris. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 72-76) — cf. claude/etat-connecteurs.md.
+#
+# PARTICULARITÉ MAJEURE : Paris (75) est le premier département dont le
+# `point_acces` (registre-sources.yaml) ne pointe PAS vers un site
+# DSFR "www.<departement>.gouv.fr" comme les 76 connecteurs précédents,
+# mais vers `www.prefectures-regions.gouv.fr` — une plateforme SPIP
+# ancienne, mutualisée pour les préfectures de région, structurellement
+# très différente (aucune classe `fr-*`, pas de `<main>` mais un
+# `<article>`). La page `point_acces` du registre elle-même est
+# obsolète ("Mise à jour : 01 décembre 2015") et affiche un simple lien
+# "Consultez les RAA du département de Paris et de la région
+# Île-de-France" vers une page de recherche par tags — REJOINT en live,
+# entièrement navigable par le moteur `page_web` générique SANS aucune
+# extension : deux étapes de `navigation` suffisent (aucune modification
+# du moteur nécessaire, comme pour tous les connecteurs précédents).
+#
+# `url_liste` = la page de recherche par tags elle-même (stable, sans
+# année dans l'URL — jamais de date codée en dur, contrat §5 règle 8) :
+# ".../ile-de-france/tags/view/Ile-de-France/Documents+et+Publications/Recueil+des+actes+administratifs"
+# Elle liste, du plus récent au plus ancien, deux entrées par année :
+# "Raa du département de Paris - {annee}" ET "RAA de la région
+# Île-de-France - {annee}" (celle-ci HORS PÉRIMÈTRE — RAA régional, pas
+# départemental) — motif ancré `Raa-du-departement-de-Paris-{annee}$`
+# (insensible à la casse, cf. moteur) sur `h2.news-list-title a` pour
+# écarter sans ambiguïté l'entrée régionale (chemins d'URL distincts,
+# aucun risque de collision de sous-chaîne).
+#
+# Étape 2 : la page de l'année liste les 12 mois dans un sommaire
+# accordéon stable (`#sommaire-content a`, seul `id` fiable de cette
+# page — pas de classe distinctive sur les `<li>`/`<a>` eux-mêmes).
+# Chaque lien de mois pointe vers une URL du type
+# ".../Raa-du-departement-de-Paris-2026/Aout/#titre" — motif
+# `pattern_lien: "/{mois_fr}/"` **volontairement SANS ancrage `$`** :
+# l'URL résolue se termine par un fragment `#titre` (conservé par
+# `resoudreUrl`/`URL.toString()`), donc un motif ancré en fin de chaîne
+# ne matcherait jamais ; la recherche de sous-chaîne `/{mois_fr}/` reste
+# sans ambiguïté puisque les 12 noms de mois sont mutuellement exclusifs
+# sur cette page.
+#
+# La page du mois courant liste TOUTES les publications de ce mois sur
+# une seule page (41 publications en août 2026 au 2026-08-21 rien que
+# pour Paris — volume nettement supérieur aux départements ordinaires,
+# cohérent avec la taille de Paris/l'activité de la préfecture de
+# police), chacune dans `<div class="">` contenant un unique
+# `a.link-download` (classe propre à cette plateforme SPIP — PAS
+# `fr-link--download`, DSFR n'étant pas utilisé ici) — même idiome
+# structurel que la famille 37/41/45/49/52/55/59/62/65/66/69/72/73, avec
+# un nom de classe différent : `selecteur_publications:
+# "div[class='']:has(a.link-download)"`. Lien PDF direct, pas de
+# `page_detail`.
+#
+# Signataire : les arrêtés d'interdiction de rassemblement (ordre
+# public) relevant de Paris sont pris par le préfet de police, autorité
+# distincte du préfet de la région Île-de-France/préfet de Paris pour ce
+# type de police administrative. Confirmé par recherche web (2026-08-21) :
+# M. Patrice Faure, préfet de police de Paris, succédant à M. Laurent
+# Nuñez — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.prefectures-regions.gouv.fr/ile-de-france/tags/view/Ile-de-France/Documents+et+Publications/Recueil+des+actes+administratifs"
+navigation:
+  - selecteur_liens: "h2.news-list-title a"
+    pattern_lien: "Raa-du-departement-de-Paris-{annee}$"
+  - selecteur_liens: "#sommaire-content a"
+    pattern_lien: "/{mois_fr}/"
+selecteur_publications: "div[class='']:has(a.link-download)"
+selecteur_titre: "a.link-download"
+selecteur_lien_pdf: "a.link-download"
+autorite_signataire: "Le préfet de police de Paris"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

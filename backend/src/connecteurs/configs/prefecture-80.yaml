@@ -1,0 +1,42 @@
+# backend/src/connecteurs/configs/prefecture-80.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Somme. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21
+# (lot 78-82) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme" :
+# navigation à UN niveau (racine → carte de l'année, motif "Annee-{annee}$",
+# lien porté par ".fr-card__title a") vers une page qui liste TOUTES les
+# publications de l'année sur une seule page (pas de pagination, pas de
+# découpage par mois — 201 publications 2026 constatées sur une seule
+# page au 2026-08-21, même famille "liste plate sans mois" que 72/66).
+#
+# MARKUP DIFFÉRENT DE TOUS LES LOTS PRÉCÉDENTS : chaque publication est un
+# `<p>` SANS attribut class (pas de `div[class='']`) contenant un unique
+# `<a class="fr-link" target="_blank" href="....pdf">` (lien PDF direct
+# vers le même domaine somme.gouv.fr, marqué "externe" par le CMS via
+# `rel="noopener external"` bien qu'il s'agisse du même site). Vérifié en
+# live : `p:has(a.fr-link[href$=".pdf"])` matche exactement 201/201
+# publications, `a.fr-link` sur la page ne pointe JAMAIS vers autre chose
+# qu'un `.pdf` (0 faux positif) — aucune exclusion explicite nécessaire.
+#
+# Signataire confirmé (recherche web/Légifrance, 2026-08-21) : M. Rollon
+# Mouchel-Blaisot, préfet de la Somme (nommé par décret du 13 juillet
+# 2023, toujours en poste — aucune nomination plus récente trouvée) —
+# grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.somme.gouv.fr/Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+selecteur_publications: "p:has(a.fr-link)"
+selecteur_titre: "a.fr-link"
+selecteur_lien_pdf: "a.fr-link"
+autorite_signataire: "Le préfet de la Somme"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -30,15 +30,16 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.14.0",
     "@types/node-cron": "^3.0.11",
     "@types/pdf-parse": "^1.1.5",
+    "@types/supertest": "^7.2.1",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "js-yaml": "^4.1.0",
-    "@types/js-yaml": "^4.0.9",
     "prettier": "^3.3.3",
     "supertest": "^7.0.0",
     "tsx": "^4.16.2",

@@ -84,6 +84,7 @@ const PageWebConfigSchema = z.object({
   navigation: z.array(z.object({
     selecteur_liens: z.string(),
     pattern_lien: z.string(), // regex testée contre l'URL résolue ; placeholders {annee}/{mois_numero}/{mois_fr}/{mois_fr_minuscule}
+    attribut_lien: z.string().default('href'), // V011 (§2quinquies) — attribut portant le lien ("value" pour un <option>)
   })).default([]),
   page_detail: z.object({
     attribut_lien: z.string().default('href'), // attribut de la publication portant l'URL de sa page de détail (ex. "value" pour un <option>)
@@ -168,6 +169,25 @@ navigation:
   - selecteur_liens: ".fr-pagination__link--last"
     pattern_lien: "\\(offset\\)/\\d+$"            # dernière page (publications les plus récentes du mois)
     optionnelle: true                             # absente si le mois tient déjà sur une seule page
+```
+
+### 2quinquies. Attribut de lien configurable pour une étape de navigation (V011, Phase 5bis élargie 4, 2026-08-14 — extension générique du moteur `page_web`)
+
+Une étape de `navigation` (§2bis) trouve normalement son lien suivant dans l'attribut `href` d'un `<a>` — comportement historique, valable pour toutes les sources rencontrées jusqu'à `prefecture-16`. `page_detail.attribut_lien` (§2bis) permettait déjà de lire un attribut différent (ex. `value` d'un `<option>`), mais uniquement pour la résolution du PDF depuis une page de détail par publication — jamais pour une étape de `navigation` elle-même, qui atteint une page LISTE, pas un PDF.
+
+`prefecture-17` (Charente-Maritime) expose ce besoin dès sa toute PREMIÈRE étape de navigation : sa page racine ne liste ses années archivées qu'à travers un `<select>` de formulaire (`<option value="Publications/.../Annee-2026">`), sans aucun `<a href>` équivalent ailleurs sur la page — vérifié en direct. Sans extension, aucune configuration déclarative ne pouvait atteindre la page de l'année courante depuis cette racine.
+
+`attribut_lien` (chaîne, `href` par défaut — comportement historique inchangé pour toute étape existante) sur une étape de `navigation` désigne l'attribut de l'élément trouvé via `selecteur_liens` qui porte l'URL à suivre — même idiome, même nom, même défaut que `page_detail.attribut_lien` (§2bis), réutilisé ici pour la cohérence du schéma plutôt que d'introduire un concept différent pour le même besoin.
+
+**Exemple : `prefecture-17` (Charente-Maritime) — navigation à 1 niveau via `value`, pas `href`**
+
+```yaml
+navigation:
+  - selecteur_liens: "select option[value]"
+    pattern_lien: "Annee-{annee}$"       # racine → page de l'année courante
+    attribut_lien: "value"               # l'<option> porte l'URL dans `value`, pas `href` (aucun <a> équivalent)
+# Page de l'année atteinte : structure .fr-card classique avec PDF direct
+# (pas de page_detail, contrairement à prefecture-16/77).
 ```
 
 ## 3. Moteur `pdf`

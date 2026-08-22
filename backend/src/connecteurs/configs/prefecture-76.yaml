@@ -1,0 +1,52 @@
+# backend/src/connecteurs/configs/prefecture-76.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Seine-Maritime. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 72-76) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueils-des-actes-administratifs-RAA" : navigation
+# à DEUX niveaux — racine → carte de l'année (motif
+# "RAA-departemental-{annee}$") → carte du mois (motif
+# "RAA-{mois_fr}-{annee}$"). Liste finale (mois courant) : liste PLATE
+# sans pagination, chaque publication dans un `div[class='']` contenant
+# un unique `a.fr-link--download` — même famille exacte que
+# 37/41/45/49/52/55/59/62/65/66/69/72/73.
+#
+# PIÈGE DE MARKUP RÉEL repéré et écarté sans code spécifique : la page du
+# mois contient, en plus de la liste principale (19 publications
+# constatées en live pour août 2026), un second bloc "documents liés"
+# (`.fr-downloads-group`) reproduisant les MÊMES 19 PDF en doublon dans
+# des `<li>` — mais le balisage de ce second bloc est cassé côté site
+# (même symptôme que prefecture-71, lot 67-71) : l'attribut `id` de ces
+# liens dupliqués contient littéralement la chaîne `class="fr-link
+# fr-link--download"` par erreur de balisage, si bien que ces éléments
+# n'ont PAS de véritable attribut `class` (`className` vide, vérifié en
+# live). `selecteur_publications: "div[class='']:has(a.fr-link--download)"`
+# ne matche donc naturellement QUE les 19 vraies publications (0 faux
+# doublon, compté exactement 19/19 en live via
+# `document.querySelectorAll` sur ce sélecteur précis) — aucune
+# exclusion explicite nécessaire, le bloc dupliqué étant de toute façon
+# structuré différemment (`<li>` sous `.fr-downloads-group`, jamais un
+# `div[class='']`).
+#
+# Signataire confirmé (page "Préfecture de la Seine-Maritime (Rouen)",
+# seine-maritime.gouv.fr, 2026-08-21) : M. Jean-Benoît Albertini, préfet
+# de la Seine-Maritime — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-departemental-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "RAA-{mois_fr}-{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet de la Seine-Maritime"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -1,0 +1,51 @@
+# backend/src/connecteurs/configs/prefecture-73.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Savoie. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 72-76) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs" :
+# navigation à UN niveau, mais PARTICULARITÉ : les cartes ne sont PAS un
+# découpage par année ni par semestre calendaire malgré leur libellé
+# ("2026 - 2", "2026 - 1", "2025 - 2", ...) — "2026-2" contenait au
+# 2026-08-21 seulement les publications du 02/08/2026 au 20/08/2026 (11
+# publications), et "2026-1" les publications du 06/01/2026 au
+# 31/07/2026 (195 publications) : le découpage se fait par SEUIL DE
+# VOLUME (nombre de publications), pas par mois/semestre fixe — la
+# limite exacte n'est pas documentée par le site et peut varier d'une
+# année à l'autre. Impossible à modéliser avec `periodes` (bornes
+# mensuelles fixes, V009) : le motif `pattern_lien: "{annee}-\\d+$"`
+# (SANS ancrage sur un numéro précis) est utilisé à la place — il
+# matche À LA FOIS "2026-2" et "2026-1" (et tout futur "2026-3" etc.),
+# mais le moteur (`resoudreNavigation`) retient le PREMIER lien
+# correspondant dans l'ordre du DOM, qui est toujours le plus récent
+# (les cartes sont listées du plus récent au plus ancien, vérifié en
+# live) — la bonne "tranche" courante est donc toujours sélectionnée
+# sans connaître le seuil de découpage exact, quel que soit le nombre de
+# tranches déjà créées pour l'année courante.
+#
+# Liste finale (tranche courante) : liste PLATE sans pagination, chaque
+# publication dans un `div[class='']` contenant un unique
+# `a.fr-link--download` — même famille exacte que
+# 37/41/45/49/52/55/59/62/65/66/69/72. Lien PDF direct, pas de
+# `page_detail`.
+#
+# Signataire confirmé (page "La préfète", savoie.gouv.fr, 2026-08-21) :
+# Mme Vanina Nicoli, préfète de la Savoie depuis le 22/04/2025 —
+# grammaire au féminin.
+type_connecteur: page_web
+url_liste: "https://www.savoie.gouv.fr/Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}-\\d+$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète de la Savoie"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

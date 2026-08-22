@@ -1,0 +1,60 @@
+# backend/src/connecteurs/configs/prefecture-17.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Charente-Maritime. Sélecteurs établis le 2026-08-14 (Phase 5bis élargie 4)
+# contre une capture réelle du site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle, NOUVELLE parmi les 19 connecteurs à ce jour : la page
+# RACINE (`url_liste`) ne liste ses années qu'à travers un `<select>` de
+# formulaire (`<option value="Publications/.../Annee-2026" title="Année
+# 2026">`, SANS "/" de tête comme la `value` d'une `<option>` déjà vue sur
+# prefecture-77) — AUCUN `<a href>` équivalent n'existe ailleurs sur la page
+# racine (vérifié : le `<select>` est le SEUL élément `<option>`/`<select>`
+# de la page, 21 options dont le placeholder). Jusqu'ici `page_detail`
+# permettait déjà de lire un lien depuis un attribut autre que `href`, mais
+# uniquement pour la résolution du PDF depuis une page de détail — jamais
+# pour une étape de `navigation` elle-même. Extension minimale du moteur
+# (V011, Phase 5bis élargie 4) : `navigation[].attribut_lien` (même idiome,
+# même défaut `href`, cf. `contracts/connecteur-interface.md` §2quinquies).
+#
+# La page de l'année (atteinte via cette navigation) est, elle, une
+# structure `.fr-card` CLASSIQUE (comme prefecture-01/33/77) : chaque carte
+# (`div.fr-card`) contient un lien direct vers le PDF
+# (`h2.fr-card__title > a`, href se terminant par ".pdf", vérifié par
+# `curl -I` -> `Content-Type: application/pdf`) — PAS de page de détail
+# intermédiaire ici, à la différence de prefecture-16/77. Ordre chronologique
+# DÉCROISSANT (le plus récent en tête, ex. "13/08/2026" puis "12/08/2026"...)
+# et PAGINÉE (28 pages de 10 bulletins, ~280/an) : comme prefecture-01/03/13/33,
+# aucune étape de navigation supplémentaire n'est nécessaire pour atteindre
+# les publications les plus récentes — contrairement à prefecture-02/05
+# (ordre croissant, nécessitant de sauter à la « dernière page »), la
+# première page suffit déjà ici.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin
+# ("Recueil-26-08-13-285-nominatifs") ne mentionne jamais son contenu
+# réglementaire — c'est le moteur `page_web` (scan de contenu PDF) qui
+# retente la pertinence sur le texte du PDF avant d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les connecteurs précédents) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs"
+navigation:
+  # Racine → page de l'année courante, atteinte via la `value` de l'unique
+  # <option> du <select> d'archives dont l'URL se termine par "Annee-{annee}"
+  # (aucun <a href> équivalent sur cette page, cf. commentaire ci-dessus).
+  - selecteur_liens: "select option[value]"
+    pattern_lien: "Annee-{annee}$"
+    attribut_lien: "value"
+selecteur_publications: "div.fr-card"
+selecteur_titre: "h2.fr-card__title a"
+selecteur_lien_pdf: "h2.fr-card__title a"
+autorite_signataire: "Le Préfet de la Charente-Maritime"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

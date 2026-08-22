@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><title>Spéciaux du mois d'août 2026 - Orne</title></head>
+<body>
+<!--
+  Fixture du CONTENU final effectivement chargé par `fetch()` pour
+  ".../Le-Recueil-des-Actes-Administratifs-2026/Aout" : le site répond par
+  une VRAIE redirection HTTP vers ".../Aout/Speciaux-du-mois-d-aout-2026"
+  quand le mois ne contient que des spéciaux (vérifié en live,
+  `resp.redirected === true`) — `fetch()` la suit nativement, donc le HTML
+  qu'il reçoit pour l'URL de départ EST déjà celui de la page cible.
+  Reproduit ici directement contre l'URL de départ pour rester fidèle au
+  comportement réel de `fetch()` (cf. claude/etat-connecteurs.md).
+-->
+<main>
+  <h1>Spéciaux du mois d'août 2026</h1>
+  <p>Mis à jour le 17/08/2026</p>
+  <p>Documents associés</p>
+  <ul>
+    <li>
+      <a href="/contenu/telechargement/61011/610011/file/Special_n11_du_17_aout_2026.pdf">
+        Télécharger Spécial n° 11 du lundi 17 août 2026
+        <span class="fr-link__detail">PDF - 0,43 Mb - 17/08/2026</span>
+      </a>
+    </li>
+    <li>
+      <a href="/contenu/telechargement/61010/610010/file/Special_n10_du_14_aout_2026.pdf">
+        Télécharger Spécial n°10 du 14 août 2026
+        <span class="fr-link__detail">PDF - 0,35 Mb - 14/08/2026</span>
+      </a>
+    </li>
+  </ul>
+</main>
+</body>
+</html>

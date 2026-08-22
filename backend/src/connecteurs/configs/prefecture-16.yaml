@@ -1,0 +1,74 @@
+# backend/src/connecteurs/configs/prefecture-16.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Charente. Sélecteurs établis le 2026-08-14 (Phase 5bis élargie 3) contre
+# une capture réelle du site (fetch direct depuis le sandbox cloud).
+#
+# Structure réelle, la seule vraiment nouvelle parmi les 18 connecteurs à ce
+# jour : `url_liste` RACINE liste une carte par année (`.fr-card__title a`,
+# href se terminant par "-2026") ; la page de l'année est DÉJÀ la liste
+# complète (pas de découpage par mois), mais SANS `.fr-card` ni
+# `.fr-downloads-group` — c'est un simple bloc de texte enrichi
+# (`.fr-text--lead`, contenu WYSIWYG copié-collé, en-têtes de mois
+# encapsulés dans des `<i><b>` imbriqués sans structure list/heading
+# exploitable) où chaque bulletin est un `<p><a class="fr-link" href="...">`
+# — 223 liens pour l'année 2026 au moment de la capture, en ordre
+# chronologique DÉCROISSANT (le plus récent en tête), aucune pagination.
+#
+# Chaque lien de la liste ne pointe PAS directement vers un PDF (vérifié :
+# `Content-Type: text/html`, pas `application/pdf`) mais vers une page de
+# détail HTML (`/Media/Files/Publications/.../recueil-16-2026-NNN-...`, SANS
+# extension) → `page_detail` (comme prefecture-02/05/77), où le vrai lien PDF
+# est présent via `<a class="fr-link fr-link--download" href="...pdf">`, SANS
+# le bug de markup `id=` vu sur 05/07/08/09/11/12/14 (vérifié sur 3 pages de
+# détail distinctes, dont la plus récente et la plus ancienne de l'année) —
+# `selecteur_lien_pdf` cible donc la classe intacte plutôt qu'un contournement
+# `a[href$='.pdf']` inutile ici.
+#
+# `selecteur_publications` cible directement l'élément `<a>` lui-même
+# (`.fr-text--lead a.fr-link`, scope explicite pour exclure les ~8 autres
+# liens `a.fr-link` de la page — nav, partage — hors de ce bloc de contenu) :
+# chaque lien EST la publication, `page_detail.attribut_lien: href` lit donc
+# directement son propre attribut href vers la page de détail. `selecteur_titre`
+# volontairement sans correspondance (l'élément est une simple balise <a>,
+# texte direct, aucun descendant pertinent) : force le repli sur
+# $publication.text(), déjà le bon libellé — même idiome que prefecture-05/02.
+#
+# Nom de page de détail ("recueil-16-2026-231-recueil-des-actes-administratifs")
+# reprenant directement une numérotation séquentielle globale exploitable
+# ("16-2026-{num}") — utilisée pour choisir un numéro de référence réaliste
+# dans les PDF synthétiques de cette fixture.
+#
+# Comme les autres connecteurs déployés : le nom du bulletin ne mentionne
+# jamais son contenu réglementaire — c'est le moteur `page_web` (scan de
+# contenu PDF) qui retente la pertinence sur le texte du PDF avant
+# d'abandonner un candidat.
+#
+# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
+# vérifiée (même limite que les connecteurs précédents) —
+# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
+# ailleurs — à confirmer avant collecte réelle.
+type_connecteur: page_web
+url_liste: "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2"
+navigation:
+  # Racine → carte de l'année courante, déjà la liste complète (href se
+  # termine par "-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{annee}$"
+selecteur_publications: ".fr-text--lead a.fr-link"
+# Sélecteur volontairement sans correspondance (l'élément est une simple
+# balise <a>, texte direct, aucun descendant pertinent) : force le repli sur
+# $publication.text(), déjà le bon libellé (comme prefecture-02/05).
+selecteur_titre: ".jamais-de-descendant-dans-un-lien-fr-link"
+# Appliqué à la page de détail (page_detail renseigné ci-dessous) : classe
+# intacte sur cette page (pas de bug id=, contrairement à 05/07/08/09/11/12/14).
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  attribut_lien: "href"
+autorite_signataire: "Le Préfet de la Charente"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

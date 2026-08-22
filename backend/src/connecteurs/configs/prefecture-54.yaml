@@ -1,0 +1,38 @@
+# backend/src/connecteurs/configs/prefecture-54.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de
+# Meurthe-et-Moselle. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel)
+# le 2026-08-19 (lot 52-56) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueils-des-actes-administratifs" :
+# navigation à UN niveau (racine → carte "annee-{annee}$", en MINUSCULE
+# ici — vérifié en live, à la différence de "Annee-" ailleurs) vers une
+# page listant TOUT le RAA de l'année (102 numéros au 2026-08-19) dans un
+# unique `<select id="Liste-liste-docs" class="fr-select">`, chaque
+# `<option value="Publications/...">` (SANS "/" de tête) menant à une
+# page de détail HTML — jamais directement au PDF — d'où `page_detail`.
+# MÊME FAMILLE que prefecture-77/51 (id non dupliqué ici, à la différence
+# de 51 — utilisation de l'id directement, vérifié unique sur la page).
+# Page de détail : un seul lien `a.fr-link--download` vers le PDF réel.
+type_connecteur: page_web
+url_liste: "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "annee-{annee}$"
+selecteur_publications: "#Liste-liste-docs option"
+# Sélecteur intentionnellement sans correspondance à l'intérieur d'une
+# <option> (aucun descendant) : force le repli sur $publication.text().
+selecteur_titre: ".jamais-de-descendant-dans-une-option-meurthe-et-moselle"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  # L'URL de la page de détail est portée par `value`, pas `href`
+  # (l'élément publication est un <option>, pas un <a>) — comme
+  # prefecture-77/51.
+  attribut_lien: "value"
+autorite_signataire: "Le préfet de Meurthe-et-Moselle"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

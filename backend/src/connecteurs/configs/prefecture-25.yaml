@@ -1,0 +1,105 @@
+# backend/src/connecteurs/configs/prefecture-25.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Doubs.
+# Sélecteurs établis le 2026-08-14 contre une capture réelle du site (fetch
+# direct depuis le sandbox cloud).
+#
+# Structure réelle (cf. fixtures/connecteurs/reel/prefecture-25/SOURCE.md
+# pour le détail complet — département À LIRE EN PRIORITÉ, cf. note finale
+# ci-dessous) :
+# - `url_liste` (racine) liste une carte DSFR par ANNÉE (`.fr-card__title
+#   a`). PARTICULARITÉ : nommage d'URL INCOHÉRENT selon l'ancienneté —
+#   `.../Recueil-des-actes-administratifs-pour-le-Doubs-{annee}` pour 2021+
+#   mais `.../Recueil-des-actes-administratifs-pour-le-departement-du-Doubs-{annee}`
+#   pour 2017-2020 — sans incidence pour ce connecteur, `pattern_lien:
+#   "{annee}$"` matche l'un ou l'autre puisque les deux formes se terminent
+#   par l'année. Racine PAGINÉE (`fr-pagination` présent) mais l'année
+#   courante (2026) est déjà présente sur la page 1 (vérifié) — aucune
+#   étape de pagination nécessaire pour l'atteindre.
+# - La page de l'année liste DIRECTEMENT tous les bulletins de l'année (189
+#   au moment de la capture), chaque bulletin étant un `<div class="">`
+#   contenant un unique `<a class="fr-link fr-link--download">` avec le
+#   texte "Télécharger {titre complet}" + lien PDF DIRECT — pas de page de
+#   détail. `selecteur_publications` utilise `:has()` (CSS4, comme
+#   prefecture-21/23) car d'autres `<div class="">` sans rapport existent
+#   ailleurs sur la page.
+# - Page NON paginée (189 bulletins de 2026 au moment de la capture, tous
+#   sur une seule page HTML).
+#
+# CORRECTIF (2026-08-14, lot 31-36, suite à l'action prioritaire notée au
+# lot 26-30) : `div:has(a.fr-link--download)` seul matche aussi les `<div>`
+# ANCÊTRES du lien (même bug que 23/26/28/29/30) — vérifié 191
+# correspondances contre la page de l'année réelle recapturée (2026-08-14),
+# pour seulement 188 bulletins réels (`a.fr-link--download` compté
+# directement). Reproduit aussi dans la fixture offline existante (3 contre
+# 2 liens réels) — les fixtures n'étaient donc PAS « trop plates » pour ce
+# connecteur non plus. `selecteur_publications` qualifié en
+# `div[class='']:has(a.fr-link--download)` (188/188 exact) — sans effet sur
+# le candidat retenu.
+#
+# ====================================================================
+# DÉCOUVERTE (2026-08-14, Phase 5bis élargie 9, même session que
+# prefecture-23/Creuse) : SECOND arrêté anti rave-party RÉEL trouvé parmi
+# tous les connecteurs déployés. Le bulletin `recueil-25-2026-188-...
+# special.pdf` (RAA spécial n°25-2026-188, publié le 13/08/2026) contient
+# l'arrêté RÉEL n°25-2026-08-13-00001 « portant interdiction d'une
+# manifestation de type rassemblement festif à caractère musical... »,
+# EN VIGUEUR du vendredi 14 août 2026 15h00 au lundi 17 août 2026 12h00 —
+# le MÊME week-end que l'arrêté trouvé en Creuse.
+#
+# LIMITE IMPORTANTE ET SPÉCIFIQUE À CE DOCUMENT : contrairement au PDF réel
+# de prefecture-23 (texte nativement sélectionnable), les pages portant le
+# corps de CET arrêté (VU/CONSIDÉRANT/ARRÊTE, articles, dates, signature)
+# sont des IMAGES SCANNÉES (vérifié `pdfimages -list` : JPEG/CCITT fax),
+# jamais du texte extractible par `pdf-parse` (le moteur `pdf` n'effectue
+# JAMAIS d'OCR, FR-005, cf. commentaire `LONGUEUR_TEXTE_MINIMALE` dans
+# `moteurs/pdf/moteur.ts` — contrainte déjà actée du système, pas une
+# découverte de cette session). Seuls le sommaire/en-tête/pied de page
+# (texte natif, hors zone scannée) sont extraits par `pdf-parse` — vérifié
+# en exécutant le VRAI `telechargerEtExtraireTextePdf` du projet contre ce
+# PDF réel : 2067 caractères récupérés, mais AUCUNE date, AUCUNE référence
+# au format attendu par `pattern_reference`/`patterns_dates` (ces éléments
+# ne vivent que dans les pages scannées). Le texte récupéré contient
+# néanmoins littéralement "rassemblement festif à caractère musical" (d'où
+# son ajout à `mots_cles_filtrage` ci-dessous) : la PERTINENCE serait donc
+# correctement détectée pour ce cas réel, mais PAS l'extraction des champs
+# (référence/dates resteraient `null`, cf. FR-008) — un candidat serait
+# tout de même produit (jamais d'échec pour un champ manquant, contrat
+# §5), à charge du `runner`/opérateur de le traiter comme une anomalie
+# plutôt qu'une publication automatique propre. Limite documentée, pas un
+# bug caché — inhérente au fait que cette préfecture publie (au moins
+# parfois) ces arrêtés comme des scans d'original signé papier plutôt que
+# des PDF nativement numériques.
+#
+# `bulletin-avec-arrete.pdf` de cette fixture reste donc **synthétique**
+# (comme la majorité des connecteurs) plutôt que le vrai PDF scanné : un
+# vrai PDF sans texte extractible dans sa zone utile ne démontrerait pas
+# le chemin d'extraction nominal du moteur — son cas (extraction partielle,
+# champs `null`) est documenté ci-dessus et dans SOURCE.md plutôt que
+# testé littéralement ici.
+#
+# Signataire réel confirmé (OCR de la zone scannée, la seule qui porte la
+# signature) : « Le préfet du Doubs » (Monsieur Rémi Bastille, nommé par
+# décret du 12 janvier 2024) — corrige une occurrence isolée « Le préfet
+# de Doubs » (sans "du") trouvée dans un unique autre PDF réel (un arrêté
+# de tarification DIRPJJ sans rapport, texte nativement sélectionnable
+# celui-là) : probable coquille de cet autre document, la forme
+# grammaticalement correcte et utilisée par le bureau compétent
+# (Cabinet/Direction des sécurités, l'auteur des arrêtés anti rave-party)
+# étant bien « Le préfet du Doubs ».
+type_connecteur: page_web
+url_liste: "https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{annee}$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet du Doubs"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage:
+  ["rave", "teknival", "rassemblement musical non déclaré", "rassemblement festif à caractère musical"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

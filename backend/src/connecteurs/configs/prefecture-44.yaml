@@ -1,0 +1,50 @@
+# backend/src/connecteurs/configs/prefecture-44.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Loire-Atlantique. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 — cf. claude/etat-connecteurs.md pour le contexte (WebFetch
+# bloqué sur tous les sous-chemins de ce domaine dans le sandbox cloud ;
+# validation faite via navigation Chrome réelle côté utilisateur).
+#
+# Navigation à DEUX niveaux confirmée en live : racine → carte de l'année
+# courante (".../2026") → carte du mois courant (".../2026/Aout", nom du
+# mois français sans accent, capitale initiale, conforme au placeholder
+# `{mois_fr}`). Chaque page (racine ET année) affiche AUSSI 2-3 liens PDF
+# "à la une" mélangés parmi les cartes `.fr-card__title a` — piège identique
+# à prefecture-77 : `pattern_lien: "/{annee}$"` / `"/{mois_fr}$"` (ancré en
+# fin de chaîne) ne matche jamais un href se terminant par ".pdf", donc ces
+# liens "à la une" sont ignorés sans qualification de sélecteur
+# supplémentaire.
+#
+# Page du mois courant CONFIRMÉE EN LIVE : chaque bulletin est une carte
+# `.fr-card__title` dont le lien direct `a.fr-card__link` pointe VERS LE PDF
+# (pas de page de détail) — même famille que prefecture-39. Ordre
+# DÉCROISSANT (le plus récent en PREMIER, ex. "RAA n°210" avant "RAA n°209")
+# — à la différence de 39/40/46, la première page suffit donc : AUCUNE étape
+# de pagination "dernière page" n'est nécessaire ici (le motif inverse
+# reviendrait à cibler la PREMIÈRE page, déjà `url_liste` par défaut).
+#
+# `autorite_signataire` : décret de nomination du 24 juin 2026 (Légifrance)
+# — M. Laurent Hottiaux, préfet de la région Pays de la Loire, préfet de la
+# Loire-Atlantique.
+type_connecteur: page_web
+url_liste: "https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique"
+navigation:
+  # Racine → carte de l'année courante (confirmée en live :
+  # ".../Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique/2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{annee}$"
+  # Page de l'année → carte du mois courant (confirmée en live :
+  # ".../2026/Aout").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}$"
+selecteur_publications: ".fr-card__title"
+selecteur_titre: "a.fr-card__link"
+selecteur_lien_pdf: "a.fr-card__link"
+autorite_signataire: "Le préfet de la Loire-Atlantique"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

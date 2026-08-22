@@ -1,0 +1,53 @@
+# backend/src/connecteurs/configs/prefecture-79.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture des
+# Deux-Sèvres. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-21 (lot 78-82) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Le-Recueil-des-actes-administratifs" : racine sans
+# carte DSFR — un unique `<select class="fr-select">` ("Liste") dont
+# chaque `<option>` porte l'URL de l'année via `value` (sans "/" de tête,
+# ex. "Publications/Le-Recueil-des-actes-administratifs/Annee-2026" —
+# même famille que prefecture-67/77, `attribut_lien: "value"` sur la
+# première étape). Étape 2 : page de l'année, carte du mois
+# (`.fr-card__title a`, motif "{mois_numero}-{mois_fr_minuscule}-RAA$",
+# ex. "08-aout-RAA"). La page de mois répond par une VRAIE redirection
+# HTTP transparente (confirmé en live via `fetch(..., {redirect:
+# 'manual'})` → `opaqueredirect`) vers une sous-page portant le même nom
+# de mois capitalisé (ex. ".../08-aout-RAA/08-Aout") — suivie nativement
+# par `fetch()`, même mécanisme déjà rencontré pour 61/63, aucune étape
+# de navigation supplémentaire nécessaire.
+#
+# Liste finale : chaque publication dans un `div[class='']` contenant un
+# unique `a.fr-link--download` — même famille exacte que
+# 37/41/45/49/52/55/59/62/65/66/69/72/73/76/78 (21/21 comptés en live
+# pour août 2026, pas de pagination). PIÈGE ÉCARTÉ SANS CODE SPÉCIFIQUE :
+# la page porte aussi un bouton "Télécharger [titre de la page]" (icône
+# de partage/impression en haut de page, même classe `a.fr-link--download`)
+# — mais son conteneur est un `<section>`, jamais un `div[class='']`, donc
+# `selecteur_publications` ne le compte pas (22 liens `.fr-link--download`
+# au total sur la page, 21 après exclusion naturelle de ce bouton).
+#
+# Signataire confirmé (recherche web/Légifrance, 2026-08-21) : Mme
+# Valérie Michel-Moreaux, préfète des Deux-Sèvres (nommée par décret du
+# 22 juillet 2026, succède à Simon Fetet parti dans les
+# Pyrénées-Atlantiques) — grammaire au féminin.
+type_connecteur: page_web
+url_liste: "https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: "select.fr-select option"
+    pattern_lien: "Annee-{annee}$"
+    attribut_lien: "value"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_numero}-{mois_fr_minuscule}-RAA$"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète des Deux-Sèvres"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

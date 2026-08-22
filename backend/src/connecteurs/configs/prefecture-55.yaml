@@ -1,0 +1,33 @@
+# backend/src/connecteurs/configs/prefecture-55.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Meuse. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 52-56) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-Actes-Administratifs-RAA" :
+# racine SANS carte DSFR — sélecteur d'année directement en <select
+# id="Liste-des-recueils-liste-docs" class="fr-select"> (aucun <a>
+# équivalent ailleurs sur la page, comme prefecture-17 — V011,
+# attribut_lien: "value" DÈS la première étape de navigation), chaque
+# <option value="Publications/.../RAA-annee-{annee}"> (SANS "/" de tête)
+# menant à une page qui liste TOUT le RAA de l'année (108 numéros au
+# 2026-08-19) en liste PLATE, chacun dans un `<div class="">` contenant
+# `a.fr-link--download` — même famille exacte que prefecture-37/41/45/49
+# (comptage exact confirmé en live : 108 = 108). Lien PDF direct, pas de
+# page_detail.
+type_connecteur: page_web
+url_liste: "https://www.meuse.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA"
+navigation:
+  - selecteur_liens: "#Liste-des-recueils-liste-docs option"
+    pattern_lien: "RAA-annee-{annee}$"
+    attribut_lien: "value"
+selecteur_publications: "div[class='']:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "La préfète de la Meuse"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

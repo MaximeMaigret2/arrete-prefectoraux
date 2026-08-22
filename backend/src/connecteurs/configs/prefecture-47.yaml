@@ -1,0 +1,33 @@
+# backend/src/connecteurs/configs/prefecture-47.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de
+# Lot-et-Garonne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 47-51) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Publications-legales/RAA" :
+# navigation à DEUX niveaux, racine → carte de l'année ("annee-{annee}$")
+# → carte du mois — MAIS chaque lien de mois porte un suffixe "2" inattendu
+# (ex. "Recueil-des-actes-administratifs-annee-2026/Aout2", jamais
+# "/Aout" seul) : confirmé pour les 8 mois déjà publiés cette année
+# (Janvier2..Aout2), motif "/{mois_fr}2$".
+#
+# Page du mois : liste plate `.fr-downloads-group li` / `a` / `a` — même
+# famille que prefecture-42/43, lien PDF direct (pas de page_detail).
+# Aucune pagination observée sur une page mensuelle.
+type_connecteur: page_web
+url_liste: "https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "annee-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{mois_fr}2$"
+selecteur_publications: ".fr-downloads-group li"
+selecteur_titre: "a"
+selecteur_lien_pdf: "a"
+autorite_signataire: "Le préfet de Lot-et-Garonne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

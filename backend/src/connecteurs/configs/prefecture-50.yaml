@@ -1,0 +1,64 @@
+# backend/src/connecteurs/configs/prefecture-50.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Manche. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19
+# (lot 47-51) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-actes-administratifs" :
+# navigation à TROIS niveaux — racine → carte de l'année ("/{annee}$") →
+# [étape de pagination CONDITIONNELLE, nouveau motif cette session, cf.
+# ci-dessous] → carte du mois ("-{mois_fr}$", pas de "/" devant car les
+# cartes sont numérotées "9.-Aout", "11.-Septembre" — seule la fin du nom
+# de mois est ancrée).
+#
+# PIÈGE DE PAGINATION CONFIRMÉ EN LIVE (nouveau cette session, absent du
+# lot 42-46) : la page de l'année liste 10 cartes par page (mois +
+# catégories non-mois intercalées, ex. "2. Délégations de signatures du
+# Préfet de la Manche") ; en 2026, la page 1 couvre Janvier→Septembre (10
+# cartes) et la page 2 (".../2026/(offset)/10") couvre Octobre→Décembre —
+# à la différence de prefecture-46 (individus bulletins, la dernière page
+# contient toujours les plus récents), ICI la pagination ne doit être
+# suivie QUE pour les mois d'automne, jamais pour Janvier-Septembre (sinon
+# le mois courant, déjà présent page 1, ne serait plus trouvable page 2).
+# Résolu avec la forme `periodes` appliquée à l'étape de PAGINATION
+# elle-même (pas seulement à la sélection finale) : un motif
+# délibérément inatteignable pour les mois 1-9 (l'étape, `optionnelle`,
+# est alors silencieusement sautée — la page courante reste la page 1,
+# qui contient déjà le mois cherché) et le motif réel de la dernière page
+# pour les mois 10-12. Technique nouvelle, à documenter/généraliser si
+# revue sur un futur connecteur à pagination de mois (plutôt que de
+# bulletins individuels).
+#
+# Page du mois : chaque bulletin est un `<p>` SANS attribut class
+# (`p:not([class])`) contenant le texte descriptif suivi d'un lien
+# `a.fr-link` (classe "fr-link", pas "fr-link--download" ici) — nouvelle
+# famille de balisage, confirmée par comptage exact en live (5 = 5 = 5 sur
+# la page d'août 2026). `selecteur_titre` volontairement non-satisfaisable
+# (comme prefecture-46/77) pour retomber sur `$publication.text()`, qui
+# contient déjà le texte complet du `<p>` (référence + date).
+type_connecteur: page_web
+url_liste: "https://www.manche.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/{annee}$"
+  - selecteur_liens: ".fr-pagination__link--last"
+    optionnelle: true
+    periodes:
+      - motif: "GARDE-FOU-AUCUNE-PAGINATION-NECESSAIRE-JANVIER-A-SEPTEMBRE-DEJA-SUR-PAGE-1"
+        mois_debut: 1
+        mois_fin: 9
+      - motif: "\\(offset\\)/\\d+$"
+        mois_debut: 10
+        mois_fin: 12
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "-{mois_fr}$"
+selecteur_publications: "p:not([class]):has(a.fr-link)"
+selecteur_titre: ".aucun-titre-distinct-dans-un-p-repli-sur-texte-integral"
+selecteur_lien_pdf: "a.fr-link"
+autorite_signataire: "Le préfet de la Manche"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

@@ -1,0 +1,59 @@
+# backend/src/connecteurs/configs/prefecture-46.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture du Lot.
+# VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-19 — cf.
+# claude/etat-connecteurs.md pour le contexte (WebFetch bloqué sur tous les
+# sous-chemins de ce domaine dans le sandbox cloud ; validation faite via
+# navigation Chrome réelle côté utilisateur).
+#
+# Structure confirmée en live sur ".../Recueil-des-Actes-Administratifs/RAA-2026" :
+# chaque bulletin est une carte `.fr-card__title` (lien `a.fr-card__link`)
+# menant à une page de DÉTAIL au slug descriptif (ex.
+# ".../RAA-2026/RAA-special-46-2026-084"), PAS directement vers le PDF —
+# d'où `page_detail`. Sur la page de détail, le lien de téléchargement porte
+# bien la classe `a.fr-link--download` exploitable (pas de piège de
+# balisage ici, à la différence de prefecture-40).
+#
+# PIÈGE (détecté en test, 2026-08-19) : `page_detail.attribut_lien` est lu
+# directement sur l'élément `selecteur_publications` lui-même (cf.
+# `resoudreUrlPdfPublication`, moteur.ts) — jamais sur un descendant. Un
+# `selecteur_publications` ciblant le conteneur `.fr-card__title` (le `<h3>`)
+# plutôt que le lien `a.fr-card__link` lui-même ne porte donc AUCUN `href`
+# et fait silencieusement échouer la résolution `page_detail` pour CHAQUE
+# publication (0 candidat, sans erreur). Comme prefecture-40 : cible le
+# lien directement.
+#
+# PAGINATION CONFIRMÉE EN LIVE : la page de l'année 2026 a
+# `.fr-pagination__link--last` (href ".../RAA-2026/(offset)/80"), ordre
+# chronologique CROISSANT (le plus ancien en premier sur la page 1 —
+# "recueil spécial 46-2026-001" — la dernière page contient donc les
+# bulletins les plus récents, ex. "RAA spécial 46-2026-084"). Étape de
+# navigation ajoutée, `optionnelle: true` comme pour 02/05/36/39/40 (années
+# avec peu de bulletins, en tout début d'année notamment).
+#
+# `autorite_signataire` confirmée (décret de nomination du 19 janvier 2026,
+# Légifrance) : Mme Marilyne Poulain, préfète du Lot.
+type_connecteur: page_web
+url_liste: "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+navigation:
+  # Racine → carte de l'année courante (confirmée en live :
+  # ".../Recueil-des-Actes-Administratifs/RAA-2026").
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "/RAA-{annee}$"
+  # Dernière page de pagination (bulletins les plus récents de l'année) —
+  # optionnelle : absente pour les années avec ≤10 bulletins.
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)/\\d+$"
+    optionnelle: true
+selecteur_publications: "a.fr-card__link"
+selecteur_titre: ".jamais-de-descendant-dans-un-lien-fr-card__link"
+selecteur_lien_pdf: "a.fr-link--download"
+page_detail:
+  attribut_lien: "href"
+autorite_signataire: "La préfète du Lot"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

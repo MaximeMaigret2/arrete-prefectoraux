@@ -1,0 +1,49 @@
+# backend/src/connecteurs/configs/prefecture-93.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Seine-Saint-Denis. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-22 (lot 93-95, dernier lot du périmètre 96 départements) — cf.
+# claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-actes-administratifs" : navigation à DEUX
+# niveaux (racine → carte de l'année, motif "Annee-{annee}$" → carte du
+# mois, motif "{mois_fr}$"), avec une 3e étape OPTIONNELLE de saut de
+# pagination — même mécanisme que 64/74/83 : la page du mois est PAGINÉE
+# (3 pages au 2026-08-22, triée du PLUS ANCIEN au plus récent — page 1
+# commence le 03/08, la dernière page contient les publications les plus
+# récentes), d'où un saut direct vers `.fr-pagination__link--last`.
+#
+# PARTICULARITÉ : les cartes de mois utilisent des libellés en MAJUSCULES
+# SANS ACCENT dans le href ("AOUT", jamais "Août") — le placeholder
+# `{mois_fr}` (déjà sans accent, "Aout") matche quand même grâce au flag
+# 'i' (insensible à la casse) appliqué par le moteur à la regex de
+# navigation, vérifié en live avant écriture de cette config (aucune
+# adaptation nécessaire).
+#
+# Liste finale : cartes DSFR complètes (`.fr-card`) dont `.fr-card__title a`
+# pointe DIRECTEMENT vers le PDF — pas de page de détail intermédiaire,
+# même famille que 64/74/83.
+#
+# Signataire confirmé (décret du 6 novembre 2024, Légifrance) : M. Julien
+# Charles, préfet de la Seine-Saint-Denis — grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "{mois_fr}$"
+  - selecteur_liens: ".fr-pagination__link--last"
+    pattern_lien: "\\(offset\\)"
+    optionnelle: true
+selecteur_publications: ".fr-card"
+selecteur_titre: ".fr-card__title a"
+selecteur_lien_pdf: ".fr-card__title a"
+autorite_signataire: "Le préfet de la Seine-Saint-Denis"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

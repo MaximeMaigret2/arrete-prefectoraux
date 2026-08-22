@@ -17,13 +17,22 @@ import { RssConfigSchema } from '../../../src/connecteurs/moteurs/rss/config.sch
  * premier déclenchement (manuel ou planifié) de ce connecteur.
  *
  * `configs/` contient aussi des fixtures de test "inutilisées" —
- * `test-ajout-connecteur-2b.yaml`, `test-contract-connecteur-actif.yaml`,
+ * `test-ajout-connecteur-46.yaml`, `test-ajout-connecteur-51.yaml`,
+ * `test-ajout-connecteur-56.yaml`, `test-contract-connecteur-actif.yaml`,
  * `test-fake-registry-actif.yaml`, `test-fake-registry-invalide.yaml`
  * (créées en T004, réécrites par leurs suites respectives au moment du
  * test puis restaurées à un simple commentaire dans leur `afterEach`, cf.
  * `ajoutConnecteur.test.ts`/T038) — leur contenu YAML "au repos" (un seul
  * commentaire) n'est pas un objet de configuration et est explicitement
  * ignoré ci-dessous plutôt que traité comme une config invalide.
+ * (`ajoutConnecteur.test.ts` a suivi la convention 2A→2B→21→25→30→36→41→46→51
+ * de nommer sa fixture d'après le connecteur réel le plus récemment déployé ;
+ * au lot 52-56 (2026-08-19) elle bascule vers `test-ajout-connecteur-56.yaml`,
+ * mais la suppression de fichier n'étant pas permise sur ce point de montage,
+ * `test-ajout-connecteur-46.yaml` et `test-ajout-connecteur-51.yaml` n'ont pas
+ * pu être supprimés et restent au repos indéfiniment — chaque lot ajoute donc
+ * une fixture "au repos" de plus à cette liste plutôt que de renommer la
+ * précédente.)
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -60,10 +69,14 @@ describe('configs/*.yaml — validation contre le schéma zod du type_connecteur
   it('les fixtures de test "au repos" (commentaire seul) sont ignorées, pas traitées comme invalides', async () => {
     const configs = await chargerConfigsYaml();
     const auRepos = configs.filter(({ contenu }) => !estUneConfigConnecteur(contenu));
-    // Les 4 fixtures de test créées en T004/T038/T039/registry.test.ts.
+    // Les 6 fixtures de test créées en T004/T038/T039/registry.test.ts
+    // (test-ajout-connecteur-46.yaml + -51.yaml + -56.yaml : cf. commentaire
+    // d'en-tête, suppression de fichier impossible sur ce point de montage).
     expect(auRepos.map((c) => c.fichier).sort()).toEqual(
       [
-        'test-ajout-connecteur-2b.yaml',
+        'test-ajout-connecteur-46.yaml',
+        'test-ajout-connecteur-51.yaml',
+        'test-ajout-connecteur-56.yaml',
         'test-contract-connecteur-actif.yaml',
         'test-fake-registry-actif.yaml',
         'test-fake-registry-invalide.yaml',
@@ -90,7 +103,7 @@ describe('configs/*.yaml — validation contre le schéma zod du type_connecteur
     }
   });
 
-  it('les 13 connecteurs réels (prefecture-77/13/33 + 01-05 + 06-10, Phase 5bis + élargie + élargie 2) sont bien de type page_web et présents', async () => {
+  it('les 43 connecteurs réels (prefecture-77/13/33 + 01-10 + 11/12/14/15/16 + 17/18/19 + 2A/2B + 21-25 + 26-30 + 31/32/34/35/36 + 37-41, Phase 5bis + élargie + élargie 2 + élargie 3 + élargie 4 + élargie 5 + élargie 6 + élargie 7 + élargie 8 + élargie 9 + élargie 10 + lot 31-36 + lot 37-41) sont bien de type page_web et présents', async () => {
     const configs = await chargerConfigsYaml();
     const ids = [
       'prefecture-77',
@@ -106,6 +119,36 @@ describe('configs/*.yaml — validation contre le schéma zod du type_connecteur
       'prefecture-08',
       'prefecture-09',
       'prefecture-10',
+      'prefecture-11',
+      'prefecture-12',
+      'prefecture-14',
+      'prefecture-15',
+      'prefecture-16',
+      'prefecture-17',
+      'prefecture-18',
+      'prefecture-19',
+      'prefecture-2A',
+      'prefecture-2B',
+      'prefecture-21',
+      'prefecture-22',
+      'prefecture-23',
+      'prefecture-24',
+      'prefecture-25',
+      'prefecture-26',
+      'prefecture-27',
+      'prefecture-28',
+      'prefecture-29',
+      'prefecture-30',
+      'prefecture-31',
+      'prefecture-32',
+      'prefecture-34',
+      'prefecture-35',
+      'prefecture-36',
+      'prefecture-37',
+      'prefecture-38',
+      'prefecture-39',
+      'prefecture-40',
+      'prefecture-41',
     ];
     for (const id of ids) {
       const config = configs.find((c) => c.fichier === `${id}.yaml`);

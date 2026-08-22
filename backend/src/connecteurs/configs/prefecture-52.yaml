@@ -1,0 +1,49 @@
+# backend/src/connecteurs/configs/prefecture-52.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Haute-Marne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le
+# 2026-08-19 (lot 52-56) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur ".../Publications/Recueil-des-actes-administratifs-RAA" :
+# navigation à UN niveau (racine → carte "Annee-{annee}$"), PUIS liste
+# PLATE de 100 publications sur la seule page de l'année (aucune
+# subdivision par mois, même famille que 49/55).
+#
+# PIÈGE DE MARKUP CONFIRMÉ EN LIVE (nouveau cette session) : les 5
+# publications les plus récentes sont chacune dans leur propre <p> SANS
+# attribut class, mais les 95 suivantes sont des <li> ORPHELINS (aucun
+# <ul> ouvrant ne les précède dans le HTML brut renvoyé par le serveur —
+# confirmé par fetch() direct depuis le navigateur, 16 <p> ouvrants / 100
+# occurrences du lien). Cheerio (htmlparser2) ne recrée PAS l'auto-wrapping
+# en <ul> que fait un moteur de rendu de navigateur conforme HTML5 : les
+# <li> orphelins restent des enfants directs du même conteneur que les
+# <p>, ce qui a été vérifié directement avec cheerio (pas seulement en
+# DOM navigateur, qui aurait donné un résultat trompeur ici). D'où un
+# sélecteur combiné (p ET li) plutôt qu'une seule forme.
+#
+# Les liens de skip-navigation de l'en-tête DSFR ("Aller au contenu"...)
+# portent aussi la classe "fr-link" sur un <li> — d'où le scoping
+# explicite sur ".fr-col-12.fr-col-md-8" (conteneur réel de la liste RAA,
+# hors <header>) pour éviter tout faux positif, vérifié avec cheerio.
+#
+# Lien PDF direct dans l'ancre elle-même (classe "fr-link" seule, pas de
+# "--download" ici) — pas de page_detail. Le href brut contient des
+# espaces et caractères accentués non encodés (ex. ".../RAA n° 89 du
+# 17-08-2026.pdf") : la normalisation par `new URL()` du moteur (résolution
+# `resoudreUrl`) les encode automatiquement, aucun traitement spécifique
+# nécessaire.
+type_connecteur: page_web
+url_liste: "https://www.haute-marne.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA"
+navigation:
+  - selecteur_liens: ".fr-card__title a"
+    pattern_lien: "Annee-{annee}$"
+selecteur_publications: ".fr-col-12.fr-col-md-8 p:not([class]):has(a.fr-link), .fr-col-12.fr-col-md-8 li:has(a.fr-link)"
+selecteur_titre: "a.fr-link"
+selecteur_lien_pdf: "a.fr-link"
+autorite_signataire: "La préfète de la Haute-Marne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"

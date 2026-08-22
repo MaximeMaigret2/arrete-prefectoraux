@@ -16,20 +16,24 @@ import { computeDepartementState } from '../../../src/services/computeDepartemen
  * code cœur (API, calcul d'état, carte : ce test n'utilise que
  * `registry.ts`/`runner.ts`/`computeDepartementState.ts` tels quels).
  *
- * Département de test : '2B' (Haute-Corse), non couvert par aucun
- * connecteur réel (`connecteurs.json`) ni par les autres suites de tests
+ * Département de test : '57' (Moselle), non couvert par aucun
+ * connecteur réel
+ * (`connecteurs.json`) ni par les autres suites de tests
  * (`registry.test.ts`/`runnerJournalisation.test.ts` utilisent '2A' ;
  * `tests/contract/admin/connecteurs.test.ts`, T039, utilise '04'/'05').
+ * Basculé de '52' à '57' le 2026-08-19 (lot 52-56) : '52' vient de recevoir
+ * son propre connecteur réel — même mécanique que
+ * 2A→2B→21→26→31→37→42→47→52→57 au fil des sessions précédentes.
  *
  * Même convention que `runnerJournalisation.test.ts`/`registry.test.ts` :
  * `data/loader.ts` n'a pas d'indirection de répertoire testable, donc ce
  * test écrit temporairement dans les vrais fichiers
- * `connecteurs.json`/`events/2B.json`/`configs/<id>.yaml` et restaure
+ * `connecteurs.json`/`events/57.json`/`configs/<id>.yaml` et restaure
  * l'état d'origine (par écriture, la suppression de fichier n'étant pas
  * permise sur ce point de montage) dans `afterEach`.
  *
  * `beforeEach` ne fait que capturer un instantané de l'état initial (le
- * département '2B' doit rester réellement gris — non couvert — au moment
+ * département '57' doit rester réellement gris — non couvert — au moment
  * où le premier test le vérifie) ; l'ajout effectif du connecteur est
  * déclenché explicitement par `ajouterConnecteurDeTest()`, appelée à
  * l'intérieur des tests qui en ont besoin.
@@ -50,11 +54,11 @@ const CONFIGS_DIR = path.join(__dirname, '../../../src/connecteurs/configs');
 const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
 const EXECUTIONS_PATH = path.join(DATA_DIR, 'executions.json');
 const ANOMALIES_PATH = path.join(DATA_DIR, 'anomalies.json');
-const EVENTS_2B_PATH = path.join(DATA_DIR, 'events', '2B.json');
+const EVENTS_57_PATH = path.join(DATA_DIR, 'events', '57.json');
 const FIXTURE_CONFIG_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/config-test.yaml');
 const FIXTURE_HTML_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-propre.html');
 
-const CONNECTEUR_ID = 'test-ajout-connecteur-2b';
+const CONNECTEUR_ID = 'test-ajout-connecteur-56';
 const CONFIG_PATH = path.join(CONFIGS_DIR, `${CONNECTEUR_ID}.yaml`);
 const URL_LISTE = 'https://exemple-test.gouv.fr/Publications/RAA';
 
@@ -71,7 +75,7 @@ let snapshotConnecteurs: string | null;
 let snapshotConfig: string | null;
 let snapshotExecutions: string | null;
 let snapshotAnomalies: string | null;
-let snapshotEvents2B: string | null;
+let snapshotEvents57: string | null;
 let html: string;
 
 beforeEach(async () => {
@@ -79,7 +83,7 @@ beforeEach(async () => {
   snapshotConfig = await lireOuAbsent(CONFIG_PATH);
   snapshotExecutions = await lireOuAbsent(EXECUTIONS_PATH);
   snapshotAnomalies = await lireOuAbsent(ANOMALIES_PATH);
-  snapshotEvents2B = await lireOuAbsent(EVENTS_2B_PATH);
+  snapshotEvents57 = await lireOuAbsent(EVENTS_57_PATH);
   html = await readFile(FIXTURE_HTML_PATH, 'utf-8');
   resetDataStoreCache();
 
@@ -110,13 +114,13 @@ afterEach(async () => {
   );
   await writeFile(EXECUTIONS_PATH, snapshotExecutions ?? '[]\n', 'utf-8');
   await writeFile(ANOMALIES_PATH, snapshotAnomalies ?? '[]\n', 'utf-8');
-  await writeFile(EVENTS_2B_PATH, snapshotEvents2B ?? '[]\n', 'utf-8');
+  await writeFile(EVENTS_57_PATH, snapshotEvents57 ?? '[]\n', 'utf-8');
   resetDataStoreCache();
   vi.unstubAllGlobals();
 });
 
 /**
- * Simule l'opérateur "ajoutant un connecteur" pour '2B' (US2) : une entrée
+ * Simule l'opérateur "ajoutant un connecteur" pour '57' (US2) : une entrée
  * `connecteurs.json` + une configuration déclarative
  * (`configs/<id>.yaml`), sans toucher au code cœur — exactement ce que
  * font T032-T034 pour les connecteurs réels.
@@ -128,7 +132,7 @@ async function ajouterConnecteurDeTest(): Promise<void> {
     {
       id: CONNECTEUR_ID,
       nom: 'Connecteur de test (ajout, US2, T038)',
-      departements_couverts: ['2B'],
+      departements_couverts: ['57'],
       actif: true,
       derniere_collecte: null,
       type_connecteur: 'page_web',
@@ -139,15 +143,15 @@ async function ajouterConnecteurDeTest(): Promise<void> {
   const configYaml = await readFile(FIXTURE_CONFIG_PATH, 'utf-8');
   await writeFile(CONFIG_PATH, configYaml, 'utf-8');
 
-  await writeFile(EVENTS_2B_PATH, '[]\n', 'utf-8');
+  await writeFile(EVENTS_57_PATH, '[]\n', 'utf-8');
   resetDataStoreCache();
 }
 
 describe('US2 — ajouter un connecteur pour un département gris (T038)', () => {
-  it("le département '2B' est gris avant l'ajout de tout connecteur (non couvert)", async () => {
+  it("le département '57' est gris avant l'ajout de tout connecteur (non couvert)", async () => {
     const store = await loadDataStore(true);
-    expect(store.departementsCouverts.has('2B')).toBe(false);
-    const etatAvant = computeDepartementState(store, '2B', '2026-08-13');
+    expect(store.departementsCouverts.has('57')).toBe(false);
+    const etatAvant = computeDepartementState(store, '57', '2026-08-13');
     expect(etatAvant.etat).toBe('gris');
   });
 
@@ -164,7 +168,7 @@ describe('US2 — ajouter un connecteur pour un département gris (T038)', () =>
     expect(execution.statut).not.toBe('echec');
 
     const store = await loadDataStore(true);
-    const evenements = store.evenementsByDepartement.get('2B') ?? [];
+    const evenements = store.evenementsByDepartement.get('57') ?? [];
     expect(evenements).toHaveLength(1);
     expect(evenements[0].reference_arrete).toBe('2026-77-0512');
     expect(evenements[0].methode_collecte).toBe('automatique');
@@ -179,7 +183,7 @@ describe('US2 — ajouter un connecteur pour un département gris (T038)', () =>
     await executerConnecteur(connecteur!, 'manuel');
 
     const store = await loadDataStore(true);
-    const etatApres = computeDepartementState(store, '2B', '2026-08-13');
+    const etatApres = computeDepartementState(store, '57', '2026-08-13');
 
     expect(etatApres.etat).not.toBe('gris');
     expect(etatApres.etat).toBe('rouge');

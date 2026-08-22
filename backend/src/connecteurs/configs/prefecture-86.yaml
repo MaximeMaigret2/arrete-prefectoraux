@@ -1,0 +1,33 @@
+# backend/src/connecteurs/configs/prefecture-86.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Vienne. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel) le 2026-08-21
+# (lot 83-87) — cf. claude/etat-connecteurs.md.
+#
+# Structure confirmée en live sur
+# ".../Publications/Recueil-des-Actes-Administratifs" : cas le plus
+# simple rencontré depuis le tout début du projet — AUCUNE navigation
+# nécessaire (`navigation: []`, valeur par défaut du schéma). La page
+# racine (`url_liste`) EST directement la liste complète et unique de
+# toutes les publications RAA du département depuis l'origine du site
+# (823 liens `a.fr-link--download` comptés en live au 2026-08-21, aucune
+# pagination, chaque publication dans un simple `<li>` sans classe, la
+# plus récente en tête — "RAA n°206 du 20 août 2026" au sommet). Chaque
+# `<li>` contient un unique `a.fr-link--download` portant à la fois le
+# titre et le lien PDF direct (pas de page de détail).
+#
+# Signataire confirmé (recherche web/Légifrance, 2026-08-21) : M. Charles
+# Giusti, préfet de la Vienne (nommé par décret du 8 avril 2026) —
+# grammaire au masculin.
+type_connecteur: page_web
+url_liste: "https://www.vienne.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+selecteur_publications: "li:has(a.fr-link--download)"
+selecteur_titre: "a.fr-link--download"
+selecteur_lien_pdf: "a.fr-link--download"
+autorite_signataire: "Le préfet de la Vienne"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"
