@@ -3,7 +3,7 @@
 **Statut** : proposé, non démarré
 **Rattachement** : session de suivi, hors périmètre connecteurs ordinaire (95/96 déjà livrés)
 **Dépend de** : rien (peut démarrer immédiatement)
-**Bloque** : rien fonctionnellement — mais recommandé avant le chantier 57/Moselle (cookies), qui touchera le moteur `page_web` et bénéficiera d'un filet de sécurité plus solide
+**Bloque** : le chantier 57/Moselle (cookies) — prérequis obligatoire, pas seulement recommandé : ce lot doit être terminé (au minimum Q-001 à Q-003, le filet de sécurité) avant de démarrer le chantier 57, qui touchera le moteur `page_web` partagé par les 95 connecteurs déjà déployés
 
 ## Contexte
 
