@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-14",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental",
+      "file": "departemental.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.calvados.gouv.fr/contenu/telechargement/30300/220000/file/recueil-14-2026-342-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.calvados.gouv.fr/contenu/telechargement/30299/219995/file/recueil-14-2026-341-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "14",
+      "type_evenement": "interdiction",
+      "reference_arrete": "14-2026-08-342",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet du Calvados",
+      "source_type": "pdf",
+      "source_url": "https://www.calvados.gouv.fr/contenu/telechargement/30300/220000/file/recueil-14-2026-342-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

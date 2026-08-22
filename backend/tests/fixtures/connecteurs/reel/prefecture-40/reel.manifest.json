@@ -1,0 +1,54 @@
+{
+  "connecteurId": "prefecture-40",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA/2026/(offset)/260",
+      "file": "2026-offset-260.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA/2026/RAAS-n-73-du-14-aout",
+      "file": "detail-73.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA/2026/RAA-n-231-du-12-aout",
+      "file": "detail-231.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.landes.gouv.fr/contenu/telechargement/33221/275611/file/recueil-40-2026-08-14-00071-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.landes.gouv.fr/contenu/telechargement/33220/275610/file/recueil-40-2026-08-12-00231-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "40",
+      "type_evenement": "interdiction",
+      "reference_arrete": "40-2026-08-14-00071",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet des Landes",
+      "source_type": "pdf",
+      "source_url": "https://www.landes.gouv.fr/contenu/telechargement/33221/275611/file/recueil-40-2026-08-14-00071-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

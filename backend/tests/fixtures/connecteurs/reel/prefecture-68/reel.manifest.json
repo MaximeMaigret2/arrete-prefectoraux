@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-68",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haut-rhin.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haut-rhin.gouv.fr/Publications/Recueil-des-actes-administratifs/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haut-rhin.gouv.fr/contenu/telechargement/53381/378625/file/RAA%20n%C2%B095%20du%2019%20ao%C3%BBt%202026.pdf",
+      "file": "raa-68-95.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haut-rhin.gouv.fr/contenu/telechargement/53412/378879/file/RAA%20n%C2%B096%20du%2020%20ao%C3%BBt%202026.pdf",
+      "file": "raa-68-96.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "68",
+      "type_evenement": "interdiction",
+      "reference_arrete": "68-2026-08-20-012",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-25T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Haut-Rhin",
+      "source_type": "pdf",
+      "source_url": "https://www.haut-rhin.gouv.fr/contenu/telechargement/53412/378879/file/RAA%20n%C2%B096%20du%2020%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

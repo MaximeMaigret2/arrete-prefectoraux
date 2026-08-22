@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-07",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026/Aout",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ardeche.gouv.fr/contenu/telechargement/34242/275320/file/recueil-07-2026-257-recueil-du%2012%20ao%C3%BBt%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.ardeche.gouv.fr/contenu/telechargement/34138/274587/file/recueil-07-2026-249-recueil-du%2005%20ao%C3%BBt%202026%20special-1.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "07",
+      "type_evenement": "interdiction",
+      "reference_arrete": "07-2026-08-249",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Ardèche",
+      "source_type": "pdf",
+      "source_url": "https://www.ardeche.gouv.fr/contenu/telechargement/34242/275320/file/recueil-07-2026-257-recueil-du%2012%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

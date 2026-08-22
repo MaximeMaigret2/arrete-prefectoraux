@@ -1,0 +1,34 @@
+{
+  "connecteurId": "prefecture-13",
+  "systemDate": null,
+  "responses": [
+    {
+      "url": "https://www.bouches-du-rhone.gouv.fr/Publications/RAA-et-Archives/RAA-2026",
+      "file": "liste.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.bouches-du-rhone.gouv.fr/contenu/telechargement/65030/454163/file/recueil-13-2026-249-recueil-des-actes-administratifs-special-bis.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.bouches-du-rhone.gouv.fr/contenu/telechargement/65020/454100/file/recueil-13-2026-246-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "13",
+      "type_evenement": "interdiction",
+      "reference_arrete": "13-2026-08-249",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet des Bouches-du-Rhône",
+      "source_type": "pdf",
+      "source_url": "https://www.bouches-du-rhone.gouv.fr/contenu/telechargement/65030/454163/file/recueil-13-2026-249-recueil-des-actes-administratifs-special-bis.pdf"
+    }
+  }
+}

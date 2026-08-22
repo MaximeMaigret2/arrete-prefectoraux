@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-73",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.savoie.gouv.fr/Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.savoie.gouv.fr/Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs/2026-2",
+      "file": "tranche-2026-2.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.savoie.gouv.fr/contenu/telechargement/55519/439248/file/2026-08-20-RAA_N%C2%B073-2026-216-special.pdf",
+      "file": "raa-73-216.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.savoie.gouv.fr/contenu/telechargement/55468/438934/file/2026-08-18_RAA_N%C2%B073-2026-215.pdf",
+      "file": "raa-73-215.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "73",
+      "type_evenement": "interdiction",
+      "reference_arrete": "73-2026-08-20-216",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-25T00:00:00.000Z",
+      "autorite_signataire": "La préfète de la Savoie",
+      "source_type": "pdf",
+      "source_url": "https://www.savoie.gouv.fr/contenu/telechargement/55519/439248/file/2026-08-20-RAA_N%C2%B073-2026-216-special.pdf"
+    }
+  }
+}

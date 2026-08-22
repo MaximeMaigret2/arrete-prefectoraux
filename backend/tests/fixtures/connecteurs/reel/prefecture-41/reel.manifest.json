@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-41",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.loir-et-cher.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loir-et-cher.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loir-et-cher.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026/Aout",
+      "file": "Aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loir-et-cher.gouv.fr/contenu/telechargement/41101/300101/file/recueil-41-2026-08-14-00044-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.loir-et-cher.gouv.fr/contenu/telechargement/41100/300100/file/recueil-41-2026-08-12-00043-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "41",
+      "type_evenement": "interdiction",
+      "reference_arrete": "41-2026-08-14-00044",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Loir-et-Cher",
+      "source_type": "pdf",
+      "source_url": "https://www.loir-et-cher.gouv.fr/contenu/telechargement/41101/300101/file/recueil-41-2026-08-14-00044-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

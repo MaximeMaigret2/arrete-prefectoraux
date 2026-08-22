@@ -518,3 +518,237 @@ describe('moteur page_web — page_detail (V001c)', () => {
     expect(resultat.candidats).toEqual([]);
   });
 });
+
+/**
+ * Q-001 (lot Qualité — Durcissement, 2026-08-22) — verrouille par un test le
+ * piège `page_detail` rencontré et corrigé APRÈS COUP sur 58, 60, 70, 71 et
+ * 81 : `selecteur_publications` pointant sur le conteneur englobant de la
+ * carte DSFR (`.fr-card`) plutôt que sur l'élément porteur du `href`/`value`
+ * lui-même (`.fr-card__title a`) produisait un échec entièrement silencieux
+ * (`candidats: []`, aucune erreur, aucun signal exploitable). Avant Q-001,
+ * ce cas n'était détecté qu'en observant "aucun candidat retenu" en bout de
+ * chaîne — désormais un `echec_global` explicite et actionnable est renvoyé.
+ */
+describe('moteur page_web — piège page_detail sur un conteneur englobant (Q-001)', () => {
+  const URL_LISTE_CARTES = 'https://exemple.gouv.fr/Publications/RAA-2026';
+
+  // Reproduction fidèle du piège historique (58/60/70/71/81) : `.fr-card`
+  // est le conteneur de la carte DSFR, mais seul son descendant
+  // `.fr-card__title a` porte réellement le `href`.
+  const HTML_LISTE_CARTES = `
+    <div class="fr-card">
+      <div class="fr-card__title"><a href="/Publications/RAA-2026/RAA-n-2026-0900">RAA n° 2026-0900</a></div>
+    </div>
+    <div class="fr-card">
+      <div class="fr-card__title"><a href="/Publications/RAA-2026/RAA-n-2026-0901">RAA n° 2026-0901</a></div>
+    </div>
+  `;
+
+  const CONFIG_PIEGE = {
+    ...CONFIG_BASE,
+    url_liste: URL_LISTE_CARTES,
+    // Le piège : le conteneur, pas l'ancre elle-même.
+    selecteur_publications: '.fr-card',
+    selecteur_lien_pdf: 'a.fr-link--download',
+    page_detail: { attribut_lien: 'href' },
+  };
+
+  it('signale un échec_global explicite (pas un candidats: [] silencieux) quand aucun élément matché ne porte l’attribut page_detail attendu', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_CARTES) return { ok: true, status: 200, text: async () => HTML_LISTE_CARTES } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_PIEGE);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.echec_global).toBeDefined();
+    // Message actionnable : mentionne l'attribut, le nombre d'éléments
+    // concernés, le selecteur_publications fautif, et la règle à appliquer.
+    expect(resultat.echec_global?.message).toContain('page_detail');
+    expect(resultat.echec_global?.message).toContain('href');
+    expect(resultat.echec_global?.message).toContain('.fr-card');
+    expect(resultat.echec_global?.message).toMatch(/2 élément/);
+  });
+
+  it('ne déclenche PAS ce garde-fou quand selecteur_publications pointe correctement sur l’élément porteur du href (cas corrigé, non-régression)', async () => {
+    const CONFIG_CORRIGEE = {
+      ...CONFIG_PIEGE,
+      selecteur_publications: '.fr-card__title a',
+      mots_cles_filtrage: ['rave', 'teknival'],
+    };
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_CARTES) return { ok: true, status: 200, text: async () => HTML_LISTE_CARTES } as unknown as Response;
+        // Aucune page de détail/PDF accessible ici : seul le comportement du
+        // garde-fou Q-001 est sous test (il ne doit pas se déclencher), pas
+        // l'extraction elle-même.
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CORRIGEE);
+    const resultat = await connecteur.collecter();
+
+    // Pas d'échec_global : les deux éléments matchés portent bien `href`
+    // (attribut présent, même si sa page de détail est ici inaccessible —
+    // un échec réseau isolé par publication, jamais confondu avec le piège
+    // de configuration Q-001).
+    expect(resultat.echec_global).toBeUndefined();
+  });
+});
+
+/**
+ * Q-003 (lot Qualité — Durcissement, 2026-08-22) — verrouille par un test
+ * l'insensibilité à la casse du matching de `{mois_fr}` : elle a "sauvé"
+ * la config 93 (Seine-Saint-Denis, cartes de mois en MAJUSCULES SANS ACCENT
+ * dans le href, ex. "AOUT") sans jamais avoir été testée intentionnellement
+ * jusqu'ici — un futur refactor du moteur de résolution de pattern pourrait
+ * casser ce comportement sans qu'aucun test ne le révèle avant un connecteur
+ * en production.
+ */
+describe('moteur page_web — insensibilité à la casse de {mois_fr} (Q-003, 93)', () => {
+  const URL_RACINE = 'https://exemple.gouv.fr/Publications/RAA-racine';
+  const URL_MOIS_MAJUSCULES = 'https://exemple.gouv.fr/Publications/RAA-racine/AOUT-2026';
+
+  const HTML_RACINE = `<div class="fr-card__title"><a href="/Publications/RAA-racine/AOUT-2026">AOUT 2026</a></div>`;
+  const HTML_MOIS = `
+    <div class="raa-item">
+      <div class="raa-item__titre">
+        Arrêté n° 2026-93-0900 portant interdiction de rassemblement de type rave,
+        à compter du 13/08/2026 jusqu'au 15/08/2026
+      </div>
+    </div>
+  `;
+
+  const CONFIG_CASSE = {
+    ...CONFIG_BASE,
+    url_liste: URL_RACINE,
+    // {mois_fr} substitue "Aout" (NOMS_MOIS_FR) — le href réel du site est
+    // en MAJUSCULES SANS ACCENT ("AOUT"), jamais testé intentionnellement
+    // avant Q-003.
+    navigation: [{ selecteur_liens: '.fr-card__title a', pattern_lien: '{mois_fr}-{annee}$' }],
+    selecteur_lien_pdf: null as string | null,
+  };
+
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2026, 7, 13, 10, 0, 0))); // 13 août 2026
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('résout {mois_fr} ("Aout") contre un href tout en majuscules et sans accent ("AOUT")', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => HTML_RACINE } as unknown as Response;
+        if (url === URL_MOIS_MAJUSCULES) return { ok: true, status: 200, text: async () => HTML_MOIS } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CASSE);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidats[0].reference_arrete).toBe('2026-93-0900');
+    expect(resultat.candidats[0].source.url).toBe(URL_MOIS_MAJUSCULES);
+  });
+});
+
+/**
+ * Q-003 (lot Qualité — Durcissement, 2026-08-22) — verrouille par un test
+ * le motif d'élision `d(e)?` (69/Rhône, 82/Tarn-et-Garonne) : "RAA-d-Aout"
+ * (mois à voyelle initiale, élidé) et "RAA-de-Septembre" (mois à consonne
+ * initiale, non élidé) doivent tous deux matcher le même motif alterné —
+ * jamais testé en régression jusqu'ici.
+ */
+describe('moteur page_web — élision grammaticale d/de sur {mois_fr} (Q-003, 69/82)', () => {
+  const URL_RACINE = 'https://exemple.gouv.fr/Publications/RAA-racine';
+
+  const CONFIG_ELISION = {
+    ...CONFIG_BASE,
+    url_liste: URL_RACINE,
+    navigation: [{ selecteur_liens: '.fr-card__title a', pattern_lien: "RAA-d(e)?-{mois_fr}-{annee}$" }],
+    selecteur_lien_pdf: null as string | null,
+  };
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('résout la forme élidée "RAA-d-Aout-2026" (mois à voyelle initiale)', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2026, 7, 13, 10, 0, 0))); // 13 août 2026
+
+    const URL_MOIS = 'https://exemple.gouv.fr/Publications/RAA-racine/RAA-d-Aout-2026';
+    const HTML_RACINE = `<div class="fr-card__title"><a href="/Publications/RAA-racine/RAA-d-Aout-2026">RAA d'Août 2026</a></div>`;
+    const HTML_MOIS = `
+      <div class="raa-item">
+        <div class="raa-item__titre">
+          Arrêté n° 2026-69-0900 portant interdiction de rassemblement de type rave,
+          à compter du 13/08/2026 jusqu'au 15/08/2026
+        </div>
+      </div>
+    `;
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => HTML_RACINE } as unknown as Response;
+        if (url === URL_MOIS) return { ok: true, status: 200, text: async () => HTML_MOIS } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_ELISION);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidats[0].reference_arrete).toBe('2026-69-0900');
+    expect(resultat.candidats[0].source.url).toBe(URL_MOIS);
+  });
+
+  it('résout la forme non élidée "RAA-de-Septembre-2026" (mois à consonne initiale)', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2026, 8, 13, 10, 0, 0))); // 13 septembre 2026
+
+    const URL_MOIS = 'https://exemple.gouv.fr/Publications/RAA-racine/RAA-de-Septembre-2026';
+    const HTML_RACINE = `<div class="fr-card__title"><a href="/Publications/RAA-racine/RAA-de-Septembre-2026">RAA de Septembre 2026</a></div>`;
+    const HTML_MOIS = `
+      <div class="raa-item">
+        <div class="raa-item__titre">
+          Arrêté n° 2026-82-0900 portant interdiction de rassemblement de type rave,
+          à compter du 13/09/2026 jusqu'au 15/09/2026
+        </div>
+      </div>
+    `;
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => HTML_RACINE } as unknown as Response;
+        if (url === URL_MOIS) return { ok: true, status: 200, text: async () => HTML_MOIS } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_ELISION);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidats[0].reference_arrete).toBe('2026-82-0900');
+    expect(resultat.candidats[0].source.url).toBe(URL_MOIS);
+  });
+});

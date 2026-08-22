@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-29",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.finistere.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.finistere.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-publies-en-2026",
+      "file": "recueils-publies-en-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.finistere.gouv.fr/contenu/telechargement/75072/560317/file/RAA%2029-2026-173%20du%2014%20aout%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.finistere.gouv.fr/contenu/telechargement/75071/560312/file/RAA%2029-2026-172%20nominatifs%20du%2014%20aout%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "29",
+      "type_evenement": "interdiction",
+      "reference_arrete": "29-2026-08-14-00011",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet du Finistère",
+      "source_type": "pdf",
+      "source_url": "https://www.finistere.gouv.fr/contenu/telechargement/75072/560317/file/RAA%2029-2026-173%20du%2014%20aout%202026.pdf"
+    }
+  }
+}

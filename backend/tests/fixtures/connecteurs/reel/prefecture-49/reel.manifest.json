@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-49",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.maine-et-loire.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.maine-et-loire.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.maine-et-loire.gouv.fr/contenu/telechargement/32491/208150/file/164-RAA-49-2026-164.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.maine-et-loire.gouv.fr/contenu/telechargement/32459/207935/file/163-RAA-49-2026-163.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "49",
+      "type_evenement": "interdiction",
+      "reference_arrete": "49-2026-164",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Maine-et-Loire",
+      "source_type": "pdf",
+      "source_url": "https://www.maine-et-loire.gouv.fr/contenu/telechargement/32491/208150/file/164-RAA-49-2026-164.pdf"
+    }
+  }
+}

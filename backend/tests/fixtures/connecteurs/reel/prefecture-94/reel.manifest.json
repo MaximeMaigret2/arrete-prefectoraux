@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-94",
+  "systemDate": "2026-08-22T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.val-de-marne.gouv.fr/Publications/Publications-legales/RAA-Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.val-de-marne.gouv.fr/Publications/Publications-legales/RAA-Recueil-des-actes-administratifs/Les-recueils-des-actes-administratifs-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.val-de-marne.gouv.fr/contenu/telechargement/26710/204195/file/RAA-N130-du-18-19-et-20-aout-2026.pdf",
+      "file": "RAA-N130-du-18-19-et-20-aout-2026.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.val-de-marne.gouv.fr/contenu/telechargement/26715/204201/file/RAA-N131-du-22-aout-2026.pdf",
+      "file": "RAA-N131-du-22-aout-2026.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "94",
+      "type_evenement": "interdiction",
+      "reference_arrete": "94-2026-131",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-25T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Val-de-Marne",
+      "source_type": "pdf",
+      "source_url": "https://www.val-de-marne.gouv.fr/contenu/telechargement/26715/204201/file/RAA-N131-du-22-aout-2026.pdf"
+    }
+  }
+}

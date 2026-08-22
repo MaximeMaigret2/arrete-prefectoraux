@@ -20,6 +20,17 @@ playwright-report/
 # Fichiers de vérification ad hoc laissés par erreur
 *.tmp.ts
 
+# Q-008 (lot Qualité — Durcissement, 2026-08-22) : débris récurrents du
+# pont device_bash (transferts de session Cowork) — la suppression de
+# fichier n'étant pas permise sur ce point de montage, ces répertoires
+# accumulent des archives/fichiers de transfert d'une session à l'autre
+# (`_incoming/lot*.tar.gz`, `_to_delete/*`, zips de transfert au nom
+# aléatoire type `ziXI1iMa`) ; ignorés plutôt que committés par erreur.
+_incoming/
+_to_delete/
+_claude_tmp/
+*.zip
+
 # OS / éditeurs
 .DS_Store
 Thumbs.db

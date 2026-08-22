@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-01",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026/08-AOUT",
+      "file": "08-aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ain.gouv.fr/contenu/telechargement/11001/81001/file/recueil-01-2026-350-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.ain.gouv.fr/contenu/telechargement/11002/81002/file/recueil-01-2026-345-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "01",
+      "type_evenement": "interdiction",
+      "reference_arrete": "01-2026-08-350",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Ain",
+      "source_type": "pdf",
+      "source_url": "https://www.ain.gouv.fr/contenu/telechargement/11001/81001/file/recueil-01-2026-350-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

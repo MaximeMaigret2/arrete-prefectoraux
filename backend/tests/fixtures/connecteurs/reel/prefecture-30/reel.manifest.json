@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-30",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-actes-administratifs-2026",
+      "file": "recueil-des-actes-administratifs-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gard.gouv.fr/contenu/telechargement/68849/507802/file/recueil-30-2026-178-special%20du%2014%2008%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.gard.gouv.fr/contenu/telechargement/68848/507797/file/recueil-30-2026-177-nominatifs%20du%2014%2008%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "30",
+      "type_evenement": "interdiction",
+      "reference_arrete": "30-2026-08-14-00009",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La Préfète du Gard",
+      "source_type": "pdf",
+      "source_url": "https://www.gard.gouv.fr/contenu/telechargement/68849/507802/file/recueil-30-2026-178-special%20du%2014%2008%202026.pdf"
+    }
+  }
+}

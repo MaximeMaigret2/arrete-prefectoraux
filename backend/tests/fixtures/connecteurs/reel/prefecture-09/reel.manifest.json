@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-09",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-de-l-Ariege-a-partir-du-28-avril-2015",
+      "file": "collection-2015.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-de-l-Ariege-a-partir-du-28-avril-2015/Recueil-des-actes-administratifs-du-mois-Aout-2026",
+      "file": "mois-aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ariege.gouv.fr/contenu/telechargement/35188/239161/file/recueil-09-2026-124-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.ariege.gouv.fr/contenu/telechargement/35181/239110/file/recueil-09-2026-123-recueil-des-actes-administratifs-1.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "09",
+      "type_evenement": "interdiction",
+      "reference_arrete": "09-2026-08-124",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Ariège",
+      "source_type": "pdf",
+      "source_url": "https://www.ariege.gouv.fr/contenu/telechargement/35188/239161/file/recueil-09-2026-124-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

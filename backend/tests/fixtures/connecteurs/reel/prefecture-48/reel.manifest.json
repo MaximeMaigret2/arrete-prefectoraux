@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-48",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A/2026/3eme-trimestre",
+      "file": "3eme-trimestre.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A/2026/3eme-trimestre/Aout",
+      "file": "Aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lozere.gouv.fr/contenu/telechargement/35038/294799/file/recueil-48-2026-116.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.lozere.gouv.fr/contenu/telechargement/35042/294819/file/recueil-48-2026-117.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "48",
+      "type_evenement": "interdiction",
+      "reference_arrete": "48-2026-116",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-22T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Lozère",
+      "source_type": "pdf",
+      "source_url": "https://www.lozere.gouv.fr/contenu/telechargement/35038/294799/file/recueil-48-2026-116.pdf"
+    }
+  }
+}

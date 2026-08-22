@@ -17,7 +17,7 @@ export default defineConfig({
     // par `npm test`/`test:unit`/`test:contract`/`test:integration` ni par
     // aucune CI. Seul `vitest.live.config.ts` (`npm run test:live-drift`,
     // déclenchement manuel uniquement) les inclut.
-    exclude: [...configDefaults.exclude, 'tests/live/**', '**/_to_delete/**'],
+    exclude: [...configDefaults.exclude, 'tests/live/**', '**/_to_delete/**', '**/_archive/**'],
     // Identifiants admin de test uniquement (research.md §7, FR-015) :
     // `buildApp()` échoue si ADMIN_USERNAME/ADMIN_PASSWORD sont absents
     // (routes/admin/auth.ts) — jamais de valeur par défaut dans le code

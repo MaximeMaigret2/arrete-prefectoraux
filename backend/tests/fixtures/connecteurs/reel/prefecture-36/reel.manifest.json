@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-36",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs/2026/08.-Aout-2026",
+      "file": "08.-Aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs/2026/08.-Aout-2026/(offset)/10",
+      "file": "08.-Aout-2026-offset-10.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.indre.gouv.fr/contenu/telechargement/45312/373311/file/recueil-36-2026-226-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.indre.gouv.fr/contenu/telechargement/45291/373149/file/recueil-36-2026-225-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "36",
+      "type_evenement": "interdiction",
+      "reference_arrete": "36-2026-08-14-00226",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de l'Indre",
+      "source_type": "pdf",
+      "source_url": "https://www.indre.gouv.fr/contenu/telechargement/45312/373311/file/recueil-36-2026-226-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

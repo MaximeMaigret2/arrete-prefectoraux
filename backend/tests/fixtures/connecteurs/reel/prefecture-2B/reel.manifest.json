@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-2B",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-corse.gouv.fr/Publications/Publications-administratives-et-legales/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-corse.gouv.fr/Publications/Publications-administratives-et-legales/Recueils-des-actes-administratifs/Recueil-des-actes-administratifs-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-corse.gouv.fr/Publications/Publications-administratives-et-legales/Recueils-des-actes-administratifs/Recueil-des-actes-administratifs-2026/RAA-du-mois-d-aout-2026",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-corse.gouv.fr/contenu/telechargement/15203/123014/file/RAA%20n%C2%B009%20du%2013%20ao%C3%BBt%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-corse.gouv.fr/contenu/telechargement/15177/122809/file/RAA%20n%C2%B008%20du%2007%20ao%C3%BBt%202026%20Special.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "2B",
+      "type_evenement": "interdiction",
+      "reference_arrete": "2B-2026-08-13-00010",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "La Préfète de la Haute-Corse",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-corse.gouv.fr/contenu/telechargement/15203/123014/file/RAA%20n%C2%B009%20du%2013%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

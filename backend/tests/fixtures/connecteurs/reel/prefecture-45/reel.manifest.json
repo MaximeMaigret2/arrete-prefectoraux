@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-45",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.loiret.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departementaux",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loiret.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departementaux/Aout-2026",
+      "file": "Aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loiret.gouv.fr/contenu/telechargement/81850/625898/file/recueil-45-2026-275-recueil-des-actes-administratifs-special-18-aout-2026-Prefecture-DS-BSP.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.loiret.gouv.fr/contenu/telechargement/81670/624674/file/recueil-45-2026-258-recueil-des-actes-administratifs-special-3-aout-2026-DDT-SADR.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "45",
+      "type_evenement": "interdiction",
+      "reference_arrete": "45-2026-275",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Loiret",
+      "source_type": "pdf",
+      "source_url": "https://www.loiret.gouv.fr/contenu/telechargement/81850/625898/file/recueil-45-2026-275-recueil-des-actes-administratifs-special-18-aout-2026-Prefecture-DS-BSP.pdf"
+    }
+  }
+}

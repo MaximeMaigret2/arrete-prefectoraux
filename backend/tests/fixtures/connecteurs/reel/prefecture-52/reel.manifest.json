@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-52",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-marne.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-marne.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-marne.gouv.fr/contenu/telechargement/29950/225894/file/RAA%20n%C2%B0%2087bis%20du%2014-08-2026.pdf",
+      "file": "recueil-52-2026-0876.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-marne.gouv.fr/contenu/telechargement/29922/225742/file/RAA%20n%C2%B0%2084%20du%2004-08-2026.pdf",
+      "file": "recueil-52-2026-0870.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "52",
+      "type_evenement": "interdiction",
+      "reference_arrete": "52-2026-0876",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de la Haute-Marne",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-marne.gouv.fr/contenu/telechargement/29950/225894/file/RAA%20n%C2%B0%2087bis%20du%2014-08-2026.pdf"
+    }
+  }
+}

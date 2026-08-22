@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-66",
+  "systemDate": "2026-08-20T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.pyrenees-orientales.gouv.fr/Publications/Le-recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.pyrenees-orientales.gouv.fr/Publications/Le-recueil-des-actes-administratifs/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.pyrenees-orientales.gouv.fr/contenu/telechargement/50200/381374/file/Recueil%20du%2019%20aout%202026.pdf",
+      "file": "raa-66-0819.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.pyrenees-orientales.gouv.fr/contenu/telechargement/50201/381400/file/Recueil%20du%2020%20aout%202026.pdf",
+      "file": "raa-66-0820.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "66",
+      "type_evenement": "interdiction",
+      "reference_arrete": "66-2026-08-20-022",
+      "date_debut": "2026-08-25T00:00:00.000Z",
+      "date_fin": "2026-08-28T00:00:00.000Z",
+      "autorite_signataire": "Le préfet des Pyrénées-Orientales",
+      "source_type": "pdf",
+      "source_url": "https://www.pyrenees-orientales.gouv.fr/contenu/telechargement/50201/381400/file/Recueil%20du%2020%20aout%202026.pdf"
+    }
+  }
+}

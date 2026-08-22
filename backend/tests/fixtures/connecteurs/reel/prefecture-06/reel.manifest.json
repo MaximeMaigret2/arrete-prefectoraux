@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-06",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/Annee-2026/Aout-2026",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.alpes-maritimes.gouv.fr/contenu/telechargement/60404/460447/file/recueil-277-2026-06-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.alpes-maritimes.gouv.fr/contenu/telechargement/60401/460422/file/recueil-276-2026-06-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "06",
+      "type_evenement": "interdiction",
+      "reference_arrete": "06-2026-08-277",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet des Alpes-Maritimes",
+      "source_type": "pdf",
+      "source_url": "https://www.alpes-maritimes.gouv.fr/contenu/telechargement/60404/460447/file/recueil-277-2026-06-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

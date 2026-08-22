@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-93",
+  "systemDate": "2026-08-22T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026/AOUT",
+      "file": "AOUT.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026/AOUT/(offset)/20",
+      "file": "AOUT-offset20.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-saint-denis.gouv.fr/contenu/telechargement/30590/244400/file/recueil-93-2026-08-21-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-93-2026-08-21-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.seine-saint-denis.gouv.fr/contenu/telechargement/30595/244410/file/recueil-93-2026-08-22-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-93-2026-08-22-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "93",
+      "type_evenement": "interdiction",
+      "reference_arrete": "93-2026-158",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Seine-Saint-Denis",
+      "source_type": "pdf",
+      "source_url": "https://www.seine-saint-denis.gouv.fr/contenu/telechargement/30595/244410/file/recueil-93-2026-08-22-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

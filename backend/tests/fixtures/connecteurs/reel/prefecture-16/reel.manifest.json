@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-16",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.charente.gouv.fr/Media/Files/Publications/Recueil-des-actes-administratifs/RAA-2026/recueil-16-2026-231-recueil-des-actes-administratifs",
+      "file": "detail-231.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.charente.gouv.fr/Media/Files/Publications/Recueil-des-actes-administratifs/RAA-2026/recueil-16-2026-230-recueil-des-actes-administratifs",
+      "file": "detail-230.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.charente.gouv.fr/contenu/telechargement/53500/422850/file/recueil-16-2026-231-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.charente.gouv.fr/contenu/telechargement/53499/422848/file/recueil-16-2026-230-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "16",
+      "type_evenement": "interdiction",
+      "reference_arrete": "16-2026-08-231",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de la Charente",
+      "source_type": "pdf",
+      "source_url": "https://www.charente.gouv.fr/contenu/telechargement/53500/422850/file/recueil-16-2026-231-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

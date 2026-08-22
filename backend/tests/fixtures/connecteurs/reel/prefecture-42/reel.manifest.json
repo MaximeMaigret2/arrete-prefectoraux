@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-42",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.loire.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loire.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs/2026-numeros-speciaux",
+      "file": "2026-numeros-speciaux.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loire.gouv.fr/contenu/telechargement/25300/184000/file/prefecture_loire_RAA_42-2026-162_2026_08_18.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.loire.gouv.fr/contenu/telechargement/25100/182000/file/prefecture_loire_RAA_42-2026-155_2026_08_10.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "42",
+      "type_evenement": "interdiction",
+      "reference_arrete": "42-2026-162",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Loire",
+      "source_type": "pdf",
+      "source_url": "https://www.loire.gouv.fr/contenu/telechargement/25300/184000/file/prefecture_loire_RAA_42-2026-162_2026_08_18.pdf"
+    }
+  }
+}

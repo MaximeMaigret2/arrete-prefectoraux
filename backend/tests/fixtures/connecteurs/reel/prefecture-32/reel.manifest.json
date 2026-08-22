@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-32",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.gers.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gers.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/Recueils-des-actes-administratifs-edites-en-2026",
+      "file": "recueils-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gers.gouv.fr/contenu/telechargement/46667/340398/file/recueil-32-2026-135-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.gers.gouv.fr/contenu/telechargement/46666/340393/file/recueil-32-2026-106-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "32",
+      "type_evenement": "interdiction",
+      "reference_arrete": "32-2026-07-15-00011",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Gers",
+      "source_type": "pdf",
+      "source_url": "https://www.gers.gouv.fr/contenu/telechargement/46667/340398/file/recueil-32-2026-135-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

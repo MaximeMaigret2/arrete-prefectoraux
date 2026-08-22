@@ -1,0 +1,54 @@
+{
+  "connecteurId": "prefecture-02",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-Actes-Administratifs-Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-Actes-Administratifs-Annee-2026/(offset)/20",
+      "file": "derniere-page.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA_Aout_02-2026-011",
+      "file": "detail-011.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA_Aout_02-2026-005",
+      "file": "detail-005.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aisne.gouv.fr/contenu/telechargement/12001/82001/file/RAA_Aout_02-2026-011.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.aisne.gouv.fr/contenu/telechargement/12002/82002/file/RAA_Aout_02-2026-005.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "02",
+      "type_evenement": "interdiction",
+      "reference_arrete": "02-2026-08-011",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "La Préfète de l'Aisne",
+      "source_type": "pdf",
+      "source_url": "https://www.aisne.gouv.fr/contenu/telechargement/12001/82001/file/RAA_Aout_02-2026-011.pdf"
+    }
+  }
+}

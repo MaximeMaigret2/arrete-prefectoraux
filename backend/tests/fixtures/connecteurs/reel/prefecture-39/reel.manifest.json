@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-39",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.jura.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.jura.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.jura.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs/Annee-2026/(offset)/170",
+      "file": "Annee-2026-offset-170.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.jura.gouv.fr/contenu/telechargement/33901/252001/file/RAA%20special%2039-2026-08-058%20du%2014-08-2026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.jura.gouv.fr/contenu/telechargement/33900/252000/file/RAA%2039-2026-08-056%20du%2012-08-2026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "39",
+      "type_evenement": "interdiction",
+      "reference_arrete": "39-2026-08-14-00058",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Jura",
+      "source_type": "pdf",
+      "source_url": "https://www.jura.gouv.fr/contenu/telechargement/33901/252001/file/RAA%20special%2039-2026-08-058%20du%2014-08-2026.pdf"
+    }
+  }
+}

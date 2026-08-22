@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-70",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-saone.gouv.fr/Publications/RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-saone.gouv.fr/Publications/RAA/RAA-Special-nominatif-publie-le-18-aout-2026",
+      "file": "detail-special.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-saone.gouv.fr/Publications/RAA/RAA-70-2026-157-publie-le-18-aout-2026",
+      "file": "detail-157.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-saone.gouv.fr/contenu/telechargement/47980/383172/file/RAA%20Sp%C3%A9cial%20(nominatifs)%2070-2026-158.pdf",
+      "file": "raa-70-special.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-saone.gouv.fr/contenu/telechargement/47978/383151/file/RAA%2070-2026-157.pdf",
+      "file": "raa-70-157.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "70",
+      "type_evenement": "interdiction",
+      "reference_arrete": "70-2026-157",
+      "date_debut": "2026-08-24T00:00:00.000Z",
+      "date_fin": "2026-08-27T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Haute-Saône",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-saone.gouv.fr/contenu/telechargement/47978/383151/file/RAA%2070-2026-157.pdf"
+    }
+  }
+}

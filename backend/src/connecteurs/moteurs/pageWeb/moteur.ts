@@ -5,7 +5,7 @@ import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '
 import { parisAnneeMoisCourant } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { PageWebConfigSchema, type PageWebConfig } from './config.schema.js';
-import { EN_TETES_HTTP_DEFAUT } from '../../httpClient.js';
+import { fetchAvecEnTetes } from '../../httpClient.js';
 
 /**
  * Moteur `page_web` (contracts/connecteur-interface.md §2). Générique :
@@ -103,7 +103,7 @@ async function resoudreNavigation(
 ): Promise<string> {
   let urlCourante = urlDepart;
   for (const etape of etapes) {
-    const reponse = await fetch(urlCourante, { headers: EN_TETES_HTTP_DEFAUT });
+    const reponse = await fetchAvecEnTetes(urlCourante);
     if (!reponse.ok) {
       throw new Error(`Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`);
     }
@@ -163,7 +163,7 @@ async function resoudreUrlPdfPublication(
     const lienPublication = $publication.attr(config.page_detail.attribut_lien);
     if (!lienPublication) return null;
     const urlDetail = resoudreUrl(lienPublication, urlListeEffective);
-    const reponse = await fetch(urlDetail, { headers: EN_TETES_HTTP_DEFAUT });
+    const reponse = await fetchAvecEnTetes(urlDetail);
     if (!reponse.ok) {
       throw new Error(`Page de détail "${urlDetail}" inaccessible (HTTP ${reponse.status}).`);
     }
@@ -247,7 +247,7 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // Étape 1 (contrat §2) : récupérer la page liste.
       let html: string;
       try {
-        const reponse = await fetch(urlListeEffective, { headers: EN_TETES_HTTP_DEFAUT });
+        const reponse = await fetchAvecEnTetes(urlListeEffective);
         if (!reponse.ok) {
           throw new Error(`HTTP ${reponse.status}`);
         }
@@ -264,8 +264,30 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       const $ = cheerio.load(html);
       const candidats: CandidatEvenement[] = [];
 
+      // Q-001 (lot Qualité, 2026-08-22) : détection du piège `page_detail`
+      // déjà rencontré et corrigé après-coup sur 58, 60, 70, 71, 81 —
+      // `selecteur_publications` pointant sur un conteneur englobant (ex.
+      // `.fr-card`) plutôt que sur l'élément porteur du `href`/`value` lui-même
+      // produisait un échec entièrement silencieux (`candidats: []`, aucune
+      // erreur). On compte ici, sur l'ensemble des éléments matchés, combien
+      // portent effectivement l'attribut (même vide, ex. un `<option
+      // value="">` placeholder — seul `undefined`, attribut absent, compte
+      // comme un signe du piège) ; si `page_detail` est actif et qu'AUCUN
+      // élément ne le porte, c'est un bug de config, pas une simple absence
+      // de publication ce mois-ci.
+      let totalPublicationsPageDetail = 0;
+      let auMoinsUnAttributPageDetailPresent = false;
+
       for (const element of $(config.selecteur_publications).toArray()) {
         const $publication = $(element);
+
+        if (config.page_detail) {
+          totalPublicationsPageDetail++;
+          if ($publication.attr(config.page_detail.attribut_lien) !== undefined) {
+            auMoinsUnAttributPageDetailPresent = true;
+          }
+        }
+
         const titre = $publication.find(config.selecteur_titre).first().text().trim() || $publication.text().trim();
 
         let pertinent = estPertinent(titre, config.mots_cles_filtrage);
@@ -338,6 +360,21 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
         if (!pertinent) continue;
 
         candidats.push(construireCandidat(departementCode, texte, config, sourceCandidat));
+      }
+
+      // Q-001 : piège `page_detail` confirmé — aucun des éléments matchés
+      // par `selecteur_publications` ne porte l'attribut attendu, alors que
+      // `page_detail` est actif et qu'il y avait au moins un élément à
+      // examiner. Échec explicite plutôt que retour silencieux de
+      // `candidats: []` (même traitement que les autres échecs globaux de ce
+      // connecteur, ex. page liste inaccessible).
+      if (config.page_detail && totalPublicationsPageDetail > 0 && !auMoinsUnAttributPageDetailPresent) {
+        const message =
+          `page_detail est actif mais l'attribut "${config.page_detail.attribut_lien}" est absent (undefined) ` +
+          `sur les ${totalPublicationsPageDetail} élément(s) matchés par selecteur_publications ` +
+          `("${config.selecteur_publications}"). selecteur_publications doit pointer directement sur l'élément ` +
+          `porteur du lien (l'<a> ou l'<option> lui-même), jamais sur un conteneur englobant (ex. ".fr-card"/"div"/"li").`;
+        return { candidats: [], echec_global: { message, source: sourceListe } };
       }
 
       return { candidats };

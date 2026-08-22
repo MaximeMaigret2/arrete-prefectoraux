@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-77",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/RAA-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/RAA-2026/RAA-n-D77-13-08-2026",
+      "file": "detail-13-08-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/RAA-2026/RAA-n-D77-12-08-2026-nominatifs",
+      "file": "detail-12-08-2026-nominatifs.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-et-marne.gouv.fr/contenu/telechargement/73282/594847/file/RAA%20n%C2%B0%20D77-13-08-2026.pdf",
+      "file": "RAA-n-D77-13-08-2026.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.seine-et-marne.gouv.fr/contenu/telechargement/73270/594769/file/RAA%20n%C2%B0D77-12-08-2026-nominatifs.pdf",
+      "file": "RAA-n-D77-12-08-2026-nominatifs.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "77",
+      "type_evenement": "interdiction",
+      "reference_arrete": "2026-77-0530",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-16T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de Seine-et-Marne",
+      "source_type": "pdf",
+      "source_url": "https://www.seine-et-marne.gouv.fr/contenu/telechargement/73282/594847/file/RAA%20n%C2%B0%20D77-13-08-2026.pdf"
+    }
+  }
+}

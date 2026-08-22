@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-27",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026",
+      "file": "RAA-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026/Recueil-special-N-27-2026-252-du-14-oaut-2026",
+      "file": "detail-252.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026/Recueil-special-N-27-2026-251-du-14-aout-2026",
+      "file": "detail-251.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure.gouv.fr/contenu/telechargement/63660/470095/file/Recueil%20sp%C3%A9cial%20N%C2%B027-2026-252%20du%2014%20oa%C3%BBt%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.eure.gouv.fr/contenu/telechargement/63655/470062/file/Recueil%20sp%C3%A9cial%20N%C2%B027-2026-251%20du%2014%20ao%C3%BBt%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "27",
+      "type_evenement": "interdiction",
+      "reference_arrete": "27-2026-08-14-00003",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Eure",
+      "source_type": "pdf",
+      "source_url": "https://www.eure.gouv.fr/contenu/telechargement/63660/470095/file/Recueil%20sp%C3%A9cial%20N%C2%B027-2026-252%20du%2014%20oa%C3%BBt%202026.pdf"
+    }
+  }
+}

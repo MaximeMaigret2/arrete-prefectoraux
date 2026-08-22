@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-55",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.meuse.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.meuse.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/RAA-annee-2026",
+      "file": "RAA-annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.meuse.gouv.fr/contenu/telechargement/36999/259900/file/RAA%20n%C2%B0108%20du%2018%20ao%C3%BBt%202026.pdf",
+      "file": "raa-n-108.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.meuse.gouv.fr/contenu/telechargement/36990/259850/file/RAA%20n%C2%B0107%20du%2017%20ao%C3%BBt%202026.pdf",
+      "file": "raa-n-107.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "55",
+      "type_evenement": "interdiction",
+      "reference_arrete": "55-2026-108",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "La préfète de la Meuse",
+      "source_type": "pdf",
+      "source_url": "https://www.meuse.gouv.fr/contenu/telechargement/36999/259900/file/RAA%20n%C2%B0108%20du%2018%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

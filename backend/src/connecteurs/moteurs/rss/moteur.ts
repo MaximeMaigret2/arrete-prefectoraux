@@ -4,7 +4,7 @@ import type { CandidatEvenement, Connecteur, ResultatCollecte, SourceBrute } fro
 import { extraireChampsCommuns, extraireDateAvecAmbiguite } from '../../extraction/champsCommuns.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { RssConfigSchema, type RssConfig } from './config.schema.js';
-import { EN_TETES_HTTP_DEFAUT } from '../../httpClient.js';
+import { fetchAvecEnTetes } from '../../httpClient.js';
 
 /**
  * Moteur `rss` (contracts/connecteur-interface.md §4). Générique : aucune
@@ -67,7 +67,7 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // Étape 1 (contrat §4) : récupérer le flux.
       let xml: string;
       try {
-        const reponse = await fetch(config.url_flux, { headers: EN_TETES_HTTP_DEFAUT });
+        const reponse = await fetchAvecEnTetes(config.url_flux);
         if (!reponse.ok) {
           throw new Error(`HTTP ${reponse.status}`);
         }

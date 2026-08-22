@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-26",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026-consulter-le-recueil-des-services-de-l-Etat-dans-la-Drome",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA/RAA-2026-consulter-le-recueil-des-services-de-l-Etat-dans-la-Drome/Aout-2026",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.drome.gouv.fr/contenu/telechargement/38566/254458/file/recueil-26-2026-264-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.drome.gouv.fr/contenu/telechargement/38565/254453/file/recueil-26-2026-263-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "26",
+      "type_evenement": "interdiction",
+      "reference_arrete": "26-2026-08-14-00005",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de la Drôme",
+      "source_type": "pdf",
+      "source_url": "https://www.drome.gouv.fr/contenu/telechargement/38566/254458/file/recueil-26-2026-264-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

@@ -1,8 +1,9 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { loadDataStore, resetDataStoreCache } from '../../../src/data/loader.js';
+import { definirRepertoireDonnees, loadDataStore, resetDataStoreCache } from '../../../src/data/loader.js';
 import { executerConnecteur } from '../../../src/connecteurs/runner.js';
 import { creerConnecteur } from '../../../src/connecteurs/moteurs/pageWeb/moteur.js';
 import type { Connecteur as ConnecteurEntree } from '../../../src/models/index.js';
@@ -22,14 +23,25 @@ import type { Connecteur as ConnecteurEntree } from '../../../src/models/index.j
  * Département de test : '19' (Corrèze), inutilisé par les autres suites
  * (cf. en-têtes de `runner.test.ts`/T045, `ajoutConnecteur.test.ts`/T038,
  * `tests/contract/admin/connecteurs.test.ts`/T039).
+ *
+ * Q-006 (lot Qualité — Durcissement, 2026-08-22) : ce test écrivait
+ * auparavant directement dans les vrais fichiers de production
+ * (`connecteurs.json`/`events/19.json`/`anomalies.json`/`executions.json`),
+ * snapshot/restore en `afterEach`. C'est exactement ce mécanisme qui s'est
+ * auto-contaminé le 2026-08-21/22 : un run tué en cours (plafond
+ * `device_bash`) a laissé un connecteur `test-idempotence-connecteur-19` et
+ * ses événements/anomalies fantômes dans les fichiers réels, jamais nettoyés
+ * puisque `afterEach` n'a pas pu s'exécuter — détecté et corrigé
+ * manuellement (cf. `claude/etat-connecteurs.md`, section "Lot Qualité").
+ * Il pointe désormais `data/loader.ts` (via `definirRepertoireDonnees()`,
+ * ajouté pour ce lot) vers un répertoire temporaire (`os.tmpdir()`, hors du
+ * point de montage partagé avec l'utilisateur — la suppression y fonctionne
+ * normalement) : un kill mi-test ne laisse plus aucune trace dans les
+ * fichiers réels.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, '../../../src/data');
-const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
-const EXECUTIONS_PATH = path.join(DATA_DIR, 'executions.json');
-const ANOMALIES_PATH = path.join(DATA_DIR, 'anomalies.json');
-const EVENTS_19_PATH = path.join(DATA_DIR, 'events', '19.json');
+const REAL_DATA_DIR = path.join(__dirname, '../../../src/data');
 const FIXTURE_HTML_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-propre.html');
 
 const CONNECTEUR_ID = 'test-idempotence-connecteur-19';
@@ -71,29 +83,30 @@ async function lireOuAbsent(filePath: string): Promise<string | null> {
   }
 }
 
-async function restaurer(filePath: string, contenu: string | null): Promise<void> {
-  await writeFile(filePath, contenu ?? '[]\n', 'utf-8');
-}
-
-let snapshotConnecteurs: string | null;
-let snapshotExecutions: string | null;
-let snapshotAnomalies: string | null;
-let snapshotEvents19: string | null;
+let tempDataDir: string;
 let html: string;
 
 beforeEach(async () => {
-  snapshotConnecteurs = await lireOuAbsent(CONNECTEURS_PATH);
-  snapshotExecutions = await lireOuAbsent(EXECUTIONS_PATH);
-  snapshotAnomalies = await lireOuAbsent(ANOMALIES_PATH);
-  snapshotEvents19 = await lireOuAbsent(EVENTS_19_PATH);
+  tempDataDir = await mkdtemp(path.join(tmpdir(), 'arrete-test-data-'));
+  await mkdir(path.join(tempDataDir, 'events'), { recursive: true });
+
+  // Copie fidèle du vrai `connecteurs.json`, à laquelle on ajoute le
+  // connecteur de test (comme le faisait l'ancien mécanisme sur le fichier
+  // réel) : `chargerConnecteursActifs()`/`obtenirConnecteur()` n'interviennent
+  // pas ici (le connecteur est construit en mémoire via `creerConnecteur()`),
+  // mais `runner.ts` s'appuie sur `loadDataStore()` pour retrouver l'entrée
+  // `connecteurs.json` correspondante lors de la journalisation.
+  const connecteursReels = (await lireOuAbsent(path.join(REAL_DATA_DIR, 'connecteurs.json'))) ?? '[]\n';
+  const reels = JSON.parse(connecteursReels) as Array<Record<string, unknown>>;
+  const patches: Array<Record<string, unknown>> = [...reels, ENTREE];
+  await writeFile(path.join(tempDataDir, 'connecteurs.json'), JSON.stringify(patches, null, 2) + '\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'executions.json'), '[]\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'anomalies.json'), '[]\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'events', '19.json'), '[]\n', 'utf-8');
+
   html = await readFile(FIXTURE_HTML_PATH, 'utf-8');
 
-  const reels = JSON.parse(snapshotConnecteurs ?? '[]') as Array<Record<string, unknown>>;
-  const patches: Array<Record<string, unknown>> = [...reels, ENTREE];
-  await writeFile(CONNECTEURS_PATH, JSON.stringify(patches, null, 2) + '\n', 'utf-8');
-  await writeFile(EXECUTIONS_PATH, snapshotExecutions ?? '[]\n', 'utf-8');
-  await writeFile(ANOMALIES_PATH, snapshotAnomalies ?? '[]\n', 'utf-8');
-  await writeFile(EVENTS_19_PATH, '[]\n', 'utf-8');
+  definirRepertoireDonnees(tempDataDir);
   resetDataStoreCache();
 
   // Source inchangée entre les deux runs : `fetch` répond systématiquement
@@ -109,12 +122,14 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await restaurer(CONNECTEURS_PATH, snapshotConnecteurs);
-  await restaurer(EXECUTIONS_PATH, snapshotExecutions);
-  await restaurer(ANOMALIES_PATH, snapshotAnomalies);
-  await restaurer(EVENTS_19_PATH, snapshotEvents19);
+  definirRepertoireDonnees(null);
   resetDataStoreCache();
   vi.unstubAllGlobals();
+
+  // Best-effort : ce répertoire vit hors du point de montage partagé avec
+  // l'utilisateur (contrairement au dépôt), la suppression y fonctionne
+  // normalement — mais un échec ici ne doit jamais faire échouer le test lui-même.
+  await rm(tempDataDir, { recursive: true, force: true }).catch(() => {});
 });
 
 describe('US3 — idempotence : réexécuter le même connecteur sur une source inchangée (T046)', () => {

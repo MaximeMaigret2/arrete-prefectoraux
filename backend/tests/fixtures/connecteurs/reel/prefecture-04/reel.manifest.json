@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-04",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs/2026-de-aout-a-decembre",
+      "file": "semestre-2026-aout-decembre.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.alpes-de-haute-provence.gouv.fr/contenu/telechargement/14001/84001/file/RS-04-2026-228.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.alpes-de-haute-provence.gouv.fr/contenu/telechargement/14002/84002/file/RS-04-2026-220.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "04",
+      "type_evenement": "interdiction",
+      "reference_arrete": "04-2026-08-228",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet des Alpes-de-Haute-Provence",
+      "source_type": "pdf",
+      "source_url": "https://www.alpes-de-haute-provence.gouv.fr/contenu/telechargement/14001/84001/file/RS-04-2026-228.pdf"
+    }
+  }
+}

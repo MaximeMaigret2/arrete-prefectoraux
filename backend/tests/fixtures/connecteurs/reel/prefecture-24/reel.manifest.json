@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-24",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.dordogne.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.dordogne.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.dordogne.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026/Aout-2026",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.dordogne.gouv.fr/contenu/telechargement/53049/410656/file/recueil-24-2026-082%20RAAA%20normal%20n%C2%B03%20du%2014%20aout%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.dordogne.gouv.fr/contenu/telechargement/52973/410195/file/recueil-24-2026-081%20RAA%20normal%20n%C2%B01%20du%2005%20aout%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "24",
+      "type_evenement": "interdiction",
+      "reference_arrete": "24-2026-082-001",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de la Dordogne",
+      "source_type": "pdf",
+      "source_url": "https://www.dordogne.gouv.fr/contenu/telechargement/53049/410656/file/recueil-24-2026-082%20RAAA%20normal%20n%C2%B03%20du%2014%20aout%202026.pdf"
+    }
+  }
+}

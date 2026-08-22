@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-87",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-vienne.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-vienne.gouv.fr/Publications/Recueil-des-actes-administratifs/JUILLET-DECEMBRE-2026",
+      "file": "juillet-decembre-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-vienne.gouv.fr/contenu/telechargement/50960/427710/file/recueil%20n%C2%B0%2087-2026-160%20du%2020%20aout%202026.pdf",
+      "file": "raa-160-non-pertinent.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-vienne.gouv.fr/contenu/telechargement/50975/427729/file/recueil%20n%C2%B0%2087-2026-161%20du%2021%20aout%202026.pdf",
+      "file": "raa-161-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "87",
+      "type_evenement": "interdiction",
+      "reference_arrete": "87-2026-08-21-161",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-27T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Haute-Vienne",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-vienne.gouv.fr/contenu/telechargement/50975/427729/file/recueil%20n%C2%B0%2087-2026-161%20du%2021%20aout%202026.pdf"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-11",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/Annee-2026/Aout",
+      "file": "mois-aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aude.gouv.fr/contenu/telechargement/38400/263800/file/RAA%20SPECIAL%20N%C2%B0%2016_AO%C3%9BT%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.aude.gouv.fr/contenu/telechargement/38405/263810/file/RAA%20SPECIAL%20N%C2%B0%2017_AO%C3%9BT%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "11",
+      "type_evenement": "interdiction",
+      "reference_arrete": "11-2026-08-320",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Aude",
+      "source_type": "pdf",
+      "source_url": "https://www.aude.gouv.fr/contenu/telechargement/38400/263800/file/RAA%20SPECIAL%20N%C2%B0%2016_AO%C3%9BT%202026.pdf"
+    }
+  }
+}

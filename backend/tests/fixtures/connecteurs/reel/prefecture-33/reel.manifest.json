@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-33",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-Actes-Administratifs-de-l-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-Actes-Administratifs-de-l-annee-2026/Aout-2026",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.gironde.gouv.fr/contenu/telechargement/87963/661802/file/RAA%2033%20SPECIAL%20N%C2%B0%202026-243.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.gironde.gouv.fr/contenu/telechargement/87951/661682/file/recueil-33-2026-242-recueil-des-actes-administratifs-special-1.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "33",
+      "type_evenement": "interdiction",
+      "reference_arrete": "33-2026-08-243",
+      "date_debut": "2026-08-03T00:00:00.000Z",
+      "date_fin": "2026-08-05T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de la Gironde",
+      "source_type": "pdf",
+      "source_url": "https://www.gironde.gouv.fr/contenu/telechargement/87963/661802/file/RAA%2033%20SPECIAL%20N%C2%B0%202026-243.pdf"
+    }
+  }
+}

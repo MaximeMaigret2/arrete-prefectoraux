@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-18",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires/Recueil-des-actes-administratifs",
+      "file": "annees.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires/Recueil-des-actes-administratifs/2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires/Recueil-des-actes-administratifs/2026/Aout",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.cher.gouv.fr/contenu/telechargement/44674/341659/file/recueil-18-2026-08-017-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.cher.gouv.fr/contenu/telechargement/44667/341613/file/recueil-18-2026-08-015-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "18",
+      "type_evenement": "interdiction",
+      "reference_arrete": "18-2026-08-017-001",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet du Cher",
+      "source_type": "pdf",
+      "source_url": "https://www.cher.gouv.fr/contenu/telechargement/44674/341659/file/recueil-18-2026-08-017-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

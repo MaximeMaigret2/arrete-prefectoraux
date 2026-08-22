@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-83",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-2026/Aout-2026",
+      "file": "Aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-2026/Aout-2026/(offset)/20",
+      "file": "Aout-2026-offset20.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.var.gouv.fr/contenu/telechargement/47901/310701/file/RAA-N-306-du-20-aout-2026.pdf",
+      "file": "raa-306-non-pertinent.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.var.gouv.fr/contenu/telechargement/47907/310707/file/RAA-N-307-du-21-aout-2026.pdf",
+      "file": "raa-307-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "83",
+      "type_evenement": "interdiction",
+      "reference_arrete": "83-2026-08-21-307",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-25T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Var",
+      "source_type": "pdf",
+      "source_url": "https://www.var.gouv.fr/contenu/telechargement/47907/310707/file/RAA-N-307-du-21-aout-2026.pdf"
+    }
+  }
+}

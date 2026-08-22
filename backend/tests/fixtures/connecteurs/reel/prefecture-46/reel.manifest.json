@@ -1,0 +1,54 @@
+{
+  "connecteurId": "prefecture-46",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA-2026",
+      "file": "RAA-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA-2026/(offset)/80",
+      "file": "RAA-2026-offset-80.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA-2026/RAA-special-46-2026-084",
+      "file": "detail-084.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA-2026/RAA-special-46-2026-083",
+      "file": "detail-083.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot.gouv.fr/contenu/telechargement/26011/194842/file/recueil-46-2026-084-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.lot.gouv.fr/contenu/telechargement/25980/194700/file/recueil-46-2026-083-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "46",
+      "type_evenement": "interdiction",
+      "reference_arrete": "46-2026-084",
+      "date_debut": "2026-08-17T00:00:00.000Z",
+      "date_fin": "2026-08-20T00:00:00.000Z",
+      "autorite_signataire": "La préfète du Lot",
+      "source_type": "pdf",
+      "source_url": "https://www.lot.gouv.fr/contenu/telechargement/26011/194842/file/recueil-46-2026-084-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-47",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA/Recueil-des-actes-administratifs-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA/Recueil-des-actes-administratifs-annee-2026/Aout2",
+      "file": "Aout2.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.lot-et-garonne.gouv.fr/contenu/telechargement/31224/237151/file/3_recueil-47-2026-163.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.lot-et-garonne.gouv.fr/contenu/telechargement/31225/237152/file/4_recueil-47-2026-164.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "47",
+      "type_evenement": "interdiction",
+      "reference_arrete": "47-2026-163",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Lot-et-Garonne",
+      "source_type": "pdf",
+      "source_url": "https://www.lot-et-garonne.gouv.fr/contenu/telechargement/31224/237151/file/3_recueil-47-2026-163.pdf"
+    }
+  }
+}

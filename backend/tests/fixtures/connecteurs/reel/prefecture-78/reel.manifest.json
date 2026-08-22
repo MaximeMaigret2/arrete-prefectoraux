@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-78",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.yvelines.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.yvelines.gouv.fr/Publications/Recueil-des-actes-administratifs/2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.yvelines.gouv.fr/Publications/Recueil-des-actes-administratifs/2026/AOUT",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.yvelines.gouv.fr/contenu/telechargement/37548/239461/file/recueil-78-2026-335-recueil-des-actes-administratifs.pdf",
+      "file": "raa-78-2026-335.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.yvelines.gouv.fr/contenu/telechargement/37547/239456/file/recueil-78-2026-314-recueil-des-actes-administratifs.pdf",
+      "file": "raa-78-2026-314.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "78",
+      "type_evenement": "interdiction",
+      "reference_arrete": "78-2026-08-20-335",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet des Yvelines",
+      "source_type": "pdf",
+      "source_url": "https://www.yvelines.gouv.fr/contenu/telechargement/37548/239461/file/recueil-78-2026-335-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

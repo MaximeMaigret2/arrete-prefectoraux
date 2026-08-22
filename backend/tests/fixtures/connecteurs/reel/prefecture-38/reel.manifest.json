@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-38",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-de-la-prefecture-de-l-Isere-2026",
+      "file": "Recueils-des-Actes-Administratifs-de-la-prefecture-de-l-Isere-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-de-la-prefecture-de-l-Isere-2026/recueil-38-2026-329-recueil-des-actes-administratifs-special",
+      "file": "detail-329.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-de-la-prefecture-de-l-Isere-2026/recueil-38-2026-311-recueil-des-actes-administratifs",
+      "file": "detail-311.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.isere.gouv.fr/contenu/telechargement/84641/648555/file/recueil-38-2026-329-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.isere.gouv.fr/contenu/telechargement/80900/622500/file/recueil-38-2026-08-12-00311-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "38",
+      "type_evenement": "interdiction",
+      "reference_arrete": "38-2026-08-14-00312",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de l'Isère",
+      "source_type": "pdf",
+      "source_url": "https://www.isere.gouv.fr/contenu/telechargement/84641/648555/file/recueil-38-2026-329-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

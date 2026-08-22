@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-85",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-2026/Recueil-des-actes-administratifs-2026-169-publie-le-21-08-2026",
+      "file": "detail-169.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-des-Actes-Administratifs-2026/Recueil-des-actes-administratifs-2026-168-publie-le-20-08-2026",
+      "file": "detail-168.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vendee.gouv.fr/contenu/telechargement/37540/237690/file/recueil-85-2026-168-recueil-des-actes-administratifs-1.pdf",
+      "file": "raa-168-non-pertinent.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.vendee.gouv.fr/contenu/telechargement/37546/237703/file/recueil-85-2026-169-recueil-des-actes-administratifs-1.pdf",
+      "file": "raa-169-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "85",
+      "type_evenement": "interdiction",
+      "reference_arrete": "85-2026-08-21-169",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-26T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Vendée",
+      "source_type": "pdf",
+      "source_url": "https://www.vendee.gouv.fr/contenu/telechargement/37546/237703/file/recueil-85-2026-169-recueil-des-actes-administratifs-1.pdf"
+    }
+  }
+}

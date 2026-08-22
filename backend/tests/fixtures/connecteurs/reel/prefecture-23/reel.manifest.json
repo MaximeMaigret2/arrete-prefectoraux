@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-23",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs/Annee-2026/Speciaux",
+      "file": "speciaux-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.creuse.gouv.fr/contenu/telechargement/23844/173720/file/2026-081.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.creuse.gouv.fr/contenu/telechargement/23848/173740/file/2026-082.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "23",
+      "type_evenement": "interdiction",
+      "reference_arrete": "23-2026-08-11-0015",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Creuse",
+      "source_type": "pdf",
+      "source_url": "https://www.creuse.gouv.fr/contenu/telechargement/23844/173720/file/2026-081.pdf"
+    }
+  }
+}

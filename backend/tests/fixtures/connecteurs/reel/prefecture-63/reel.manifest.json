@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-63",
+  "systemDate": "2026-08-20T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.puy-de-dome.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.puy-de-dome.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueils-des-actes-administratifs-Puy-de-Dome",
+      "file": "Recueils-des-actes-administratifs-Puy-de-Dome.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.puy-de-dome.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueils-des-actes-administratifs-Puy-de-Dome/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.puy-de-dome.gouv.fr/contenu/telechargement/34230/273376/file/RAA%20n%C2%B063-2026-229%20du%2019%20aout%202026.pdf",
+      "file": "raa-63-229.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.puy-de-dome.gouv.fr/contenu/telechargement/34241/273486/file/RAA%20n%C2%B063-2026-230%20du%2020%20aout%202026.pdf",
+      "file": "raa-63-230.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "63",
+      "type_evenement": "interdiction",
+      "reference_arrete": "63-2026-08-20-006",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-25T00:00:00.000Z",
+      "autorite_signataire": "La préfète du Puy-de-Dôme",
+      "source_type": "pdf",
+      "source_url": "https://www.puy-de-dome.gouv.fr/contenu/telechargement/34241/273486/file/RAA%20n%C2%B063-2026-230%20du%2020%20aout%202026.pdf"
+    }
+  }
+}

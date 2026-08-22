@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-69",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.rhone.gouv.fr/Publications/Recueil-des-actes-administratifs-du-Rhone-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.rhone.gouv.fr/Publications/Recueil-des-actes-administratifs-du-Rhone-RAA/Recueils-de-2026",
+      "file": "Recueils-de-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.rhone.gouv.fr/Publications/Recueil-des-actes-administratifs-du-Rhone-RAA/Recueils-de-2026/Recueils-d-aout",
+      "file": "Recueils-d-aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.rhone.gouv.fr/contenu/telechargement/69937/471225/file/RAA_69-2026-248-190826.pdf",
+      "file": "raa-69-248.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.rhone.gouv.fr/contenu/telechargement/69945/471265/file/RAA_69-2026-249-200826.pdf",
+      "file": "raa-69-249.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "69",
+      "type_evenement": "interdiction",
+      "reference_arrete": "69-2026-249-200826",
+      "date_debut": "2026-08-23T00:00:00.000Z",
+      "date_fin": "2026-08-26T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Rhône",
+      "source_type": "pdf",
+      "source_url": "https://www.rhone.gouv.fr/contenu/telechargement/69945/471265/file/RAA_69-2026-249-200826.pdf"
+    }
+  }
+}

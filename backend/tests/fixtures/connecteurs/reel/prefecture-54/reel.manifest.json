@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-54",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueils-des-actes-administratifs-annee-2026",
+      "file": "Recueils-des-actes-administratifs-annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueils-des-actes-administratifs-annee-2026/Numero-101-du-14-aout-2026",
+      "file": "detail-101.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueils-des-actes-administratifs-annee-2026/Numero-102-du-17-aout-2026",
+      "file": "detail-102.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.meurthe-et-moselle.gouv.fr/contenu/telechargement/36940/278300/file/Num%C3%A9ro%20101%20du%2014%20ao%C3%BBt%202026.pdf",
+      "file": "numero-101.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.meurthe-et-moselle.gouv.fr/contenu/telechargement/36954/278454/file/Num%C3%A9ro%20102%20du%2017%20ao%C3%BBt%202026.pdf",
+      "file": "numero-102.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "54",
+      "type_evenement": "interdiction",
+      "reference_arrete": "54-2026-102",
+      "date_debut": "2026-08-17T00:00:00.000Z",
+      "date_fin": "2026-08-19T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Meurthe-et-Moselle",
+      "source_type": "pdf",
+      "source_url": "https://www.meurthe-et-moselle.gouv.fr/contenu/telechargement/36954/278454/file/Num%C3%A9ro%20102%20du%2017%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

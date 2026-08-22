@@ -3,7 +3,7 @@ import type { Connecteur as ConnecteurEntree } from '../../../models/index.js';
 import type { CandidatEvenement, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
 import { extraireChampsCommuns, extraireDateAvecAmbiguite } from '../../extraction/champsCommuns.js';
 import { PdfConfigSchema, type PdfConfig } from './config.schema.js';
-import { EN_TETES_HTTP_DEFAUT } from '../../httpClient.js';
+import { fetchAvecEnTetes } from '../../httpClient.js';
 
 /**
  * Moteur `pdf` (contracts/connecteur-interface.md §3). Générique : aucune
@@ -46,7 +46,7 @@ export interface TextePdf {
  * qui est un résultat légitime (`texte: null`), pas une erreur technique.
  */
 export async function telechargerEtExtraireTextePdf(url: string): Promise<TextePdf> {
-  const reponse = await fetch(url, { headers: EN_TETES_HTTP_DEFAUT });
+  const reponse = await fetchAvecEnTetes(url);
   if (!reponse.ok) {
     throw new Error(`Téléchargement du PDF "${url}" échoué (HTTP ${reponse.status}).`);
   }

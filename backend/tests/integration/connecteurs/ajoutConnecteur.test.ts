@@ -1,9 +1,10 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { loadDataStore, resetDataStoreCache } from '../../../src/data/loader.js';
-import { obtenirConnecteur } from '../../../src/connecteurs/registry.js';
+import { definirRepertoireDonnees, loadDataStore, resetDataStoreCache } from '../../../src/data/loader.js';
+import { definirRepertoireConfigs, obtenirConnecteur } from '../../../src/connecteurs/registry.js';
 import { executerConnecteur } from '../../../src/connecteurs/runner.js';
 import { computeDepartementState } from '../../../src/services/computeDepartementState.js';
 
@@ -25,41 +26,35 @@ import { computeDepartementState } from '../../../src/services/computeDepartemen
  * son propre connecteur réel — même mécanique que
  * 2A→2B→21→26→31→37→42→47→52→57 au fil des sessions précédentes.
  *
- * Même convention que `runnerJournalisation.test.ts`/`registry.test.ts` :
- * `data/loader.ts` n'a pas d'indirection de répertoire testable, donc ce
- * test écrit temporairement dans les vrais fichiers
- * `connecteurs.json`/`events/57.json`/`configs/<id>.yaml` et restaure
- * l'état d'origine (par écriture, la suppression de fichier n'étant pas
- * permise sur ce point de montage) dans `afterEach`.
+ * Q-006 (lot Qualité — Durcissement, 2026-08-22) : ce test écrivait
+ * auparavant directement dans les vrais fichiers de production
+ * (`connecteurs.json`/`events/57.json`/`configs/<id>.yaml`), snapshot/restore
+ * en `afterEach` — mécanisme déjà auto-contaminé une fois (kill mi-test par
+ * le plafond `device_bash`, `afterEach` jamais exécuté, pollution
+ * auto-perpétuante détectée et corrigée manuellement le 2026-08-21/22, cf.
+ * `claude/etat-connecteurs.md`, section "Lot Qualité"). Il pointe désormais
+ * `data/loader.ts` et `registry.ts` (via `definirRepertoireDonnees()` /
+ * `definirRepertoireConfigs()`, ajoutés pour ce lot) vers deux répertoires
+ * temporaires (`os.tmpdir()`, hors du point de montage partagé avec
+ * l'utilisateur — la suppression y fonctionne normalement, contrairement au
+ * dossier du dépôt) — un instantané fidèle de `connecteurs.json` réel y est
+ * copié au démarrage de chaque test, puis jeté avec le reste en `afterEach` :
+ * un kill mi-test ne laisse plus aucune trace dans les fichiers réels.
  *
- * `beforeEach` ne fait que capturer un instantané de l'état initial (le
- * département '57' doit rester réellement gris — non couvert — au moment
- * où le premier test le vérifie) ; l'ajout effectif du connecteur est
- * déclenché explicitement par `ajouterConnecteurDeTest()`, appelée à
- * l'intérieur des tests qui en ont besoin.
- *
- * `anomalies.json`/`executions.json` (journaux globaux, pas par
- * département) sont aussi sauvegardés/restaurés ici, comme dans
- * `runnerJournalisation.test.ts`/T020A et `scheduler.test.ts`/T040 — absent
- * jusqu'ici (constaté après coup, T042-047) : la 3ᵉ publication de
- * `publication-propre.html` ('2026-77-0520', sans PDF suivi dans
- * `config-test.yaml`) produit une anomalie `champ_manquant` à chaque
- * exécution de ce test, qui restait donc dans les vrais fichiers au lieu
- * d'être nettoyée.
+ * `beforeEach` ne fait que préparer cet environnement isolé (le département
+ * '57' doit rester réellement gris — non couvert — au moment où le premier
+ * test le vérifie, à partir d'une copie fidèle du vrai `connecteurs.json`) ;
+ * l'ajout effectif du connecteur est déclenché explicitement par
+ * `ajouterConnecteurDeTest()`, appelée à l'intérieur des tests qui en ont
+ * besoin.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, '../../../src/data');
-const CONFIGS_DIR = path.join(__dirname, '../../../src/connecteurs/configs');
-const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
-const EXECUTIONS_PATH = path.join(DATA_DIR, 'executions.json');
-const ANOMALIES_PATH = path.join(DATA_DIR, 'anomalies.json');
-const EVENTS_57_PATH = path.join(DATA_DIR, 'events', '57.json');
+const REAL_DATA_DIR = path.join(__dirname, '../../../src/data');
 const FIXTURE_CONFIG_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/config-test.yaml');
 const FIXTURE_HTML_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-propre.html');
 
 const CONNECTEUR_ID = 'test-ajout-connecteur-56';
-const CONFIG_PATH = path.join(CONFIGS_DIR, `${CONNECTEUR_ID}.yaml`);
 const URL_LISTE = 'https://exemple-test.gouv.fr/Publications/RAA';
 
 async function lireOuAbsent(filePath: string): Promise<string | null> {
@@ -71,20 +66,34 @@ async function lireOuAbsent(filePath: string): Promise<string | null> {
   }
 }
 
-let snapshotConnecteurs: string | null;
-let snapshotConfig: string | null;
-let snapshotExecutions: string | null;
-let snapshotAnomalies: string | null;
-let snapshotEvents57: string | null;
+let tempDataDir: string;
+let tempConfigsDir: string;
+let connecteursReels: string;
 let html: string;
 
 beforeEach(async () => {
-  snapshotConnecteurs = await lireOuAbsent(CONNECTEURS_PATH);
-  snapshotConfig = await lireOuAbsent(CONFIG_PATH);
-  snapshotExecutions = await lireOuAbsent(EXECUTIONS_PATH);
-  snapshotAnomalies = await lireOuAbsent(ANOMALIES_PATH);
-  snapshotEvents57 = await lireOuAbsent(EVENTS_57_PATH);
+  tempDataDir = await mkdtemp(path.join(tmpdir(), 'arrete-test-data-'));
+  tempConfigsDir = await mkdtemp(path.join(tmpdir(), 'arrete-test-configs-'));
+  await mkdir(path.join(tempDataDir, 'events'), { recursive: true });
+
+  // Copie fidèle du vrai `connecteurs.json` : le test 1 vérifie que '57'
+  // n'est couvert par AUCUN connecteur réel, ce qui n'a de sens que contre
+  // les vraies données. Les autres fichiers globaux démarrent vides — comme
+  // le faisait déjà l'ancien mécanisme pour '57'/'anomalies'/'executions'
+  // à chaque test (`departements.json` n'a pas besoin d'être copié :
+  // `computeDepartementState` ne consulte pas la liste des départements
+  // pour déterminer l'état d'un code donné, seuls `connecteurs`/`evenements`
+  // comptent — cf. `services/computeDepartementState.ts`).
+  connecteursReels = (await lireOuAbsent(path.join(REAL_DATA_DIR, 'connecteurs.json'))) ?? '[]\n';
+  await writeFile(path.join(tempDataDir, 'connecteurs.json'), connecteursReels, 'utf-8');
+  await writeFile(path.join(tempDataDir, 'executions.json'), '[]\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'anomalies.json'), '[]\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'events', '57.json'), '[]\n', 'utf-8');
+
   html = await readFile(FIXTURE_HTML_PATH, 'utf-8');
+
+  definirRepertoireDonnees(tempDataDir);
+  definirRepertoireConfigs(tempConfigsDir);
   resetDataStoreCache();
 
   // Stub `fetch` : ne répond qu'à `URL_LISTE` (contenu de la fixture
@@ -106,27 +115,28 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await writeFile(CONNECTEURS_PATH, snapshotConnecteurs ?? '[]\n', 'utf-8');
-  await writeFile(
-    CONFIG_PATH,
-    snapshotConfig ?? '# fixture de test (ajoutConnecteur.test.ts), inutilisée\n',
-    'utf-8',
-  );
-  await writeFile(EXECUTIONS_PATH, snapshotExecutions ?? '[]\n', 'utf-8');
-  await writeFile(ANOMALIES_PATH, snapshotAnomalies ?? '[]\n', 'utf-8');
-  await writeFile(EVENTS_57_PATH, snapshotEvents57 ?? '[]\n', 'utf-8');
+  definirRepertoireDonnees(null);
+  definirRepertoireConfigs(null);
   resetDataStoreCache();
   vi.unstubAllGlobals();
+
+  // Best-effort : ces répertoires vivent hors du point de montage partagé
+  // avec l'utilisateur (contrairement au dépôt), la suppression y fonctionne
+  // normalement — mais un échec ici ne doit jamais faire échouer le test lui-même.
+  await rm(tempDataDir, { recursive: true, force: true }).catch(() => {});
+  await rm(tempConfigsDir, { recursive: true, force: true }).catch(() => {});
 });
 
 /**
  * Simule l'opérateur "ajoutant un connecteur" pour '57' (US2) : une entrée
  * `connecteurs.json` + une configuration déclarative
  * (`configs/<id>.yaml`), sans toucher au code cœur — exactement ce que
- * font T032-T034 pour les connecteurs réels.
+ * font T032-T034 pour les connecteurs réels. Écrit désormais dans les deux
+ * répertoires temporaires de ce test (cf. `beforeEach`), jamais en
+ * production.
  */
 async function ajouterConnecteurDeTest(): Promise<void> {
-  const reels = JSON.parse(snapshotConnecteurs ?? '[]') as Array<Record<string, unknown>>;
+  const reels = JSON.parse(connecteursReels) as Array<Record<string, unknown>>;
   const patches: Array<Record<string, unknown>> = [
     ...reels,
     {
@@ -138,12 +148,11 @@ async function ajouterConnecteurDeTest(): Promise<void> {
       type_connecteur: 'page_web',
     },
   ];
-  await writeFile(CONNECTEURS_PATH, JSON.stringify(patches, null, 2) + '\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'connecteurs.json'), JSON.stringify(patches, null, 2) + '\n', 'utf-8');
 
   const configYaml = await readFile(FIXTURE_CONFIG_PATH, 'utf-8');
-  await writeFile(CONFIG_PATH, configYaml, 'utf-8');
+  await writeFile(path.join(tempConfigsDir, `${CONNECTEUR_ID}.yaml`), configYaml, 'utf-8');
 
-  await writeFile(EVENTS_57_PATH, '[]\n', 'utf-8');
   resetDataStoreCache();
 }
 

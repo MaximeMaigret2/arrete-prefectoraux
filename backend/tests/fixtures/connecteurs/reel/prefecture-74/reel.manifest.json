@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-74",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-savoie.gouv.fr/Publications/Actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-savoie.gouv.fr/Publications/Actes-administratifs/2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-savoie.gouv.fr/contenu/telechargement/51803/326913/file/RAA_etat74_20260820_380.pdf",
+      "file": "raa-74-380.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-savoie.gouv.fr/contenu/telechargement/51802/326908/file/RAA_etat74_20260819_379.pdf",
+      "file": "raa-74-379.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "74",
+      "type_evenement": "interdiction",
+      "reference_arrete": "74-2026-08-20-380",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Haute-Savoie",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-savoie.gouv.fr/contenu/telechargement/51803/326913/file/RAA_etat74_20260820_380.pdf"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-21",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.cote-dor.gouv.fr/Publications/Recueils-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.cote-dor.gouv.fr/Publications/Recueils-des-Actes-Administratifs/Recueils-des-actes-administratifs-de-l-annee-en-cours",
+      "file": "annee-en-cours.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.cote-dor.gouv.fr/contenu/telechargement/26752/204638/file/recueil-21-2026-142-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.cote-dor.gouv.fr/contenu/telechargement/26728/204463/file/recueil-21-2026-141-recueil-des-actes-administratifs-nominatifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "21",
+      "type_evenement": "interdiction",
+      "reference_arrete": "21-2026-142-001",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de la Côte-d'Or",
+      "source_type": "pdf",
+      "source_url": "https://www.cote-dor.gouv.fr/contenu/telechargement/26752/204638/file/recueil-21-2026-142-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

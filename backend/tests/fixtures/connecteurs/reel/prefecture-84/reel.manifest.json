@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-84",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/Recueil-des-Actes-Administratifs-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/Recueil-des-Actes-Administratifs-2026/Aout-2026",
+      "file": "Aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.vaucluse.gouv.fr/contenu/telechargement/38922/295033/file/recueil-84-2026-127-recueil-des-actes-administratifs-du-20-aout-2026.pdf",
+      "file": "raa-127-non-pertinent.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.vaucluse.gouv.fr/contenu/telechargement/38930/295041/file/recueil-84-2026-128-recueil-des-actes-administratifs-du-21-aout-2026.pdf",
+      "file": "raa-128-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "84",
+      "type_evenement": "interdiction",
+      "reference_arrete": "84-2026-08-21-128",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Vaucluse",
+      "source_type": "pdf",
+      "source_url": "https://www.vaucluse.gouv.fr/contenu/telechargement/38930/295041/file/recueil-84-2026-128-recueil-des-actes-administratifs-du-21-aout-2026.pdf"
+    }
+  }
+}

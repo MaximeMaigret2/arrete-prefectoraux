@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-82",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.tarn-et-garonne.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn-et-garonne.gouv.fr/Publications/Recueils-des-actes-administratifs/RAA-de-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn-et-garonne.gouv.fr/Publications/Recueils-des-actes-administratifs/RAA-de-2026/RAA-d-Aout-2026",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn-et-garonne.gouv.fr/telechargement/RAA_special_n2_aout_2026.pdf",
+      "file": "raa-82-2026-special-2.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.tarn-et-garonne.gouv.fr/telechargement/RAA_special_n1_aout_2026.pdf",
+      "file": "raa-82-2026-special-1.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "82",
+      "type_evenement": "interdiction",
+      "reference_arrete": "82-2026-08-06-002",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-26T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Tarn-et-Garonne",
+      "source_type": "pdf",
+      "source_url": "https://www.tarn-et-garonne.gouv.fr/telechargement/RAA_special_n2_aout_2026.pdf"
+    }
+  }
+}

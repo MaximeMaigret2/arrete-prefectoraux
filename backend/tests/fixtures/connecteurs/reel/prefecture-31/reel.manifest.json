@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-31",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-Actes-Administratifs-Haute-Garonne",
+      "file": "Recueil-des-Actes-Administratifs-Haute-Garonne.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs/Recueil-des-Actes-Administratifs-Haute-Garonne/Aout-2026",
+      "file": "Aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-garonne.gouv.fr/contenu/telechargement/64484/460048/file/recueil-31-2026-465-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-garonne.gouv.fr/contenu/telechargement/64468/459958/file/recueil-31-2026-462-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "31",
+      "type_evenement": "interdiction",
+      "reference_arrete": "31-2026-08-14-00042",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Haute-Garonne",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-garonne.gouv.fr/contenu/telechargement/64484/460048/file/recueil-31-2026-465-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

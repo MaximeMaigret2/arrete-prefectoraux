@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-08",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs/Les-actes-administratifs-de-l-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.ardennes.gouv.fr/contenu/telechargement/15969/112689/file/RAA%208-2026-129%20du%2012%20aout%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.ardennes.gouv.fr/contenu/telechargement/15953/112609/file/RAA%208-2026-128%20du%2010%20aout%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "08",
+      "type_evenement": "interdiction",
+      "reference_arrete": "08-2026-08-129",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet des Ardennes",
+      "source_type": "pdf",
+      "source_url": "https://www.ardennes.gouv.fr/contenu/telechargement/15969/112689/file/RAA%208-2026-129%20du%2012%20aout%202026.pdf"
+    }
+  }
+}

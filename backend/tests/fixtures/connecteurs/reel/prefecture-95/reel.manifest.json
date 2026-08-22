@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-95",
+  "systemDate": "2026-08-22T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.val-doise.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.val-doise.gouv.fr/Publications/Recueil-des-Actes-Administratifs/RAA-de-2026",
+      "file": "RAA-de-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.val-doise.gouv.fr/Media/Files/RAAE-n-157-du-21-aout-2026",
+      "file": "detail-157.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.val-doise.gouv.fr/Media/Files/RAAE-n-158-du-22-aout-2026",
+      "file": "detail-158.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.val-doise.gouv.fr/contenu/telechargement/31780/233361/file/RAAE-n-157-du-21-aout-2026.pdf",
+      "file": "RAAE-n-157-du-21-aout-2026.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.val-doise.gouv.fr/contenu/telechargement/31785/233366/file/RAAE-n-158-du-22-aout-2026.pdf",
+      "file": "RAAE-n-158-du-22-aout-2026.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "95",
+      "type_evenement": "interdiction",
+      "reference_arrete": "95-2026-158",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Val-d'Oise",
+      "source_type": "pdf",
+      "source_url": "https://www.val-doise.gouv.fr/contenu/telechargement/31785/233366/file/RAAE-n-158-du-22-aout-2026.pdf"
+    }
+  }
+}

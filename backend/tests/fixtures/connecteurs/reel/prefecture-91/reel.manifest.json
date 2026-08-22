@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-91",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/2026/Aout",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.essonne.gouv.fr/contenu/telechargement/71278/455278/file/recueil-91-2026-278-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-91-2026-278-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.essonne.gouv.fr/contenu/telechargement/71255/455255/file/recueil-91-2026-255-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-91-2026-255-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "91",
+      "type_evenement": "interdiction",
+      "reference_arrete": "91-2026-278",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "La préfète de l'Essonne",
+      "source_type": "pdf",
+      "source_url": "https://www.essonne.gouv.fr/contenu/telechargement/71278/455278/file/recueil-91-2026-278-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

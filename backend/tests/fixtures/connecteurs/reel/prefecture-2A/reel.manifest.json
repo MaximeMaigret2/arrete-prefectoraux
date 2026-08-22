@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-2A",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.corse-du-sud.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.corse-du-sud.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-de-la-prefecture-de-la-Corse-du-Sud",
+      "file": "recueil-prefecture.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.corse-du-sud.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-de-la-prefecture-de-la-Corse-du-Sud/Recueils-des-actes-administratifs-de-l-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.corse-du-sud.gouv.fr/contenu/telechargement/18361/118677/file/recueil-2a-2026-103-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.corse-du-sud.gouv.fr/contenu/telechargement/18338/118518/file/recueil-2a-2026-102-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "2A",
+      "type_evenement": "interdiction",
+      "reference_arrete": "2A-2026-08-14-00003",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Corse, préfet de la Corse-du-Sud",
+      "source_type": "pdf",
+      "source_url": "https://www.corse-du-sud.gouv.fr/contenu/telechargement/18361/118677/file/recueil-2a-2026-103-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

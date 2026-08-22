@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-56",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.morbihan.gouv.fr/RAA/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/83407/649345/file/56-2026-099%20-%20RAA%20Sp%C3%A9cial%20du%2017%20ao%C3%BBt%202026.pdf",
+      "file": "raa-56-2026-099.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/83393/649267/file/56-2026-098%20-%20RAA%20du%2014%20ao%C3%BBt%202026%20-%201%C3%A8re%20quinzaine.pdf",
+      "file": "raa-56-2026-098.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "reference_arrete": "56-2026-099",
+      "date_debut": "2026-08-17T00:00:00.000Z",
+      "date_fin": "2026-08-19T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_type": "pdf",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/83407/649345/file/56-2026-099%20-%20RAA%20Sp%C3%A9cial%20du%2017%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

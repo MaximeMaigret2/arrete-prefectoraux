@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-19",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.correze.gouv.fr/contenu/telechargement/35000/247109/file/recueil-19-2026-124-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.correze.gouv.fr/contenu/telechargement/35004/247128/file/recueil-19-2026-125-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "19",
+      "type_evenement": "interdiction",
+      "reference_arrete": "19-2026-124-001",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de la Corrèze",
+      "source_type": "pdf",
+      "source_url": "https://www.correze.gouv.fr/contenu/telechargement/35000/247109/file/recueil-19-2026-124-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

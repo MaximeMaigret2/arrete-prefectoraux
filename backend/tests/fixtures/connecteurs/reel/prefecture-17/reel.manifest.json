@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-17",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.charente-maritime.gouv.fr/contenu/telechargement/87584/615323/file/Recueil-17-2026-08-285-nominatifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.charente-maritime.gouv.fr/contenu/telechargement/87583/615318/file/Recueil-17-2026-08-284-special.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "17",
+      "type_evenement": "interdiction",
+      "reference_arrete": "17-2026-08-285-001",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de la Charente-Maritime",
+      "source_type": "pdf",
+      "source_url": "https://www.charente-maritime.gouv.fr/contenu/telechargement/87584/615323/file/Recueil-17-2026-08-285-nominatifs.pdf"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-34",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.herault.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-2026",
+      "file": "recueil-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.herault.gouv.fr/contenu/telechargement/57678/420917/file/2026-08-14-211_Recueil_n%C2%B0211_du_14_ao%C3%BBt_2026_Partie-2.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.herault.gouv.fr/contenu/telechargement/57677/420912/file/2026-08-14-211_Recueil_n%C2%B0211_du_14_ao%C3%BBt_2026_Partie-1.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "34",
+      "type_evenement": "interdiction",
+      "reference_arrete": "34-2026-08-14-00211",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "La préfète de l'Hérault",
+      "source_type": "pdf",
+      "source_url": "https://www.herault.gouv.fr/contenu/telechargement/57678/420917/file/2026-08-14-211_Recueil_n%C2%B0211_du_14_ao%C3%BBt_2026_Partie-2.pdf"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-80",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.somme.gouv.fr/Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.somme.gouv.fr/Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.somme.gouv.fr/contenu/telechargement/54700/359999/file/recueil-2026-002-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-80-2026-002.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.somme.gouv.fr/contenu/telechargement/54623/359254/file/recueil-2026-001-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-80-2026-001.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "80",
+      "type_evenement": "interdiction",
+      "reference_arrete": "80-2026-08-03-002",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-25T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Somme",
+      "source_type": "pdf",
+      "source_url": "https://www.somme.gouv.fr/contenu/telechargement/54700/359999/file/recueil-2026-002-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

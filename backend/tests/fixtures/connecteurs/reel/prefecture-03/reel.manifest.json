@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-03",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes/RAA-annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.allier.gouv.fr/contenu/telechargement/13001/83001/file/recueil-03-2026-100-recueil-nominatif.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.allier.gouv.fr/contenu/telechargement/13002/83002/file/recueil-03-2026-095-recueil-nominatif.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "03",
+      "type_evenement": "interdiction",
+      "reference_arrete": "03-2026-08-100",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Allier",
+      "source_type": "pdf",
+      "source_url": "https://www.allier.gouv.fr/contenu/telechargement/13001/83001/file/recueil-03-2026-100-recueil-nominatif.pdf"
+    }
+  }
+}

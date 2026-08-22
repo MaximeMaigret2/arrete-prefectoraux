@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-60",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA/RAA-2026",
+      "file": "RAA-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA/RAA-2026/20260818-N-special-du-18-aout-2026",
+      "file": "detail-818.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA/RAA-2026/20260814-N-special-du-14-aout-2026",
+      "file": "detail-814.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.oise.gouv.fr/contenu/telechargement/95419/685545/file/20260818_RAA_special.pdf",
+      "file": "20260818_RAA_special.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.oise.gouv.fr/contenu/telechargement/95409/685451/file/20260814_RAA_special.pdf",
+      "file": "20260814_RAA_special.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "60",
+      "type_evenement": "interdiction",
+      "reference_arrete": "60-2026-818",
+      "date_debut": "2026-08-19T00:00:00.000Z",
+      "date_fin": "2026-08-22T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de l'Oise",
+      "source_type": "pdf",
+      "source_url": "https://www.oise.gouv.fr/contenu/telechargement/95419/685545/file/20260818_RAA_special.pdf"
+    }
+  }
+}

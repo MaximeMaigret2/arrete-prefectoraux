@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-92",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.hauts-de-seine.gouv.fr/Publications/Annonces-avis/Le-Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hauts-de-seine.gouv.fr/Publications/Annonces-avis/Le-Recueil-des-actes-administratifs/RAA-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hauts-de-seine.gouv.fr/contenu/telechargement/83560/565560/file/RAA_92_20260820_560.pdf",
+      "file": "RAA_92_20260820_560.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.hauts-de-seine.gouv.fr/contenu/telechargement/83555/565555/file/RAA_92_20260819_559.pdf",
+      "file": "RAA_92_20260819_559.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "92",
+      "type_evenement": "interdiction",
+      "reference_arrete": "92-2026-08-20-560",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet des Hauts-de-Seine",
+      "source_type": "pdf",
+      "source_url": "https://www.hauts-de-seine.gouv.fr/contenu/telechargement/83560/565560/file/RAA_92_20260820_560.pdf"
+    }
+  }
+}

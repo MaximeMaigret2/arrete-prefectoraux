@@ -19,8 +19,36 @@ import {
 } from '../models/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = __dirname;
-const EVENTS_DIR = path.join(DATA_DIR, 'events');
+const DEFAULT_DATA_DIR = __dirname;
+let dataDirActuel = DEFAULT_DATA_DIR;
+
+/**
+ * Q-006 (lot Qualité — Durcissement, 2026-08-22) : point d'injection réservé
+ * aux tests. Redirige toutes les lectures/écritures de ce module
+ * (`loadDataStore()`, `appendEvenement()`, `appendExecution()`,
+ * `upsertAnomalie()`, `updateConnecteur()`) vers `dir` au lieu des vrais
+ * fichiers `src/data/*.json` — un test qui écrit réellement sur disque
+ * (`ajoutConnecteur.test.ts`, `idempotence.test.ts`) pointe ainsi vers un
+ * répertoire temporaire jetable plutôt que la production : un kill mi-test
+ * (plafond `device_bash` documenté ailleurs) ne laisse alors plus aucune
+ * trace dans les fichiers réels (incident du 2026-08-21/22 sur
+ * `connecteurs.json`/`anomalies.json`/`executions.json`/`events/19.json`,
+ * cf. `claude/etat-connecteurs.md`, section "Lot Qualité"). `dir === null`
+ * restaure le répertoire réel par défaut. Ne jamais appeler depuis du code
+ * applicatif — uniquement depuis des tests.
+ */
+export function definirRepertoireDonnees(dir: string | null): void {
+  dataDirActuel = dir ?? DEFAULT_DATA_DIR;
+  resetDataStoreCache();
+}
+
+function obtenirRepertoireDonnees(): string {
+  return dataDirActuel;
+}
+
+function obtenirRepertoireEvenements(): string {
+  return path.join(obtenirRepertoireDonnees(), 'events');
+}
 
 export interface DataStore {
   departements: Departement[];
@@ -76,19 +104,19 @@ export async function loadDataStore(forceReload = false): Promise<DataStore> {
     return cachedStore;
   }
 
-  const departementsRaw = await loadJson(path.join(DATA_DIR, 'departements.json'), []);
+  const departementsRaw = await loadJson(path.join(obtenirRepertoireDonnees(), 'departements.json'), []);
   const departements = DepartementsListSchema.parse(departementsRaw);
 
-  const connecteursRaw = await loadJson(path.join(DATA_DIR, 'connecteurs.json'), []);
+  const connecteursRaw = await loadJson(path.join(obtenirRepertoireDonnees(), 'connecteurs.json'), []);
   const connecteurs = ConnecteursListSchema.parse(connecteursRaw);
 
-  const executionsRaw = await loadJson(path.join(DATA_DIR, 'executions.json'), []);
+  const executionsRaw = await loadJson(path.join(obtenirRepertoireDonnees(), 'executions.json'), []);
   const executions = ExecutionsCollecteListSchema.parse(executionsRaw);
 
-  const anomaliesRaw = await loadJson(path.join(DATA_DIR, 'anomalies.json'), []);
+  const anomaliesRaw = await loadJson(path.join(obtenirRepertoireDonnees(), 'anomalies.json'), []);
   const anomalies = AnomaliesCollecteListSchema.parse(anomaliesRaw);
 
-  const registreSourcesRaw = await loadYaml(path.join(DATA_DIR, 'registre-sources.yaml'), []);
+  const registreSourcesRaw = await loadYaml(path.join(obtenirRepertoireDonnees(), 'registre-sources.yaml'), []);
   const registreSources = RegistreSourcesSchema.parse(registreSourcesRaw);
 
   const departementsCouverts = new Set<string>();
@@ -103,13 +131,13 @@ export async function loadDataStore(forceReload = false): Promise<DataStore> {
 
   let eventFiles: string[] = [];
   try {
-    eventFiles = (await readdir(EVENTS_DIR)).filter((f) => f.endsWith('.json'));
+    eventFiles = (await readdir(obtenirRepertoireEvenements())).filter((f) => f.endsWith('.json'));
   } catch (err: unknown) {
     if ((err as NodeJS.ErrnoException).code !== 'ENOENT') throw err;
   }
 
   for (const file of eventFiles) {
-    const raw = await loadJson(path.join(EVENTS_DIR, file), []);
+    const raw = await loadJson(path.join(obtenirRepertoireEvenements(), file), []);
     const parsed = EvenementsListSchema.parse(raw);
     parsed.sort((a, b) => a.date_debut.localeCompare(b.date_debut));
     for (const evt of parsed) {
@@ -163,7 +191,7 @@ async function writeJson(filePath: string, data: unknown): Promise<void> {
  * divergence entre le cache et le fichier (tri, `derniereMiseAJour`, etc.).
  */
 export async function appendEvenement(evenement: Evenement): Promise<void> {
-  const filePath = path.join(EVENTS_DIR, `${evenement.departement_code}.json`);
+  const filePath = path.join(obtenirRepertoireEvenements(), `${evenement.departement_code}.json`);
   const raw = await loadJson(filePath, []);
   const existing = EvenementsListSchema.parse(raw);
   existing.push(evenement);
@@ -177,7 +205,7 @@ export async function appendEvenement(evenement: Evenement): Promise<void> {
  * collecte").
  */
 export async function appendExecution(execution: ExecutionCollecte): Promise<void> {
-  const filePath = path.join(DATA_DIR, 'executions.json');
+  const filePath = path.join(obtenirRepertoireDonnees(), 'executions.json');
   const raw = await loadJson(filePath, []);
   const existing = ExecutionsCollecteListSchema.parse(raw);
   existing.push(execution);
@@ -192,7 +220,7 @@ export async function appendExecution(execution: ExecutionCollecte): Promise<voi
  * mise à jour en place plutôt qu'un append-only strict.
  */
 export async function upsertAnomalie(anomalie: AnomalieCollecte): Promise<void> {
-  const filePath = path.join(DATA_DIR, 'anomalies.json');
+  const filePath = path.join(obtenirRepertoireDonnees(), 'anomalies.json');
   const raw = await loadJson(filePath, []);
   const existing = AnomaliesCollecteListSchema.parse(raw);
   const idx = existing.findIndex((a) => a.id === anomalie.id);
@@ -216,7 +244,7 @@ export async function updateConnecteur(
   connecteurId: string,
   updates: Partial<Omit<Connecteur, 'id'>>,
 ): Promise<void> {
-  const filePath = path.join(DATA_DIR, 'connecteurs.json');
+  const filePath = path.join(obtenirRepertoireDonnees(), 'connecteurs.json');
   const raw = await loadJson(filePath, []);
   const existing = ConnecteursListSchema.parse(raw);
   const idx = existing.findIndex((c) => c.id === connecteurId);

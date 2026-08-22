@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-90",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.territoire-de-belfort.gouv.fr/Publications/Le-recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.territoire-de-belfort.gouv.fr/Publications/Le-recueil-des-actes-administratifs/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.territoire-de-belfort.gouv.fr/contenu/telechargement/29140/198142/file/recueil-90-2026-142-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-90-2026-142-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.territoire-de-belfort.gouv.fr/contenu/telechargement/29060/198060/file/recueil-90-2026-060-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-90-2026-060-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "90",
+      "type_evenement": "interdiction",
+      "reference_arrete": "90-2026-142",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Territoire de Belfort",
+      "source_type": "pdf",
+      "source_url": "https://www.territoire-de-belfort.gouv.fr/contenu/telechargement/29140/198142/file/recueil-90-2026-142-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

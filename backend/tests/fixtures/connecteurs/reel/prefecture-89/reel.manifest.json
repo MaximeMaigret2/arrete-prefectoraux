@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-89",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.yonne.gouv.fr/Publications/Publications-legales/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.yonne.gouv.fr/Publications/Publications-legales/Recueil-des-actes-administratifs/RAA-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.yonne.gouv.fr/contenu/telechargement/48215/305215/file/recueil-89-2026-215-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-89-2026-215-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.yonne.gouv.fr/contenu/telechargement/48198/305198/file/recueil-89-2026-198-recueil-des-actes-administratifs.pdf",
+      "file": "recueil-89-2026-198-recueil-des-actes-administratifs.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "89",
+      "type_evenement": "interdiction",
+      "reference_arrete": "89-2026-215",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de l'Yonne",
+      "source_type": "pdf",
+      "source_url": "https://www.yonne.gouv.fr/contenu/telechargement/48215/305215/file/recueil-89-2026-215-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-59",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs/RAA-du-departement-du-Nord",
+      "file": "RAA-du-departement-du-Nord.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs/RAA-du-departement-du-Nord/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs/RAA-du-departement-du-Nord/2026/Aout",
+      "file": "Aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.nord.gouv.fr/contenu/telechargement/61293/512930/file/RAA_59_2026_293.pdf",
+      "file": "raa-59-293.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.nord.gouv.fr/contenu/telechargement/61292/512920/file/RAA_59_2026_292.pdf",
+      "file": "raa-59-292.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "59",
+      "type_evenement": "interdiction",
+      "reference_arrete": "59-2026-293",
+      "date_debut": "2026-08-20T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Nord",
+      "source_type": "pdf",
+      "source_url": "https://www.nord.gouv.fr/contenu/telechargement/61293/512930/file/RAA_59_2026_293.pdf"
+    }
+  }
+}

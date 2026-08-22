@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-64",
+  "systemDate": "2026-08-20T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026/Aout-2026",
+      "file": "Aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs/Annee-2026/Aout-2026/(offset)/30",
+      "file": "Aout-2026-offset30.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.pyrenees-atlantiques.gouv.fr/contenu/telechargement/64213/470213/file/recueil-64-2026-354-recueil-des-actes-administratifs.pdf",
+      "file": "raa-64-354.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.pyrenees-atlantiques.gouv.fr/contenu/telechargement/64214/470214/file/recueil-64-2026-355-recueil-des-actes-administratifs.pdf",
+      "file": "raa-64-355.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "64",
+      "type_evenement": "interdiction",
+      "reference_arrete": "64-2026-08-20-012",
+      "date_debut": "2026-08-23T00:00:00.000Z",
+      "date_fin": "2026-08-26T00:00:00.000Z",
+      "autorite_signataire": "Le préfet des Pyrénées-Atlantiques",
+      "source_type": "pdf",
+      "source_url": "https://www.pyrenees-atlantiques.gouv.fr/contenu/telechargement/64214/470214/file/recueil-64-2026-355-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

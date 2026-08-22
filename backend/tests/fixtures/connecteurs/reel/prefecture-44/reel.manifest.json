@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-44",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique/2026",
+      "file": "2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique/2026/Aout",
+      "file": "Aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.loire-atlantique.gouv.fr/contenu/telechargement/73600/530000/file/RAA-n-211-du-18-aout-2026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.loire-atlantique.gouv.fr/contenu/telechargement/73515/529093/file/RAA-n-210-du-17-aout-2026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "44",
+      "type_evenement": "interdiction",
+      "reference_arrete": "44-2026-211",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Loire-Atlantique",
+      "source_type": "pdf",
+      "source_url": "https://www.loire-atlantique.gouv.fr/contenu/telechargement/73600/530000/file/RAA-n-211-du-18-aout-2026.pdf"
+    }
+  }
+}

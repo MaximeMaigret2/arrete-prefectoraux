@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-61",
+  "systemDate": "2026-08-19T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/Le-Recueil-des-Actes-Administratifs-RAA",
+      "file": "Le-Recueil-des-Actes-Administratifs-RAA.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/Le-Recueil-des-Actes-Administratifs-RAA/Le-Recueil-des-Actes-Administratifs-2026",
+      "file": "Le-Recueil-des-Actes-Administratifs-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA/Le-Recueil-des-Actes-Administratifs-RAA/Le-Recueil-des-Actes-Administratifs-2026/Aout",
+      "file": "Aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.orne.gouv.fr/contenu/telechargement/61011/610011/file/Special_n11_du_17_aout_2026.pdf",
+      "file": "raa-61-special-11.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.orne.gouv.fr/contenu/telechargement/61010/610010/file/Special_n10_du_14_aout_2026.pdf",
+      "file": "raa-61-special-10.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "61",
+      "type_evenement": "interdiction",
+      "reference_arrete": "61-2026-011",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de l'Orne",
+      "source_type": "pdf",
+      "source_url": "https://www.orne.gouv.fr/contenu/telechargement/61011/610011/file/Special_n11_du_17_aout_2026.pdf"
+    }
+  }
+}

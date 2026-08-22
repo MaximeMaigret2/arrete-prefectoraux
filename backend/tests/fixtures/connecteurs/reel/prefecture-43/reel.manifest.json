@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-43",
+  "systemDate": "2026-08-18T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.haute-loire.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-loire.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueil-des-actes-administratifs-2026",
+      "file": "Recueil-des-actes-administratifs-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.haute-loire.gouv.fr/contenu/telechargement/18400/125000/file/recueil-43-2026-193-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.haute-loire.gouv.fr/contenu/telechargement/17900/121000/file/recueil-43-2026-188-recueil-des-actes-administratifs-nominatifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "43",
+      "type_evenement": "interdiction",
+      "reference_arrete": "43-2026-193",
+      "date_debut": "2026-08-18T00:00:00.000Z",
+      "date_fin": "2026-08-21T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Haute-Loire",
+      "source_type": "pdf",
+      "source_url": "https://www.haute-loire.gouv.fr/contenu/telechargement/18400/125000/file/recueil-43-2026-193-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

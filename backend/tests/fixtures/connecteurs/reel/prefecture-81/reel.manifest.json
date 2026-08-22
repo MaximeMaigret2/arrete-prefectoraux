@@ -1,0 +1,59 @@
+{
+  "connecteurId": "prefecture-81",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs/RAA",
+      "file": "raa.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs/RAA/2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs/RAA/2026/Aout",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs/RAA/2026/Aout/RAA-HEBDOMADAIRE-N-336-du-vendredi-14-aout-au-jeudi-20-aout-2026",
+      "file": "detail-336.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs/RAA/2026/Aout/RAA-SPECIAL-N-335-Arrete-derogeant-aux-restrictions-d-eau-pour-l-irrigation-des-stades-d-Albi",
+      "file": "detail-335.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/contenu/telechargement/30022/284333/file/recueil-81-2026-336-recueil-des-actes-administratifs.pdf",
+      "file": "raa-81-2026-336.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.tarn.gouv.fr/contenu/telechargement/30019/284300/file/recueil-81-2026-335-recueil-des-actes-administratifs.pdf",
+      "file": "raa-81-2026-335.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "81",
+      "type_evenement": "interdiction",
+      "reference_arrete": "81-2026-08-20-336",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Tarn",
+      "source_type": "pdf",
+      "source_url": "https://www.tarn.gouv.fr/contenu/telechargement/30022/284333/file/recueil-81-2026-336-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}

@@ -19,7 +19,24 @@ import type { Connecteur as ConnecteurRuntime } from './types.js';
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CONFIGS_DIR = path.join(__dirname, 'configs');
+const DEFAULT_CONFIGS_DIR = path.join(__dirname, 'configs');
+let configsDirActuel = DEFAULT_CONFIGS_DIR;
+
+/**
+ * Q-006 (lot Qualité — Durcissement, 2026-08-22) : même principe que
+ * `data/loader.ts#definirRepertoireDonnees()` — réservé aux tests qui créent
+ * réellement un fichier `configs/<id>.yaml` (`ajoutConnecteur.test.ts`), pour
+ * ne plus jamais écrire dans le vrai répertoire `connecteurs/configs/` de
+ * production. `dir === null` restaure le répertoire réel par défaut. Ne
+ * jamais appeler depuis du code applicatif — uniquement depuis des tests.
+ */
+export function definirRepertoireConfigs(dir: string | null): void {
+  configsDirActuel = dir ?? DEFAULT_CONFIGS_DIR;
+}
+
+function obtenirRepertoireConfigs(): string {
+  return configsDirActuel;
+}
 
 /**
  * Dispatch sur `type_connecteur` (contrat §1) — seul endroit du code qui
@@ -48,7 +65,7 @@ export function creerConnecteur(entree: ConnecteurEntree, config: unknown): Conn
 
 /** Charge et parse la configuration déclarative YAML d'un connecteur (`configs/<id>.yaml`). */
 async function chargerConfig(connecteurId: string): Promise<unknown> {
-  const filePath = path.join(CONFIGS_DIR, `${connecteurId}.yaml`);
+  const filePath = path.join(obtenirRepertoireConfigs(), `${connecteurId}.yaml`);
   const raw = await readFile(filePath, 'utf-8');
   return yaml.load(raw);
 }

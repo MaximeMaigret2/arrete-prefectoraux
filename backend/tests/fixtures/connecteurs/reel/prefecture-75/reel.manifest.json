@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-75",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.prefectures-regions.gouv.fr/ile-de-france/tags/view/Ile-de-France/Documents+et+Publications/Recueil+des+actes+administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.prefectures-regions.gouv.fr/ile-de-france/Documents-publications/Recueil-des-actes-administratifs/Raa-du-departement-de-Paris-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.prefectures-regions.gouv.fr/ile-de-france/Documents-publications/Recueil-des-actes-administratifs/Raa-du-departement-de-Paris-2026/Aout/#titre",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.prefectures-regions.gouv.fr/ile-de-france/irecontenu/telechargement/140372/1021994/file/recueil-75-2026-492-recueil-des-actes-administratifs-special%20du%2020.08.2026.pdf",
+      "file": "raa-75-492.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.prefectures-regions.gouv.fr/ile-de-france/irecontenu/telechargement/140300/1021541/file/recueil-75-2026-491-recueil-des-actes-administratifs-nominatifs.pdf",
+      "file": "raa-75-491.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "75",
+      "type_evenement": "interdiction",
+      "reference_arrete": "75-2026-08-20-492",
+      "date_debut": "2026-08-22T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de police de Paris",
+      "source_type": "pdf",
+      "source_url": "https://www.prefectures-regions.gouv.fr/ile-de-france/irecontenu/telechargement/140372/1021994/file/recueil-75-2026-492-recueil-des-actes-administratifs-special%20du%2020.08.2026.pdf"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-76",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/RAA-departemental-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA/RAA-departemental-2026/RAA-Aout-2026",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.seine-maritime.gouv.fr/contenu/telechargement/74305/524506/file/recueil-76-2026-254-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-76-254.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.seine-maritime.gouv.fr/contenu/telechargement/74227/524043/file/recueil-76-2026-252-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-76-252.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "76",
+      "type_evenement": "interdiction",
+      "reference_arrete": "76-2026-08-20-254",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-23T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Seine-Maritime",
+      "source_type": "pdf",
+      "source_url": "https://www.seine-maritime.gouv.fr/contenu/telechargement/74305/524506/file/recueil-76-2026-254-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

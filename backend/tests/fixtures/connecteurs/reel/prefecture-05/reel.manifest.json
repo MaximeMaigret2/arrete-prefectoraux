@@ -1,0 +1,59 @@
+{
+  "connecteurId": "prefecture-05",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026/Aout-2026",
+      "file": "mois-aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026/Aout-2026/(offset)/10",
+      "file": "derniere-page.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026/RAA-N-05-2026-327-Special-Aout",
+      "file": "detail-327.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-2026/RAA-N-05-2026-320",
+      "file": "detail-320.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/contenu/telechargement/15001/85001/file/RAA-N-05-2026-327-Special-Aout.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.hautes-alpes.gouv.fr/contenu/telechargement/15002/85002/file/RAA-N-05-2026-320.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "05",
+      "type_evenement": "interdiction",
+      "reference_arrete": "05-2026-08-327",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet des Hautes-Alpes",
+      "source_type": "pdf",
+      "source_url": "https://www.hautes-alpes.gouv.fr/contenu/telechargement/15001/85001/file/RAA-N-05-2026-327-Special-Aout.pdf"
+    }
+  }
+}

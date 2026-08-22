@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-72",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.sarthe.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.sarthe.gouv.fr/Publications/Recueils-des-actes-administratifs/Recueil-des-actes-administratifs-RAA-Sarthe-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.sarthe.gouv.fr/contenu/telechargement/30314/187267/file/RAA%20n%C2%B0187%20du%2020%20ao%C3%BBt%202026.pdf",
+      "file": "raa-72-187.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.sarthe.gouv.fr/contenu/telechargement/30304/187217/file/recueil-72-2026-186-recueil-des-actes-administratifs.pdf",
+      "file": "raa-72-186.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "72",
+      "type_evenement": "interdiction",
+      "reference_arrete": "72-2026-08-20-187",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de la Sarthe",
+      "source_type": "pdf",
+      "source_url": "https://www.sarthe.gouv.fr/contenu/telechargement/30314/187267/file/RAA%20n%C2%B0187%20du%2020%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

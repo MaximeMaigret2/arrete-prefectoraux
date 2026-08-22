@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-79",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs/Annee-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs/Annee-2026/08-aout-RAA",
+      "file": "08-aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.deux-sevres.gouv.fr/contenu/telechargement/61234/401234/file/recueil-79-2026-251-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-79-2026-251.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.deux-sevres.gouv.fr/contenu/telechargement/61111/401111/file/recueil-79-2026-247-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-79-2026-247.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "79",
+      "type_evenement": "interdiction",
+      "reference_arrete": "79-2026-08-10-251",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "La préfète des Deux-Sèvres",
+      "source_type": "pdf",
+      "source_url": "https://www.deux-sevres.gouv.fr/contenu/telechargement/61234/401234/file/recueil-79-2026-251-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

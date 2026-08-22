@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-28",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-2026/Aout",
+      "file": "aout.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.eure-et-loir.gouv.fr/contenu/telechargement/62315/410373/file/AP_commission_propagande_et_dates_livraison_docs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.eure-et-loir.gouv.fr/contenu/telechargement/62316/410378/file/AP%202026-1503%20-%20listant%20les%20formateurs%20habilit%C3%A9s-1.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "28",
+      "type_evenement": "interdiction",
+      "reference_arrete": "28-2026-08-14-00007",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet d'Eure-et-Loir",
+      "source_type": "pdf",
+      "source_url": "https://www.eure-et-loir.gouv.fr/contenu/telechargement/62315/410373/file/AP_commission_propagande_et_dates_livraison_docs.pdf"
+    }
+  }
+}

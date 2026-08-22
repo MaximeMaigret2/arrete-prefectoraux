@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-25",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA/Recueil-des-actes-administratifs-pour-le-Doubs-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.doubs.gouv.fr/contenu/telechargement/46971/312787/file/recueil-25-2026-188-recueil-des-actes-administratifs-special.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.doubs.gouv.fr/contenu/telechargement/46981/312837/file/recueil-25-2026-189-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "25",
+      "type_evenement": "interdiction",
+      "reference_arrete": "25-2026-08-13-00001",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Doubs",
+      "source_type": "pdf",
+      "source_url": "https://www.doubs.gouv.fr/contenu/telechargement/46971/312787/file/recueil-25-2026-188-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

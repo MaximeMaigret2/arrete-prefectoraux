@@ -33,6 +33,16 @@ import { RssConfigSchema } from '../../../src/connecteurs/moteurs/rss/config.sch
  * pu être supprimés et restent au repos indéfiniment — chaque lot ajoute donc
  * une fixture "au repos" de plus à cette liste plutôt que de renommer la
  * précédente.)
+ *
+ * Q-005 (lot Qualité — Durcissement, 2026-08-22) : le test figé "les 43
+ * connecteurs réels sont bien de type page_web et présents" (liste écrite en
+ * dur, restée bloquée à 43 noms depuis le lot 37-41, jamais étendue aux lots
+ * suivants — trou de couverture silencieux) a été retiré. Sa couverture est
+ * remplacée, de façon exhaustive et auto-actualisée cette fois, par le test
+ * `manifests` de `tests/integration/connecteurs/reel-data-driven.test.ts`
+ * (Q-004), qui vérifie que les 94 connecteurs réels à scénario unique sont
+ * couverts (+ le 95e, prefecture-50, via son test dédié à deux scénarios) —
+ * cf. `claude/etat-connecteurs.md`, section "Lot Qualité".
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -100,62 +110,6 @@ describe('configs/*.yaml — validation contre le schéma zod du type_connecteur
       expect(resultat.success, `${fichier} : ${!resultat.success ? JSON.stringify(resultat.error.issues) : ''}`).toBe(
         true,
       );
-    }
-  });
-
-  it('les 43 connecteurs réels (prefecture-77/13/33 + 01-10 + 11/12/14/15/16 + 17/18/19 + 2A/2B + 21-25 + 26-30 + 31/32/34/35/36 + 37-41, Phase 5bis + élargie + élargie 2 + élargie 3 + élargie 4 + élargie 5 + élargie 6 + élargie 7 + élargie 8 + élargie 9 + élargie 10 + lot 31-36 + lot 37-41) sont bien de type page_web et présents', async () => {
-    const configs = await chargerConfigsYaml();
-    const ids = [
-      'prefecture-77',
-      'prefecture-13',
-      'prefecture-33',
-      'prefecture-01',
-      'prefecture-02',
-      'prefecture-03',
-      'prefecture-04',
-      'prefecture-05',
-      'prefecture-06',
-      'prefecture-07',
-      'prefecture-08',
-      'prefecture-09',
-      'prefecture-10',
-      'prefecture-11',
-      'prefecture-12',
-      'prefecture-14',
-      'prefecture-15',
-      'prefecture-16',
-      'prefecture-17',
-      'prefecture-18',
-      'prefecture-19',
-      'prefecture-2A',
-      'prefecture-2B',
-      'prefecture-21',
-      'prefecture-22',
-      'prefecture-23',
-      'prefecture-24',
-      'prefecture-25',
-      'prefecture-26',
-      'prefecture-27',
-      'prefecture-28',
-      'prefecture-29',
-      'prefecture-30',
-      'prefecture-31',
-      'prefecture-32',
-      'prefecture-34',
-      'prefecture-35',
-      'prefecture-36',
-      'prefecture-37',
-      'prefecture-38',
-      'prefecture-39',
-      'prefecture-40',
-      'prefecture-41',
-    ];
-    for (const id of ids) {
-      const config = configs.find((c) => c.fichier === `${id}.yaml`);
-      expect(config, `${id}.yaml introuvable dans configs/`).toBeDefined();
-      expect(estUneConfigConnecteur(config!.contenu) && config!.contenu.type_connecteur).toBe('page_web');
-      const resultat = PageWebConfigSchema.safeParse(config!.contenu);
-      expect(resultat.success).toBe(true);
     }
   });
 });

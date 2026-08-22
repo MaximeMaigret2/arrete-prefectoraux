@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-71",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.saone-et-loire.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.saone-et-loire.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-SPECIAL-NOMINATIFS-N-71-2026-245",
+      "file": "detail-245.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.saone-et-loire.gouv.fr/Publications/Recueil-des-actes-administratifs/RAA-SPECIAL-N-71-2026-244",
+      "file": "detail-244.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.saone-et-loire.gouv.fr/contenu/telechargement/38378/321055/file/recueil-71-2026-245-recueil-des-actes-administratifs-nominatifs.pdf",
+      "file": "raa-71-245.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.saone-et-loire.gouv.fr/contenu/telechargement/38376/321034/file/recueil-71-2026-244-recueil-des-actes-administratifs-special.pdf",
+      "file": "raa-71-244.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "71",
+      "type_evenement": "interdiction",
+      "reference_arrete": "71-2026-08-20-018",
+      "date_debut": "2026-08-21T00:00:00.000Z",
+      "date_fin": "2026-08-24T00:00:00.000Z",
+      "autorite_signataire": "Le préfet de Saône-et-Loire",
+      "source_type": "pdf",
+      "source_url": "https://www.saone-et-loire.gouv.fr/contenu/telechargement/38376/321034/file/recueil-71-2026-244-recueil-des-actes-administratifs-special.pdf"
+    }
+  }
+}

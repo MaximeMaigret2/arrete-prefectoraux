@@ -1,0 +1,44 @@
+{
+  "connecteurId": "prefecture-12",
+  "systemDate": "2026-08-13T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.aveyron.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aveyron.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-2026",
+      "file": "annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aveyron.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueils-2026/Aout-2026",
+      "file": "aout-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.aveyron.gouv.fr/contenu/telechargement/32660/257000/file/RAA%20N%C2%B012-2026-553%20du%2013%20Ao%C3%BBt%202026.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.aveyron.gouv.fr/contenu/telechargement/32659/256995/file/RAA%20N%C2%B012-2026-552%20du%2013%20Ao%C3%BBt%202026.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "12",
+      "type_evenement": "interdiction",
+      "reference_arrete": "12-2026-08-553",
+      "date_debut": "2026-08-13T00:00:00.000Z",
+      "date_fin": "2026-08-18T00:00:00.000Z",
+      "autorite_signataire": "Le Préfet de l'Aveyron",
+      "source_type": "pdf",
+      "source_url": "https://www.aveyron.gouv.fr/contenu/telechargement/32660/257000/file/RAA%20N%C2%B012-2026-553%20du%2013%20Ao%C3%BBt%202026.pdf"
+    }
+  }
+}

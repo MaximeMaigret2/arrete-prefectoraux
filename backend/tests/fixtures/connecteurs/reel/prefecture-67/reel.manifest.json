@@ -1,0 +1,49 @@
+{
+  "connecteurId": "prefecture-67",
+  "systemDate": "2026-08-21T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.bas-rhin.gouv.fr/Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.bas-rhin.gouv.fr/Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs/RAA-ANNEE-2026",
+      "file": "RAA-ANNEE-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.bas-rhin.gouv.fr/Media/Files/22.-RAA/2026/Aout/RAA-N-special-du-19-aout-2026-Adoption-du-Reglement-Interieur-de-l-EPSAN",
+      "file": "detail-0819.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.bas-rhin.gouv.fr/Media/Files/22.-RAA/2026/Aout/RAA-N-special-du-20-aout-2026-Hydrocarbures",
+      "file": "detail-0820.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.bas-rhin.gouv.fr/contenu/telechargement/62312/443922/file/RAA%20N%C2%B0%20sp%C3%A9cial%20du%2019%20ao%C3%BBt%202026%20-%20Adoption%20du%20RI%20EPSAN.pdf",
+      "file": "raa-67-0819.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.bas-rhin.gouv.fr/contenu/telechargement/62334/444058/file/RAA%20N%C2%B0%20sp%C3%A9cial%20du%2020%20ao%C3%BBt%202026.pdf",
+      "file": "raa-67-0820.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "67",
+      "type_evenement": "interdiction",
+      "reference_arrete": "67-2026-08-20-014",
+      "date_debut": "2026-08-28T00:00:00.000Z",
+      "date_fin": "2026-08-31T00:00:00.000Z",
+      "autorite_signataire": "Le préfet du Bas-Rhin",
+      "source_type": "pdf",
+      "source_url": "https://www.bas-rhin.gouv.fr/contenu/telechargement/62334/444058/file/RAA%20N%C2%B0%20sp%C3%A9cial%20du%2020%20ao%C3%BBt%202026.pdf"
+    }
+  }
+}

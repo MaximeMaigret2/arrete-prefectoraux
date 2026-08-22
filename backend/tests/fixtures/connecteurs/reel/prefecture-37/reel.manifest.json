@@ -1,0 +1,39 @@
+{
+  "connecteurId": "prefecture-37",
+  "systemDate": "2026-08-14T10:00:00.000Z",
+  "responses": [
+    {
+      "url": "https://www.indre-et-loire.gouv.fr/Publications/Recueil-actes-administratifs",
+      "file": "racine.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.indre-et-loire.gouv.fr/Publications/Recueil-actes-administratifs/Annee-2026",
+      "file": "Annee-2026.html",
+      "type": "html"
+    },
+    {
+      "url": "https://www.indre-et-loire.gouv.fr/contenu/telechargement/50002/400002/file/recueil-37-2026-08-14-00087-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-avec-arrete.pdf",
+      "type": "pdf"
+    },
+    {
+      "url": "https://www.indre-et-loire.gouv.fr/contenu/telechargement/50001/400001/file/recueil-37-2026-08-12-00085-recueil-des-actes-administratifs.pdf",
+      "file": "bulletin-sans-arrete-pertinent.pdf",
+      "type": "pdf"
+    }
+  ],
+  "expected": {
+    "candidatsLength": 1,
+    "candidat": {
+      "departement_code": "37",
+      "type_evenement": "interdiction",
+      "reference_arrete": "37-2026-08-14-00087",
+      "date_debut": "2026-08-14T00:00:00.000Z",
+      "date_fin": "2026-08-17T00:00:00.000Z",
+      "autorite_signataire": "Le préfet d'Indre-et-Loire",
+      "source_type": "pdf",
+      "source_url": "https://www.indre-et-loire.gouv.fr/contenu/telechargement/50002/400002/file/recueil-37-2026-08-14-00087-recueil-des-actes-administratifs.pdf"
+    }
+  }
+}
