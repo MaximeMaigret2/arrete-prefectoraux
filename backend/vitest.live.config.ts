@@ -14,12 +14,29 @@ import { defineConfig } from 'vitest/config';
  * seulement sur des propriétés structurelles (sélecteurs présents, lien PDF
  * toujours au bon format, page toujours accessible) — un échec signale une
  * dérive à investiguer, pas un contenu inattendu.
+ *
+ * `fileParallelism: false` (2026-08-28, complétion de la suite à 96/96
+ * connecteurs) — même réglage que `vitest.config.ts` (Q-006/chantier 57),
+ * mais absent ici jusqu'à présent car jamais nécessaire à 43 fichiers.
+ * Passé à 96 fichiers, l'exécution parallèle par défaut de Vitest (plusieurs
+ * workers, chacun lançant ses propres `fetch()`) a bombardé de connexions
+ * concurrentes l'hébergeur mutualisé `77.159.252.140` (plusieurs dizaines de
+ * sites préfecture derrière la même IP, cf. section "Historique détaillé"
+ * plus bas dans `claude/etat-connecteurs.md`) — 64/96 échecs observés
+ * (`SocketError: other side closed`, plus un blocage Cloudflare ponctuel sur
+ * `prefecture-75` cohérent avec une détection de rafale), alors que les
+ * MÊMES 43 fichiers d'origine avaient tous été verts quelques heures plus
+ * tôt dans la même session. Aucune dérive réelle : purement un problème de
+ * concurrence réseau côté suite de test, pas côté connecteur. Fichiers
+ * exécutés séquentiellement (un seul à la fois) pour rester poli envers
+ * l'hébergeur mutualisé, comme le fait déjà `vitest.config.ts`.
  */
 export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/live/**/*.test.ts'],
     testTimeout: 30_000,
+    fileParallelism: false,
     env: {
       ADMIN_USERNAME: 'test-admin',
       ADMIN_PASSWORD: 'test-admin-password-not-for-production',
