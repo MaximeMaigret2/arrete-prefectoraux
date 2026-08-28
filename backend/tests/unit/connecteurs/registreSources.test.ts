@@ -48,7 +48,7 @@ describe('registre-sources.yaml — complétude (SC-007, FR-017)', () => {
     expect(store.registreSources.length).toBe(store.departements.length);
   });
 
-  it('marque les départements avec connecteur développé (77, 13, 33 + 01-10 + 11/12/14/15/16 + 17/18/19 + 2A/2B + 21-25 + 26-30 + 31/32/34/35/36 + 37-41 + 42-46 + 47-51 + 52-56 + 58-61 + 62-66 + 67-71 + 72-76 + 78-82 + 83-87 + 88-92 + 93-95, lot 93-95 — dernier lot du périmètre 96 départements) en statut connecteur_developpe', async () => {
+  it('marque les départements avec connecteur développé (77, 13, 33 + 01-10 + 11/12/14/15/16 + 17/18/19 + 2A/2B + 21-25 + 26-30 + 31/32/34/35/36 + 37-41 + 42-46 + 47-51 + 52-56 + 58-61 + 62-66 + 67-71 + 72-76 + 78-82 + 83-87 + 88-92 + 93-95 + 57, chantier 57 — périmètre 96 départements désormais complet) en statut connecteur_developpe', async () => {
     const store = await loadDataStore();
     const byCode = new Map(store.registreSources.map((e) => [e.departement_code, e]));
 
@@ -111,6 +111,7 @@ describe('registre-sources.yaml — complétude (SC-007, FR-017)', () => {
       '54',
       '55',
       '56',
+      '57',
       '58',
       '59',
       '60',
@@ -218,6 +219,7 @@ describe('registre-sources.yaml — complétude (SC-007, FR-017)', () => {
       '54',
       '55',
       '56',
+      '57',
       '58',
       '59',
       '60',

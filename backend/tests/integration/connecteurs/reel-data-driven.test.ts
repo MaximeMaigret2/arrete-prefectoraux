@@ -26,8 +26,19 @@ import { obtenirConnecteur } from '../../../src/connecteurs/registry.js';
  * DEUX scénarios de date système distincts (août/novembre) pour exercer
  * les deux branches d'une pagination conditionnelle par `periodes` — un
  * seul manifeste (un seul `systemDate`) ne peut pas représenter les deux
- * sans perdre cette couverture. Les 94 autres connecteurs, à scénario
- * unique, sont entièrement couverts ici.
+ * sans perdre cette couverture.
+ *
+ * SECONDE EXCEPTION VOLONTAIRE — prefecture-57 (Moselle, chantier 57,
+ * 2026-08-27) : son test dédié (`reel-prefecture-57.test.ts`) vérifie
+ * explicitement le threading du cookie de session (`session_cookie`) sur
+ * les appels `fetch()` successifs — une assertion sur les arguments reçus
+ * par le mock, hors du schéma `ReponseFixture`/`ManifestReel` ci-dessous
+ * (simple table URL → fichier, sans notion d'en-têtes de requête attendus).
+ * Généraliser le schéma pour un unique connecteur n'apportait rien face à
+ * un test dédié, même esprit que l'exception prefecture-50 ci-dessus.
+ *
+ * Les 94 autres connecteurs développés (96 au total, moins ces 2
+ * exceptions), à scénario unique, sont entièrement couverts ici.
  *
  * Les manifestes ont été générés automatiquement à partir des 94 fichiers
  * `reel-prefecture-XX.test.ts` d'origine (mêmes URLs, mêmes fixtures,
@@ -165,9 +176,10 @@ describe.each(manifests)('connecteur réel $dir (Q-004, données pilotées par m
   });
 });
 
-describe('couverture de la suite data-driven (Q-004/Q-005)', () => {
-  it('couvre 94 des 95 connecteurs réels développés (le 95e, prefecture-50, garde son test dédié à deux scénarios)', () => {
+describe('couverture de la suite data-driven (Q-004/Q-005, chantier 57)', () => {
+  it('couvre 94 des 96 connecteurs réels développés (prefecture-50 et prefecture-57 gardent chacun un test dédié)', () => {
     expect(manifests).toHaveLength(94);
     expect(manifests.some((m) => m.dir === 'prefecture-50')).toBe(false);
+    expect(manifests.some((m) => m.dir === 'prefecture-57')).toBe(false);
   });
 });

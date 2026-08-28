@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { EN_TETES_HTTP_DEFAUT, fetchAvecEnTetes } from '../../../src/connecteurs/httpClient.js';
+import { EN_TETES_HTTP_DEFAUT, fetchAvecEnTetes, construireEnTeteCookie } from '../../../src/connecteurs/httpClient.js';
 
 /**
  * Q-007 (lot Qualité — Durcissement, 2026-08-22) — `fetchAvecEnTetes()`
@@ -80,5 +80,44 @@ describe('fetchAvecEnTetes (Q-007)', () => {
 
     expect(headersRecus).toEqual(EN_TETES_HTTP_DEFAUT);
     expect(headersRecus?.['User-Agent']).toContain('mailto:');
+  });
+
+  it('enTetesSupplementaires vient compléter (jamais remplacer) EN_TETES_HTTP_DEFAUT', async () => {
+    let headersRecus: Record<string, string> | undefined;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_url: string, init?: { headers?: Record<string, string> }) => {
+        headersRecus = init?.headers;
+        return { ok: true, status: 200, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    await fetchAvecEnTetes('https://exemple.gouv.fr/page', { enTetesSupplementaires: { Cookie: 'a=1; b=2' } });
+
+    expect(headersRecus?.Cookie).toBe('a=1; b=2');
+    expect(headersRecus?.['User-Agent']).toBe(EN_TETES_HTTP_DEFAUT['User-Agent']);
+  });
+});
+
+/**
+ * `construireEnTeteCookie` (V0xx, 2026-08-27, prefecture-57/Moselle) —
+ * construit l'en-tête `Cookie` d'une requête à partir des `Set-Cookie`
+ * d'une réponse d'amorçage de session (cf. `session_cookie` du moteur
+ * `page_web`).
+ */
+describe('construireEnTeteCookie', () => {
+  it('concatène plusieurs Set-Cookie en un seul en-tête Cookie, en ignorant leurs attributs', () => {
+    const reponse = {
+      headers: {
+        getSetCookie: () => ['DIMSPHPSESSID=abc123; path=/; HttpOnly', 'nocache=1'],
+      },
+    } as unknown as Response;
+
+    expect(construireEnTeteCookie(reponse)).toBe('DIMSPHPSESSID=abc123; nocache=1');
+  });
+
+  it("retourne null quand la réponse ne porte aucun Set-Cookie", () => {
+    const reponse = { headers: { getSetCookie: () => [] } } as unknown as Response;
+    expect(construireEnTeteCookie(reponse)).toBeNull();
   });
 });

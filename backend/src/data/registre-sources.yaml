@@ -525,13 +525,13 @@
   derniere_verification: "2026-08-19"
 
 - departement_code: "57"
-  statut: identifiee
+  statut: connecteur_developpe
   autorite: "Préfecture de la Moselle"
-  point_acces: "https://www.moselle.gouv.fr/Publications/Recueil-des-Actes-Administratifs"
+  point_acces: "https://mc.moselle.gouv.fr/index.php?op=raa&do=raa-acte"
   format_attendu: page_web
-  connecteur_id: null
-  notes: "Source identifiee par recherche web (2026-08-13) ; aucun connecteur developpe. Page RAA a verifier avant implementation."
-  derniere_verification: "2026-08-13"
+  connecteur_id: prefecture-57
+  notes: "Chantier 57 (2026-08-27) : la page DSFR standard (https://www.moselle.gouv.fr/Publications/Recueil-des-Actes-Administratifs) ne renvoie qu'un lien statique périmé vers le vrai RAA, hébergé sur un CMS DIMS distinct (mc.moselle.gouv.fr) — session PHP obligatoire (DIMSPHPSESSID), jamais accessible sans amorçage préalable (curl sans état → page hors-sujet). Deux extensions génériques du moteur page_web ajoutées à cette occasion (zéro branche par connecteur, cf. contrat §5 règle 7) : session_cookie (amorçage GET + réinjection du Set-Cookie sur les requêtes suivantes) et titre_frere (libellé résolu via un élément frère plutôt que descendant — le libellé informatif n'est jamais dans la ligne visible de la liste, seulement dans un <tr> de détail masqué plus loin parmi les frères). PDF joints vérifiés = scans purs, 0 caractère extractible (cohérent avec FR-005, jamais d'OCR) : titre_frere contourne ce point mort. Investigation complète : tests/fixtures/connecteurs/reel/prefecture-57/SOURCE.md."
+  derniere_verification: "2026-08-27"
 
 - departement_code: "58"
   statut: connecteur_developpe

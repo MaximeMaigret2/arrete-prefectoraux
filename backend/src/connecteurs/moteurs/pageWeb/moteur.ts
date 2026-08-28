@@ -5,7 +5,10 @@ import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '
 import { parisAnneeMoisCourant } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { PageWebConfigSchema, type PageWebConfig } from './config.schema.js';
-import { fetchAvecEnTetes } from '../../httpClient.js';
+import { fetchAvecEnTetes, construireEnTeteCookie } from '../../httpClient.js';
+
+/** En-têtes HTTP supplémentaires (typiquement `Cookie`) valables pour une collecte donnée — cf. `config.session_cookie`. */
+type EnTetesSession = Record<string, string> | undefined;
 
 /**
  * Moteur `page_web` (contracts/connecteur-interface.md §2). Générique :
@@ -100,10 +103,11 @@ async function resoudreNavigation(
   urlDepart: string,
   etapes: PageWebConfig['navigation'],
   maintenant: Date,
+  enTetesSession: EnTetesSession,
 ): Promise<string> {
   let urlCourante = urlDepart;
   for (const etape of etapes) {
-    const reponse = await fetchAvecEnTetes(urlCourante);
+    const reponse = await fetchAvecEnTetes(urlCourante, { enTetesSupplementaires: enTetesSession });
     if (!reponse.ok) {
       throw new Error(`Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`);
     }
@@ -156,6 +160,7 @@ async function resoudreUrlPdfPublication(
   $publication: cheerio.Cheerio<any>,
   config: PageWebConfig,
   urlListeEffective: string,
+  enTetesSession: EnTetesSession,
 ): Promise<string | null> {
   if (!config.selecteur_lien_pdf) return null;
 
@@ -163,7 +168,7 @@ async function resoudreUrlPdfPublication(
     const lienPublication = $publication.attr(config.page_detail.attribut_lien);
     if (!lienPublication) return null;
     const urlDetail = resoudreUrl(lienPublication, urlListeEffective);
-    const reponse = await fetchAvecEnTetes(urlDetail);
+    const reponse = await fetchAvecEnTetes(urlDetail, { enTetesSupplementaires: enTetesSession });
     if (!reponse.ok) {
       throw new Error(`Page de détail "${urlDetail}" inaccessible (HTTP ${reponse.status}).`);
     }
@@ -175,6 +180,35 @@ async function resoudreUrlPdfPublication(
 
   const lienPdf = $publication.find(config.selecteur_lien_pdf).first().attr('href');
   return lienPdf ? resoudreUrl(lienPdf, urlListeEffective) : null;
+}
+
+/**
+ * Résout le libellé/objet réel d'une publication depuis un élément FRÈRE
+ * (`config.titre_frere`, cf. `config.schema.ts`), `null` si non configuré ou
+ * non trouvé. Cherche, parmi TOUS les frères suivants de `$publication`
+ * (pas seulement le tout premier — robuste à du balisage intercalaire
+ * malformé, ex. un `<tr>` vide, rencontré sur prefecture-57), le premier
+ * élément correspondant à `selecteur_conteneur` ; à l'intérieur, cherche une
+ * cellule dont le texte (hors « : » final) correspond exactement à
+ * `etiquette_libelle`, et retourne le texte de la cellule qui la suit
+ * immédiatement (motif générique « paire étiquette/valeur en tableau »).
+ */
+function resoudreLibelleFrere($publication: cheerio.Cheerio<any>, config: PageWebConfig): string | null {
+  if (!config.titre_frere) return null;
+  const $conteneur = $publication.nextAll(config.titre_frere.selecteur_conteneur).first();
+  if ($conteneur.length === 0) return null;
+
+  const etiquetteAttendue = config.titre_frere.etiquette_libelle.trim();
+  const $cellules = $conteneur.find('td');
+  for (let i = 0; i < $cellules.length; i++) {
+    const $cellule = $cellules.eq(i);
+    const texte = $cellule.text().trim().replace(/\s*:\s*$/, '');
+    if (texte === etiquetteAttendue) {
+      const valeur = $cellule.next('td').text().trim();
+      return valeur.length > 0 ? valeur : null;
+    }
+  }
+  return null;
 }
 
 function construireCandidat(
@@ -217,6 +251,39 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
     async collecter(): Promise<ResultatCollecte> {
       const dateCollecte = new Date().toISOString();
 
+      // Étape -1 (V0xx, 2026-08-27, prefecture-57) : amorçage de session si
+      // configuré (`config.session_cookie`) — requête préalable dont seul le
+      // cookie de session retourné importe, réutilisé (en-tête `Cookie`) sur
+      // toutes les requêtes HTTP restantes de CETTE collecte. Absent
+      // (`undefined`) pour tout connecteur sans `session_cookie` — inchangé,
+      // stateless, comme tous les connecteurs existants. Un échec réseau de
+      // l'amorçage est traité comme un `echec_global` au même titre qu'un
+      // échec de résolution de `navigation` (dérive/indisponibilité de la
+      // source, pas une ambiguïté d'extraction).
+      let enTetesSession: EnTetesSession;
+      if (config.session_cookie) {
+        try {
+          const reponseAmorcage = await fetchAvecEnTetes(config.session_cookie.url_amorcage);
+          if (!reponseAmorcage.ok) {
+            throw new Error(`HTTP ${reponseAmorcage.status}`);
+          }
+          const enTeteCookie = construireEnTeteCookie(reponseAmorcage);
+          enTetesSession = enTeteCookie ? { Cookie: enTeteCookie } : undefined;
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          const sourceAmorcage: SourceBrute = {
+            type: 'page_web',
+            url: config.session_cookie.url_amorcage,
+            contenu_brut_reference: config.session_cookie.url_amorcage,
+            date_collecte: dateCollecte,
+          };
+          return {
+            candidats: [],
+            echec_global: { message: `Amorçage de session "${config.session_cookie.url_amorcage}" échoué : ${message}`, source: sourceAmorcage },
+          };
+        }
+      }
+
       // Étape 0 (V001c, Phase 5bis) : résoudre l'URL de la page liste
       // effective via `navigation`, si configurée — inchangée (url_liste
       // telle quelle) pour un connecteur sans navigation (ex. prefecture-13).
@@ -224,7 +291,7 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       try {
         urlListeEffective =
           config.navigation.length > 0
-            ? await resoudreNavigation(config.url_liste, config.navigation, new Date(dateCollecte))
+            ? await resoudreNavigation(config.url_liste, config.navigation, new Date(dateCollecte), enTetesSession)
             : config.url_liste;
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -247,7 +314,7 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // Étape 1 (contrat §2) : récupérer la page liste.
       let html: string;
       try {
-        const reponse = await fetchAvecEnTetes(urlListeEffective);
+        const reponse = await fetchAvecEnTetes(urlListeEffective, { enTetesSupplementaires: enTetesSession });
         if (!reponse.ok) {
           throw new Error(`HTTP ${reponse.status}`);
         }
@@ -290,9 +357,16 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
 
         const titre = $publication.find(config.selecteur_titre).first().text().trim() || $publication.text().trim();
 
-        let pertinent = estPertinent(titre, config.mots_cles_filtrage);
+        // V0xx (2026-08-27, prefecture-57) : libellé complémentaire depuis un
+        // élément frère (cf. `resoudreLibelleFrere`) — `null`/absent pour
+        // tout connecteur sans `titre_frere`, texte de pertinence/extraction
+        // inchangé (`titre` seul) dans ce cas, comme avant cette extension.
+        const libelleFrere = resoudreLibelleFrere($publication, config);
+        const titreEtendu = libelleFrere ? `${titre} ${libelleFrere}` : titre;
 
-        let texte = titre;
+        let pertinent = estPertinent(titreEtendu, config.mots_cles_filtrage);
+
+        let texte = titreEtendu;
         let sourceCandidat = sourceListe;
 
         // Résolution du PDF (contrat §2 étendu, V001c) : soit directement
@@ -303,7 +377,7 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
         // (même esprit que l'échec de téléchargement du PDF, ci-dessous).
         let urlPdf: string | null = null;
         try {
-          urlPdf = await resoudreUrlPdfPublication($publication, config, urlListeEffective);
+          urlPdf = await resoudreUrlPdfPublication($publication, config, urlListeEffective, enTetesSession);
         } catch {
           urlPdf = null;
         }

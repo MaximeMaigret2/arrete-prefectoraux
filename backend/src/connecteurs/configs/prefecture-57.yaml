@@ -1,0 +1,74 @@
+# backend/src/connecteurs/configs/prefecture-57.yaml
+#
+# Config déclarative du connecteur page_web pour la Préfecture de la
+# Moselle. VALIDÉE PAR CAPTURE LIVE (navigateur Chrome réel + requêtes
+# directes) le 2026-08-27 — cf. claude/etat-connecteurs.md (chantier 57).
+#
+# Chantier reporté depuis le lot 93-95 (cf. journal) faute de piste directe :
+# le RAA officiel (`www.moselle.gouv.fr/Publications/Recueil-des-Actes-Administratifs`)
+# ne fait qu'y renvoyer via un lien "Consultez le recueil des actes
+# administratifs." vers `https://mc.moselle.gouv.fr/raa.html` — une
+# application legacy (CMS « DIMS ») structurellement différente de tous les
+# sites DSFR déjà connectés, sur DEUX points, chacun ayant nécessité une
+# extension générique du moteur `page_web` (contrat §5, règle 7 — aucune
+# branche propre à ce connecteur, uniquement de nouveaux champs déclaratifs
+# optionnels, sans impact sur les 95 connecteurs existants) :
+#
+# 1. SESSION DE COOKIE (`session_cookie`, nouveau) : un `fetch()` direct et
+#    sans état sur `url_liste` échoue silencieusement — la requête aboutit
+#    (HTTP 200) mais le serveur redirige vers une page par défaut sans
+#    rapport (vérifié : `index.php?op=raa&do=raa-acte` sans session retourne
+#    la page "Médecins agréés"), faute de cookie `DIMSPHPSESSID` établi par
+#    une requête préalable vers `raa.html`. Confirmé par `curl` : la même
+#    URL, précédée d'un premier GET vers `raa.html` avec un jar de cookies
+#    partagé, retourne bien la liste des actes réels et à jour (27/08/2026).
+#    Un fetch du PDF joint, en revanche, ne nécessite AUCUN cookie (vérifié
+#    directement) — c'est pourquoi seule la résolution HTML (navigation,
+#    liste, page de détail) réinjecte `session_cookie`, jamais le
+#    téléchargement du PDF lui-même (contrat §5, règle 7 : n'étendre que ce
+#    qui est réellement nécessaire).
+#
+# 2. LIBELLÉ VIA ÉLÉMENT FRÈRE (`titre_frere`, nouveau) : la liste
+#    (`index.php?op=raa&do=raa-acte`) ne porte, sur l'élément publication
+#    lui-même, que la référence de l'acte (ex. "CAB/DS/PSI n°222 du 07 août
+#    2026") — JAMAIS l'objet réel de l'arrêté, contrairement à tous les sites
+#    DSFR déjà connectés. L'objet réel (ex. « portant interdiction de
+#    rassemblement festifs à caractère musical de type "rave party"... ») est
+#    affiché dans une ligne `<tr>` de détail MASQUÉE (`display:none`),
+#    SŒUR de la ligne visible plutôt que son enfant — hors de portée de
+#    `selecteur_titre` seul (recherche uniquement descendante). Une piste PDF
+#    a été explicitement écartée : le PDF joint d'un arrêté rave-party réel
+#    (vérifié en le téléchargeant, "09 - Arrêté interdiction rave-party - du
+#    07 08 26 au 10 08 26.pdf") est un SCAN sans aucun texte extractible (0
+#    caractère avec `pypdf`/`pdftotext`) — cohérent avec FR-005 (jamais
+#    d'OCR) déjà documenté dans `moteurs/pdf/moteur.ts`. `titre_frere` est
+#    donc la seule voie d'extraction viable ; le candidat retenu référence
+#    malgré tout le PDF réel comme `source` (le moteur bascule dessus dès
+#    qu'il existe et que le candidat est pertinent, même si son texte reste
+#    illisible — comportement générique déjà existant, inchangé).
+#
+# Structure de la liste (`tr:has(a[onclick*="dims_switchdisplay"])`) :
+# chaque acte = une ligne visible (référence + lien PDF direct, pas de
+# `page_detail`) suivie, plus loin parmi ses frères suivants (jamais
+# immédiatement : un `<tr>` vide intercalaire, balisage malformé du CMS,
+# s'immisce systématiquement entre les deux), d'une ligne de détail masquée
+# contenant la paire « Libellé : <objet réel> » recherchée par
+# `titre_frere`. Aucune pagination utilisée : page 1 = plus récents,
+# suffisant comme pour la grande majorité des connecteurs déjà développés.
+type_connecteur: page_web
+url_liste: "https://mc.moselle.gouv.fr/index.php?op=raa&do=raa-acte"
+session_cookie:
+  url_amorcage: "https://mc.moselle.gouv.fr/raa.html"
+selecteur_publications: 'tr:has(a[onclick*="dims_switchdisplay"])'
+selecteur_titre: 'a[onclick*="dims_switchdisplay"]'
+selecteur_lien_pdf: 'a[href*="dims_op=doc_file_download"]'
+titre_frere:
+  selecteur_conteneur: 'tr:has(div[id^="info_acte"])'
+  etiquette_libelle: "Libellé"
+autorite_signataire: "Le préfet de la Moselle"
+type_evenement_par_defaut: interdiction
+mots_cles_filtrage: ["rave", "teknival", "free party", "rassemblement musical non déclaré"]
+patterns_dates:
+  debut: "du\\s+\\S+\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâïç]+\\s+\\d{4})"
+  fin: "au\\s+\\S+\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâïç]+\\s+\\d{4})"
+pattern_reference: "^(?<reference>.+?)\\s+du\\s+"

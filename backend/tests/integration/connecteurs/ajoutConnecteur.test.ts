@@ -17,14 +17,23 @@ import { computeDepartementState } from '../../../src/services/computeDepartemen
  * code cœur (API, calcul d'état, carte : ce test n'utilise que
  * `registry.ts`/`runner.ts`/`computeDepartementState.ts` tels quels).
  *
- * Département de test : '57' (Moselle), non couvert par aucun
- * connecteur réel
- * (`connecteurs.json`) ni par les autres suites de tests
- * (`registry.test.ts`/`runnerJournalisation.test.ts` utilisent '2A' ;
- * `tests/contract/admin/connecteurs.test.ts`, T039, utilise '04'/'05').
- * Basculé de '52' à '57' le 2026-08-19 (lot 52-56) : '52' vient de recevoir
- * son propre connecteur réel — même mécanique que
- * 2A→2B→21→26→31→37→42→47→52→57 au fil des sessions précédentes.
+ * Département de test : '99' (code SYNTHÉTIQUE, ne correspond à aucun
+ * département français réel — absent de `departements.json`). Jusqu'au
+ * chantier 57 (2026-08-27), ce witness "gris" bumpait vers le prochain
+ * département réel non couvert à chaque lot (2A→2B→21→26→31→37→42→47→52→57
+ * au fil des sessions précédentes) ; '57' (Moselle) était le dernier des 96
+ * départements du périmètre à recevoir son connecteur réel, il n'y a donc
+ * plus de département réel "non couvert" vers lequel basculer. `'99'` n'a
+ * pas besoin de ce mécanisme : n'existant dans aucun `connecteurs.json`
+ * réel actuel NI futur, il reste un témoin "gris" garanti à demeure. Ce
+ * test n'appelle jamais la couche API/`departements.json` (cf. commentaire
+ * `beforeEach` ci-dessous : `computeDepartementState` ne consulte que
+ * `connecteurs`/`evenements`), donc l'absence de '99' de la liste des
+ * départements réels n'a aucune incidence ici — à ne pas confondre avec
+ * `tests/contract/departement-history.test.ts`, où '99' sert par ailleurs
+ * de code inconnu déclenchant un 404 (même propriété — "n'existe pas
+ * réellement" —, deux mécaniques distinctes et sans collision, données
+ * temporaires isolées ici contre données réelles là-bas).
  *
  * Q-006 (lot Qualité — Durcissement, 2026-08-22) : ce test écrivait
  * auparavant directement dans les vrais fichiers de production
@@ -42,8 +51,9 @@ import { computeDepartementState } from '../../../src/services/computeDepartemen
  * un kill mi-test ne laisse plus aucune trace dans les fichiers réels.
  *
  * `beforeEach` ne fait que préparer cet environnement isolé (le département
- * '57' doit rester réellement gris — non couvert — au moment où le premier
- * test le vérifie, à partir d'une copie fidèle du vrai `connecteurs.json`) ;
+ * '99' — synthétique, cf. ci-dessus — doit rester gris au moment où le
+ * premier test le vérifie, à partir d'une copie fidèle du vrai
+ * `connecteurs.json`, qui ne le référence par construction jamais) ;
  * l'ajout effectif du connecteur est déclenché explicitement par
  * `ajouterConnecteurDeTest()`, appelée à l'intérieur des tests qui en ont
  * besoin.
@@ -76,19 +86,21 @@ beforeEach(async () => {
   tempConfigsDir = await mkdtemp(path.join(tmpdir(), 'arrete-test-configs-'));
   await mkdir(path.join(tempDataDir, 'events'), { recursive: true });
 
-  // Copie fidèle du vrai `connecteurs.json` : le test 1 vérifie que '57'
+  // Copie fidèle du vrai `connecteurs.json` : le test 1 vérifie que '99'
   // n'est couvert par AUCUN connecteur réel, ce qui n'a de sens que contre
-  // les vraies données. Les autres fichiers globaux démarrent vides — comme
-  // le faisait déjà l'ancien mécanisme pour '57'/'anomalies'/'executions'
-  // à chaque test (`departements.json` n'a pas besoin d'être copié :
-  // `computeDepartementState` ne consulte pas la liste des départements
-  // pour déterminer l'état d'un code donné, seuls `connecteurs`/`evenements`
-  // comptent — cf. `services/computeDepartementState.ts`).
+  // les vraies données (et reste garanti par construction : '99' est un
+  // code synthétique, cf. commentaire d'en-tête). Les autres fichiers
+  // globaux démarrent vides — comme le faisait déjà l'ancien mécanisme pour
+  // '57'/'anomalies'/'executions' à chaque test (`departements.json` n'a
+  // pas besoin d'être copié : `computeDepartementState` ne consulte pas la
+  // liste des départements pour déterminer l'état d'un code donné, seuls
+  // `connecteurs`/`evenements` comptent — cf.
+  // `services/computeDepartementState.ts`).
   connecteursReels = (await lireOuAbsent(path.join(REAL_DATA_DIR, 'connecteurs.json'))) ?? '[]\n';
   await writeFile(path.join(tempDataDir, 'connecteurs.json'), connecteursReels, 'utf-8');
   await writeFile(path.join(tempDataDir, 'executions.json'), '[]\n', 'utf-8');
   await writeFile(path.join(tempDataDir, 'anomalies.json'), '[]\n', 'utf-8');
-  await writeFile(path.join(tempDataDir, 'events', '57.json'), '[]\n', 'utf-8');
+  await writeFile(path.join(tempDataDir, 'events', '99.json'), '[]\n', 'utf-8');
 
   html = await readFile(FIXTURE_HTML_PATH, 'utf-8');
 
@@ -128,7 +140,7 @@ afterEach(async () => {
 });
 
 /**
- * Simule l'opérateur "ajoutant un connecteur" pour '57' (US2) : une entrée
+ * Simule l'opérateur "ajoutant un connecteur" pour '99' (US2) : une entrée
  * `connecteurs.json` + une configuration déclarative
  * (`configs/<id>.yaml`), sans toucher au code cœur — exactement ce que
  * font T032-T034 pour les connecteurs réels. Écrit désormais dans les deux
@@ -142,7 +154,7 @@ async function ajouterConnecteurDeTest(): Promise<void> {
     {
       id: CONNECTEUR_ID,
       nom: 'Connecteur de test (ajout, US2, T038)',
-      departements_couverts: ['57'],
+      departements_couverts: ['99'],
       actif: true,
       derniere_collecte: null,
       type_connecteur: 'page_web',
@@ -157,10 +169,10 @@ async function ajouterConnecteurDeTest(): Promise<void> {
 }
 
 describe('US2 — ajouter un connecteur pour un département gris (T038)', () => {
-  it("le département '57' est gris avant l'ajout de tout connecteur (non couvert)", async () => {
+  it("le département '99' est gris avant l'ajout de tout connecteur (non couvert)", async () => {
     const store = await loadDataStore(true);
-    expect(store.departementsCouverts.has('57')).toBe(false);
-    const etatAvant = computeDepartementState(store, '57', '2026-08-13');
+    expect(store.departementsCouverts.has('99')).toBe(false);
+    const etatAvant = computeDepartementState(store, '99', '2026-08-13');
     expect(etatAvant.etat).toBe('gris');
   });
 
@@ -177,7 +189,7 @@ describe('US2 — ajouter un connecteur pour un département gris (T038)', () =>
     expect(execution.statut).not.toBe('echec');
 
     const store = await loadDataStore(true);
-    const evenements = store.evenementsByDepartement.get('57') ?? [];
+    const evenements = store.evenementsByDepartement.get('99') ?? [];
     expect(evenements).toHaveLength(1);
     expect(evenements[0].reference_arrete).toBe('2026-77-0512');
     expect(evenements[0].methode_collecte).toBe('automatique');
@@ -192,7 +204,7 @@ describe('US2 — ajouter un connecteur pour un département gris (T038)', () =>
     await executerConnecteur(connecteur!, 'manuel');
 
     const store = await loadDataStore(true);
-    const etatApres = computeDepartementState(store, '57', '2026-08-13');
+    const etatApres = computeDepartementState(store, '99', '2026-08-13');
 
     expect(etatApres.etat).not.toBe('gris');
     expect(etatApres.etat).toBe('rouge');

@@ -752,3 +752,174 @@ describe('moteur page_web — élision grammaticale d/de sur {mois_fr} (Q-003, 6
     expect(resultat.candidats[0].source.url).toBe(URL_MOIS);
   });
 });
+
+/**
+ * `session_cookie` (V0xx, 2026-08-27, découvert sur prefecture-57/Moselle,
+ * `mc.moselle.gouv.fr`, CMS legacy « DIMS ») — cf. `config.schema.ts` pour
+ * la justification complète. Un `fetch()` direct et sans état sur `url_liste`
+ * échoue silencieusement sur ce type de site ; le moteur doit amorcer une
+ * session (requête préalable vers `url_amorcage`) et réinjecter le cookie
+ * obtenu sur toutes les requêtes restantes de la collecte.
+ */
+describe('moteur page_web — amorçage de session (session_cookie, V0xx, prefecture-57)', () => {
+  const URL_AMORCAGE = 'https://exemple-legacy.gouv.fr/raa.html';
+  const URL_LISTE_SESSION = 'https://exemple-legacy.gouv.fr/liste.html';
+
+  const CONFIG_SESSION = {
+    ...CONFIG_BASE,
+    url_liste: URL_LISTE_SESSION,
+    session_cookie: { url_amorcage: URL_AMORCAGE },
+    selecteur_lien_pdf: null as string | null,
+  };
+
+  it('amorce la session puis réinjecte le cookie obtenu sur la requête de la page liste', async () => {
+    const HTML_LISTE = `
+      <div class="raa-item">
+        <div class="raa-item__titre">
+          Arrêté n° 2026-57-0900 portant interdiction de rassemblement de type rave,
+          à compter du 13/08/2026 jusqu'au 15/08/2026
+        </div>
+      </div>
+    `;
+    const appels: Array<{ url: string; cookie: string | undefined }> = [];
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string, init?: { headers?: Record<string, string> }) => {
+        appels.push({ url, cookie: init?.headers?.Cookie });
+        if (url === URL_AMORCAGE) {
+          return {
+            ok: true,
+            status: 200,
+            text: async () => '',
+            headers: { getSetCookie: () => ['DIMSPHPSESSID=abc123; path=/; HttpOnly', 'nocache=1'] },
+          } as unknown as Response;
+        }
+        if (url === URL_LISTE_SESSION) {
+          return { ok: true, status: 200, text: async () => HTML_LISTE } as unknown as Response;
+        }
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_SESSION);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    // L'amorçage a bien eu lieu (sans cookie, puisque c'est lui qui l'établit)...
+    expect(appels[0]).toEqual({ url: URL_AMORCAGE, cookie: undefined });
+    // ...et le cookie qu'il retourne est bien réinjecté sur la requête suivante.
+    expect(appels[1]).toEqual({ url: URL_LISTE_SESSION, cookie: 'DIMSPHPSESSID=abc123; nocache=1' });
+  });
+
+  it("un connecteur sans session_cookie n'effectue aucune requête d'amorçage (comportement inchangé, défaut null)", async () => {
+    const appels: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        appels.push(url);
+        if (url === URL_LISTE) return { ok: true, status: 200, text: async () => html } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, selecteur_lien_pdf: null });
+    await connecteur.collecter();
+
+    expect(appels).toEqual([URL_LISTE]);
+  });
+
+  it("un échec de l'amorçage de session produit un echec_global explicite plutôt qu'une exception non gérée", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_AMORCAGE) return { ok: false, status: 503, text: async () => '' } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_SESSION);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidats).toHaveLength(0);
+    expect(resultat.echec_global?.message).toContain('Amorçage de session');
+    expect(resultat.echec_global?.source.url).toBe(URL_AMORCAGE);
+  });
+});
+
+/**
+ * `titre_frere` (V0xx, 2026-08-27, découvert sur prefecture-57/Moselle) —
+ * cf. `config.schema.ts` pour la justification complète. Le CMS legacy
+ * « DIMS » affiche le libellé/objet réel de l'acte dans une ligne de détail
+ * masquée, SŒUR de la ligne visible (pas un descendant) — hors de portée de
+ * `selecteur_titre` seul.
+ */
+describe('moteur page_web — libellé via élément frère (titre_frere, V0xx, prefecture-57)', () => {
+  const CONFIG_FRERE = {
+    ...CONFIG_BASE,
+    selecteur_lien_pdf: null as string | null,
+    selecteur_titre: '.ref',
+    titre_frere: { selecteur_conteneur: 'tr.info', etiquette_libelle: 'Libellé' },
+    mots_cles_filtrage: ['rave', 'teknival'],
+    patterns_dates: {
+      debut: "du\\s+\\S+\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâïç]+\\s+\\d{4})",
+      fin: "au\\s+\\S+\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâïç]+\\s+\\d{4})",
+    },
+    pattern_reference: '^(?<reference>.+?)\\s+du\\s+',
+  };
+
+  it("complète le titre (référence seule, sans mot-clé) avec le libellé trouvé sur l'élément frère — y compris à travers un frère intercalaire vide (balisage malformé réel de prefecture-57)", async () => {
+    const HTML_LISTE = `
+      <table>
+        <tr class="pub"><td class="ref">CAB/DS/PSI n°222 du 07 août 2026</td></tr>
+        <tr></tr>
+        <tr class="info">
+          <td>
+            <table>
+              <tr><td>Libellé : </td><td>portant interdiction de rassemblement festifs à caractère musical de type "rave party" du vendredi 07 août 2026 à 18h00 au lundi 10 août 2026 à 08h00</td></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    `;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE) return { ok: true, status: 200, text: async () => HTML_LISTE } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_FRERE, selecteur_publications: 'tr.pub' });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidats[0].reference_arrete).toBe('CAB/DS/PSI n°222');
+    expect(resultat.candidats[0].date_debut).toBe(new Date(Date.UTC(2026, 7, 7)).toISOString());
+    expect(resultat.candidats[0].date_fin).toBe(new Date(Date.UTC(2026, 7, 10)).toISOString());
+  });
+
+  it("sans conteneur frère correspondant, retombe sur le titre seul (pas de libellé trouvé — jamais d'exception)", async () => {
+    const HTML_LISTE = `
+      <table>
+        <tr class="pub"><td class="ref">CAB/DS/PSI n°223 du 08 août 2026</td></tr>
+      </table>
+    `;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE) return { ok: true, status: 200, text: async () => HTML_LISTE } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_FRERE, selecteur_publications: 'tr.pub' });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    // Aucun mot-clé dans la seule référence : pas pertinent, aucun candidat — mais surtout, aucune exception.
+    expect(resultat.candidats).toHaveLength(0);
+  });
+});

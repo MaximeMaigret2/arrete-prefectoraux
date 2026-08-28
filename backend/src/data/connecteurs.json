@@ -580,6 +580,16 @@
     "type_connecteur": "page_web"
   },
   {
+    "id": "prefecture-57",
+    "nom": "Préfecture de la Moselle",
+    "departements_couverts": [
+      "57"
+    ],
+    "actif": true,
+    "derniere_collecte": null,
+    "type_connecteur": "page_web"
+  },
+  {
     "id": "prefecture-58",
     "nom": "Préfecture de la Nièvre",
     "departements_couverts": [

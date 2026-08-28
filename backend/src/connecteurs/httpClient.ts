@@ -52,6 +52,17 @@ async function attendre(ms: number): Promise<void> {
 export interface OptionsFetchAvecEnTetes {
   /** Nombre de tentatives supplémentaires après le premier échec (par défaut {@link TENTATIVES_SUPPLEMENTAIRES_PAR_DEFAUT}). */
   tentativesSupplementaires?: number;
+  /**
+   * En-têtes ajoutés (ou remplaçant ceux de {@link EN_TETES_HTTP_DEFAUT} en
+   * cas de collision) pour CET appel uniquement (V0xx, 2026-08-27, découvert
+   * sur prefecture-57/Moselle) — typiquement un en-tête `Cookie` construit
+   * par {@link construireEnTeteCookie} à partir d'une réponse d'amorçage de
+   * session. Jamais de valeur par défaut, jamais persisté entre appels :
+   * c'est à l'appelant (le moteur `page_web`, cf. `session_cookie` de
+   * `config.schema.ts`) de re-fournir ces en-têtes à chaque requête d'une
+   * même collecte.
+   */
+  enTetesSupplementaires?: Record<string, string>;
 }
 
 /**
@@ -74,12 +85,15 @@ export async function fetchAvecEnTetes(
   options: OptionsFetchAvecEnTetes = {},
 ): Promise<Response> {
   const tentativesSupplementaires = options.tentativesSupplementaires ?? TENTATIVES_SUPPLEMENTAIRES_PAR_DEFAUT;
+  const enTetes = options.enTetesSupplementaires
+    ? { ...EN_TETES_HTTP_DEFAUT, ...options.enTetesSupplementaires }
+    : EN_TETES_HTTP_DEFAUT;
   let derniereErreur: unknown;
 
   for (let tentative = 0; tentative <= tentativesSupplementaires; tentative++) {
     try {
       return await fetch(url, {
-        headers: EN_TETES_HTTP_DEFAUT,
+        headers: enTetes,
         signal: AbortSignal.timeout(DELAI_TIMEOUT_MS),
       });
     } catch (err) {
@@ -90,4 +104,28 @@ export async function fetchAvecEnTetes(
   }
 
   throw derniereErreur;
+}
+
+/**
+ * Construit un en-tête `Cookie` (`nom1=valeur1; nom2=valeur2`) à partir des
+ * `Set-Cookie` d'une réponse d'amorçage de session (V0xx, 2026-08-27,
+ * prefecture-57/Moselle) — ignore volontairement les attributs de cookie
+ * (`Path`, `HttpOnly`, `Expires`, ...), seuls `nom`/`valeur` étant pertinents
+ * pour un en-tête `Cookie` de requête. Retourne `null` si la réponse ne
+ * porte aucun `Set-Cookie` (config `session_cookie` pointant par erreur vers
+ * une URL qui n'ouvre pas de session — traité par l'appelant comme une
+ * absence d'en-tête supplémentaire, jamais une exception : une session
+ * vide n'empêche pas la requête suivante d'être tentée telle quelle).
+ *
+ * Repose sur `Headers.getSetCookie()` (disponible nativement sur le
+ * `fetch()` de Node ≥ 18.14, cf. undici) plutôt que sur `Headers.get`, qui
+ * ne renverrait qu'un seul `Set-Cookie` fusionné et invalide en cas de
+ * cookies multiples (cas réel de prefecture-57 : `DIMSPHPSESSID` ET
+ * `nocache`).
+ */
+export function construireEnTeteCookie(reponse: Response): string | null {
+  const enTetesSetCookie = reponse.headers.getSetCookie();
+  if (enTetesSetCookie.length === 0) return null;
+  const paires = enTetesSetCookie.map((brut) => brut.split(';', 1)[0]!.trim()).filter((paire) => paire.length > 0);
+  return paires.length > 0 ? paires.join('; ') : null;
 }

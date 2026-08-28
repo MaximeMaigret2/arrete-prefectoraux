@@ -103,6 +103,55 @@ const PageDetailSchema = z.object({
 });
 
 /**
+ * Amorçage de session (V0xx, 2026-08-27, découvert sur prefecture-57/Moselle,
+ * `mc.moselle.gouv.fr`, CMS legacy « DIMS ») : certains sites conditionnent
+ * le contenu réellement retourné par une URL à un cookie de session PHP
+ * obtenu lors d'une requête préalable — un `fetch()` direct et sans état sur
+ * `url_liste` (ou toute étape de `navigation`) échoue silencieusement (la
+ * requête aboutit, HTTP 200, mais redirige côté serveur vers une page par
+ * défaut sans rapport avec celle demandée, faute de session). Quand
+ * renseigné, le moteur effectue une requête GET préalable vers
+ * `url_amorcage`, capture les cookies de session retournés (`Set-Cookie`),
+ * et les réinjecte (en-tête `Cookie`) sur toutes les requêtes HTTP restantes
+ * de CETTE collecte (résolution de `navigation`, page liste, page de
+ * détail) — jamais partagé entre connecteurs ni entre exécutions (contrat
+ * §5, règle 7 : aucun état de session persisté au-delà d'une collecte).
+ * `null` par défaut, sans impact sur les connecteurs `page_web` existants
+ * (tous stateless).
+ */
+const SessionCookieSchema = z.object({
+  url_amorcage: z.string().url(),
+});
+
+/**
+ * Résolution du libellé/objet réel d'une publication depuis un élément
+ * FRÈRE suivant plutôt que depuis un descendant de l'élément publication
+ * lui-même (V0xx, 2026-08-27, prefecture-57/Moselle) : certains CMS legacy
+ * (DIMS) affichent le résumé de l'acte dans une ligne de détail masquée
+ * (`display:none`), SŒUR de la ligne visible portant la référence/le PDF,
+ * plutôt que son enfant — hors de portée de `selecteur_titre`/`$publication.find()`
+ * (recherche uniquement descendante, cf. `moteur.ts`). Le libellé trouvé
+ * COMPLÈTE (par concaténation) plutôt que ne remplace `selecteur_titre` : la
+ * référence de l'acte, seule information portée par l'élément publication
+ * lui-même sur ce type de site, reste nécessaire à `pattern_reference`.
+ *
+ * `selecteur_conteneur` cible l'élément frère porteur du libellé parmi TOUS
+ * les frères suivants de la publication (recherche non bornée à l'élément
+ * immédiatement suivant : robuste à du balisage frère intercalaire, ex. une
+ * balise `<tr>` vide malformée, déjà rencontrée sur prefecture-57). Une fois
+ * ce conteneur trouvé, `etiquette_libelle` est le texte exact (hors « : »
+ * final) de la cellule-étiquette qui précède, dans une paire libellé/valeur
+ * en tableau, la cellule dont le texte est recherché (ex. « Libellé »).
+ * Générique par construction : ne dépend d'aucune structure propre à un
+ * connecteur particulier, seulement du motif « paire étiquette/valeur au
+ * sein d'un conteneur frère », commun à ce type de CMS.
+ */
+const TitreFrereSchema = z.object({
+  selecteur_conteneur: z.string().min(1),
+  etiquette_libelle: z.string().min(1),
+});
+
+/**
  * Configuration déclarative d'un connecteur `page_web` (contracts/connecteur-interface.md
  * §2). Aucune valeur codée en dur : toute variation entre deux connecteurs
  * `page_web` passe exclusivement par ce schéma (contrat §5, règle 7).
@@ -148,6 +197,10 @@ export const PageWebConfigSchema = z
     navigation: z.array(EtapeNavigationSchema).default([]),
     // Page de détail par publication optionnelle (défaut : aucune, selecteur_lien_pdf cherché dans la publication elle-même).
     page_detail: PageDetailSchema.nullable().default(null),
+    // Amorçage de session optionnel (défaut : aucun, connecteur stateless comme tous les existants).
+    session_cookie: SessionCookieSchema.nullable().default(null),
+    // Libellé via élément frère optionnel (défaut : aucun, selecteur_titre seul comme tous les connecteurs existants).
+    titre_frere: TitreFrereSchema.nullable().default(null),
   })
   .superRefine((config, ctx) => {
     if (config.page_detail !== null && config.selecteur_lien_pdf === null) {
