@@ -1,24 +1,44 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { resetDataStoreCache } from '../../../src/data/loader.js';
+import { definirRepertoireDonnees, resetDataStoreCache } from '../../../src/data/loader.js';
 import {
   chargerConnecteursActifs,
   creerConnecteur,
+  definirRepertoireConfigs,
   obtenirConnecteur,
   trouverConnecteurEntree,
 } from '../../../src/connecteurs/registry.js';
 
-const DATA_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '../../../src/data');
-const CONFIGS_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '../../../src/connecteurs/configs');
-const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
+/**
+ * Migré le 2026-08-27 (petit lot de durcissement, housekeeping post-chantier
+ * 57) vers le même mécanisme que `ajoutConnecteur.test.ts`/`idempotence.test.ts`
+ * (Q-006, lot Qualité — Durcissement, 2026-08-22) : ce test écrivait
+ * auparavant directement dans les vrais fichiers de production
+ * (`src/data/connecteurs.json` + `src/connecteurs/configs/*.yaml`), avec un
+ * snapshot en `beforeEach` et une restauration en `afterEach` — c'était le
+ * DERNIER test du dépôt à suivre encore ce patron. Un run de la suite
+ * complète tué en cours d'exécution (plafond `device_bash`, `afterEach`
+ * jamais atteint) a laissé les fichiers réels pollués par des entrées
+ * fantômes (`test-fake-registry-*`) pendant le chantier 57 (2026-08-27,
+ * cf. `claude/etat-connecteurs.md`), reproduisant exactement l'incident déjà
+ * corrigé pour les deux autres tests par Q-006. Migré ici de la même façon :
+ * `definirRepertoireDonnees()`/`definirRepertoireConfigs()` redirigent
+ * `loader.ts`/`registry.ts` vers deux répertoires temporaires jetables
+ * (`os.tmpdir()`, hors du point de montage partagé avec l'utilisateur — la
+ * suppression y fonctionne normalement, contrairement au dépôt), reconstruits
+ * à partir d'une copie fidèle du vrai `connecteurs.json` à chaque test. Un
+ * kill mi-test ne peut plus laisser de trace dans les fichiers réels.
+ */
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REAL_DATA_DIR = path.join(__dirname, '../../../src/data');
 
 const FAKE_ACTIF_ID = 'test-fake-registry-actif';
 const FAKE_INACTIF_ID = 'test-fake-registry-inactif';
 const FAKE_INVALIDE_ID = 'test-fake-registry-invalide';
-const FAKE_ACTIF_CONFIG_PATH = path.join(CONFIGS_DIR, `${FAKE_ACTIF_ID}.yaml`);
-const FAKE_INVALIDE_CONFIG_PATH = path.join(CONFIGS_DIR, `${FAKE_INVALIDE_ID}.yaml`);
 
 // Configuration `page_web` complète et valide (contracts/connecteur-interface.md
 // §2) — sert à vérifier le câblage réel du moteur (T031), pas seulement la
@@ -48,21 +68,21 @@ async function lireOuAbsent(filePath: string): Promise<string | null> {
   }
 }
 
-let snapshotConnecteurs: string | null;
-let snapshotConfigActif: string | null;
-let snapshotConfigInvalide: string | null;
+let tempDataDir: string;
+let tempConfigsDir: string;
 
 beforeEach(async () => {
-  snapshotConnecteurs = await lireOuAbsent(CONNECTEURS_PATH);
-  snapshotConfigActif = await lireOuAbsent(FAKE_ACTIF_CONFIG_PATH);
-  snapshotConfigInvalide = await lireOuAbsent(FAKE_INVALIDE_CONFIG_PATH);
+  tempDataDir = await mkdtemp(path.join(tmpdir(), 'arrete-test-registry-data-'));
+  tempConfigsDir = await mkdtemp(path.join(tmpdir(), 'arrete-test-registry-configs-'));
 
   // connecteurs.json réel a désormais `type_connecteur` pour tous ses
   // connecteurs (T032-T034) : les entrées réelles sont reprises telles
-  // quelles, avec trois connecteurs factices ajoutés (actif valide / actif
-  // à config invalide / inactif) pour tester le filtrage et l'isolation des
-  // échecs sans dépendre des connecteurs réels.
-  const reels = JSON.parse(snapshotConnecteurs ?? '[]') as Array<Record<string, unknown>>;
+  // quelles (copie fidèle, jamais modifiée sur disque réel), avec trois
+  // connecteurs factices ajoutés (actif valide / actif à config invalide /
+  // inactif) pour tester le filtrage et l'isolation des échecs sans
+  // dépendre des connecteurs réels.
+  const connecteursReels = (await lireOuAbsent(path.join(REAL_DATA_DIR, 'connecteurs.json'))) ?? '[]\n';
+  const reels = JSON.parse(connecteursReels) as Array<Record<string, unknown>>;
   const patches: Array<Record<string, unknown>> = [...reels];
   patches.push(
     {
@@ -90,24 +110,32 @@ beforeEach(async () => {
       type_connecteur: 'page_web',
     },
   );
-  await writeFile(CONNECTEURS_PATH, JSON.stringify(patches, null, 2) + '\n', 'utf-8');
-  await writeFile(FAKE_ACTIF_CONFIG_PATH, CONFIG_ACTIF_VALIDE, 'utf-8');
+  await writeFile(path.join(tempDataDir, 'connecteurs.json'), JSON.stringify(patches, null, 2) + '\n', 'utf-8');
+  await writeFile(path.join(tempConfigsDir, `${FAKE_ACTIF_ID}.yaml`), CONFIG_ACTIF_VALIDE, 'utf-8');
   // Configuration délibérément invalide (aucun champ requis) : vérifie que
   // le moteur rejette via son schéma zod plutôt que de construire un
   // connecteur silencieusement cassé (contrat §5, règle 2).
-  await writeFile(FAKE_INVALIDE_CONFIG_PATH, 'url_liste: "https://example.org/raa"\n', 'utf-8');
+  await writeFile(
+    path.join(tempConfigsDir, `${FAKE_INVALIDE_ID}.yaml`),
+    'url_liste: "https://example.org/raa"\n',
+    'utf-8',
+  );
+
+  definirRepertoireDonnees(tempDataDir);
+  definirRepertoireConfigs(tempConfigsDir);
   resetDataStoreCache();
 });
 
 afterEach(async () => {
-  await writeFile(CONNECTEURS_PATH, snapshotConnecteurs ?? '[]\n', 'utf-8');
-  await writeFile(FAKE_ACTIF_CONFIG_PATH, snapshotConfigActif ?? '# fixture de test (registry.test.ts), inutilisée\n', 'utf-8');
-  await writeFile(
-    FAKE_INVALIDE_CONFIG_PATH,
-    snapshotConfigInvalide ?? '# fixture de test (registry.test.ts), inutilisée\n',
-    'utf-8',
-  );
+  definirRepertoireDonnees(null);
+  definirRepertoireConfigs(null);
   resetDataStoreCache();
+
+  // Best-effort : ces répertoires vivent hors du point de montage partagé
+  // avec l'utilisateur (contrairement au dépôt), la suppression y fonctionne
+  // normalement — mais un échec ici ne doit jamais faire échouer le test lui-même.
+  await rm(tempDataDir, { recursive: true, force: true }).catch(() => {});
+  await rm(tempConfigsDir, { recursive: true, force: true }).catch(() => {});
 });
 
 describe('creerConnecteur — dispatch (moteurs câblés, T031)', () => {
@@ -185,9 +213,9 @@ describe('chargerConnecteursActifs', () => {
 
     const resultats = await chargerConnecteursActifs();
 
-    // Depuis T032-T034, prefecture-77/13/33 ont une configuration déclarative
-    // réelle (configs/prefecture-*.yaml) et se chargent donc aussi avec
-    // succès — seul FAKE_INVALIDE_ID (configuration invalide) et
+    // Depuis T032-T034, les connecteurs réels ont une configuration
+    // déclarative réelle (configs/prefecture-*.yaml) et se chargent donc
+    // aussi avec succès — seul FAKE_INVALIDE_ID (configuration invalide) et
     // FAKE_INACTIF_ID (actif: false) doivent être absents du résultat.
     const ids = resultats.map((c) => c.id);
     expect(ids).toContain(FAKE_ACTIF_ID);
