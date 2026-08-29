@@ -25,6 +25,8 @@ export interface DepartementState {
   etat: Etat;
   evenement_applicable: Evenement | null;
   connecteur_id: string | null;
+  /** Date de dernière collecte réussie de la source pour ce département (feature 004). Null si `etat` est 'gris'. */
+  derniere_collecte: string | null;
 }
 
 export interface DepartementsStateResponse {

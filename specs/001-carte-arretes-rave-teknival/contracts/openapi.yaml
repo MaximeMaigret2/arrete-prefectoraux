@@ -153,6 +153,15 @@ components:
           type: string
           nullable: true
           description: Identifiant du connecteur ayant produit la donnée ; `null` si `etat` est `gris`.
+        derniere_collecte:
+          type: string
+          format: date-time
+          nullable: true
+          description: >
+            Date de dernière collecte réussie de la source pour ce département
+            (feature 004, FR-001/FR-002). `null` si `etat` est `gris`, ou si le
+            connecteur qui couvre ce département n'a encore jamais collecté
+            avec succès.
 
     DepartementsStateResponse:
       type: object

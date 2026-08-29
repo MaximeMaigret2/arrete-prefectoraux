@@ -36,6 +36,10 @@ describe('GET /api/v1/departements', () => {
     // 2026-08-11 (date figée de ce test) : dossier "propre" → vert, comme
     // tout département couvert sans historique.
     expect(byCode.get('57')).toMatchObject({ etat: 'vert', connecteur_id: 'prefecture-57' });
+    // Feature 004 (FR-001) : derniere_collecte exposée par département, issue
+    // du connecteur qui le couvre — valeurs réelles de connecteurs.json.
+    expect(byCode.get('77')).toMatchObject({ derniere_collecte: '2026-08-13T10:00:00.000Z' });
+    expect(byCode.get('13')).toMatchObject({ derniere_collecte: '2026-08-20T20:11:35.805Z' });
   });
 
   it("n'inclut evenement_applicable que pour les départements rouges", async () => {
@@ -47,6 +51,26 @@ describe('GET /api/v1/departements', () => {
         expect(d.evenement_applicable).toBeNull();
       }
     }
+  });
+
+  it('derniere_collecte (FR-001/FR-002, feature 004) : toujours null pour gris ; string ou null pour vert/rouge selon si le connecteur a déjà collecté', async () => {
+    const res = await request(app.server).get('/api/v1/departements?date=2026-08-11');
+    let nonNullCount = 0;
+    for (const d of res.body.departements) {
+      if (d.etat === 'gris') {
+        expect(d.derniere_collecte).toBeNull();
+      } else {
+        // FR-002 : un connecteur jamais encore exécuté avec succès a
+        // legitimement derniere_collecte = null (edge case 4 de spec.md) —
+        // seule la valeur 'object' inattendue (autre que null) serait une
+        // régression ; on vérifie donc le type effectif plutôt que la
+        // seule non-nullité.
+        expect(d.derniere_collecte === null || typeof d.derniere_collecte === 'string').toBe(true);
+        if (d.derniere_collecte !== null) nonNullCount += 1;
+      }
+    }
+    // Au moins les connecteurs 77/13 (vérifiés ci-dessus) ont déjà collecté.
+    expect(nonNullCount).toBeGreaterThan(0);
   });
 
   it('retourne 400 si le paramètre date est manquant', async () => {

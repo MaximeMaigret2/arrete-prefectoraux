@@ -16,14 +16,25 @@ function formatDate(iso: string): string {
   }).format(new Date(iso));
 }
 
+/** Date + heure (Europe/Paris) — feature 004, FR-004 : même fuseau que le reste de l'affichage. */
+function formatDateTime(iso: string): string {
+  return new Intl.DateTimeFormat('fr-FR', {
+    timeZone: 'Europe/Paris',
+    dateStyle: 'short',
+    timeStyle: 'short',
+  }).format(new Date(iso));
+}
+
 /**
  * Infobulle de détail au survol (US3, FR-005/FR-006) :
  * - rouge : référence de l'arrêté + dates exactes ("Depuis le [...]" si pas de fin).
  * - vert : mention explicite d'absence d'interdiction en vigueur.
  * - gris : mention explicite "non couvert" (jamais confondue avec le vert).
+ * Départements vert/rouge : date de dernière collecte de la source
+ * (feature 004, FR-003) — jamais affichée pour gris (FR-002 : toujours null).
  */
 export default function Tooltip({ departement, x, y }: TooltipData) {
-  const { etat, nom, code, evenement_applicable } = departement;
+  const { etat, nom, code, evenement_applicable, derniere_collecte } = departement;
 
   let content: ReactNode;
   if (etat === 'rouge' && evenement_applicable) {
@@ -69,6 +80,11 @@ export default function Tooltip({ departement, x, y }: TooltipData) {
         {nom} ({code})
       </div>
       {content}
+      {etat !== 'gris' && derniere_collecte && (
+        <div data-testid="map-tooltip-freshness" style={{ marginTop: '0.35rem', fontSize: '0.75rem', color: '#ccc' }}>
+          Donnée vérifiée le {formatDateTime(derniere_collecte)}
+        </div>
+      )}
     </div>
   );
 }

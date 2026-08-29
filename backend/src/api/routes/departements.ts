@@ -48,18 +48,29 @@ export async function registerDepartementsRoutes(app: FastifyInstance): Promise<
       return reply.status(200).send({
         date: parsedQuery.data.date,
         derniere_mise_a_jour: store.derniereMiseAJour,
-        departements: results.map(({ code, nom, state }) => ({
-          code,
-          nom,
-          etat: state.etat,
-          evenement_applicable: state.etat === 'rouge' ? state.evenement_applicable : null,
-          connecteur_id:
+        departements: results.map(({ code, nom, state }) => {
+          // Résolution unique du connecteur pour ce département (feature 004) :
+          // priorité au connecteur ayant produit evenement_applicable (rouge),
+          // sinon celui qui couvre déclarativement ce code (vert) — jamais de
+          // logique parallèle entre connecteur_id et derniere_collecte.
+          const connecteur =
             state.etat === 'gris'
               ? null
-              : (state.evenement_applicable?.connecteur_id ??
-                store.connecteurs.find((c) => c.departements_couverts.includes(code))?.id ??
-                null),
-        })),
+              : (store.connecteurs.find((c) => c.id === state.evenement_applicable?.connecteur_id) ??
+                store.connecteurs.find((c) => c.departements_couverts.includes(code)) ??
+                null);
+          return {
+            code,
+            nom,
+            etat: state.etat,
+            evenement_applicable: state.etat === 'rouge' ? state.evenement_applicable : null,
+            connecteur_id: connecteur?.id ?? null,
+            // Date de dernière collecte de la source pour ce département
+            // (FR-001/FR-002, feature 004) — null si gris ou si le connecteur
+            // n'a jamais encore collecté avec succès.
+            derniere_collecte: connecteur?.derniere_collecte ?? null,
+          };
+        }),
       });
     },
   });
