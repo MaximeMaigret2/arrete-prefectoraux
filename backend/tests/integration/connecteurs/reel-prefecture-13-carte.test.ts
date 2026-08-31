@@ -30,6 +30,12 @@ const DATA_DIR = path.join(__dirname, '../../../src/data');
 const EXECUTIONS_PATH = path.join(DATA_DIR, 'executions.json');
 const ANOMALIES_PATH = path.join(DATA_DIR, 'anomalies.json');
 const EVENTS_13_PATH = path.join(DATA_DIR, 'events', '13.json');
+// Bug corrigé (2026-08-30) : ce test appelle executerConnecteur() contre le VRAI
+// connecteur `prefecture-13` (registry.ts non redirigé, cf. commentaire d'en-tête), qui
+// met à jour `derniere_collecte` dans le VRAI connecteurs.json (runner.ts). Sans
+// snapshot/restore ici, cet horodatage de test restait figé en production — cf.
+// claude/etat-connecteurs.md, section feature 005.
+const CONNECTEURS_PATH = path.join(DATA_DIR, 'connecteurs.json');
 
 const FIXTURES_DIR = path.join(__dirname, '../../fixtures/connecteurs/reel/prefecture-13');
 const URL_LISTE = 'https://www.bouches-du-rhone.gouv.fr/Publications/RAA-et-Archives/RAA-2026';
@@ -59,6 +65,7 @@ let app: FastifyInstance;
 let snapshotExecutions: string | null;
 let snapshotAnomalies: string | null;
 let snapshotEvents13: string | null;
+let snapshotConnecteurs: string | null;
 let html: string;
 let pdfAvecArrete: Buffer;
 let pdfSansArrete: Buffer;
@@ -76,6 +83,7 @@ beforeEach(async () => {
   snapshotExecutions = await lireOuAbsent(EXECUTIONS_PATH);
   snapshotAnomalies = await lireOuAbsent(ANOMALIES_PATH);
   snapshotEvents13 = await lireOuAbsent(EVENTS_13_PATH);
+  snapshotConnecteurs = await lireOuAbsent(CONNECTEURS_PATH);
 
   await writeFile(EXECUTIONS_PATH, snapshotExecutions ?? '[]\n', 'utf-8');
   await writeFile(ANOMALIES_PATH, snapshotAnomalies ?? '[]\n', 'utf-8');
@@ -119,6 +127,7 @@ afterEach(async () => {
   await restaurer(EXECUTIONS_PATH, snapshotExecutions);
   await restaurer(ANOMALIES_PATH, snapshotAnomalies);
   await restaurer(EVENTS_13_PATH, snapshotEvents13);
+  await restaurer(CONNECTEURS_PATH, snapshotConnecteurs);
   resetDataStoreCache();
 });
 
