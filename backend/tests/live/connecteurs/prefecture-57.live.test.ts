@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
 import { construireEnTeteCookie } from '../../../src/connecteurs/httpClient.js';
+import { fetchAvecSession, substituerPlaceholders, resoudreUrl } from '../support/reseauLive.js';
 
 /**
  * Généré le 2026-08-27 (session Cowork — complétion de la suite `test:live-drift`
@@ -30,31 +31,6 @@ async function chargerConfigReelle(): Promise<ReturnType<typeof PageWebConfigSch
   return PageWebConfigSchema.parse(yaml.load(raw));
 }
 
-function substituerPlaceholders(pattern: string, maintenant: Date): string {
-  const annee = String(maintenant.getFullYear());
-  const moisNumero = String(maintenant.getMonth() + 1).padStart(2, '0');
-  const noms = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-  const moisFr = noms[maintenant.getMonth()];
-  return pattern
-    .replaceAll('{annee}', annee)
-    .replaceAll('{mois_numero}', moisNumero)
-    .replaceAll('{mois_fr_minuscule}', moisFr.toLowerCase())
-    .replaceAll('{mois_fr}', moisFr);
-}
-
-function resoudreUrl(lien: string, base: string): string {
-  const normalise = /^https?:\/\//i.test(lien) || lien.startsWith('/') ? lien : `/${lien}`;
-  return new URL(normalise, base).toString();
-}
-
-// Même en-tête que EN_TETES_HTTP_DEFAUT (src/connecteurs/httpClient.ts) —
-// cf. son commentaire : une rafale de `fetch()` sans User-Agent via
-// `test:live-drift` a déjà provoqué un blocage IP temporaire de
-// l'hébergeur mutualisé de plusieurs sites préfecture (2026-08-20).
-const EN_TETES_COURTOISIE: Record<string, string> = {
-  'User-Agent': 'Mozilla/5.0 (compatible; ArretesRaveTeknivalBot/1.0; +mailto:maxime.maigret2@gmail.com)',
-};
-
 describe('Dérive structurelle — prefecture-57 (manuel uniquement)', () => {
   it('la navigation (aucun niveau de navigation (url_liste résout directement la liste)) résout une page finale exposant au moins un lien PDF direct', async () => {
     const config = await chargerConfigReelle();
@@ -65,19 +41,20 @@ describe('Dérive structurelle — prefecture-57 (manuel uniquement)', () => {
     // réel : un GET préalable vers `url_amorcage`, dont les `Set-Cookie`
     // sont réinjectés (en-tête `Cookie`) sur toutes les requêtes HTML
     // suivantes de cette collecte (jamais sur le téléchargement du PDF).
-    const reponseAmorcage = await fetch(config.session_cookie!.url_amorcage, { headers: EN_TETES_COURTOISIE });
+    const reponseAmorcage = await fetchAvecSession(config.session_cookie!.url_amorcage);
     expect(reponseAmorcage.ok, `Amorçage de session "${config.session_cookie!.url_amorcage}" inaccessible (HTTP ${reponseAmorcage.status}).`).toBe(true);
     const enTeteCookie = construireEnTeteCookie(reponseAmorcage);
     expect(enTeteCookie, `Amorçage de session "${config.session_cookie!.url_amorcage}" n'a retourné aucun Set-Cookie — structure probablement modifiée.`).not.toBeNull();
-    const enTetesSession: Record<string, string> = { ...EN_TETES_COURTOISIE, Cookie: enTeteCookie! };
-
-    async function fetchAvecSession(url: string): Promise<Response> {
-      return fetch(url, { headers: enTetesSession });
-    }
+    // `fetchAvecSession` importé applique déjà l'en-tête de courtoisie et le
+    // throttle ; on l'enveloppe ici pour y ajouter systématiquement le cookie
+    // de session obtenu ci-dessus, sur toutes les requêtes HTML suivantes de
+    // cette collecte (jamais sur le téléchargement du PDF lui-même).
+    const requeteSession = (url: string) =>
+      fetchAvecSession(url, { enTetesSupplementaires: { Cookie: enTeteCookie! } });
 
     let urlCourante = config.url_liste;
     for (const [i, etape] of config.navigation.entries()) {
-      const reponse = await fetchAvecSession(urlCourante);
+      const reponse = await requeteSession(urlCourante);
       expect(reponse.ok, `Navigation étape ${i} : "${urlCourante}" inaccessible (HTTP ${reponse.status}).`).toBe(true);
       const html = await reponse.text();
       const $ = cheerio.load(html);
@@ -103,7 +80,7 @@ describe('Dérive structurelle — prefecture-57 (manuel uniquement)', () => {
       urlCourante = trouve;
     }
 
-    const reponseListe = await fetchAvecSession(urlCourante);
+    const reponseListe = await requeteSession(urlCourante);
     expect(reponseListe.ok, `Page liste "${urlCourante}" inaccessible (HTTP ${reponseListe.status}).`).toBe(true);
     const htmlListe = await reponseListe.text();
     const $liste = cheerio.load(htmlListe);
@@ -135,7 +112,7 @@ describe('Dérive structurelle — prefecture-57 (manuel uniquement)', () => {
         if (!lienPublication) continue; // ex. option placeholder value=""
 
         const urlDetail = resoudreUrl(lienPublication, urlCourante);
-        const reponseDetail = await fetchAvecSession(urlDetail);
+        const reponseDetail = await requeteSession(urlDetail);
         if (!reponseDetail.ok) continue;
         const htmlDetail = await reponseDetail.text();
         const $detail = cheerio.load(htmlDetail);

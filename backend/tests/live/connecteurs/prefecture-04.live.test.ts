@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
+import { fetchAvecSession, substituerPlaceholders } from '../support/reseauLive.js';
 
 /**
  * Phase 5bis élargie (2026-08-14) — test de DÉRIVE STRUCTURELLE pour
@@ -32,11 +33,6 @@ function moisDansPlage(mois: number, debut: number, fin: number): boolean {
   return debut <= fin ? mois >= debut && mois <= fin : mois >= debut || mois <= fin;
 }
 
-function substituerPlaceholders(pattern: string, maintenant: Date): string {
-  const annee = String(maintenant.getFullYear());
-  return pattern.replaceAll('{annee}', annee);
-}
-
 describe('Dérive structurelle — prefecture-04 (manuel uniquement)', () => {
   it('la navigation par périodes résout, pour le mois courant, une page finale exposant au moins un lien PDF', async () => {
     const config = await chargerConfigReelle();
@@ -45,7 +41,7 @@ describe('Dérive structurelle — prefecture-04 (manuel uniquement)', () => {
 
     let urlCourante = config.url_liste;
     for (const [i, etape] of config.navigation.entries()) {
-      const reponse = await fetch(urlCourante);
+      const reponse = await fetchAvecSession(urlCourante);
       expect(reponse.ok, `Navigation étape ${i} : "${urlCourante}" inaccessible (HTTP ${reponse.status}).`).toBe(true);
       const html = await reponse.text();
       const $ = cheerio.load(html);
@@ -69,7 +65,7 @@ describe('Dérive structurelle — prefecture-04 (manuel uniquement)', () => {
       urlCourante = trouve!;
     }
 
-    const reponseFinale = await fetch(urlCourante);
+    const reponseFinale = await fetchAvecSession(urlCourante);
     expect(reponseFinale.ok, `Page finale "${urlCourante}" inaccessible (HTTP ${reponseFinale.status}).`).toBe(true);
     const htmlFinal = await reponseFinale.text();
     const $final = cheerio.load(htmlFinal);

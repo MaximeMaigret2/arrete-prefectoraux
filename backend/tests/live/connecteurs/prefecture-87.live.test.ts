@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
+import { fetchAvecSession, substituerPlaceholders, resoudreUrl } from '../support/reseauLive.js';
 
 /**
  * Généré le 2026-08-27 (session Cowork — complétion de la suite `test:live-drift`
@@ -33,40 +34,13 @@ function moisDansPlage(mois: number, debut: number, fin: number): boolean {
   return debut <= fin ? mois >= debut && mois <= fin : mois >= debut || mois <= fin;
 }
 
-function substituerPlaceholders(pattern: string, maintenant: Date): string {
-  const annee = String(maintenant.getFullYear());
-  const moisNumero = String(maintenant.getMonth() + 1).padStart(2, '0');
-  const noms = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-  const moisFr = noms[maintenant.getMonth()];
-  return pattern
-    .replaceAll('{annee}', annee)
-    .replaceAll('{mois_numero}', moisNumero)
-    .replaceAll('{mois_fr_minuscule}', moisFr.toLowerCase())
-    .replaceAll('{mois_fr}', moisFr);
-}
-
-function resoudreUrl(lien: string, base: string): string {
-  const normalise = /^https?:\/\//i.test(lien) || lien.startsWith('/') ? lien : `/${lien}`;
-  return new URL(normalise, base).toString();
-}
-
-// Même en-tête que EN_TETES_HTTP_DEFAUT (src/connecteurs/httpClient.ts) —
-// cf. son commentaire : une rafale de `fetch()` sans User-Agent via
-// `test:live-drift` a déjà provoqué un blocage IP temporaire de
-// l'hébergeur mutualisé de plusieurs sites préfecture (2026-08-20).
-const EN_TETES_COURTOISIE: Record<string, string> = {
-  'User-Agent': 'Mozilla/5.0 (compatible; ArretesRaveTeknivalBot/1.0; +mailto:maxime.maigret2@gmail.com)',
-};
-
 describe('Dérive structurelle — prefecture-87 (manuel uniquement)', () => {
   it('la navigation (1 niveau de navigation) résout une page finale exposant au moins un lien PDF direct', async () => {
     const config = await chargerConfigReelle();
     const maintenant = new Date();
     const moisCourant = maintenant.getMonth() + 1;
 
-    async function fetchAvecSession(url: string): Promise<Response> {
-      return fetch(url, { headers: EN_TETES_COURTOISIE });
-    }
+    
 
     let urlCourante = config.url_liste;
     for (const [i, etape] of config.navigation.entries()) {

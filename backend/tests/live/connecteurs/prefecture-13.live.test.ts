@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
+import { fetchAvecSession } from '../support/reseauLive.js';
 
 /**
  * V007 (Phase 5bis, 2026-08-13) — test de DÉRIVE STRUCTURELLE pour
@@ -35,7 +36,7 @@ describe('Dérive structurelle — prefecture-13 (V007, manuel uniquement)', () 
   it('la page liste réelle répond 200 et expose au moins un lien PDF via les sélecteurs de la config', async () => {
     const config = await chargerConfigReelle();
 
-    const reponse = await fetch(config.url_liste);
+    const reponse = await fetchAvecSession(config.url_liste);
     expect(reponse.ok, `Page liste "${config.url_liste}" inaccessible (HTTP ${reponse.status}) — URL peut-être obsolète.`).toBe(
       true,
     );

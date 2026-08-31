@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
+import { fetchAvecSession, substituerPlaceholders, resoudreUrl } from '../support/reseauLive.js';
 
 /**
  * (2026-08-15, lot 37-41 — corrigé 2026-08-20 après capture live du
@@ -35,23 +36,6 @@ async function chargerConfigReelle(): Promise<ReturnType<typeof PageWebConfigSch
   return PageWebConfigSchema.parse(yaml.load(raw));
 }
 
-function substituerPlaceholders(pattern: string, maintenant: Date): string {
-  const annee = String(maintenant.getFullYear());
-  const moisNumero = String(maintenant.getMonth() + 1).padStart(2, '0');
-  const noms = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-  const moisFr = noms[maintenant.getMonth()];
-  return pattern
-    .replaceAll('{annee}', annee)
-    .replaceAll('{mois_numero}', moisNumero)
-    .replaceAll('{mois_fr_minuscule}', moisFr.toLowerCase())
-    .replaceAll('{mois_fr}', moisFr);
-}
-
-function resoudreUrl(lien: string, base: string): string {
-  const normalise = /^https?:\/\//i.test(lien) || lien.startsWith('/') ? lien : `/${lien}`;
-  return new URL(normalise, base).toString();
-}
-
 describe('Dérive structurelle — prefecture-38 (manuel uniquement)', () => {
   it("la navigation à 1 seul niveau (racine → année) résout une page exposant le <select> attendu, et au moins une option mène à une page de détail avec un lien PDF", async () => {
     const config = await chargerConfigReelle();
@@ -59,7 +43,7 @@ describe('Dérive structurelle — prefecture-38 (manuel uniquement)', () => {
 
     let urlCourante = config.url_liste;
     for (const [i, etape] of config.navigation.entries()) {
-      const reponse = await fetch(urlCourante);
+      const reponse = await fetchAvecSession(urlCourante);
       expect(reponse.ok, `Navigation étape ${i} : "${urlCourante}" inaccessible (HTTP ${reponse.status}).`).toBe(true);
       const html = await reponse.text();
       const $ = cheerio.load(html);
@@ -79,7 +63,7 @@ describe('Dérive structurelle — prefecture-38 (manuel uniquement)', () => {
       urlCourante = trouve!;
     }
 
-    const reponseAnnee = await fetch(urlCourante);
+    const reponseAnnee = await fetchAvecSession(urlCourante);
     expect(reponseAnnee.ok, `Page de l'année "${urlCourante}" inaccessible (HTTP ${reponseAnnee.status}).`).toBe(true);
     const htmlAnnee = await reponseAnnee.text();
     const $annee = cheerio.load(htmlAnnee);
@@ -95,7 +79,7 @@ describe('Dérive structurelle — prefecture-38 (manuel uniquement)', () => {
       if (!lienPublication) continue; // option placeholder (value="")
 
       const urlDetail = resoudreUrl(lienPublication, urlCourante);
-      const reponseDetail = await fetch(urlDetail);
+      const reponseDetail = await fetchAvecSession(urlDetail);
       if (!reponseDetail.ok) continue;
       const htmlDetail = await reponseDetail.text();
       const $detail = cheerio.load(htmlDetail);

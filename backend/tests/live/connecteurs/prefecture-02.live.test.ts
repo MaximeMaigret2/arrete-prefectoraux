@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
+import { fetchAvecSession, substituerPlaceholders, resoudreUrl } from '../support/reseauLive.js';
 
 /**
  * Phase 5bis élargie (2026-08-14) — test de DÉRIVE STRUCTURELLE pour
@@ -29,16 +30,6 @@ async function chargerConfigReelle(): Promise<ReturnType<typeof PageWebConfigSch
   return PageWebConfigSchema.parse(yaml.load(raw));
 }
 
-function substituerPlaceholders(pattern: string, maintenant: Date): string {
-  const annee = String(maintenant.getFullYear());
-  return pattern.replaceAll('{annee}', annee);
-}
-
-function resoudreUrl(lien: string, base: string): string {
-  const normalise = /^https?:\/\//i.test(lien) || lien.startsWith('/') ? lien : `/${lien}`;
-  return new URL(normalise, base).toString();
-}
-
 describe('Dérive structurelle — prefecture-02 (manuel uniquement)', () => {
   it("la navigation (racine → [dernière page]) résout une page exposant des publications, et au moins une mène à une page de détail avec un lien PDF", async () => {
     const config = await chargerConfigReelle();
@@ -46,7 +37,7 @@ describe('Dérive structurelle — prefecture-02 (manuel uniquement)', () => {
 
     let urlCourante = config.url_liste;
     for (const [i, etape] of config.navigation.entries()) {
-      const reponse = await fetch(urlCourante);
+      const reponse = await fetchAvecSession(urlCourante);
       expect(reponse.ok, `Navigation étape ${i} : "${urlCourante}" inaccessible (HTTP ${reponse.status}).`).toBe(true);
       const html = await reponse.text();
       const $ = cheerio.load(html);
@@ -68,7 +59,7 @@ describe('Dérive structurelle — prefecture-02 (manuel uniquement)', () => {
       urlCourante = trouve;
     }
 
-    const reponseListe = await fetch(urlCourante);
+    const reponseListe = await fetchAvecSession(urlCourante);
     expect(reponseListe.ok, `Page liste "${urlCourante}" inaccessible (HTTP ${reponseListe.status}).`).toBe(true);
     const htmlListe = await reponseListe.text();
     const $liste = cheerio.load(htmlListe);
@@ -84,7 +75,7 @@ describe('Dérive structurelle — prefecture-02 (manuel uniquement)', () => {
       if (!lienPublication) continue;
 
       const urlDetail = resoudreUrl(lienPublication, urlCourante);
-      const reponseDetail = await fetch(urlDetail);
+      const reponseDetail = await fetchAvecSession(urlDetail);
       if (!reponseDetail.ok) continue;
       const htmlDetail = await reponseDetail.text();
       const $detail = cheerio.load(htmlDetail);

@@ -30,6 +30,20 @@ import { defineConfig } from 'vitest/config';
  * concurrence réseau côté suite de test, pas côté connecteur. Fichiers
  * exécutés séquentiellement (un seul à la fois) pour rester poli envers
  * l'hébergeur mutualisé, comme le fait déjà `vitest.config.ts`.
+ *
+ * `globalSetup` (2026-08-30) — un run réel du 2026-08-30 a montré qu'un
+ * throttle de 2s entre requêtes (`reseauLive.ts`) ne suffit pas à éviter ce
+ * même type de blocage (18/96 fichiers verts puis blocage total des 78
+ * suivants, motif quasiment identique à un run sans throttle) : le seuil de
+ * l'hébergeur ressemble à un compteur de requêtes sur une fenêtre de
+ * l'ordre de la minute, pas à une détection de rafale instantanée. Un
+ * circuit-breaker a été ajouté à `reseauLive.ts` pour arrêter d'envoyer des
+ * requêtes dès que le blocage est détecté (au lieu de marteler l'hôte déjà
+ * bloqué pour tous les fichiers restants) — ce `globalSetup` réinitialise
+ * son état à chaque run pour ne jamais faire échouer un run ultérieur sur
+ * la base d'un blocage déjà résolu. Cf. `claude/etat-connecteurs.md` du
+ * projet Cowork associé, section "Quatrième run réel", pour le détail
+ * complet du raisonnement.
  */
 export default defineConfig({
   test: {
@@ -37,6 +51,12 @@ export default defineConfig({
     include: ['tests/live/**/*.test.ts'],
     testTimeout: 30_000,
     fileParallelism: false,
+    // Circuit-breaker (2026-08-30, cf. `tests/live/support/reseauLive.ts` et
+    // `globalSetupLive.ts`) : réinitialise l'état de throttle/circuit sur
+    // disque au début de CHAQUE run, pour qu'un blocage constaté un jour ne
+    // fasse jamais échouer silencieusement un run ultérieur une fois le
+    // blocage réel levé côté hébergeur.
+    globalSetup: ['./tests/live/support/globalSetupLive.ts'],
     env: {
       ADMIN_USERNAME: 'test-admin',
       ADMIN_PASSWORD: 'test-admin-password-not-for-production',

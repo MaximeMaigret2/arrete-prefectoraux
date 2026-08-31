@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
+import { fetchAvecSession, substituerPlaceholders } from '../support/reseauLive.js';
 
 /**
  * Phase 5bis élargie 2 (2026-08-14) — test de DÉRIVE STRUCTURELLE pour
@@ -27,18 +28,6 @@ async function chargerConfigReelle(): Promise<ReturnType<typeof PageWebConfigSch
   return PageWebConfigSchema.parse(yaml.load(raw));
 }
 
-function substituerPlaceholders(pattern: string, maintenant: Date): string {
-  const annee = String(maintenant.getFullYear());
-  const moisNumero = String(maintenant.getMonth() + 1).padStart(2, '0');
-  const noms = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
-  const moisFr = noms[maintenant.getMonth()];
-  return pattern
-    .replaceAll('{annee}', annee)
-    .replaceAll('{mois_numero}', moisNumero)
-    .replaceAll('{mois_fr_minuscule}', moisFr.toLowerCase())
-    .replaceAll('{mois_fr}', moisFr);
-}
-
 describe('Dérive structurelle — prefecture-10 (V011, manuel uniquement)', () => {
   it('la navigation résout une page finale exposant au moins un lien PDF', async () => {
     const config = await chargerConfigReelle();
@@ -46,7 +35,7 @@ describe('Dérive structurelle — prefecture-10 (V011, manuel uniquement)', () 
 
     let urlCourante = config.url_liste;
     for (const [i, etape] of config.navigation.entries()) {
-      const reponse = await fetch(urlCourante);
+      const reponse = await fetchAvecSession(urlCourante);
       expect(reponse.ok, `Navigation étape ${i} : "${urlCourante}" inaccessible (HTTP ${reponse.status}).`).toBe(true);
       const html = await reponse.text();
       const $ = cheerio.load(html);
@@ -66,7 +55,7 @@ describe('Dérive structurelle — prefecture-10 (V011, manuel uniquement)', () 
       urlCourante = trouve!;
     }
 
-    const reponseFinale = await fetch(urlCourante);
+    const reponseFinale = await fetchAvecSession(urlCourante);
     expect(reponseFinale.ok, `Page finale "${urlCourante}" inaccessible (HTTP ${reponseFinale.status}).`).toBe(true);
     const htmlFinal = await reponseFinale.text();
     const $final = cheerio.load(htmlFinal);
