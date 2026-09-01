@@ -69,6 +69,14 @@ export async function registerDepartementsRoutes(app: FastifyInstance): Promise<
             // (FR-001/FR-002, feature 004) — null si gris ou si le connecteur
             // n'a jamais encore collecté avec succès.
             derniere_collecte: connecteur?.derniere_collecte ?? null,
+            // Dernier arrêté connu déjà terminé (idée n°2 du backlog
+            // produit, 2026-09-01) — uniquement pour les départements verts
+            // (pas d'arrêté en cours) ; jamais pour rouge (l'infobulle
+            // affiche déjà l'arrêté en cours via evenement_applicable) ni
+            // gris (aucune donnée). computeDepartementState ne le renseigne
+            // de toute façon que pour 'vert' — ce garde-fou explicite reste
+            // cohérent avec le traitement déjà appliqué à evenement_applicable.
+            dernier_arrete_connu: state.etat === 'vert' ? state.dernier_arrete_connu : null,
           };
         }),
       });

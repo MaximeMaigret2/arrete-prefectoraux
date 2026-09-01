@@ -162,6 +162,35 @@ components:
             (feature 004, FR-001/FR-002). `null` si `etat` est `gris`, ou si le
             connecteur qui couvre ce département n'a encore jamais collecté
             avec succès.
+        dernier_arrete_connu:
+          allOf:
+            - $ref: "#/components/schemas/DernierArreteConnu"
+          nullable: true
+          description: >
+            Dernier arrêté d'interdiction/prolongation déjà terminé (idée n°2
+            du backlog produit). Présent uniquement quand `etat` est `vert`
+            et qu'un arrêté antérieur existe pour ce département ; `null`
+            sinon (y compris pour un `vert` sans aucun historique).
+
+    DernierArreteConnu:
+      type: object
+      required: [date_debut, date_fin]
+      description: >
+        Distinct de `Evenement` : `date_fin` est toujours renseignée ici (la
+        date à afficher), résolue soit depuis la `date_fin` propre de
+        l'arrêté, soit depuis la date de la levée qui y a mis fin quand
+        `date_fin` est restée `null` sur l'événement stocké.
+      properties:
+        reference_arrete:
+          type: string
+          nullable: true
+          example: "AP-2026-0501"
+        date_debut:
+          type: string
+          format: date-time
+        date_fin:
+          type: string
+          format: date-time
 
     DepartementsStateResponse:
       type: object

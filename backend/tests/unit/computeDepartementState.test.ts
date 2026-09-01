@@ -196,6 +196,119 @@ describe('computeDepartementState', () => {
     expect(computeDepartementState(store, '13', '2026-05-01').etat).toBe('rouge');
   });
 
+  describe('dernier_arrete_connu (idée n°2 du backlog produit — dates du dernier arrêté quand aucun n’est en cours)', () => {
+    it('retourne null pour un département vert sans aucun arrêté (dossier propre)', () => {
+      const store = makeStore([], ['13']);
+      const result = computeDepartementState(store, '13', '2026-08-10');
+      expect(result.etat).toBe('vert');
+      expect(result.dernier_arrete_connu).toBeNull();
+    });
+
+    it('retourne null pour un département rouge (arrêté en cours, pas de "dernier connu" à afficher)', () => {
+      const events = [
+        makeEvent({
+          id: 'evt-77',
+          departement_code: '77',
+          type_evenement: 'interdiction',
+          date_debut: '2026-06-01T00:00:00Z',
+          reference_arrete: 'AP-2026-0842',
+        }),
+      ];
+      const store = makeStore(events, ['77']);
+      const result = computeDepartementState(store, '77', '2026-08-10');
+      expect(result.etat).toBe('rouge');
+      expect(result.dernier_arrete_connu).toBeNull();
+    });
+
+    it('résout le dernier arrêté terminé via sa propre date_fin', () => {
+      const events = [
+        makeEvent({
+          id: 'evt-59-termine',
+          departement_code: '59',
+          type_evenement: 'interdiction',
+          date_debut: '2026-01-01T00:00:00Z',
+          date_fin: '2026-01-10T00:00:00Z',
+          reference_arrete: 'AP-2026-0101',
+        }),
+      ];
+      const store = makeStore(events, ['59']);
+      const result = computeDepartementState(store, '59', '2026-08-10');
+      expect(result.etat).toBe('vert');
+      expect(result.dernier_arrete_connu).toEqual({
+        reference_arrete: 'AP-2026-0101',
+        date_debut: '2026-01-01T00:00:00Z',
+        date_fin: '2026-01-10T00:00:00Z',
+      });
+    });
+
+    it('résout le dernier arrêté terminé via une levée, en affichant la date de la levée comme date_fin (date_fin brute restant null)', () => {
+      const events = [
+        makeEvent({
+          id: 'evt-13-interdiction',
+          departement_code: '13',
+          type_evenement: 'interdiction',
+          date_debut: '2026-05-01T00:00:00Z',
+          reference_arrete: 'AP-2026-0501',
+        }),
+        makeEvent({
+          id: 'evt-13-levee',
+          departement_code: '13',
+          type_evenement: 'levee',
+          date_debut: '2026-05-16T00:00:00Z',
+        }),
+      ];
+      const store = makeStore(events, ['13']);
+      const result = computeDepartementState(store, '13', '2026-08-10');
+      expect(result.etat).toBe('vert');
+      expect(result.dernier_arrete_connu).toEqual({
+        reference_arrete: 'AP-2026-0501',
+        date_debut: '2026-05-01T00:00:00Z',
+        date_fin: '2026-05-16T00:00:00Z',
+      });
+    });
+
+    it('retient le plus récemment débuté quand plusieurs arrêtés sont déjà terminés', () => {
+      const events = [
+        makeEvent({
+          id: 'evt-ancien',
+          departement_code: '21',
+          type_evenement: 'interdiction',
+          date_debut: '2026-01-01T00:00:00Z',
+          date_fin: '2026-01-10T00:00:00Z',
+          reference_arrete: 'AP-2026-ANCIEN',
+        }),
+        makeEvent({
+          id: 'evt-recent',
+          departement_code: '21',
+          type_evenement: 'interdiction',
+          date_debut: '2026-03-01T00:00:00Z',
+          date_fin: '2026-03-10T00:00:00Z',
+          reference_arrete: 'AP-2026-RECENT',
+        }),
+      ];
+      const store = makeStore(events, ['21']);
+      const result = computeDepartementState(store, '21', '2026-08-10');
+      expect(result.etat).toBe('vert');
+      expect(result.dernier_arrete_connu?.reference_arrete).toBe('AP-2026-RECENT');
+    });
+
+    it('ignore un arrêté toujours actif (sans date_fin ni levée) — reste rouge, pas de dernier_arrete_connu', () => {
+      const events = [
+        makeEvent({
+          id: 'evt-actif',
+          departement_code: '77',
+          type_evenement: 'interdiction',
+          date_debut: '2026-06-01T00:00:00Z',
+          reference_arrete: 'AP-2026-ACTIF',
+        }),
+      ];
+      const store = makeStore(events, ['77']);
+      const result = computeDepartementState(store, '77', '2026-08-10');
+      expect(result.etat).toBe('rouge');
+      expect(result.dernier_arrete_connu).toBeNull();
+    });
+  });
+
   it('un département jamais couvert par aucun connecteur reste gris à toute date, jamais vert par défaut (FR-016)', () => {
     // La temporalité fine de couverture d'un connecteur (ex. désactivé après
     // une période active) est explicitement laissée à l'implémentation par

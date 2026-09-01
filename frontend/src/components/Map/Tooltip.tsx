@@ -28,13 +28,15 @@ function formatDateTime(iso: string): string {
 /**
  * Infobulle de détail au survol (US3, FR-005/FR-006) :
  * - rouge : référence de l'arrêté + dates exactes ("Depuis le [...]" si pas de fin).
- * - vert : mention explicite d'absence d'interdiction en vigueur.
+ * - vert : mention explicite d'absence d'interdiction en vigueur, complétée
+ *   par les dates du dernier arrêté connu s'il en existe un (idée n°2 du
+ *   backlog produit, 2026-09-01).
  * - gris : mention explicite "non couvert" (jamais confondue avec le vert).
  * Départements vert/rouge : date de dernière collecte de la source
  * (feature 004, FR-003) — jamais affichée pour gris (FR-002 : toujours null).
  */
 export default function Tooltip({ departement, x, y }: TooltipData) {
-  const { etat, nom, code, evenement_applicable, derniere_collecte } = departement;
+  const { etat, nom, code, evenement_applicable, derniere_collecte, dernier_arrete_connu } = departement;
 
   let content: ReactNode;
   if (etat === 'rouge' && evenement_applicable) {
@@ -52,7 +54,18 @@ export default function Tooltip({ departement, x, y }: TooltipData) {
       </>
     );
   } else if (etat === 'vert') {
-    content = <>Aucune interdiction en vigueur à cette date.</>;
+    content = (
+      <>
+        Aucune interdiction en vigueur à cette date.
+        {dernier_arrete_connu && (
+          <div data-testid="map-tooltip-dernier-arrete" style={{ marginTop: '0.35rem' }}>
+            Dernier arrêté connu : du {formatDate(dernier_arrete_connu.date_debut)} au{' '}
+            {formatDate(dernier_arrete_connu.date_fin)}
+            {dernier_arrete_connu.reference_arrete && <> ({dernier_arrete_connu.reference_arrete})</>}
+          </div>
+        )}
+      </>
+    );
   } else {
     content = <em>Non couvert — aucune donnée disponible pour ce département.</em>;
   }

@@ -19,6 +19,13 @@ export interface Evenement {
   methode_collecte: 'automatique' | 'manuelle_verifiee';
 }
 
+/** Dernier arrêté déjà terminé pour un département vert (idée n°2 du backlog produit). */
+export interface DernierArreteConnu {
+  reference_arrete: string | null;
+  date_debut: string;
+  date_fin: string;
+}
+
 export interface DepartementState {
   code: string;
   nom: string;
@@ -27,6 +34,8 @@ export interface DepartementState {
   connecteur_id: string | null;
   /** Date de dernière collecte réussie de la source pour ce département (feature 004). Null si `etat` est 'gris'. */
   derniere_collecte: string | null;
+  /** Dernier arrêté connu déjà terminé. Non-null uniquement si `etat` est 'vert' et qu'un arrêté antérieur existe. */
+  dernier_arrete_connu: DernierArreteConnu | null;
 }
 
 export interface DepartementsStateResponse {

@@ -73,6 +73,33 @@ describe('GET /api/v1/departements', () => {
     expect(nonNullCount).toBeGreaterThan(0);
   });
 
+  it("n'inclut dernier_arrete_connu que pour les départements verts", async () => {
+    const res = await request(app.server).get('/api/v1/departements?date=2026-08-11');
+    for (const d of res.body.departements) {
+      if (d.etat === 'vert') {
+        expect(d.dernier_arrete_connu === null || typeof d.dernier_arrete_connu === 'object').toBe(true);
+      } else {
+        expect(d.dernier_arrete_connu).toBeNull();
+      }
+    }
+  });
+
+  it('dernier_arrete_connu (idée n°2 du backlog produit) : département 13, interdiction levée le 16/05/2026, redevenu vert', async () => {
+    // events/13.json (données réelles) : interdiction du 2026-05-01 sans
+    // date_fin propre, levée le 2026-05-16 — exactement le cas "date_fin
+    // brute null, fin affichée = date de la levée" verrouillé par
+    // tests/unit/computeDepartementState.test.ts. Au 2026-08-11 (date figée
+    // de ce fichier), le département 13 est vert (déjà vérifié plus haut).
+    const res = await request(app.server).get('/api/v1/departements?date=2026-08-11');
+    const dept13 = res.body.departements.find((d: { code: string }) => d.code === '13');
+    expect(dept13.etat).toBe('vert');
+    expect(dept13.dernier_arrete_connu).toMatchObject({
+      reference_arrete: 'AP-2026-0501',
+      date_debut: '2026-05-01T00:00:00Z',
+      date_fin: '2026-05-16T00:00:00Z',
+    });
+  });
+
   it('retourne 400 si le paramètre date est manquant', async () => {
     const res = await request(app.server).get('/api/v1/departements');
     expect(res.status).toBe(400);

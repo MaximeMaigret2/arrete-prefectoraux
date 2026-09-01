@@ -49,7 +49,7 @@ export default function Map({ departementsState }: MapProps) {
               const nom: string = geo.properties.nom ?? code;
               const state =
                 departementsState.get(code) ??
-                ({ code, nom, etat: 'gris', evenement_applicable: null, connecteur_id: null, derniere_collecte: null } as DepartementState);
+                ({ code, nom, etat: 'gris', evenement_applicable: null, connecteur_id: null, derniere_collecte: null, dernier_arrete_connu: null } as DepartementState);
               const centroid = geoCentroid(geo);
 
               return (
@@ -104,6 +104,7 @@ export default function Map({ departementsState }: MapProps) {
               evenement_applicable: null,
               connecteur_id: null,
               derniere_collecte: null,
+              dernier_arrete_connu: null,
             } as DepartementState);
           return <Tooltip departement={departement} x={hovered.x} y={hovered.y} />;
         })()}
