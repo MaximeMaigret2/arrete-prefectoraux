@@ -304,7 +304,17 @@ async function main(): Promise<void> {
 
 // N'execute le CLI que si ce fichier est lance directement - jamais lors
 // d'un import par les tests (T014) ou par un autre module.
-if (import.meta.url === `file://${process.argv[1]}`) {
+//
+// CORRECTIF (2026-09-02) : `import.meta.url === \`file://${process.argv[1]}\``
+// echoue TOUJOURS sous Windows (chemin `C:\\Users\\...` avec antislashs dans
+// `process.argv[1]` contre une URL `file:///C:/Users/...` avec slashs), donc
+// `main()` n'etait jamais appelee - le script se terminait immediatement,
+// sans la moindre ligne affichee, meme la toute premiere. Compare desormais
+// deux chemins natifs de l'OS (`fileURLToPath` convertit l'URL en chemin
+// natif, deja importe en tete de fichier), fonctionne identiquement sur
+// Linux/macOS/Windows - decouvert quand l'utilisateur a rapporte un run
+// completement silencieux sous MINGW64/Git Bash.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch((err) => {
     console.error(err);
     process.exitCode = 1;
