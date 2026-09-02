@@ -95,6 +95,16 @@ export interface DependancesBackfill {
   ) => Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null }>;
   attendre: (ms: number) => Promise<void>;
   maintenant: () => Date;
+  /**
+   * Journalisation de progression optionnelle (une ligne par etape notable :
+   * debut de groupe, debut de connecteur, resultat de chaque mois tente,
+   * ouverture du circuit-breaker). Absente par defaut (aucun bruit dans la
+   * suite de tests automatisee, T014) - `main()` fournit `console.log` en
+   * CLI reel. Deliberement une simple fonction `(message) => void` plutot
+   * qu'un logger structure : ce script n'a qu'un seul consommateur (un
+   * operateur qui suit un run long dans son terminal), pas besoin de plus.
+   */
+  log?: (message: string) => void;
 }
 
 export interface OptionsBackfill {
@@ -134,6 +144,7 @@ export async function executerBackfill(
   const espacementMinimumMs = options.espacementMinimumMs ?? ESPACEMENT_MINIMUM_MS_DEFAUT;
   const seuilCircuitBreaker = options.seuilCircuitBreaker ?? SEUIL_CIRCUIT_BREAKER_DEFAUT;
   const cheminCheckpoint = options.cheminCheckpoint ?? CHEMIN_CHECKPOINT_DEFAUT;
+  const log = deps.log ?? (() => {});
 
   const maintenant = deps.maintenant();
   const checkpoint = await lireCheckpoint(cheminCheckpoint);
@@ -169,6 +180,7 @@ export async function executerBackfill(
       moisPageIntrouvable: 0,
     };
     rapport.groupes.push(rapportGroupe);
+    log(`[${groupe}] groupe : ${connecteurIds.length} connecteur(s) au perimetre`);
 
     let echecsReseauConsecutifs = 0;
 
@@ -180,10 +192,12 @@ export async function executerBackfill(
       if (!connecteur) continue; // connecteur desactive/supprime depuis l'audit - ignore, jamais un blocage (FR-009 dans le meme esprit)
 
       rapportGroupe.connecteursTraites.push(connecteurId);
+      log(`[${groupe}] ${connecteurId} : debut (${etat.moisRestants.length} mois restant(s) a tenter)`);
 
       // Copie stable : `etat.moisRestants` est mute pendant l'iteration (retrait a chaque succes).
       for (const cible of [...etat.moisRestants]) {
         await deps.attendre(espacementMinimumMs);
+        const libelleMois = `${cible.annee}-${cible.moisNumero}`;
 
         const { execution, causeReseauSiEchec } = await deps.executerConnecteurPourBackfill(connecteur, cible);
 
@@ -192,6 +206,9 @@ export async function executerBackfill(
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
           echecsReseauConsecutifs = 0;
           rapportGroupe.moisReussis += 1;
+          log(
+            `[${groupe}] ${connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))`,
+          );
           continue;
         }
 
@@ -203,6 +220,7 @@ export async function executerBackfill(
           etat.moisRestants = [];
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
           rapportGroupe.moisPageIntrouvable += 1;
+          log(`[${groupe}] ${connecteurId} ${libelleMois} : page introuvable - archives epuisees pour ce connecteur, arret`);
           break; // mois plus anciens non tentes pour ce connecteur.
         }
 
@@ -213,11 +231,21 @@ export async function executerBackfill(
         // ulterieure (FR-015).
         echecsReseauConsecutifs += 1;
         rapportGroupe.moisEchecReseau += 1;
+        log(
+          `[${groupe}] ${connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${echecsReseauConsecutifs}/${seuilCircuitBreaker} consecutif(s) pour cette file`,
+        );
         if (echecsReseauConsecutifs >= seuilCircuitBreaker) {
           rapportGroupe.circuitOuvert = true;
+          log(`[${groupe}] circuit-breaker ouvert apres ${echecsReseauConsecutifs} echecs reseau consecutifs - arret de cette file`);
           break connecteurBoucle;
         }
       }
+    }
+
+    if (!rapportGroupe.circuitOuvert) {
+      log(
+        `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s)`,
+      );
     }
   }
 
@@ -267,6 +295,7 @@ async function main(): Promise<void> {
       executerConnecteurPourBackfill,
       attendre: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
       maintenant: () => new Date(),
+      log: (message) => console.log(`[${new Date().toISOString()}] ${message}`),
     },
   );
 
