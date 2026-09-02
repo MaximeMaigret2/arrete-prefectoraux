@@ -1085,4 +1085,38 @@ describe('moteur page_web — mois cible arbitraire (feature 005, US1)', () => {
     expect(resultat.echec_global).toBeDefined();
     expect(resultat.echec_global?.causeReseau).toBe(false);
   });
+
+  it('un HTTP 503 (indisponibilité serveur transitoire) sur la navigation est classé causeReseau: true, jamais "archives épuisées" (correctif 2026-09-02, campagne réelle backfill)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) {
+          // Racine accessible, mais la page de la carte d'année cible répond 503 (hébergement surchargé) —
+          // avant correctif, n'importe quel statut non-2xx (dont 503) était classé comme "page introuvable".
+          return { ok: false, status: 503, text: async () => '' } as unknown as Response;
+        }
+        return { ok: true, status: 200, text: async () => pageAnnee('2026', `${URL_RACINE}/annee-2026`, 'Année') } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CIBLE);
+    const resultat = await connecteur.collecter({ annee: '2026', moisNumero: '01' });
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.echec_global).toBeDefined();
+    expect(resultat.echec_global?.causeReseau).toBe(true);
+  });
+
+  it('un HTTP 503 sur la page liste elle-même (sans navigation) est classé causeReseau: true, jamais "archives épuisées" (correctif 2026-09-02)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: false, status: 503, text: async () => '' }) as unknown as Response),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, selecteur_lien_pdf: null, navigation: [] });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeDefined();
+    expect(resultat.echec_global?.causeReseau).toBe(true);
+  });
 });

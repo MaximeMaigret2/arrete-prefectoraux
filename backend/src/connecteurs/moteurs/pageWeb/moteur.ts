@@ -25,6 +25,31 @@ type EnTetesSession = Record<string, string> | undefined;
 export class PageIntrouvableError extends Error {}
 
 /**
+ * CORRECTIF (2026-09-02, campagne réelle de backfill feature 005) : une
+ * réponse HTTP non-2xx n'est une "page introuvable" (limite naturelle des
+ * archives, `PageIntrouvableError`) que pour un statut 404 — le seul qui
+ * signifie sans ambiguïté "cette page n'existe pas". Un statut 5xx (erreur
+ * serveur, ex. 503 "Service Unavailable" observé en masse contre l'IP
+ * mutualisée des sites préfecture lors du premier run réel de
+ * `backfill-historique.ts`) ou 429 (rate limiting explicite) signale une
+ * indisponibilité TRANSITOIRE du serveur, pas une absence de contenu — avant
+ * ce correctif, ces statuts étaient classés à tort comme `causeReseau:
+ * false` (page introuvable), ce qui marquait `archivesEpuisees: true` de
+ * façon PERMANENTE dans le checkpoint du backfill dès le premier 503
+ * rencontré, sans jamais retenter. Découvert quand 84/91 connecteurs se
+ * sont arrêtés après un unique échec HTTP 503 sur leur tout premier mois
+ * cible (M-1) — signature typique de l'hébergement mutualisé sous charge
+ * (déjà documentée dans `claude/etat-connecteurs.md`, jamais un vrai
+ * "page n'existe pas"). Un statut 4xx autre que 404 (ex. 403 Cloudflare)
+ * reste classé "page introuvable" par prudence — ambigu, mais un blocage
+ * applicatif explicite ressemble structurellement plus à une source qui a
+ * changé qu'à une simple surcharge transitoire.
+ */
+function estPageIntrouvable(statut: number): boolean {
+  return statut === 404;
+}
+
+/**
  * Moteur `page_web` (contracts/connecteur-interface.md §2). Générique :
  * aucune branche conditionnelle propre à un connecteur donné (contrat §5,
  * règle 7) — toute variation passe par `PageWebConfig`.
@@ -122,7 +147,9 @@ async function resoudreNavigation(
   for (const etape of etapes) {
     const reponse = await fetchAvecEnTetes(urlCourante, { enTetesSupplementaires: enTetesSession });
     if (!reponse.ok) {
-      throw new PageIntrouvableError(`Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`);
+      const message = `Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`;
+      if (estPageIntrouvable(reponse.status)) throw new PageIntrouvableError(message);
+      throw new Error(message);
     }
     const html = await reponse.text();
     const $ = cheerio.load(html);
@@ -286,7 +313,8 @@ async function resoudreEtRecupererPageListe(
     try {
       const reponseAmorcage = await fetchAvecEnTetes(config.session_cookie.url_amorcage);
       if (!reponseAmorcage.ok) {
-        throw new PageIntrouvableError(`HTTP ${reponseAmorcage.status}`);
+        if (estPageIntrouvable(reponseAmorcage.status)) throw new PageIntrouvableError(`HTTP ${reponseAmorcage.status}`);
+        throw new Error(`HTTP ${reponseAmorcage.status}`);
       }
       const enTeteCookie = construireEnTeteCookie(reponseAmorcage);
       enTetesSession = enTeteCookie ? { Cookie: enTeteCookie } : undefined;
@@ -343,7 +371,8 @@ async function resoudreEtRecupererPageListe(
   try {
     const reponse = await fetchAvecEnTetes(urlListeEffective, { enTetesSupplementaires: enTetesSession });
     if (!reponse.ok) {
-      throw new PageIntrouvableError(`HTTP ${reponse.status}`);
+      if (estPageIntrouvable(reponse.status)) throw new PageIntrouvableError(`HTTP ${reponse.status}`);
+      throw new Error(`HTTP ${reponse.status}`);
     }
     const html = await reponse.text();
     return { ok: true, html, urlListeEffective, enTetesSession };

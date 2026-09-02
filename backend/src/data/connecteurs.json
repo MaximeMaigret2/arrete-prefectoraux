@@ -36,7 +36,7 @@
       "01"
     ],
     "actif": true,
-    "derniere_collecte": "2026-08-14T07:38:28.000Z",
+    "derniere_collecte": "2026-09-02T07:20:03.764Z",
     "type_connecteur": "page_web"
   },
   {
@@ -246,7 +246,7 @@
       "22"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-02T07:31:24.594Z",
     "type_connecteur": "page_web"
   },
   {
@@ -356,7 +356,7 @@
       "34"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-02T10:34:42.340Z",
     "type_connecteur": "page_web"
   },
   {
@@ -376,7 +376,7 @@
       "36"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-02T10:40:39.110Z",
     "type_connecteur": "page_web"
   },
   {
@@ -526,7 +526,7 @@
       "51"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-02T10:43:53.860Z",
     "type_connecteur": "page_web"
   },
   {
@@ -766,7 +766,7 @@
       "75"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-02T11:27:54.340Z",
     "type_connecteur": "page_web"
   },
   {
@@ -916,7 +916,7 @@
       "91"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-02T10:54:58.513Z",
     "type_connecteur": "page_web"
   },
   {

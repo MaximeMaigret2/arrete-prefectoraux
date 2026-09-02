@@ -1,0 +1,15 @@
+[
+  {
+    "id": "8060e1ed-3273-4e72-a3b5-e99ad7feee3e",
+    "departement_code": "75",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-07-13T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "2026",
+    "autorite_signataire": "Le préfet de police de Paris",
+    "source_url": "https://www.prefectures-regions.gouv.fr/ile-de-france/irecontenu/telechargement/140109/1020416/file/recueil-75-2026-471-recueil-des-actes-administratifs-special%20du%2007.08.2026.pdf",
+    "date_saisie": "2026-09-02T07:22:42.894Z",
+    "connecteur_id": "prefecture-75",
+    "methode_collecte": "automatique"
+  }
+]
