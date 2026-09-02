@@ -1,10 +1,13 @@
 import { z } from 'zod';
 
 /**
- * Origine d'une exécution de collecte : cycle quotidien planifié (FR-013)
- * ou déclenchement manuel par l'opérateur (FR-014).
+ * Origine d'une exécution de collecte : cycle quotidien planifié (FR-013),
+ * déclenchement manuel par l'opérateur (FR-014), ou collecte historique
+ * ponctuelle (feature 005, US3, FR-018) — jamais déclenchée par le cycle
+ * planifié lui-même (FR-019), toujours un lancement explicite via
+ * `backend/src/scripts/backfill-historique.ts`.
  */
-export const DeclenchementSchema = z.enum(['planifie', 'manuel']);
+export const DeclenchementSchema = z.enum(['planifie', 'manuel', 'backfill']);
 export type Declenchement = z.infer<typeof DeclenchementSchema>;
 
 /**

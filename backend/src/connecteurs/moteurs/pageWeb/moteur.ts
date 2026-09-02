@@ -2,13 +2,27 @@ import * as cheerio from 'cheerio';
 import type { Connecteur as ConnecteurEntree } from '../../../models/index.js';
 import type { CandidatEvenement, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
 import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '../../extraction/champsCommuns.js';
-import { parisAnneeMoisCourant } from '../../../services/parisDate.js';
+import { parisAnneeMoisCourant, type AnneeMois } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { PageWebConfigSchema, type PageWebConfig } from './config.schema.js';
 import { fetchAvecEnTetes, construireEnTeteCookie } from '../../httpClient.js';
 
 /** En-têtes HTTP supplémentaires (typiquement `Cookie`) valables pour une collecte donnée — cf. `config.session_cookie`. */
 type EnTetesSession = Record<string, string> | undefined;
+
+/**
+ * Distingue (feature 005, US1, FR-004) une réponse HTTP propre mais
+ * négative (page introuvable — typiquement des archives distantes qui ne
+ * remontent pas aussi loin que le mois cible demandé, ou une étape de
+ * `navigation` sans lien correspondant) d'un échec réseau bas niveau
+ * (`fetchAvecEnTetes` qui rejette après épuisement de ses tentatives —
+ * coupure, DNS, timeout, socket fermé). Seul le second cas doit compter
+ * comme un "échec réseau" pour un consommateur comme le circuit-breaker de
+ * la collecte historique (`backfill-historique.ts`, US3) — le premier est
+ * une anomalie de lecture ordinaire, et pour une collecte historique qui
+ * remonte le temps, la limite naturelle et attendue des archives d'un site.
+ */
+export class PageIntrouvableError extends Error {}
 
 /**
  * Moteur `page_web` (contracts/connecteur-interface.md §2). Générique :
@@ -43,8 +57,8 @@ function resoudreUrl(lien: string, base: string): string {
  * avant compilation en regex par `resoudreNavigation` — jamais une
  * année/un mois codé en dur dans une configuration (contrat §5, règle 8).
  */
-function substituerPlaceholdersDate(pattern: string, maintenant: Date): string {
-  const { annee, moisNumero } = parisAnneeMoisCourant(maintenant);
+function substituerPlaceholdersDate(pattern: string, cible: AnneeMois): string {
+  const { annee, moisNumero } = cible;
   const moisFr = NOMS_MOIS_FR[Number(moisNumero) - 1];
   return pattern
     .replaceAll('{annee}', annee)
@@ -69,14 +83,13 @@ function moisDansPlage(mois: number, debut: number, fin: number): boolean {
  * comme un lien introuvable (contrat §5, règle 6 : échec isolé à ce
  * connecteur, jamais aux autres).
  */
-function resoudreMotifEtape(etape: PageWebConfig['navigation'][number], maintenant: Date): string {
+function resoudreMotifEtape(etape: PageWebConfig['navigation'][number], cible: AnneeMois): string {
   if (etape.pattern_lien !== undefined) return etape.pattern_lien;
-  const { moisNumero } = parisAnneeMoisCourant(maintenant);
-  const moisCourant = Number(moisNumero);
-  const periode = etape.periodes!.find((p) => moisDansPlage(moisCourant, p.mois_debut, p.mois_fin));
+  const moisCible = Number(cible.moisNumero);
+  const periode = etape.periodes!.find((p) => moisDansPlage(moisCible, p.mois_debut, p.mois_fin));
   if (!periode) {
-    throw new Error(
-      `Navigation : aucune période ne couvre le mois courant (${moisNumero}) parmi les ${etape.periodes!.length} période(s) déclarée(s).`,
+    throw new PageIntrouvableError(
+      `Navigation : aucune période ne couvre le mois cible (${cible.moisNumero}) parmi les ${etape.periodes!.length} période(s) déclarée(s).`,
     );
   }
   return periode.motif;
@@ -102,18 +115,18 @@ function resoudreMotifEtape(etape: PageWebConfig['navigation'][number], maintena
 async function resoudreNavigation(
   urlDepart: string,
   etapes: PageWebConfig['navigation'],
-  maintenant: Date,
+  cible: AnneeMois,
   enTetesSession: EnTetesSession,
 ): Promise<string> {
   let urlCourante = urlDepart;
   for (const etape of etapes) {
     const reponse = await fetchAvecEnTetes(urlCourante, { enTetesSupplementaires: enTetesSession });
     if (!reponse.ok) {
-      throw new Error(`Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`);
+      throw new PageIntrouvableError(`Navigation : page "${urlCourante}" inaccessible (HTTP ${reponse.status}).`);
     }
     const html = await reponse.text();
     const $ = cheerio.load(html);
-    const motif = substituerPlaceholdersDate(resoudreMotifEtape(etape, maintenant), maintenant);
+    const motif = substituerPlaceholdersDate(resoudreMotifEtape(etape, cible), cible);
     const regex = new RegExp(motif, 'i');
 
     let urlSuivante: string | null = null;
@@ -133,7 +146,7 @@ async function resoudreNavigation(
     }
     if (urlSuivante === null) {
       if (etape.optionnelle) continue;
-      throw new Error(
+      throw new PageIntrouvableError(
         `Navigation : aucun lien via "${etape.selecteur_liens}" ne correspond au motif "${motif}" sur "${urlCourante}".`,
       );
     }
@@ -235,6 +248,142 @@ function construireCandidat(
 }
 
 /**
+ * Résultat de {@link resoudreEtRecupererPageListe} : soit la page liste
+ * effective récupérée avec succès (prête pour l'étape d'extraction), soit
+ * un `echec_global` déjà classifié (feature 005, FR-004 — `causeReseau`
+ * distingue une page introuvable d'un échec réseau bas niveau).
+ */
+type ResolutionPageListe =
+  | { ok: true; html: string; urlListeEffective: string; enTetesSession: EnTetesSession }
+  | { ok: false; echecGlobal: { message: string; source: SourceBrute; causeReseau: boolean } };
+
+/**
+ * Amorçage de session éventuel + résolution de `navigation` + récupération
+ * de la page liste pour un mois cible donné — extrait de `collecter()`
+ * (feature 005, US1/US2) pour être réutilisé tel quel par
+ * {@link compterPublicationsPourMois} (US2, audit de volume), qui a besoin
+ * exactement de cette même page liste mais SANS jamais suivre `page_detail`
+ * ni télécharger le moindre PDF (coût minimal de l'estimation, spec.md US2
+ * Independent Test). Aucune règle métier dupliquée : la seule autre
+ * consommatrice, `collecter()` elle-même, appelle cette même fonction.
+ */
+async function resoudreEtRecupererPageListe(
+  config: PageWebConfig,
+  cible: AnneeMois,
+  dateCollecte: string,
+): Promise<ResolutionPageListe> {
+  // Étape -1 (V0xx, 2026-08-27, prefecture-57) : amorçage de session si
+  // configuré (`config.session_cookie`) — requête préalable dont seul le
+  // cookie de session retourné importe, réutilisé (en-tête `Cookie`) sur
+  // toutes les requêtes HTTP restantes de CETTE collecte. Absent
+  // (`undefined`) pour tout connecteur sans `session_cookie` — inchangé,
+  // stateless, comme tous les connecteurs existants. Un échec réseau de
+  // l'amorçage est traité comme un `echec_global` au même titre qu'un
+  // échec de résolution de `navigation` (dérive/indisponibilité de la
+  // source, pas une ambiguïté d'extraction).
+  let enTetesSession: EnTetesSession;
+  if (config.session_cookie) {
+    try {
+      const reponseAmorcage = await fetchAvecEnTetes(config.session_cookie.url_amorcage);
+      if (!reponseAmorcage.ok) {
+        throw new PageIntrouvableError(`HTTP ${reponseAmorcage.status}`);
+      }
+      const enTeteCookie = construireEnTeteCookie(reponseAmorcage);
+      enTetesSession = enTeteCookie ? { Cookie: enTeteCookie } : undefined;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      const sourceAmorcage: SourceBrute = {
+        type: 'page_web',
+        url: config.session_cookie.url_amorcage,
+        contenu_brut_reference: config.session_cookie.url_amorcage,
+        date_collecte: dateCollecte,
+      };
+      return {
+        ok: false,
+        echecGlobal: {
+          message: `Amorçage de session "${config.session_cookie.url_amorcage}" échoué : ${message}`,
+          source: sourceAmorcage,
+          causeReseau: !(err instanceof PageIntrouvableError),
+        },
+      };
+    }
+  }
+
+  // Étape 0 (V001c, Phase 5bis) : résoudre l'URL de la page liste
+  // effective via `navigation`, si configurée — inchangée (url_liste
+  // telle quelle) pour un connecteur sans navigation (ex. prefecture-13).
+  let urlListeEffective: string;
+  try {
+    urlListeEffective =
+      config.navigation.length > 0
+        ? await resoudreNavigation(config.url_liste, config.navigation, cible, enTetesSession)
+        : config.url_liste;
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    const sourceNavigation: SourceBrute = {
+      type: 'page_web',
+      url: config.url_liste,
+      contenu_brut_reference: config.url_liste,
+      date_collecte: dateCollecte,
+    };
+    return {
+      ok: false,
+      echecGlobal: { message, source: sourceNavigation, causeReseau: !(err instanceof PageIntrouvableError) },
+    };
+  }
+
+  const sourceListe: SourceBrute = {
+    type: 'page_web',
+    url: urlListeEffective,
+    contenu_brut_reference: urlListeEffective,
+    date_collecte: dateCollecte,
+  };
+
+  // Étape 1 (contrat §2) : récupérer la page liste.
+  try {
+    const reponse = await fetchAvecEnTetes(urlListeEffective, { enTetesSupplementaires: enTetesSession });
+    if (!reponse.ok) {
+      throw new PageIntrouvableError(`HTTP ${reponse.status}`);
+    }
+    const html = await reponse.text();
+    return { ok: true, html, urlListeEffective, enTetesSession };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return {
+      ok: false,
+      echecGlobal: {
+        message: `Page liste "${urlListeEffective}" inaccessible : ${message}`,
+        source: sourceListe,
+        causeReseau: !(err instanceof PageIntrouvableError),
+      },
+    };
+  }
+}
+
+/**
+ * Compte les publications présentes sur la page liste résolue pour un mois
+ * cible donné, SANS suivre `page_detail` ni télécharger le moindre PDF —
+ * coût minimal (une résolution de `navigation` + une page liste, réutilisant
+ * exactement {@link resoudreEtRecupererPageListe}), utilisé par
+ * `volumetrie.ts` (feature 005, US2) pour estimer le volume d'un connecteur
+ * `page_detail` sans jamais faire porter à l'estimation elle-même le coût
+ * d'une collecte complète (spec.md US2, Independent Test).
+ */
+export async function compterPublicationsPourMois(
+  configBrute: unknown,
+  cible: AnneeMois,
+): Promise<{ ok: true; nombrePublications: number } | { ok: false; message: string; causeReseau: boolean }> {
+  const config = PageWebConfigSchema.parse(configBrute);
+  const dateCollecte = new Date().toISOString();
+  const resolu = await resoudreEtRecupererPageListe(config, cible, dateCollecte);
+  if (!resolu.ok) {
+    return { ok: false, message: resolu.echecGlobal.message, causeReseau: resolu.echecGlobal.causeReseau };
+  }
+  const $ = cheerio.load(resolu.html);
+  return { ok: true, nombrePublications: $(config.selecteur_publications).length };
+}
+
+/**
  * Construit l'interface commune `Connecteur` (contrat §1) pour un
  * connecteur `page_web` configuré.
  */
@@ -248,84 +397,25 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
   return {
     id: entree.id,
     departements: [departementCode],
-    async collecter(): Promise<ResultatCollecte> {
+    async collecter(cibleParam?: AnneeMois): Promise<ResultatCollecte> {
       const dateCollecte = new Date().toISOString();
+      // feature 005 (US1, FR-001/FR-002) : mois cible explicite si fourni
+      // (collecte historique, `backfill-historique.ts`), sinon le mois
+      // courant Europe/Paris — rigoureusement le même calcul qu'avant cette
+      // feature (non-régression du cycle planifié/manuel existant).
+      const cible: AnneeMois = cibleParam ?? parisAnneeMoisCourant(new Date(dateCollecte));
 
-      // Étape -1 (V0xx, 2026-08-27, prefecture-57) : amorçage de session si
-      // configuré (`config.session_cookie`) — requête préalable dont seul le
-      // cookie de session retourné importe, réutilisé (en-tête `Cookie`) sur
-      // toutes les requêtes HTTP restantes de CETTE collecte. Absent
-      // (`undefined`) pour tout connecteur sans `session_cookie` — inchangé,
-      // stateless, comme tous les connecteurs existants. Un échec réseau de
-      // l'amorçage est traité comme un `echec_global` au même titre qu'un
-      // échec de résolution de `navigation` (dérive/indisponibilité de la
-      // source, pas une ambiguïté d'extraction).
-      let enTetesSession: EnTetesSession;
-      if (config.session_cookie) {
-        try {
-          const reponseAmorcage = await fetchAvecEnTetes(config.session_cookie.url_amorcage);
-          if (!reponseAmorcage.ok) {
-            throw new Error(`HTTP ${reponseAmorcage.status}`);
-          }
-          const enTeteCookie = construireEnTeteCookie(reponseAmorcage);
-          enTetesSession = enTeteCookie ? { Cookie: enTeteCookie } : undefined;
-        } catch (err) {
-          const message = err instanceof Error ? err.message : String(err);
-          const sourceAmorcage: SourceBrute = {
-            type: 'page_web',
-            url: config.session_cookie.url_amorcage,
-            contenu_brut_reference: config.session_cookie.url_amorcage,
-            date_collecte: dateCollecte,
-          };
-          return {
-            candidats: [],
-            echec_global: { message: `Amorçage de session "${config.session_cookie.url_amorcage}" échoué : ${message}`, source: sourceAmorcage },
-          };
-        }
+      const resolu = await resoudreEtRecupererPageListe(config, cible, dateCollecte);
+      if (!resolu.ok) {
+        return { candidats: [], echec_global: resolu.echecGlobal };
       }
-
-      // Étape 0 (V001c, Phase 5bis) : résoudre l'URL de la page liste
-      // effective via `navigation`, si configurée — inchangée (url_liste
-      // telle quelle) pour un connecteur sans navigation (ex. prefecture-13).
-      let urlListeEffective: string;
-      try {
-        urlListeEffective =
-          config.navigation.length > 0
-            ? await resoudreNavigation(config.url_liste, config.navigation, new Date(dateCollecte), enTetesSession)
-            : config.url_liste;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        const sourceNavigation: SourceBrute = {
-          type: 'page_web',
-          url: config.url_liste,
-          contenu_brut_reference: config.url_liste,
-          date_collecte: dateCollecte,
-        };
-        return { candidats: [], echec_global: { message, source: sourceNavigation } };
-      }
-
+      const { html, urlListeEffective, enTetesSession } = resolu;
       const sourceListe: SourceBrute = {
         type: 'page_web',
         url: urlListeEffective,
         contenu_brut_reference: urlListeEffective,
         date_collecte: dateCollecte,
       };
-
-      // Étape 1 (contrat §2) : récupérer la page liste.
-      let html: string;
-      try {
-        const reponse = await fetchAvecEnTetes(urlListeEffective, { enTetesSupplementaires: enTetesSession });
-        if (!reponse.ok) {
-          throw new Error(`HTTP ${reponse.status}`);
-        }
-        html = await reponse.text();
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        return {
-          candidats: [],
-          echec_global: { message: `Page liste "${urlListeEffective}" inaccessible : ${message}`, source: sourceListe },
-        };
-      }
 
       // Étapes 2-5 (contrat §2) : lister, filtrer, extraire.
       const $ = cheerio.load(html);

@@ -1,4 +1,5 @@
 import type { TypeEvenement } from '../models/index.js';
+import type { AnneeMois } from '../services/parisDate.js';
 
 /**
  * Interface commune d'un connecteur (contracts/connecteur-interface.md §1).
@@ -72,7 +73,24 @@ export interface ResultatCollecte {
    * l'espace de résolution), y compris pour une anomalie née d'un échec
    * total de lecture. Précisé lors de l'implémentation du runner (T015).
    */
-  echec_global?: { message: string; source: SourceBrute };
+  echec_global?: {
+    message: string;
+    source: SourceBrute;
+    /**
+     * `true` si cet échec est un échec réseau bas niveau (coupure, DNS,
+     * timeout, fermeture de socket — cf. `fetchAvecEnTetes`), `false` s'il
+     * s'agit d'une réponse HTTP propre mais négative (ex. 404 — page
+     * introuvable, typiquement des archives distantes qui ne remontent pas
+     * aussi loin que le mois cible demandé) ou d'une impossibilité de
+     * résolution de `navigation` sans lien correspondant. Absent (`undefined`)
+     * pour tout échec dont la nature n'a pas été explicitement déterminée —
+     * traité prudemment comme un échec réseau par les consommateurs
+     * (feature 005, FR-004/FR-014 : seul un échec réseau bas niveau compte
+     * dans le seuil du circuit-breaker de la collecte historique ; une page
+     * introuvable est une anomalie de lecture ordinaire, jamais comptée).
+     */
+    causeReseau?: boolean;
+  };
 }
 
 /**
@@ -86,5 +104,14 @@ export interface Connecteur {
   readonly id: string;
   /** DOIT être un sous-ensemble de Connecteur.departements_couverts. */
   readonly departements: string[];
-  collecter(): Promise<ResultatCollecte>;
+  /**
+   * `cible` (feature 005, US1, FR-001/FR-002) : mois calendaire
+   * arbitrairement passé à cibler pour la résolution de `navigation` (moteur
+   * `page_web` uniquement — sans effet pour un connecteur `pdf`/`rss`, ou
+   * `page_web` sans étape de `navigation`, ex. `prefecture-13`, FR-020).
+   * Absent (comportement historique, inchangé) : résolution contre le mois
+   * courant Europe/Paris, rigoureusement identique à l'existant (FR-002,
+   * non-régression du cycle planifié et du déclenchement manuel).
+   */
+  collecter(cible?: AnneeMois): Promise<ResultatCollecte>;
 }

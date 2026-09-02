@@ -36,13 +36,39 @@ interface ResultatCollecte {
   // Renseigné uniquement si la source elle-même est inaccessible/illisible
   // (distinct d'un candidat individuel mal formé) — déclenche echec_lecture_source
   // pour l'ensemble du run de ce connecteur (data-model.md, étape 1).
-  echec_global?: { message: string };
+  echec_global?: {
+    message: string;
+    // feature 005 (US1, FR-004) : `true` si cet échec est un échec réseau bas
+    // niveau (coupure, DNS, timeout, socket fermé), `false` s'il s'agit d'une
+    // réponse HTTP propre mais négative (page introuvable — typiquement des
+    // archives distantes qui ne remontent pas aussi loin que le mois cible
+    // demandé) ou d'une navigation sans lien correspondant. Absent si la
+    // nature n'a pas été déterminée — traité prudemment comme réseau par les
+    // consommateurs (le circuit-breaker de la collecte historique, US3,
+    // n'est jamais déclenché par une page introuvable, seulement par un
+    // échec réseau).
+    causeReseau?: boolean;
+  };
+}
+
+interface AnneeMois {
+  annee: string;     // AAAA
+  moisNumero: string; // MM
 }
 
 interface Connecteur {
   readonly id: string;                    // DOIT correspondre à Connecteur.id dans connecteurs.json
   readonly departements: string[];        // DOIT être un sous-ensemble de Connecteur.departements_couverts
-  collecter(): Promise<ResultatCollecte>;
+  // `cible` (feature 005, US1, FR-001/FR-002) : mois calendaire arbitrairement
+  // passé à cibler pour la résolution de `navigation` du moteur page_web
+  // (sans effet pour pdf/rss, ou pour un connecteur page_web sans étape de
+  // `navigation`, ex. prefecture-13). Absent : comportement historique
+  // inchangé — résolution contre le mois courant Europe/Paris, rigoureusement
+  // identique à l'existant (non-régression du cycle planifié FR-013 et du
+  // déclenchement manuel FR-014). Fourni uniquement par la collecte
+  // historique ponctuelle (`backend/src/scripts/backfill-historique.ts`,
+  // feature 005, US3) — jamais par le cycle planifié ni l'admin.
+  collecter(cible?: AnneeMois): Promise<ResultatCollecte>;
 }
 ```
 

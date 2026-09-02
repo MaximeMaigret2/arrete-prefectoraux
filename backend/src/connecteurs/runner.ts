@@ -19,6 +19,7 @@ import {
 } from '../models/index.js';
 import { detecterDoublon } from './dedupe.js';
 import type { CandidatEvenement, Connecteur, SourceBrute } from './types.js';
+import type { AnneeMois } from '../services/parisDate.js';
 
 /**
  * Orchestration collecte → dedupe → publication/anomalie → journalisation
@@ -182,11 +183,19 @@ function construireAnomalieEchecLecture(params: {
  * totalement (T020A : mise à jour "on success", c'est-à-dire dès que la
  * source a pu être lue — succès complet ou partiel — jamais sur `echec`,
  * où rien de nouveau n'a réellement été observé).
+ *
+ * `cible` (feature 005, US1/US3, FR-001) : mois calendaire arbitrairement
+ * passé, transmis tel quel à `connecteur.collecter(cible)` — absent pour le
+ * cycle planifié et le déclenchement manuel existants (comportement
+ * rigoureusement inchangé, FR-002), fourni uniquement par la collecte
+ * historique (`backfill-historique.ts`, via {@link executerConnecteurPourBackfill}
+ * ci-dessous).
  */
-export async function executerConnecteur(
+async function executerConnecteurAvecClassification(
   connecteur: Connecteur,
   declenchement: Declenchement,
-): Promise<ExecutionCollecte> {
+  cible?: AnneeMois,
+): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null }> {
   const executionId = randomUUID();
   const dateExecution = new Date().toISOString();
 
@@ -203,12 +212,17 @@ export async function executerConnecteur(
   let nombrePublies = 0;
   let nombreAnomalies = 0;
   let messageErreur: string | null = null;
+  let causeReseauSiEchec: boolean | null = null;
 
   try {
-    const resultat = await connecteur.collecter();
+    const resultat = await connecteur.collecter(cible);
 
     if (resultat.echec_global) {
       messageErreur = resultat.echec_global.message;
+      // feature 005 (FR-004/FR-014) : classification exposée telle quelle au
+      // consommateur (`executerConnecteurPourBackfill`) — `undefined` (nature
+      // non déterminée) est traité prudemment comme un échec réseau.
+      causeReseauSiEchec = resultat.echec_global.causeReseau ?? true;
       const departements = connecteur.departements.length > 0 ? connecteur.departements : [];
       for (const departementCode of departements) {
         const anomalie = construireAnomalieEchecLecture({
@@ -270,7 +284,38 @@ export async function executerConnecteur(
     await updateConnecteur(connecteur.id, { derniere_collecte: dateExecution });
   }
 
+  return { execution, causeReseauSiEchec: statut === 'echec' ? causeReseauSiEchec : null };
+}
+
+/**
+ * Point d'entrée public inchangé (cycle planifié FR-013, déclenchement
+ * manuel FR-014, `POST /admin/connecteurs/{id}/collecter`) : retourne
+ * exactement `ExecutionCollecte` comme avant la feature 005, `cible` restant
+ * un paramètre optionnel rétrocompatible sans aucun appelant existant qui le
+ * fournisse encore aujourd'hui.
+ */
+export async function executerConnecteur(
+  connecteur: Connecteur,
+  declenchement: Declenchement,
+  cible?: AnneeMois,
+): Promise<ExecutionCollecte> {
+  const { execution } = await executerConnecteurAvecClassification(connecteur, declenchement, cible);
   return execution;
+}
+
+/**
+ * Variante réservée à la collecte historique (`backfill-historique.ts`,
+ * feature 005, US3) : comme {@link executerConnecteur} (même persistance,
+ * même journalisation, `declenchement` fixé à `'backfill'`), mais expose en
+ * plus, quand l'exécution a échoué, si cet échec est de nature réseau bas
+ * niveau (FR-004/FR-014) — nécessaire au circuit-breaker de l'orchestration,
+ * jamais consommé par le cycle planifié ni l'admin.
+ */
+export async function executerConnecteurPourBackfill(
+  connecteur: Connecteur,
+  cible: AnneeMois,
+): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null }> {
+  return executerConnecteurAvecClassification(connecteur, 'backfill', cible);
 }
 
 /**

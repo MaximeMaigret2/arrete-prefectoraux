@@ -923,3 +923,166 @@ describe('moteur page_web — libellé via élément frère (titre_frere, V0xx, 
     expect(resultat.candidats).toHaveLength(0);
   });
 });
+
+
+/**
+ * Feature 005 (US1, T003) : `collecter(cible)` accepte un mois calendaire
+ * arbitrairement passé, transmis à la résolution de `navigation` — sans
+ * régression du comportement par défaut (FR-002), et avec une distinction
+ * exploitable entre page introuvable (archives épuisées) et échec réseau
+ * bas niveau (FR-004).
+ */
+describe('moteur page_web — mois cible arbitraire (feature 005, US1)', () => {
+  const URL_RACINE = 'https://exemple.gouv.fr/Publications/RAA-historique';
+
+  const CONFIG_CIBLE = {
+    ...CONFIG_BASE,
+    url_liste: URL_RACINE,
+    selecteur_lien_pdf: null as string | null,
+    navigation: [
+      { selecteur_liens: '.fr-card__title a', pattern_lien: '/annee-{annee}$' },
+      { selecteur_liens: '.fr-card__title a', pattern_lien: '/{mois_fr}-{annee}$' },
+    ],
+  };
+
+  function pageAnnee(annee: string, urlMois: string, moisLabel: string): string {
+    return `<div class="fr-card__title"><a href="${urlMois}">${moisLabel} ${annee}</a></div>`;
+  }
+
+  beforeEach(() => {
+    // "Maintenant" figé en août 2026 — un mois cible explicite et éloigné
+    // (ex. février 2023) doit primer sur cette horloge (FR-001), jamais
+    // l'inverse.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2026, 7, 13, 10, 0, 0)));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('un mois cible explicite résout navigation contre CE mois, jamais le mois courant (FR-001)', async () => {
+    const URL_ANNEE_2023 = `${URL_RACINE}/annee-2023`;
+    const URL_FEVRIER_2023 = `${URL_RACINE}/annee-2023/Fevrier-2023`;
+    const HTML_MOIS = `
+      <div class="raa-item">
+        <div class="raa-item__titre">
+          Arrêté n° 2023-13-0100 portant interdiction de rassemblement de type rave,
+          à compter du 05/02/2023 jusqu'au 07/02/2023
+        </div>
+      </div>
+    `;
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => pageAnnee('2023', URL_ANNEE_2023, 'Année') } as unknown as Response;
+        if (url === URL_ANNEE_2023) return { ok: true, status: 200, text: async () => pageAnnee('2023', URL_FEVRIER_2023, 'Fevrier') } as unknown as Response;
+        if (url === URL_FEVRIER_2023) return { ok: true, status: 200, text: async () => HTML_MOIS } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CIBLE);
+    const resultat = await connecteur.collecter({ annee: '2023', moisNumero: '02' });
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidats[0].reference_arrete).toBe('2023-13-0100');
+    expect(resultat.candidats[0].source.url).toBe(URL_FEVRIER_2023);
+  });
+
+  it('sans cible, résout toujours contre le mois courant Europe/Paris — comportement inchangé (FR-002)', async () => {
+    const URL_ANNEE_2026 = `${URL_RACINE}/annee-2026`;
+    const URL_AOUT_2026 = `${URL_RACINE}/annee-2026/Aout-2026`;
+    const HTML_MOIS = `
+      <div class="raa-item">
+        <div class="raa-item__titre">
+          Arrêté n° 2026-13-0900 portant interdiction de rassemblement de type rave,
+          à compter du 13/08/2026 jusqu'au 15/08/2026
+        </div>
+      </div>
+    `;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => pageAnnee('2026', URL_ANNEE_2026, 'Année') } as unknown as Response;
+        if (url === URL_ANNEE_2026) return { ok: true, status: 200, text: async () => pageAnnee('2026', URL_AOUT_2026, 'Aout') } as unknown as Response;
+        if (url === URL_AOUT_2026) return { ok: true, status: 200, text: async () => HTML_MOIS } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CIBLE);
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidats[0].source.url).toBe(URL_AOUT_2026);
+  });
+
+  it("un connecteur sans étape de navigation (ex. prefecture-13) ignore silencieusement le mois cible (FR-020)", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE) return { ok: true, status: 200, text: async () => html } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, selecteur_lien_pdf: null, navigation: [] });
+    const resultat = await connecteur.collecter({ annee: '2010', moisNumero: '01' });
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats[0]?.source.url).toBe(URL_LISTE);
+  });
+
+  it('une page introuvable pour un mois cible trop ancien (archives épuisées) est classée causeReseau: false, jamais un échec réseau (FR-004)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) {
+          // Aucune carte d'année 2010 sur la racine : la navigation ne trouve aucun lien correspondant.
+          return { ok: true, status: 200, text: async () => pageAnnee('2026', `${URL_RACINE}/annee-2026`, 'Année') } as unknown as Response;
+        }
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CIBLE);
+    const resultat = await connecteur.collecter({ annee: '2010', moisNumero: '01' });
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.echec_global).toBeDefined();
+    expect(resultat.echec_global?.causeReseau).toBe(false);
+  });
+
+  it('un échec réseau bas niveau (fetch qui rejette) est classé causeReseau: true (FR-004)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) throw new Error('SocketError: other side closed');
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_CIBLE);
+    const resultat = await connecteur.collecter({ annee: '2023', moisNumero: '02' });
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.echec_global).toBeDefined();
+    expect(resultat.echec_global?.causeReseau).toBe(true);
+  }, 10_000);
+
+  it('une page liste introuvable (HTTP 404, sans navigation) est classée causeReseau: false (FR-004)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: false, status: 404, text: async () => '' }) as unknown as Response),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, selecteur_lien_pdf: null, navigation: [] });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.echec_global).toBeDefined();
+    expect(resultat.echec_global?.causeReseau).toBe(false);
+  });
+});

@@ -71,6 +71,17 @@ async function chargerConfig(connecteurId: string): Promise<unknown> {
 }
 
 /**
+ * Charge la configuration brute (non instanciée en `Connecteur` runtime)
+ * d'un connecteur — utilisé par `volumetrie.ts` (feature 005, US2) pour
+ * inspecter une configuration (ex. présence de `page_detail`) sans dépendre
+ * du moteur. Respecte la redirection de répertoire de test
+ * (`definirRepertoireConfigs`), comme `chargerConnecteursActifs`/`obtenirConnecteur`.
+ */
+export async function chargerConfigConnecteur(connecteurId: string): Promise<unknown> {
+  return chargerConfig(connecteurId);
+}
+
+/**
  * Charge et instancie tous les connecteurs actifs (`connecteurs.json`,
  * `actif: true`), pour le scheduler (T040, FR-013). Un connecteur dont la
  * configuration est absente/invalide, ou dont le moteur n'est pas encore
