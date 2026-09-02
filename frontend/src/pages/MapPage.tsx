@@ -3,7 +3,14 @@ import DepartementsMap from '../components/Map/Map.js';
 import Legend from '../components/Legend/Legend.js';
 import Calendar, { type CalendarSelection } from '../components/Calendar/Calendar.js';
 import Slider from '../components/Slider/Slider.js';
-import { getDepartementsAtDate, type DepartementState, ApiError } from '../services/apiClient.js';
+import {
+  getDepartementsAtDate,
+  getDepartementsEtatsPeriode,
+  type DepartementEtatsPeriode,
+  type DepartementState,
+  ApiError,
+} from '../services/apiClient.js';
+import { resolveEtatDepuisSegments } from '../services/resolveEtatDepuisSegments.js';
 
 function todayParisISODate(): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris' }).format(new Date());
@@ -33,6 +40,9 @@ export default function MapPage() {
   const [currentDate, setCurrentDate] = useState<string>(today);
   const [sliderBounds, setSliderBounds] = useState<{ min: string; max: string } | null>(null);
   const [departementsState, setDepartementsState] = useState<Map<string, DepartementState>>(new Map());
+  // Segments précalculés sur l'intervalle sélectionné (feature 006) — chargés
+  // une seule fois à la sélection, jamais à chaque pas de la réglette.
+  const [periodeSegments, setPeriodeSegments] = useState<DepartementEtatsPeriode[] | null>(null);
   const [derniereMiseAJour, setDerniereMiseAJour] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,23 +61,54 @@ export default function MapPage() {
     }
   }, []);
 
+  // Charge les segments précalculés d'un intervalle en un seul appel réseau
+  // (feature 006, FR-005) — le défilement de la réglette au sein de cet
+  // intervalle ne déclenche ensuite plus aucun appel (FR-006).
+  const fetchSegmentsForRange = useCallback(async (debut: string, fin: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await getDepartementsEtatsPeriode(debut, fin);
+      setPeriodeSegments(response.departements);
+      setDerniereMiseAJour(response.derniere_mise_a_jour);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Impossible de charger les données de la carte.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   // Chargement initial : date du jour (US1).
   useEffect(() => {
     fetchForDate(today);
   }, [fetchForDate, today]);
 
-  // Recalcule la carte à chaque changement de date, sans rechargement de page (US2).
+  // Recalcule la carte à chaque changement de date, sans rechargement de page
+  // (US2) — uniquement en mode "date unique" (FR-008) : en mode intervalle,
+  // le pas de réglette est résolu localement à partir des segments déjà
+  // chargés (feature 006), sans nouvel appel réseau (FR-006).
   useEffect(() => {
-    if (currentDate !== today) {
+    if (sliderBounds === null && currentDate !== today) {
       fetchForDate(currentDate);
     }
-  }, [currentDate, fetchForDate, today]);
+  }, [currentDate, fetchForDate, today, sliderBounds]);
+
+  // Dérive l'état affiché à partir des segments déjà chargés, à chaque pas
+  // de réglette (feature 006, FR-006/FR-007) — simple recherche de bornes,
+  // aucune règle métier dupliquée (resolveEtatDepuisSegments).
+  const displayedState = useMemo(() => {
+    if (sliderBounds && periodeSegments) {
+      return resolveEtatDepuisSegments(periodeSegments, currentDate);
+    }
+    return departementsState;
+  }, [sliderBounds, periodeSegments, currentDate, departementsState]);
 
   const handleCalendarSelection = useCallback(
     (selection: CalendarSelection) => {
       if (selection.mode === 'single') {
         // Chemin "date unique" (T030) : un seul fetch, pas de réglette nécessaire.
         setSliderBounds(null);
+        setPeriodeSegments(null);
         const iso = toISODate(selection.date);
         setCurrentDate(iso);
       } else if (selection.range.from && selection.range.to) {
@@ -75,9 +116,12 @@ export default function MapPage() {
         const max = toISODate(selection.range.to);
         setSliderBounds({ min, max });
         setCurrentDate(min);
+        // Un seul appel pour tout l'intervalle (feature 006) — plus jamais
+        // un appel par pas de réglette.
+        fetchSegmentsForRange(min, max);
       }
     },
-    [],
+    [fetchSegmentsForRange],
   );
 
   return (
@@ -113,7 +157,7 @@ export default function MapPage() {
       {loading && <p aria-live="polite">Chargement de la carte…</p>}
 
       <div className="map-legend-row">
-        <DepartementsMap departementsState={departementsState} />
+        <DepartementsMap departementsState={displayedState} />
         <Legend />
       </div>
     </div>

@@ -1,12 +1,27 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { loadDataStore } from '../../data/loader.js';
-import { computeAllDepartementsState } from '../../services/computeDepartementState.js';
-import { assertValidDateParam, InvalidDateError } from '../../services/parisDate.js';
+import { computeAllDepartementsState, computeDepartementStateSegments } from '../../services/computeDepartementState.js';
+import { assertValidDateParam, InvalidDateError, parisDayStartUTC } from '../../services/parisDate.js';
 
 const dateQuerySchema = z.object({
   date: z.string(),
 });
+
+const etatsRangeQuerySchema = z.object({
+  debut: z.string(),
+  fin: z.string(),
+});
+
+/**
+ * Limite de taille d'intervalle pour `GET /departements/etats` (feature 006,
+ * FR-010) : protège le temps de réponse, la boucle interne de
+ * `computeDepartementStateSegments` parcourant chaque jour de l'intervalle
+ * sans optimisation analytique. ~3 ans, cohérent avec la cible de profondeur
+ * retenue par la feature 005 du backlog produit (cf. spec.md, Assumptions) —
+ * aucun besoin réel dépassant cette taille observé à ce jour.
+ */
+const LIMITE_INTERVALLE_ETATS_JOURS = 1096;
 
 /**
  * Routes `/departements` (US1, FR-010a) et `/departements/{code}/evenements`
@@ -112,6 +127,82 @@ export async function registerDepartementsRoutes(app: FastifyInstance): Promise<
         nom: departement.nom,
         couvert,
         evenements,
+      });
+    },
+  });
+
+  app.get('/departements/etats', {
+    schema: {
+      summary: "États de tous les départements précalculés sur un intervalle (segments contigus)",
+      querystring: {
+        type: 'object',
+        required: ['debut', 'fin'],
+        properties: {
+          debut: { type: 'string', format: 'date', example: '2026-05-01' },
+          fin: { type: 'string', format: 'date', example: '2026-05-31' },
+        },
+      },
+    },
+    handler: async (request, reply) => {
+      const parsedQuery = etatsRangeQuerySchema.safeParse(request.query);
+      if (!parsedQuery.success) {
+        return reply.status(400).send({
+          error: 'invalid_parameter',
+          message: "Les paramètres 'debut' et 'fin' sont requis.",
+        });
+      }
+
+      const { debut, fin } = parsedQuery.data;
+      try {
+        assertValidDateParam(debut, 'debut');
+        assertValidDateParam(fin, 'fin');
+      } catch (err) {
+        if (err instanceof InvalidDateError) {
+          return reply.status(400).send({ error: 'invalid_parameter', message: err.message });
+        }
+        throw err;
+      }
+
+      const debutUTC = parisDayStartUTC(debut);
+      const finUTC = parisDayStartUTC(fin);
+      if (finUTC.getTime() < debutUTC.getTime()) {
+        return reply.status(400).send({
+          error: 'invalid_range',
+          message: "Le paramètre 'fin' doit être postérieur ou égal à 'debut'.",
+        });
+      }
+
+      const nbJours = Math.round((finUTC.getTime() - debutUTC.getTime()) / 86400000) + 1;
+      if (nbJours > LIMITE_INTERVALLE_ETATS_JOURS) {
+        return reply.status(400).send({
+          error: 'invalid_range',
+          message: `L'intervalle demandé dépasse la limite de ${LIMITE_INTERVALLE_ETATS_JOURS} jours.`,
+        });
+      }
+
+      const store = await loadDataStore();
+
+      // Résolution département -> connecteur déclarative (feature 006,
+      // FR-009) : contrairement à `GET /departements?date=...`, ne dépend
+      // jamais de l'état d'un jour particulier (evenement_applicable) —
+      // connecteur_id/derniere_collecte sont portés une seule fois par
+      // département dans la réponse, jamais dupliqués par segment.
+      const departements = store.departements.map((d) => {
+        const connecteur = store.connecteurs.find((c) => c.departements_couverts.includes(d.code)) ?? null;
+        return {
+          code: d.code,
+          nom: d.nom,
+          connecteur_id: connecteur?.id ?? null,
+          derniere_collecte: connecteur?.derniere_collecte ?? null,
+          segments: computeDepartementStateSegments(store, d.code, debut, fin),
+        };
+      });
+
+      return reply.status(200).send({
+        debut,
+        fin,
+        derniere_mise_a_jour: store.derniereMiseAJour,
+        departements,
       });
     },
   });

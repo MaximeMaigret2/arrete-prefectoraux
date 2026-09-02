@@ -167,6 +167,94 @@ export function computeDepartementState(
   return { etat: 'rouge', evenement_applicable: mostRecent, dernier_arrete_connu: null };
 }
 
+/**
+ * Segment d'état contigu sur un intervalle de dates (feature 006, réglette
+ * sans appel réseau par pas) : représente une période `[date_debut,
+ * date_fin]` (bornes inclusives, format `YYYY-MM-DD`) pendant laquelle
+ * l'état d'un département reste inchangé. Dérivé à la volée de
+ * `computeDepartementState`, jamais persisté (cf. spec.md, "Key Entities").
+ */
+export interface DepartementStateSegment extends DepartementStateResult {
+  date_debut: string;
+  date_fin: string;
+}
+
+/**
+ * Compare deux résultats de `computeDepartementState` pour savoir s'ils
+ * représentent le même état affichable (utilisé pour fusionner des jours
+ * consécutifs en un seul segment, FR-003 : ne réintroduit aucune règle
+ * métier, se contente de comparer le résultat déjà calculé).
+ */
+function memeEtatAffiche(a: DepartementStateResult, b: DepartementStateResult): boolean {
+  if (a.etat !== b.etat) {
+    return false;
+  }
+  if ((a.evenement_applicable?.id ?? null) !== (b.evenement_applicable?.id ?? null)) {
+    return false;
+  }
+  const da = a.dernier_arrete_connu;
+  const db = b.dernier_arrete_connu;
+  if (da === null || db === null) {
+    return da === db;
+  }
+  return (
+    da.reference_arrete === db.reference_arrete &&
+    da.date_debut === db.date_debut &&
+    da.date_fin === db.date_fin
+  );
+}
+
+/**
+ * Énumère les dates calendaires (`YYYY-MM-DD`) de `debut` à `fin` inclus.
+ * Manipulation purement calendaire (composants année/mois/jour) : un jour
+ * calendaire Europe/Paris reste le même jour calendaire quel que soit le
+ * décalage horaire du moment, cette énumération n'a donc pas besoin de
+ * `parisOffsetMinutesAt` (seul `computeDepartementState`, appelé pour chaque
+ * jour, en a besoin).
+ */
+function enumererDatesCalendaires(debut: string, fin: string): string[] {
+  const [y0, m0, d0] = debut.split('-').map(Number);
+  const [y1, m1, d1] = fin.split('-').map(Number);
+  const finCursor = new Date(Date.UTC(y1, m1 - 1, d1));
+  const dates: string[] = [];
+  let cursor = new Date(Date.UTC(y0, m0 - 1, d0));
+  while (cursor.getTime() <= finCursor.getTime()) {
+    const yyyy = cursor.getUTCFullYear();
+    const mm = String(cursor.getUTCMonth() + 1).padStart(2, '0');
+    const dd = String(cursor.getUTCDate()).padStart(2, '0');
+    dates.push(`${yyyy}-${mm}-${dd}`);
+    cursor = new Date(cursor.getTime() + 24 * 60 * 60 * 1000);
+  }
+  return dates;
+}
+
+/**
+ * Calcule l'état d'un département sur tout un intervalle `[debut, fin]`
+ * (bornes incluses), sous forme de segments contigus non chevauchants
+ * (feature 006, FR-001/FR-003/FR-004) : réutilise `computeDepartementState`
+ * jour par jour (aucune règle métier dupliquée ni réimplémentée) et fusionne
+ * les jours consécutifs au résultat identique. Toujours au moins un segment
+ * en retour pour un intervalle valide (`debut <= fin`).
+ */
+export function computeDepartementStateSegments(
+  store: DataStore,
+  code: string,
+  debut: string,
+  fin: string,
+): DepartementStateSegment[] {
+  const segments: DepartementStateSegment[] = [];
+  for (const jour of enumererDatesCalendaires(debut, fin)) {
+    const etatDuJour = computeDepartementState(store, code, jour);
+    const dernier = segments[segments.length - 1];
+    if (dernier && memeEtatAffiche(dernier, etatDuJour)) {
+      dernier.date_fin = jour;
+    } else {
+      segments.push({ ...etatDuJour, date_debut: jour, date_fin: jour });
+    }
+  }
+  return segments;
+}
+
 /** Calcule l'état de tous les départements référencés à une date donnée. */
 export function computeAllDepartementsState(
   store: DataStore,

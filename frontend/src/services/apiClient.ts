@@ -44,6 +44,35 @@ export interface DepartementsStateResponse {
   departements: DepartementState[];
 }
 
+/**
+ * Segment d'état contigu sur un intervalle (feature 006, réglette sans appel
+ * réseau par pas) : mêmes champs d'état que `DepartementState`, hors
+ * `code`/`nom`/`connecteur_id`/`derniere_collecte` (portés une seule fois au
+ * niveau du département par `DepartementEtatsPeriode`, jamais par segment).
+ */
+export interface DepartementStateSegment {
+  date_debut: string;
+  date_fin: string;
+  etat: Etat;
+  evenement_applicable: Evenement | null;
+  dernier_arrete_connu: DernierArreteConnu | null;
+}
+
+export interface DepartementEtatsPeriode {
+  code: string;
+  nom: string;
+  connecteur_id: string | null;
+  derniere_collecte: string | null;
+  segments: DepartementStateSegment[];
+}
+
+export interface DepartementsEtatsPeriodeResponse {
+  debut: string;
+  fin: string;
+  derniere_mise_a_jour: string;
+  departements: DepartementEtatsPeriode[];
+}
+
 export interface DepartementHistoryResponse {
   code: string;
   nom: string;
@@ -93,6 +122,16 @@ export function getDepartementsAtDate(date: string): Promise<DepartementsStateRe
 /** GET /departements/{code}/evenements — historique complet d'un département. */
 export function getDepartementHistory(code: string): Promise<DepartementHistoryResponse> {
   return get<DepartementHistoryResponse>(`/departements/${encodeURIComponent(code)}/evenements`);
+}
+
+/** GET /departements/etats?debut=&fin= — états précalculés de tous les départements sur un intervalle (feature 006). */
+export function getDepartementsEtatsPeriode(
+  debut: string,
+  fin: string,
+): Promise<DepartementsEtatsPeriodeResponse> {
+  return get<DepartementsEtatsPeriodeResponse>(
+    `/departements/etats?debut=${encodeURIComponent(debut)}&fin=${encodeURIComponent(fin)}`,
+  );
 }
 
 /** GET /evenements?debut=&fin= — tous les événements sur un intervalle. */

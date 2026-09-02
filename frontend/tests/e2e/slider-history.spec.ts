@@ -8,6 +8,21 @@ import { test, expect } from '@playwright/test';
  */
 test.describe('Calendrier et réglette (US2)', () => {
   test('rejoue l’historique du département 13 et bascule rouge → vert au bon jour', async ({ page }) => {
+    // Feature 006 : compte les appels réseau vers chacune des deux routes,
+    // pour vérifier ensuite qu'un seul appel à /departements/etats a lieu à
+    // la sélection de l'intervalle (SC-001), et qu'aucun appel à
+    // /departements?date=... n'a lieu pendant le défilement de la réglette.
+    let appelsEtatsPeriode = 0;
+    let appelsDateUnique = 0;
+    page.on('request', (req) => {
+      const url = req.url();
+      if (url.includes('/api/v1/departements/etats')) {
+        appelsEtatsPeriode += 1;
+      } else if (url.includes('/api/v1/departements?date=')) {
+        appelsDateUnique += 1;
+      }
+    });
+
     await page.goto('/');
     await expect(page.locator('svg.map-svg')).toBeVisible();
 
@@ -45,11 +60,25 @@ test.describe('Calendrier et réglette (US2)', () => {
     const slider = page.getByRole('slider', { name: 'Sélection de la date affichée sur la carte' });
     await expect(slider).toBeVisible();
 
+    // La sélection de l'intervalle a déjà eu lieu (clics gridcell ci-dessus) :
+    // exactement un appel à /departements/etats (feature 006, SC-001).
+    expect(appelsEtatsPeriode).toBe(1);
+    const appelsDateUniqueAvantDefilement = appelsDateUnique;
+
     // Département 13 rouge avant la levée (15 mai) : avance jusqu'au 16 mai.
+    // Feature 006, SC-001/SC-002 : aucun appel réseau ni flash "Chargement
+    // de la carte…" ne doit apparaître pendant tout le défilement — les
+    // segments de l'intervalle ont déjà été chargés en un seul appel
+    // ci-dessus, la réglette ne fait plus qu'une recherche locale de bornes.
     await slider.focus();
     for (let i = 0; i < 15; i++) {
       await page.keyboard.press('ArrowRight');
+      await expect(page.locator('p[aria-live="polite"]', { hasText: 'Chargement de la carte' })).toHaveCount(0);
     }
+
+    // Aucun appel réseau supplémentaire déclenché par le défilement lui-même.
+    expect(appelsEtatsPeriode).toBe(1);
+    expect(appelsDateUnique).toBe(appelsDateUniqueAvantDefilement);
 
     // Aucun rechargement de page pendant tout le défilement (même URL).
     await expect(page).toHaveURL(/\/$/);
