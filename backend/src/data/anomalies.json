@@ -27546,5 +27546,290 @@
     "date_creation": "2026-09-02T11:33:13.943Z",
     "date_resolution": null,
     "evenement_resultant_id": null
+  },
+  {
+    "id": "bf85f0aa-ae50-4dfe-ac36-540ec661e804",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "f4e8a7e7-df0f-49b0-9a7a-499d5e8b201e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T12:14:32.479Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T12:14:33.673Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "3b576e2d-843b-4f3f-b547-babb9f4bad10",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "32b75a4b-929a-4127-990a-de1aefb75f43",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T12:14:41.802Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T12:14:42.163Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d7930e86-3eb3-4813-b1fd-0f9ea454eb38",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "b30dd253-d5a1-4924-b58e-d796b43b09c1",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T12:14:50.283Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T12:14:52.704Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "3f15c65b-80ee-4d70-919b-17e1c6031331",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "b28472e4-fc93-4aa0-b7ae-4e8b5bea25bf",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T14:06:23.548Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:06:24.674Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5eaf66d5-d7ba-4ffa-837e-31809e8a77b1",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "6c46fc67-7f21-47a7-8686-601450ed040c",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T14:06:30.880Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:06:31.965Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "bc2d4da6-b7f9-4820-bae6-e060f3e395d7",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "c208ad6d-c9cb-4718-868a-6088291aaa64",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T14:06:38.177Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:06:39.228Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "7238d014-0d61-4a66-ae7d-52e11144e80b",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "9fd33515-6cd4-4aae-a157-6b1745c81c56",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-02T14:10:03.243Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:10:04.318Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5dd24cda-92e9-498b-9f4f-b12786d74a67",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "ff722336-e153-42a5-9333-907fdbe445f2",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-02T14:10:08.443Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:10:09.556Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "24f60ece-d406-4237-9bd7-26928c2e49f1",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "a8bd881a-f2ff-4151-b373-7e2101da964d",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-02T14:10:13.669Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:10:15.530Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "55060e72-bcb7-492d-91bd-2bbb3a1e2234",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "f901204f-9a9d-49ef-ba0c-9e45b61808e3",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T14:14:46.914Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:14:48.128Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f17c9861-249f-42fc-a1e8-9823283bb422",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "ce2d70d7-0ea1-49aa-9f6d-7a8e99d771fd",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T14:14:53.445Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:14:54.593Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e0490d9f-df3d-4ee7-b3e5-bd1f9895f650",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "7874982a-0944-4823-a3e2-8c1fb81959dd",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-02T14:14:59.746Z"
+    },
+    "departement_code": "77",
+    "raison": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:15:00.811Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f1c2b878-f5b9-4cdd-872d-4711223a3362",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "14eb899c-2fd2-453a-9227-ceafc12d60d7",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-02T14:15:05.949Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:15:07.158Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2ed414a6-4c27-4f6d-9823-1b0969677c02",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "85dd298b-f06a-4c08-ad20-d20e7ae56f39",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-02T14:15:12.293Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:15:13.467Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5be3137e-a67a-4f25-b8e8-75226b347252",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "892e6c40-86b7-4c4f-8813-2db39a6a09e7",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-02T14:15:18.609Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-02T14:15:19.772Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
   }
 ]

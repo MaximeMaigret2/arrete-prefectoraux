@@ -1428,5 +1428,165 @@
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "f4e8a7e7-df0f-49b0-9a7a-499d5e8b201e",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T12:14:32.478Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "32b75a4b-929a-4127-990a-de1aefb75f43",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T12:14:41.759Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "b30dd253-d5a1-4924-b58e-d796b43b09c1",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T12:14:50.232Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "b28472e4-fc93-4aa0-b7ae-4e8b5bea25bf",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T14:06:23.548Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "6c46fc67-7f21-47a7-8686-601450ed040c",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T14:06:30.819Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "c208ad6d-c9cb-4718-868a-6088291aaa64",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T14:06:38.098Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "b28dc539-5e5e-4605-8147-ca27daf8ad27",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:09:45.341Z",
+    "declenchement": "backfill",
+    "statut": "succes",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "message_erreur": null
+  },
+  {
+    "id": "9fd33515-6cd4-4aae-a157-6b1745c81c56",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:10:03.130Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "ff722336-e153-42a5-9333-907fdbe445f2",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:10:08.373Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "a8bd881a-f2ff-4151-b373-7e2101da964d",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:10:13.620Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "f901204f-9a9d-49ef-ba0c-9e45b61808e3",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T14:14:46.913Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "ce2d70d7-0ea1-49aa-9f6d-7a8e99d771fd",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T14:14:53.343Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "7874982a-0944-4823-a3e2-8c1fb81959dd",
+    "connecteur_id": "prefecture-77",
+    "date_execution": "2026-09-02T14:14:59.693Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "14eb899c-2fd2-453a-9227-ceafc12d60d7",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:15:05.949Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "85dd298b-f06a-4c08-ad20-d20e7ae56f39",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:15:12.241Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "892e6c40-86b7-4c4f-8813-2db39a6a09e7",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-02T14:15:18.549Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   }
 ]
