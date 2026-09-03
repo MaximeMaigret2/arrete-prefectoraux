@@ -197,22 +197,53 @@ export async function executerBackfill(
 
     let echecsReseauConsecutifs = 0;
 
-    connecteurBoucle: for (const connecteurId of connecteurIds) {
+    // Construit, pour chaque connecteur eligible de ce groupe, une file figee
+    // des mois cibles a tenter DANS CE RUN (copie de `etat.moisRestants` au
+    // moment du demarrage - un mois qui echoue reste dans le checkpoint pour
+    // une reprise ulterieure, mais n'est jamais retente une seconde fois
+    // pendant CE MEME run, comme avant ce changement).
+    //
+    // Ordonnancement en ROUND-ROBIN mois par mois (2026-09-03, decision
+    // utilisateur) : plutot que d'epuiser tous les mois cibles d'un
+    // connecteur avant de passer au suivant (risque, si le circuit-breaker
+    // s'ouvre tot, de terminer la campagne avec de la profondeur sur
+    // seulement 1-2 connecteurs et AUCUNE progression sur tous les autres),
+    // chaque connecteur du groupe ne tente qu'UN SEUL mois par tour, puis
+    // cede la place au suivant ; un nouveau tour ne commence qu'une fois
+    // tous les connecteurs actifs de ce groupe passes en revue une fois.
+    // Ceci maximise le nombre de connecteurs distincts qui progressent avant
+    // qu'un circuit-breaker n'interrompe la file, plutot que de concentrer
+    // les succes sur une poignee de connecteurs.
+    interface FileConnecteur {
+      connecteurId: string;
+      connecteur: Connecteur;
+      cibles: AnneeMois[];
+    }
+    const filesActives: FileConnecteur[] = [];
+    for (const connecteurId of connecteurIds) {
       const etat = checkpoint.connecteurs[connecteurId];
       if (!etat || etat.archivesEpuisees || etat.moisRestants.length === 0) continue;
 
       const connecteur = await deps.obtenirConnecteur(connecteurId);
       if (!connecteur) continue; // connecteur desactive/supprime depuis l'audit - ignore, jamais un blocage (FR-009 dans le meme esprit)
 
-      rapportGroupe.connecteursTraites.push(connecteurId);
-      log(`[${groupe}] ${connecteurId} : debut (${etat.moisRestants.length} mois restant(s) a tenter)`);
+      filesActives.push({ connecteurId, connecteur, cibles: [...etat.moisRestants] });
+    }
 
-      // Copie stable : `etat.moisRestants` est mute pendant l'iteration (retrait a chaque succes).
-      for (const cible of [...etat.moisRestants]) {
+    tourBoucle: while (filesActives.length > 0) {
+      for (const file of filesActives) {
+        const cible = file.cibles.shift();
+        if (cible === undefined) continue; // file deja epuisee ce run, retiree lors du nettoyage en fin de tour ci-dessous
+
+        const etat = checkpoint.connecteurs[file.connecteurId]!;
+        if (!rapportGroupe.connecteursTraites.includes(file.connecteurId)) {
+          rapportGroupe.connecteursTraites.push(file.connecteurId);
+        }
+
         await deps.attendre(espacementMinimumMs);
         const libelleMois = `${cible.annee}-${cible.moisNumero}`;
 
-        const { execution, causeReseauSiEchec } = await deps.executerConnecteurPourBackfill(connecteur, cible);
+        const { execution, causeReseauSiEchec } = await deps.executerConnecteurPourBackfill(file.connecteur, cible);
 
         if (execution.statut !== 'echec') {
           etat.moisRestants = etat.moisRestants.filter((m) => !(m.annee === cible.annee && m.moisNumero === cible.moisNumero));
@@ -220,7 +251,7 @@ export async function executerBackfill(
           echecsReseauConsecutifs = 0;
           rapportGroupe.moisReussis += 1;
           log(
-            `[${groupe}] ${connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))`,
+            `[${groupe}] ${file.connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))`,
           );
           continue;
         }
@@ -231,30 +262,43 @@ export async function executerBackfill(
           // jamais un declencheur de circuit-breaker (FR-004/FR-014).
           etat.archivesEpuisees = true;
           etat.moisRestants = [];
+          file.cibles = []; // plus rien a tenter pour lui non plus dans ce run.
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
           rapportGroupe.moisPageIntrouvable += 1;
-          log(`[${groupe}] ${connecteurId} ${libelleMois} : page introuvable - archives epuisees pour ce connecteur, arret`);
-          break; // mois plus anciens non tentes pour ce connecteur.
+          log(`[${groupe}] ${file.connecteurId} ${libelleMois} : page introuvable - archives epuisees pour ce connecteur, arret`);
+          continue;
         }
 
         // Echec reseau bas niveau (ou nature non determinee, traitee
         // prudemment comme reseau) - compte dans le seuil du circuit-breaker
-        // DE CETTE FILE uniquement (FR-014). Le mois reste dans
-        // `moisRestants` (non retire), tente de nouveau a une reprise
-        // ulterieure (FR-015).
+        // DE CETTE FILE (groupe) uniquement (FR-014), quel que soit le
+        // connecteur qui l'a produit (round-robin : peut desormais
+        // s'accumuler a travers plusieurs connecteurs differents, pas
+        // seulement le meme). Le mois reste dans `moisRestants` (non
+        // retire), tente de nouveau a une reprise ulterieure (FR-015).
         echecsReseauConsecutifs += 1;
         rapportGroupe.moisEchecReseau += 1;
         log(
-          `[${groupe}] ${connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${echecsReseauConsecutifs}/${seuilCircuitBreaker} consecutif(s) pour cette file`,
+          `[${groupe}] ${file.connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${echecsReseauConsecutifs}/${seuilCircuitBreaker} consecutif(s) pour cette file`,
         );
         if (echecsReseauConsecutifs >= seuilCircuitBreaker) {
           rapportGroupe.circuitOuvert = true;
           log(`[${groupe}] circuit-breaker ouvert apres ${echecsReseauConsecutifs} echecs reseau consecutifs - arret de cette file`);
-          break connecteurBoucle;
+          break tourBoucle;
+        }
+      }
+
+      // Retire, avant le prochain tour, les connecteurs dont la file de ce
+      // run est desormais vide ou dont les archives viennent d'etre
+      // marquees epuisees.
+      for (let i = filesActives.length - 1; i >= 0; i--) {
+        const file = filesActives[i]!;
+        const etat = checkpoint.connecteurs[file.connecteurId];
+        if (!etat || etat.archivesEpuisees || file.cibles.length === 0) {
+          filesActives.splice(i, 1);
         }
       }
     }
-
     if (!rapportGroupe.circuitOuvert) {
       log(
         `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s)`,

@@ -110,6 +110,29 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     expect(rapport.groupes.find((g) => g.groupe === 'mutualise')?.moisReussis).toBe(3);
   });
 
+  it('(a bis) traite les connecteurs en round-robin mois par mois, jamais un connecteur en profondeur avant de passer au suivant', async () => {
+    const ordreAppels: string[] = [];
+
+    await executerBackfill(
+      { cheminCheckpoint, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 3), profondeur('conn-b', 2)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          ordreAppels.push(`${connecteur.id}:${cible.moisNumero}`);
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    // conn-a (3 mois cibles) et conn-b (2 mois cibles) doivent alterner tour
+    // par tour - un seul mois tenté par connecteur avant de passer au
+    // suivant - plutôt que conn-a épuisant ses 3 mois avant que conn-b ne
+    // soit jamais touché (ancien comportement, en profondeur). conn-b
+    // s'épuise après le tour 2 (2 mois cibles) ; conn-a poursuit seul au
+    // tour 3 pour son 3e et dernier mois.
+    expect(ordreAppels).toEqual(['conn-a:07', 'conn-b:07', 'conn-a:06', 'conn-b:06', 'conn-a:05']);
+  });
+
   it('(b) le circuit-breaker interrompt uniquement la file concernée après le seuil d\'échecs réseau consécutifs, sans affecter les autres files', async () => {
     const appelsMutualise: string[] = [];
     let appelsMoselle = 0;
@@ -129,12 +152,17 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
       }),
     );
 
-    // 2 échecs réseau consécutifs sur conn-a (seuil=2) ouvrent le circuit
-    // AVANT que conn-b ne soit jamais tenté, dans la même file (mutualise).
-    expect(appelsMutualise).toEqual(['conn-a', 'conn-a']);
+    // Ordonnancement round-robin (2026-09-03) : conn-a et conn-b se
+    // partagent la file mutualise tour par tour (un seul mois tenté chacun
+    // par tour) plutôt que conn-a épuisant seul tous ses mois avant que
+    // conn-b ne soit jamais touché. Avec un seuil de 2, le 1er échec de
+    // conn-a (tour 1) puis le 1er échec de conn-b (toujours tour 1, juste
+    // après) ouvrent le circuit — les deux ont donc bien été tentés une
+    // fois chacun avant l'arrêt de la file.
+    expect(appelsMutualise).toEqual(['conn-a', 'conn-b']);
     const rapportMutualise = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
     expect(rapportMutualise.circuitOuvert).toBe(true);
-    expect(rapportMutualise.connecteursTraites).toEqual(['conn-a']);
+    expect(rapportMutualise.connecteursTraites).toEqual(['conn-a', 'conn-b']);
 
     // La file Moselle (hébergeur distinct) n'est jamais affectée.
     expect(appelsMoselle).toBe(1);
@@ -142,9 +170,10 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     expect(rapportMoselle.circuitOuvert).toBe(false);
     expect(rapportMoselle.moisReussis).toBe(1);
 
-    // Aucun des deux mois de conn-a n'a été marqué réussi (les deux ont échoué) : le checkpoint les conserve pour une reprise ultérieure.
+    // Aucun des mois tentés n'a été marqué réussi (tous ont échoué) : le checkpoint les conserve pour une reprise ultérieure.
     const checkpoint = await lireCheckpoint(cheminCheckpoint);
     expect(checkpoint.connecteurs['conn-a']?.moisRestants).toHaveLength(3);
+    expect(checkpoint.connecteurs['conn-b']?.moisRestants).toHaveLength(1);
   });
 
   it("(b bis) une page introuvable (archives épuisées) n'ouvre jamais le circuit-breaker, même répétée", async () => {
