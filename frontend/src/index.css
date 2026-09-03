@@ -112,16 +112,23 @@ body {
 }
 
 .map-legend-row {
-  display: flex;
-  flex-wrap: wrap;
+  /* Grille à deux colonnes plutôt qu'un flex row : la première colonne
+     (panneau d'historique) garde une largeur réservée et fixe même quand
+     elle est vide (panneau fermé, `.map-side-column` non rendu par React)
+     — la carte (deuxième colonne) ne change donc jamais de taille ni de
+     position selon que le panneau soit ouvert ou non (signalé par
+     l'utilisateur, 2026-09-02 : la carte "grandissait" quand le panneau se
+     fermait, puisqu'elle occupait alors tout l'espace disponible en flex). */
+  display: grid;
+  grid-template-columns: 300px 1fr;
   gap: 1.5rem;
-  align-items: flex-start;
+  align-items: start;
 }
 
 .map-container {
   position: relative;
-  flex: 1 1 640px;
-  min-width: 320px;
+  grid-column: 2;
+  min-width: 0;
 }
 
 .map-svg {
@@ -152,4 +159,246 @@ body {
 
 .map-departement--gris {
   fill: var(--color-gris);
+}
+
+.map-hint {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0;
+}
+
+.map-side-column {
+  /* Colonne latérale gauche : le panneau d'historique, quand ouvert —
+     jamais superposé à la carte (grille .map-legend-row, colonne 1 :
+     largeur réservée par le `grid-template-columns` du parent, pas par
+     cette règle). La légende n'y vit plus (préférence utilisateur,
+     2026-09-02) : elle est affichée sous `.map-legend-row`, en ligne. */
+  grid-column: 1;
+}
+
+@media (max-width: 720px) {
+  /* Écran étroit : une seule colonne, panneau (si ouvert) au-dessus de la
+     carte plutôt qu'à côté — 300px fixes pour le panneau ne laisseraient
+     quasi plus de place à la carte en dessous de cette largeur. */
+  .map-legend-row {
+    grid-template-columns: 1fr;
+  }
+
+  .map-side-column {
+    grid-column: 1;
+  }
+
+  .map-container {
+    grid-column: 1;
+  }
+}
+
+.history-panel {
+  /* Élément de flux normal dans .map-side-column (plus un overlay absolu
+     depuis le 2026-09-02 : un panneau en overlay, même borné à la carte,
+     continuait à recouvrir une partie de la France — Bretagne notamment —
+     signalé par l'utilisateur). Hauteur bornée avec ascenseur interne
+     plutôt que de pousser la légende hors champ. */
+  width: 100%;
+  max-height: 60vh;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.history-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.history-panel-title {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.history-panel-code {
+  font-weight: 400;
+  color: #777;
+}
+
+.history-panel-close {
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #555;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.history-panel-close:hover,
+.history-panel-close:focus-visible {
+  background: #f0f0f0;
+  color: var(--color-text);
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.history-item {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.history-badge {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.history-badge--interdiction {
+  background: var(--color-rouge);
+}
+
+.history-badge--levee {
+  background: var(--color-vert);
+}
+
+.history-badge--prolongation {
+  background: #b26a1b;
+}
+
+.history-item-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.history-item-dates {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.history-item-reference {
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.history-item-meta {
+  font-size: 0.75rem;
+  color: #777;
+  margin-top: 0.15rem;
+}
+
+.legend {
+  /* Sous la carte, en pleine largeur de .map-legend-row (préférence
+     utilisateur, 2026-09-02 : disposition horizontale plutôt que dans la
+     colonne latérale gauche). Traitement "carte" pour la détacher
+     visuellement de la carte au-dessus. */
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.map-departement--idf-hover {
+  /* Surbrillance partagée des 8 départements franciliens au survol de
+     N'IMPORTE LEQUEL d'entre eux (2026-09-02, remplace l'encart séparé —
+     supprimé — par une région directement cliquable sur la carte
+     principale). Contrairement à `.map-departement:hover` (opacité +
+     contour, natif CSS, sur le seul élément survolé), cette classe est
+     pilotée par l'état React `idfHovered` et appliquée aux 8 chemins à la
+     fois, pour bien montrer qu'ils forment une seule zone cliquable. */
+  stroke: #000;
+  stroke-width: 1.3;
+  filter: brightness(1.18);
+}
+
+.idf-modal-backdrop {
+  /* Popin d'agrandissement Île-de-France (2026-09-02) : contrairement au
+     panneau d'historique (délibérément non bloquant, pour garder la carte
+     principale navigable), il s'agit ici d'une action ponctuelle de "zoom"
+     — un vrai fond opaque + une boîte de dialogue centrée est approprié,
+     l'utilisateur ayant explicitement demandé une "popin". */
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.idf-modal {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+  padding: 1.25rem 1.5rem 1.5rem;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.idf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.idf-modal-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.idf-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #555;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+}
+
+.idf-modal-close:hover,
+.idf-modal-close:focus-visible {
+  background: #f0f0f0;
+  color: var(--color-text);
+}
+
+.idf-modal-hint {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0.4rem 0 0.75rem;
+}
+
+.idf-modal-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

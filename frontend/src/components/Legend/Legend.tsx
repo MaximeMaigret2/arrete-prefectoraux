@@ -37,15 +37,25 @@ const ENTRIES: LegendEntry[] = [
 export default function Legend() {
   return (
     <section aria-labelledby="legend-heading" className="legend">
-      <h2 id="legend-heading" style={{ fontSize: '1rem' }}>
+      <h2 id="legend-heading" style={{ fontSize: '1rem', margin: '0 0 0.75rem' }}>
         Légende
       </h2>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <ul
+        style={{
+          listStyle: 'none',
+          padding: 0,
+          margin: 0,
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: '1.5rem',
+        }}
+      >
         {ENTRIES.map((entry) => (
           <li
             key={entry.etat}
             className={`legend-item legend-item--${entry.etat}`}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: '1 1 220px' }}
           >
             <span
               aria-hidden="true"

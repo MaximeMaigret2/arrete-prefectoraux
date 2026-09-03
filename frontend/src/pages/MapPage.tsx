@@ -3,6 +3,7 @@ import DepartementsMap from '../components/Map/Map.js';
 import Legend from '../components/Legend/Legend.js';
 import Calendar, { type CalendarSelection } from '../components/Calendar/Calendar.js';
 import Slider from '../components/Slider/Slider.js';
+import DepartementHistoryPanel from '../components/History/DepartementHistoryPanel.js';
 import {
   getDepartementsAtDate,
   getDepartementsEtatsPeriode,
@@ -46,6 +47,9 @@ export default function MapPage() {
   const [derniereMiseAJour, setDerniereMiseAJour] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  // Département dont l'historique complet est affiché (idée n°3 du backlog
+  // produit, volet affichage) — ouvert au clic sur la carte (Map.tsx).
+  const [selectedDepartement, setSelectedDepartement] = useState<string | null>(null);
 
   const fetchForDate = useCallback(async (date: string) => {
     setLoading(true);
@@ -156,10 +160,26 @@ export default function MapPage() {
       )}
       {loading && <p aria-live="polite">Chargement de la carte…</p>}
 
+      <p className="map-hint">Cliquez sur un département pour consulter son historique complet.</p>
+
       <div className="map-legend-row">
-        <DepartementsMap departementsState={displayedState} />
-        <Legend />
+        {/* Colonne latérale gauche : uniquement le panneau d'historique,
+            affichée seulement quand un département est sélectionné — plus
+            jamais superposée à la carte (FR : signalé par l'utilisateur,
+            2026-09-02, la carte de France elle-même était partiellement
+            recouverte par le panneau en overlay absolu). La carte occupe
+            le reste de la largeur, à droite. */}
+        {selectedDepartement && (
+          <div className="map-side-column">
+            <DepartementHistoryPanel code={selectedDepartement} onClose={() => setSelectedDepartement(null)} />
+          </div>
+        )}
+        <DepartementsMap departementsState={displayedState} onSelectDepartement={setSelectedDepartement} />
       </div>
+
+      {/* Légende sous la carte, en disposition horizontale (préférence
+          utilisateur, 2026-09-02) plutôt que dans la colonne latérale. */}
+      <Legend />
     </div>
   );
 }

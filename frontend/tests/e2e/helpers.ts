@@ -19,8 +19,19 @@ import type { Page } from '@playwright/test';
  * navigateur, qui respecte nativement le tracé peint (pas d'approximation
  * géométrique de notre côté) — désigne effectivement ce `<path>`.
  */
-export async function hoverDepartement(page: Page, code: string): Promise<void> {
-  const path = page.locator(`path[data-code="${code}"]`);
+export async function hoverDepartement(page: Page, code: string, svgSelector = 'svg.map-svg'): Promise<void> {
+  // Ancré par défaut sur la carte principale (`svg.map-svg`) : les 8
+  // départements franciliens ont un second `<path data-code="...">` dans la
+  // popin d'agrandissement Île-de-France (`svg.idf-modal-svg`, 2026-09-02)
+  // quand elle est ouverte — sans ce scope, Playwright refuserait de
+  // résoudre un localisateur ambigu (mode strict) pour ces codes-là si la
+  // popin et la carte principale étaient toutes deux visibles en même
+  // temps. Passer `svgSelector: 'svg.idf-modal-svg'` pour survoler un
+  // département francilien À L'INTÉRIEUR de la popin (seul endroit où son
+  // infobulle individuelle — pas celle de la région — est accessible,
+  // puisque sur la carte principale ces 8 départements partagent
+  // désormais une seule infobulle de région, voir Map.tsx).
+  const path = page.locator(`${svgSelector} path[data-code="${code}"]`);
   await path.waitFor({ state: 'visible' });
   // Nécessaire car les coordonnées ci-dessous sont ensuite testées via
   // `document.elementFromPoint`, qui n'opère que sur le viewport actuellement
