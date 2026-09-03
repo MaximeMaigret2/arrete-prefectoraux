@@ -28021,5 +28021,119 @@
     "date_creation": "2026-09-03T05:36:18.953Z",
     "date_resolution": null,
     "evenement_resultant_id": null
+  },
+  {
+    "id": "df12acf9-2201-4b21-b4be-af1d3301e99b",
+    "connecteur_id": "prefecture-77",
+    "execution_id": "899059c7-018e-4cbf-9466-62bb172caadf",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-03T06:37:05.683Z"
+    },
+    "departement_code": "77",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T06:37:07.917Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e8fd760e-2f23-469b-982c-929f035347ed",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "90b1e0f9-5abc-42eb-86d7-6962afff4364",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T06:37:16.038Z"
+    },
+    "departement_code": "33",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T06:37:18.255Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5a86bdca-916d-4087-bc1b-a8400842d1c5",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "e8f7973a-ec96-4f4a-a46b-d8721515516e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T06:37:26.357Z"
+    },
+    "departement_code": "33",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T06:37:28.591Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8417614d-194b-40b3-a6b2-2197292891cd",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "0fd1b44e-bf1b-4768-8a61-8160f243a7c8",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T06:37:36.677Z"
+    },
+    "departement_code": "33",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T06:37:38.738Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d440ea7e-6daf-4aa7-9e3e-c0ede665ca26",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "7b980208-4f8c-4f01-9469-b187dc027bcf",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T06:37:46.849Z"
+    },
+    "departement_code": "33",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T06:37:48.897Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "b674bcd8-33f0-49a7-a70a-68e952c9d246",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "b97ee723-029b-4fe1-91e0-a970b21eab04",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T06:37:56.977Z"
+    },
+    "departement_code": "33",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T06:38:00.054Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
   }
 ]
