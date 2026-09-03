@@ -28135,5 +28135,442 @@
     "date_creation": "2026-09-03T06:38:00.054Z",
     "date_resolution": null,
     "evenement_resultant_id": null
+  },
+  {
+    "id": "f669fea5-8e82-49ef-bd25-6af02d07f605",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "1abe337e-4df1-40f7-8826-e178e140473a",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T07:12:20.066Z"
+    },
+    "departement_code": "33",
+    "raison": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:12:21.236Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d7b56bc0-a085-4d99-8a8d-e64355ef9976",
+    "connecteur_id": "prefecture-01",
+    "execution_id": "e0882cd2-134b-4667-b977-256b3e7049b0",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-03T07:12:29.348Z"
+    },
+    "departement_code": "01",
+    "raison": "Navigation : page \"https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:12:30.781Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "fb47d64a-33b4-4b1c-b8fc-c5e1cf8d5b47",
+    "connecteur_id": "prefecture-02",
+    "execution_id": "b2fbda05-83e6-4a23-9ec6-c4e102a7d29d",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T07:12:38.938Z"
+    },
+    "departement_code": "02",
+    "raison": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:12:40.177Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "944ed26a-602d-43e4-b198-6d0892ed42b6",
+    "connecteur_id": "prefecture-01",
+    "execution_id": "86d78673-f649-44f1-9b04-541c67f0e538",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-03T07:16:42.403Z"
+    },
+    "departement_code": "01",
+    "raison": "Navigation : page \"https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:16:43.587Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "1b184a1d-f404-4f56-b635-fa21283b4b80",
+    "connecteur_id": "prefecture-02",
+    "execution_id": "fc1981a1-7949-4fa6-9ca8-2d860ae8da5d",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T07:16:51.714Z"
+    },
+    "departement_code": "02",
+    "raison": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:16:52.965Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a7bf163f-da14-45bb-b1be-a1c690386975",
+    "connecteur_id": "prefecture-03",
+    "execution_id": "29715559-4d29-4a8b-a382-45c87411ef2e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes",
+      "contenu_brut_reference": "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes",
+      "date_collecte": "2026-09-03T07:17:01.091Z"
+    },
+    "departement_code": "03",
+    "raison": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:17:02.567Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "3244db3a-53d1-478c-951a-9748c20e7afb",
+    "connecteur_id": "prefecture-05",
+    "execution_id": "d31b4202-4d53-43ea-8070-ff3dff2135df",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-03T07:17:59.077Z"
+    },
+    "departement_code": "05",
+    "raison": "Navigation : page \"https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:18:00.393Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "db45a6fd-b245-402f-9e85-e6cc7dbad5ca",
+    "connecteur_id": "prefecture-06",
+    "execution_id": "38bdbdf9-4189-41a8-b525-98d1ffc51784",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-03T07:18:08.502Z"
+    },
+    "departement_code": "06",
+    "raison": "Navigation : page \"https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:18:09.776Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8d15360e-59bb-409d-a8ef-384f25ff493d",
+    "connecteur_id": "prefecture-07",
+    "execution_id": "df9f406e-23c2-49c1-a8e6-dc8c56fc2865",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-03T07:18:17.940Z"
+    },
+    "departement_code": "07",
+    "raison": "Navigation : page \"https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:18:19.100Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "82e3499e-717d-40af-94bd-a45e175a964e",
+    "connecteur_id": "prefecture-09",
+    "execution_id": "7c88eeff-4278-45c8-9525-dd0c70271367",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-03T07:23:52.066Z"
+    },
+    "departement_code": "09",
+    "raison": "Navigation : page \"https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:23:53.254Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "af159e98-aa1a-493e-bd5e-464f8c11c376",
+    "connecteur_id": "prefecture-11",
+    "execution_id": "66ead5d0-21b3-4d5a-985e-2b9866c408ea",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-03T07:24:21.574Z"
+    },
+    "departement_code": "11",
+    "raison": "Navigation : page \"https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:24:22.713Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8517a591-94b7-4a57-9aa1-307297c87c46",
+    "connecteur_id": "prefecture-14",
+    "execution_id": "4739b273-21df-4df2-a7da-3bedf516f170",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-03T07:25:51.696Z"
+    },
+    "departement_code": "14",
+    "raison": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:25:52.851Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2097604b-2d1f-4603-8b59-b5675f739969",
+    "connecteur_id": "prefecture-15",
+    "execution_id": "a3cdfb3d-7a36-4da7-9141-cf3117883555",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T07:26:00.990Z"
+    },
+    "departement_code": "15",
+    "raison": "Navigation : page \"https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:26:02.248Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "396a478b-8ebd-431a-8ce4-2adb7870fa0e",
+    "connecteur_id": "prefecture-16",
+    "execution_id": "d4d79807-b94d-4c8f-ade7-cddd8f08ef97",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "contenu_brut_reference": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "date_collecte": "2026-09-03T07:26:10.344Z"
+    },
+    "departement_code": "16",
+    "raison": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:26:11.716Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "70971ee4-21d9-4d29-ae3c-d8b0a51a292d",
+    "connecteur_id": "prefecture-17",
+    "execution_id": "ae2baf79-9a3e-4bc6-8905-42ae61eb58d9",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T07:26:19.822Z"
+    },
+    "departement_code": "17",
+    "raison": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:26:21.116Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "cba95ff0-1469-4525-8ac5-142bb0c0e1ee",
+    "connecteur_id": "prefecture-18",
+    "execution_id": "c7fddc2b-27ba-4325-9b0b-e6aae3c51daa",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires",
+      "contenu_brut_reference": "https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires",
+      "date_collecte": "2026-09-03T07:26:29.208Z"
+    },
+    "departement_code": "18",
+    "raison": "Navigation : page \"https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:26:30.441Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "365297ae-bdb6-4b4e-991c-e670756f9c9f",
+    "connecteur_id": "prefecture-19",
+    "execution_id": "02cbe31a-efc6-42a4-a566-8ad7c0b00c6e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-03T07:26:38.533Z"
+    },
+    "departement_code": "19",
+    "raison": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T07:26:39.073Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "4d8990e5-5f0a-4f7d-8518-f94fa0746908",
+    "connecteur_id": "prefecture-33",
+    "execution_id": "172eab1b-783d-430e-b502-f0af7473381b",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T12:14:34.985Z"
+    },
+    "departement_code": "33",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T12:14:36.932Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "b3842c40-8c1b-4ac6-9ac3-871ef47b5a9e",
+    "connecteur_id": "prefecture-01",
+    "execution_id": "d20058b6-2bd6-453a-9c46-6fefb1356534",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "contenu_brut_reference": "https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA",
+      "date_collecte": "2026-09-03T12:14:45.049Z"
+    },
+    "departement_code": "01",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T12:14:47.940Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c6c69215-2599-4b89-8136-2141d6d9395f",
+    "connecteur_id": "prefecture-02",
+    "execution_id": "8644b781-e857-465e-9dd7-069aaac8b063",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T12:14:56.030Z"
+    },
+    "departement_code": "02",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T12:14:57.898Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d55515f4-4519-4010-928b-df664d1f63a5",
+    "connecteur_id": "prefecture-03",
+    "execution_id": "0599cd4d-6b3a-460e-b6bd-f2bcb912896f",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes",
+      "contenu_brut_reference": "https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes",
+      "date_collecte": "2026-09-03T12:15:06.018Z"
+    },
+    "departement_code": "03",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T12:15:07.846Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "162ab91c-07b0-48a5-a277-be72e56b2dc4",
+    "connecteur_id": "prefecture-04",
+    "execution_id": "b0574ed5-d60e-42d0-b20b-5111f90064c0",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-03T12:15:15.935Z"
+    },
+    "departement_code": "04",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T12:15:17.731Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f934d3f5-06b8-4a2b-b13d-6342285fa757",
+    "connecteur_id": "prefecture-05",
+    "execution_id": "b5662dcd-9fac-4ec3-b8dd-e2e14752d01a",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-03T12:15:25.825Z"
+    },
+    "departement_code": "05",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-03T12:15:27.669Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
   }
 ]
