@@ -27,11 +27,24 @@ import type { ExecutionCollecte } from '../models/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/** Espacement minimum par defaut (ms) entre deux requetes consecutives d'une meme file (FR-012). */
-export const ESPACEMENT_MINIMUM_MS_DEFAUT = Number(process.env.BACKFILL_ESPACEMENT_MS ?? 3000);
+/**
+ * Espacement minimum par defaut (ms) entre deux requetes consecutives d'une meme file (FR-012).
+ * Releve de 3000 a 8000 le 2026-09-03 (decision utilisateur) : les campagnes des 2026-09-02/03
+ * ont montre un circuit-breaker qui s'ouvre apres seulement 1-3 succes lors des tentatives de
+ * reprise, cohere avec un hebergeur mutualise encore fragile sous volume - un espacement plus
+ * genereux vise a laisser respirer l'hebergeur entre deux requetes plutot qu'a le solliciter plus.
+ */
+export const ESPACEMENT_MINIMUM_MS_DEFAUT = Number(process.env.BACKFILL_ESPACEMENT_MS ?? 8000);
 
-/** Nombre d'echecs reseau bas niveau CONSECUTIFS, au sein d'une meme file, avant ouverture du circuit-breaker (FR-014). */
-export const SEUIL_CIRCUIT_BREAKER_DEFAUT = Number(process.env.BACKFILL_SEUIL_CIRCUIT ?? 3);
+/**
+ * Nombre d'echecs reseau bas niveau CONSECUTIFS, au sein d'une meme file, avant ouverture du
+ * circuit-breaker (FR-014).
+ * Releve de 3 a 6 le 2026-09-03 (decision utilisateur), en meme temps que l'espacement ci-dessus :
+ * un seuil de 3 se declenchait trop vite face aux rafales de 503 observees les 2026-09-02/03,
+ * empechant d'absorber un blip transitoire sans interrompre toute la file. Reste un compromis :
+ * un seuil trop eleve marteler un hote deja en difficulte plus longtemps avant de s'arreter.
+ */
+export const SEUIL_CIRCUIT_BREAKER_DEFAUT = Number(process.env.BACKFILL_SEUIL_CIRCUIT ?? 6);
 
 /** Chemin par defaut du fichier de checkpoint (genere a l'execution, jamais committe - cf. .gitignore). */
 export const CHEMIN_CHECKPOINT_DEFAUT = path.join(__dirname, 'backfill-checkpoint.json');
