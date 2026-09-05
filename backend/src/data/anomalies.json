@@ -29009,5 +29009,119 @@
     "date_creation": "2026-09-05T06:56:55.466Z",
     "date_resolution": null,
     "evenement_resultant_id": null
+  },
+  {
+    "id": "3b0b781c-e1c1-4716-b719-e87e73ed00b9",
+    "connecteur_id": "prefecture-08",
+    "execution_id": "4dc96bb0-15c3-499a-b171-41a3694f047d",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T07:21:36.943Z"
+    },
+    "departement_code": "08",
+    "raison": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T07:21:38.093Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "84c8a732-268c-4e89-adf7-6003f268baa5",
+    "connecteur_id": "prefecture-10",
+    "execution_id": "fd0e946e-0a17-4bc0-827f-75452c09f055",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "contenu_brut_reference": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "date_collecte": "2026-09-05T07:21:46.276Z"
+    },
+    "departement_code": "10",
+    "raison": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T07:21:47.680Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d29890a3-ff23-402e-9828-63ab8ebb2b65",
+    "connecteur_id": "prefecture-14",
+    "execution_id": "e920b749-afd2-44b4-ba6c-f037f97b61c8",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T07:21:55.798Z"
+    },
+    "departement_code": "14",
+    "raison": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T07:21:58.225Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f017e05e-2d5c-4530-a200-f692ab80ccf5",
+    "connecteur_id": "prefecture-16",
+    "execution_id": "eae5a142-947f-43d3-87e9-d998ff97dca5",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "contenu_brut_reference": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "date_collecte": "2026-09-05T07:22:06.305Z"
+    },
+    "departement_code": "16",
+    "raison": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T07:22:07.624Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "817d6b33-bdc6-43c5-9158-07500c771b97",
+    "connecteur_id": "prefecture-17",
+    "execution_id": "da48a2f4-c0cd-4384-91ee-c654b6dabdde",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-05T07:22:15.715Z"
+    },
+    "departement_code": "17",
+    "raison": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T07:22:16.942Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "0cd5a53a-0bfa-41ae-8969-acf9ad2c6300",
+    "connecteur_id": "prefecture-19",
+    "execution_id": "a035877a-ddb1-4aa1-970d-c17d43f2a08e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T07:22:25.047Z"
+    },
+    "departement_code": "19",
+    "raison": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T07:22:26.213Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
   }
 ]
