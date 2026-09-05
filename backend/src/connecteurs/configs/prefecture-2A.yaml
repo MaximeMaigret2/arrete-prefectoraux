@@ -83,3 +83,9 @@ patterns_dates:
   debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
   fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
 pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"
+
+# feature 005 (backfill historique, 2026-09-04) : navigation year-scoped (aucune etape
+# ne depend du mois cible), la meme page couvre donc tous les mois d'une meme annee -
+# cf. config.schema.ts (granularite_liste) et registre-sources.yaml pour la justification
+# structurelle relevee sur ce connecteur.
+granularite_liste: annuelle

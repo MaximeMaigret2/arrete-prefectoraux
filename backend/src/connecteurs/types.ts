@@ -63,6 +63,20 @@ export interface ResultatCollecte {
    */
   candidats: CandidatEvenement[];
   /**
+   * Années (format `AAAA`) intégralement couvertes par CETTE collecte,
+   * au-delà du seul mois cible demandé (feature 005, backfill historique,
+   * 2026-09-04) — renseigné uniquement par un moteur dont la source ne
+   * découpe pas sa liste par mois (ex. `page_web` avec
+   * `PageWebConfig.granularite_liste: 'annuelle'`, cf. son commentaire) :
+   * la page récupérée pour satisfaire `cible` contient déjà, de façon
+   * certaine, l'intégralité de l'année de `cible`, donc de tout autre mois
+   * cible de cette même année. Absent/vide (comportement historique
+   * inchangé) : cette collecte ne couvre que le mois explicitement demandé.
+   * `backfill-historique.ts` seul consommateur — sans effet sur le cycle
+   * planifié ni le déclenchement manuel, qui ignorent ce champ.
+   */
+  anneesCouvertes?: string[];
+  /**
    * Renseigné uniquement si la source elle-même est inaccessible/illisible
    * (distinct d'un candidat individuel mal formé) — déclenche
    * `echec_lecture_source` pour l'ensemble du run de ce connecteur

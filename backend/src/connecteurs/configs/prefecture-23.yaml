@@ -115,3 +115,9 @@ patterns_dates:
   debut: "du\\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâï]+\\s+\\d{4})"
   fin: "au\\s+(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\\s+(?<date>\\d{1,2}\\s+[a-zéèêûôîàâï]+\\s+\\d{4})"
 pattern_reference: "N[ºo°]\\s*(?:N[ºo°]\\s*)?(?<reference>[0-9-]+)\\s*DU\\s*\\d{1,2}\\s*[A-ZÉÛ]+\\s*\\d{4}\\s*portant\\s+interdiction\\s+temporaire\\s+de\\s+rassemblements"
+
+# feature 005 (backfill historique, 2026-09-04) : navigation year-scoped (aucune etape
+# ne depend du mois cible), la meme page couvre donc tous les mois d'une meme annee -
+# cf. config.schema.ts (granularite_liste) et registre-sources.yaml pour la justification
+# structurelle relevee sur ce connecteur.
+granularite_liste: annuelle

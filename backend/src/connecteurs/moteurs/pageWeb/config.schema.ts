@@ -171,6 +171,29 @@ const TitreFrereSchema = z.object({
  * `navigation` (V009, Phase 5bis élargie, 2026-08-14) est elle aussi
  * optionnelle (alternative à `pattern_lien`, jamais utilisée par défaut) —
  * aucun impact sur les connecteurs existants qui n'en ont pas besoin.
+ *
+ * `granularite_liste` (feature 005, backfill historique, 2026-09-04) :
+ * certaines sources (ex. prefecture-08/-10, cf. `registre-sources.yaml`)
+ * publient une liste DÉJÀ annuelle — la `navigation` s'arrête au niveau de
+ * l'année, sans étape dépendant du mois cible (`{mois_numero}`/`{mois_fr}`/
+ * `periodes`). Pour ces connecteurs, une collecte visant n'importe quel mois
+ * d'une année donnée récupère systématiquement la MÊME page — le mois cible
+ * n'a aucune influence sur l'URL résolue. `granularite_liste: 'annuelle'`
+ * le signale explicitement : le moteur (`moteur.ts`) marque alors le
+ * résultat comme couvrant l'année entière (`ResultatCollecte.anneesCouvertes`),
+ * ce que `backfill-historique.ts` utilise pour considérer TOUS les mois
+ * cibles restants de cette même année comme traités par ce seul succès,
+ * sans jamais raffraîchir cette même page une fois par mois cible (charge
+ * inutile sur un hébergeur déjà fragile, cf. `etat-connecteurs.md`).
+ * Purement déclaratif (contrat §5, règle 7) : aucune branche par connecteur
+ * dans le moteur, seulement une lecture de ce champ de configuration.
+ * Défaut `'mensuelle'` : comportement rigoureusement inchangé pour tout
+ * connecteur qui ne déclare pas ce champ. Volontairement absent pour les
+ * connecteurs dont la liste ne dépend d'AUCUN placeholder de date, y
+ * compris `{annee}` (ex. prefecture-13/-57 : liste réellement invariante,
+ * pas seulement annuelle — la portée exacte de ce qu'une telle page couvre
+ * dans le temps n'a jamais été vérifiée en profondeur, donc jamais
+ * présumée automatiquement ici) — laissés en 'mensuelle' par prudence.
  */
 export const PageWebConfigSchema = z
   .object({
@@ -201,6 +224,8 @@ export const PageWebConfigSchema = z
     session_cookie: SessionCookieSchema.nullable().default(null),
     // Libellé via élément frère optionnel (défaut : aucun, selecteur_titre seul comme tous les connecteurs existants).
     titre_frere: TitreFrereSchema.nullable().default(null),
+    // Granularité de la liste de publications résolue par `navigation` (feature 005, backfill — cf. commentaire ci-dessous). Défaut 'mensuelle' : inchangé pour tout connecteur existant.
+    granularite_liste: z.enum(['mensuelle', 'annuelle']).default('mensuelle'),
   })
   .superRefine((config, ctx) => {
     if (config.page_detail !== null && config.selecteur_lien_pdf === null) {

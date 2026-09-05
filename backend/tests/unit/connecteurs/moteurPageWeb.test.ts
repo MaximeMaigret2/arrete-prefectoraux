@@ -1120,3 +1120,94 @@ describe('moteur page_web — mois cible arbitraire (feature 005, US1)', () => {
     expect(resultat.echec_global?.causeReseau).toBe(true);
   });
 });
+
+/**
+ * `granularite_liste: 'annuelle'` (feature 005, backfill historique,
+ * 2026-09-04) — cf. le commentaire de `PageWebConfigSchema` dans
+ * `config.schema.ts` : une source dont la `navigation` s'arrête au niveau
+ * de l'année (jamais de mois) retourne, pour n'importe quel mois cible
+ * d'une même année, rigoureusement la même page. Le moteur doit alors
+ * signaler `anneesCouvertes: [cible.annee]`, que `backfill-historique.ts`
+ * utilise pour éviter de la refaire une fois par mois cible.
+ */
+describe('moteur page_web — granularite_liste: annuelle (feature 005, backfill historique)', () => {
+  const URL_RACINE = 'https://exemple.gouv.fr/Publications/RAA-annuel';
+
+  const CONFIG_ANNUELLE = {
+    ...CONFIG_BASE,
+    url_liste: URL_RACINE,
+    selecteur_lien_pdf: null as string | null,
+    granularite_liste: 'annuelle' as const,
+    navigation: [{ selecteur_liens: '.fr-card__title a', pattern_lien: '/annee-{annee}$' }],
+  };
+
+  function pageAnnee(annee: string, urlAnnee: string): string {
+    return `<div class="fr-card__title"><a href="${urlAnnee}">Année ${annee}</a></div>`;
+  }
+
+  const HTML_ANNEE = `
+    <div class="raa-item">
+      <div class="raa-item__titre">
+        Arrêté n° 2026-13-0700 portant interdiction de rassemblement de type rave,
+        à compter du 05/03/2026 jusqu'au 07/03/2026
+      </div>
+    </div>
+  `;
+
+  it("signale anneesCouvertes: [cible.annee] sur un succès (mais jamais l'inverse pour un connecteur mensuel ordinaire, comportement par défaut inchangé)", async () => {
+    const URL_ANNEE = `${URL_RACINE}/annee-2026`;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => pageAnnee('2026', URL_ANNEE) } as unknown as Response;
+        if (url === URL_ANNEE) return { ok: true, status: 200, text: async () => HTML_ANNEE } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteurAnnuel = creerConnecteur(ENTREE, CONFIG_ANNUELLE);
+    const resultatAnnuel = await connecteurAnnuel.collecter({ annee: '2026', moisNumero: '08' });
+    expect(resultatAnnuel.echec_global).toBeUndefined();
+    expect(resultatAnnuel.candidats).toHaveLength(1);
+    expect(resultatAnnuel.anneesCouvertes).toEqual(['2026']);
+
+    // Même config mais 'mensuelle' (défaut) : même page, mais AUCUNE couverture annuelle signalée — chaque mois reste traité individuellement.
+    const connecteurMensuel = creerConnecteur(ENTREE, { ...CONFIG_ANNUELLE, granularite_liste: 'mensuelle' as const });
+    const resultatMensuel = await connecteurMensuel.collecter({ annee: '2026', moisNumero: '08' });
+    expect(resultatMensuel.anneesCouvertes).toBeUndefined();
+  });
+
+  it("deux mois cibles distincts de la même année résolvent bien la même page (justifie le batching, sans le tester ici)", async () => {
+    const URL_ANNEE = `${URL_RACINE}/annee-2026`;
+    const appelsPageAnnee: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => pageAnnee('2026', URL_ANNEE) } as unknown as Response;
+        if (url === URL_ANNEE) {
+          appelsPageAnnee.push(url);
+          return { ok: true, status: 200, text: async () => HTML_ANNEE } as unknown as Response;
+        }
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, CONFIG_ANNUELLE);
+    const resultatAout = await connecteur.collecter({ annee: '2026', moisNumero: '08' });
+    const resultatJanvier = await connecteur.collecter({ annee: '2026', moisNumero: '01' });
+
+    expect(resultatAout.candidats).toEqual(resultatJanvier.candidats.map((c) => ({ ...c, source: resultatAout.candidats[0]!.source })));
+    expect(appelsPageAnnee).toHaveLength(2); // le moteur lui-même ne met rien en cache — c'est backfill-historique.ts qui évite le second appel via anneesCouvertes.
+  });
+
+  it("n'a aucun effet sur echec_global (pas de anneesCouvertes sur un échec, ni réseau ni page introuvable)", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({ ok: false, status: 503, text: async () => '' }) as unknown as Response),
+    );
+    const connecteur = creerConnecteur(ENTREE, CONFIG_ANNUELLE);
+    const resultat = await connecteur.collecter({ annee: '2026', moisNumero: '08' });
+    expect(resultat.echec_global).toBeDefined();
+    expect(resultat.anneesCouvertes).toBeUndefined();
+  });
+});

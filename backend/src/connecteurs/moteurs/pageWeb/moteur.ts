@@ -570,6 +570,16 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
         return { candidats: [], echec_global: { message, source: sourceListe } };
       }
 
+      // feature 005 (backfill historique, 2026-09-04) : pour un connecteur
+      // `granularite_liste: 'annuelle'` (cf. config.schema.ts), la page
+      // récupérée ci-dessus pour `cible` est rigoureusement la même quel
+      // que soit `cible.moisNumero` — signale donc au consommateur
+      // (`backfill-historique.ts`) que cette collecte couvre déjà
+      // l'intégralité de `cible.annee`, pas seulement le mois demandé.
+      if (config.granularite_liste === 'annuelle') {
+        return { candidats, anneesCouvertes: [cible.annee] };
+      }
+
       return { candidats };
     },
   };

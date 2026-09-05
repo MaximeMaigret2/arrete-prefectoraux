@@ -195,7 +195,7 @@ async function executerConnecteurAvecClassification(
   connecteur: Connecteur,
   declenchement: Declenchement,
   cible?: AnneeMois,
-): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null }> {
+): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null; anneesCouvertes: string[] | null }> {
   const executionId = randomUUID();
   const dateExecution = new Date().toISOString();
 
@@ -213,6 +213,7 @@ async function executerConnecteurAvecClassification(
   let nombreAnomalies = 0;
   let messageErreur: string | null = null;
   let causeReseauSiEchec: boolean | null = null;
+  let anneesCouvertes: string[] | null = null;
 
   try {
     const resultat = await connecteur.collecter(cible);
@@ -236,6 +237,7 @@ async function executerConnecteurAvecClassification(
         nombreAnomalies += 1;
       }
     } else {
+      anneesCouvertes = resultat.anneesCouvertes && resultat.anneesCouvertes.length > 0 ? resultat.anneesCouvertes : null;
       for (const candidat of resultat.candidats) {
         const historique = historiqueParDepartement.get(candidat.departement_code) ?? [];
         const evaluation = evaluerCandidat(candidat, historique);
@@ -284,7 +286,11 @@ async function executerConnecteurAvecClassification(
     await updateConnecteur(connecteur.id, { derniere_collecte: dateExecution });
   }
 
-  return { execution, causeReseauSiEchec: statut === 'echec' ? causeReseauSiEchec : null };
+  return {
+    execution,
+    causeReseauSiEchec: statut === 'echec' ? causeReseauSiEchec : null,
+    anneesCouvertes: statut === 'echec' ? null : anneesCouvertes,
+  };
 }
 
 /**
@@ -309,12 +315,18 @@ export async function executerConnecteur(
  * même journalisation, `declenchement` fixé à `'backfill'`), mais expose en
  * plus, quand l'exécution a échoué, si cet échec est de nature réseau bas
  * niveau (FR-004/FR-014) — nécessaire au circuit-breaker de l'orchestration,
- * jamais consommé par le cycle planifié ni l'admin.
+ * jamais consommé par le cycle planifié ni l'admin. Expose également,
+ * quand l'exécution a réussi, `anneesCouvertes` (feature 005, backfill
+ * historique, 2026-09-04, cf. `ResultatCollecte.anneesCouvertes`) : `null`
+ * sauf pour un connecteur dont la source ne découpe pas sa liste par mois,
+ * auquel cas la liste des années intégralement couvertes par ce seul
+ * succès — l'orchestration l'utilise pour éviter de raffraîchir une page
+ * déjà en main pour chaque autre mois cible de la même année.
  */
 export async function executerConnecteurPourBackfill(
   connecteur: Connecteur,
   cible: AnneeMois,
-): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null }> {
+): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null; anneesCouvertes: string[] | null }> {
   return executerConnecteurAvecClassification(connecteur, 'backfill', cible);
 }
 

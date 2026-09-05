@@ -237,6 +237,65 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     expect(checkpoint.connecteurs['conn-a']?.moisRestants).toEqual([]);
   });
 
+  it("(a ter) un connecteur qui signale anneesCouvertes marque d'un coup TOUS les mois restants de cette année (checkpoint ET file du run en cours), feature 005 backfill historique 2026-09-04", async () => {
+    const appels: string[] = [];
+
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, espacementMinimumMs: 0 },
+      deps({
+        // conn-a : 4 mois cibles, tous en 2026 (M-1..M-4 depuis août 2026 = juil/juin/mai/avril 2026).
+        auditerProfondeurs: async () => [profondeur('conn-a', 4)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          appels.push(`${connecteur.id}:${cible.annee}-${cible.moisNumero}`);
+          // Le tout premier mois tenté (juillet 2026) réussit et couvre l'année 2026 entière.
+          return {
+            execution: executionFausse('succes'),
+            causeReseauSiEchec: null,
+            anneesCouvertes: ['2026'],
+          };
+        },
+      }),
+    );
+
+    // Un seul appel réseau : les 3 autres mois cibles de 2026, encore dans
+    // la file de ce même run, sont retirés sans jamais être resollicités.
+    expect(appels).toEqual(['conn-a:2026-07']);
+    // Les 4 mois cibles (tous en 2026) comptent comme résolus par ce seul succès.
+    expect(rapport.groupes.find((g) => g.groupe === 'mutualise')?.moisReussis).toBe(4);
+
+    const checkpoint = await lireCheckpoint(cheminCheckpoint);
+    expect(checkpoint.connecteurs['conn-a']?.moisRestants).toEqual([]);
+  });
+
+  it("(a quater) anneesCouvertes ne retire que les mois de l'année couverte, jamais ceux d'une autre année ni d'un autre connecteur", async () => {
+    const appels: string[] = [];
+
+    await executerBackfill(
+      { cheminCheckpoint, espacementMinimumMs: 0 },
+      deps({
+        // conn-a : 14 mois cibles depuis aout 2026 -> remonte jusqu'en 2025 (M-1..M-14).
+        auditerProfondeurs: async () => [profondeur('conn-a', 14), profondeur('conn-b', 1)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          appels.push(`${connecteur.id}:${cible.annee}-${cible.moisNumero}`);
+          if (connecteur.id === 'conn-b') {
+            return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+          }
+          // conn-a couvre 2026 entier dès son tout premier mois cible (juillet 2026) - 2025 doit rester intact.
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null, anneesCouvertes: ['2026'] };
+        },
+      }),
+    );
+
+    const checkpoint = await lireCheckpoint(cheminCheckpoint);
+    // 2026 entièrement retiré (M-1..M-7 depuis août 2026 = juillet à janvier 2026, 7 mois cibles),
+    // 2025 intact (M-8..M-14 = décembre à juin 2025, 7 mois cibles restants).
+    const restants = checkpoint.connecteurs['conn-a']?.moisRestants ?? [];
+    expect(restants.every((m) => m.annee === '2025')).toBe(true);
+    expect(restants).toHaveLength(7);
+    // conn-b, non concerné par anneesCouvertes de conn-a, traité normalement.
+    expect(checkpoint.connecteurs['conn-b']?.moisRestants).toEqual([]);
+  });
+
   it('(e) un pilote restreint à un sous-ensemble explicite ne touche que ce sous-ensemble', async () => {
     const traites: string[] = [];
 

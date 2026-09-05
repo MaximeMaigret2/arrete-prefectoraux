@@ -113,3 +113,58 @@ describe('configs/*.yaml — validation contre le schéma zod du type_connecteur
     }
   });
 });
+
+/**
+ * `granularite_liste` (feature 005, backfill historique, 2026-09-04) —
+ * cf. le commentaire de `PageWebConfigSchema` dans `config.schema.ts`.
+ */
+describe('PageWebConfigSchema — granularite_liste', () => {
+  it("vaut 'mensuelle' par défaut quand absent (comportement historique inchangé)", () => {
+    const config = PageWebConfigSchema.parse({
+      url_liste: 'https://exemple.gouv.fr/Publications/RAA',
+      selecteur_publications: '.raa-item',
+      selecteur_titre: '.raa-item__titre',
+      selecteur_lien_pdf: null,
+      autorite_signataire: 'Le Préfet',
+      type_evenement_par_defaut: 'interdiction',
+      mots_cles_filtrage: ['rave'],
+      patterns_dates: { debut: 'debut (?<date>\\d{2}/\\d{2}/\\d{4})', fin: null },
+      pattern_reference: 'Arrêté n°\\s*(?<reference>[0-9-]+)',
+    });
+    expect(config.granularite_liste).toBe('mensuelle');
+  });
+
+  it('accepte explicitement \'annuelle\', rejette toute autre valeur', () => {
+    const base = {
+      url_liste: 'https://exemple.gouv.fr/Publications/RAA',
+      selecteur_publications: '.raa-item',
+      selecteur_titre: '.raa-item__titre',
+      selecteur_lien_pdf: null,
+      autorite_signataire: 'Le Préfet',
+      type_evenement_par_defaut: 'interdiction' as const,
+      mots_cles_filtrage: ['rave'],
+      patterns_dates: { debut: 'debut (?<date>\\d{2}/\\d{2}/\\d{4})', fin: null },
+      pattern_reference: 'Arrêté n°\\s*(?<reference>[0-9-]+)',
+    };
+    expect(PageWebConfigSchema.parse({ ...base, granularite_liste: 'annuelle' }).granularite_liste).toBe('annuelle');
+    expect(PageWebConfigSchema.safeParse({ ...base, granularite_liste: 'hebdomadaire' }).success).toBe(false);
+  });
+
+  it('les connecteurs réels marqués granularite_liste: annuelle n\'ont, dans leur navigation, aucune étape dépendant du mois cible ({mois_numero}/{mois_fr}/periodes) — la garantie même qui justifie le batching (cf. moteur.ts)', async () => {
+    const configs = await chargerConfigsYaml();
+    for (const { fichier, contenu } of configs) {
+      if (!estUneConfigConnecteur(contenu) || contenu.type_connecteur !== 'page_web') continue;
+      const config = PageWebConfigSchema.parse(contenu);
+      if (config.granularite_liste !== 'annuelle') continue;
+
+      for (const etape of config.navigation) {
+        expect(etape.periodes, `${fichier} : une étape 'periodes' dépend du mois cible, incompatible avec granularite_liste: 'annuelle'`).toBeUndefined();
+        const motif = etape.pattern_lien ?? '';
+        expect(
+          motif.includes('{mois_numero}') || motif.includes('{mois_fr}'),
+          `${fichier} : un pattern_lien "${motif}" dépend du mois cible, incompatible avec granularite_liste: 'annuelle'`,
+        ).toBe(false);
+      }
+    }
+  });
+});

@@ -13,6 +13,15 @@
  * Outil operationnel en ligne de commande, jamais appele par le cycle
  * planifie (`scheduler.ts`, FR-019) - un lancement explicite d'un
  * operateur, cf. `package.json` (`backfill:audit`, `backfill:historique`).
+ *
+ * Granularite non-mensuelle (feature 005, backfill historique, 2026-09-04) :
+ * un connecteur `page_web` dont la source ne decoupe pas sa liste par mois
+ * (config `granularite_liste: 'annuelle'`, cf. `moteurs/pageWeb/config.schema.ts`)
+ * peut faire remonter, via `ResultatCollecte.anneesCouvertes`, qu'un seul
+ * succes couvre deja toute l'annee du mois cible - cette orchestration
+ * retire alors d'un coup tous les autres mois cibles de cette meme annee
+ * (checkpoint ET file du run en cours) plutot que de refaire une requete
+ * par mois contre une page deja en main.
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -105,7 +114,7 @@ export interface DependancesBackfill {
   executerConnecteurPourBackfill: (
     connecteur: Connecteur,
     cible: AnneeMois,
-  ) => Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null }>;
+  ) => Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null; anneesCouvertes?: string[] | null }>;
   attendre: (ms: number) => Promise<void>;
   maintenant: () => Date;
   /**
@@ -243,15 +252,37 @@ export async function executerBackfill(
         await deps.attendre(espacementMinimumMs);
         const libelleMois = `${cible.annee}-${cible.moisNumero}`;
 
-        const { execution, causeReseauSiEchec } = await deps.executerConnecteurPourBackfill(file.connecteur, cible);
+        const { execution, causeReseauSiEchec, anneesCouvertes } = await deps.executerConnecteurPourBackfill(file.connecteur, cible);
 
         if (execution.statut !== 'echec') {
-          etat.moisRestants = etat.moisRestants.filter((m) => !(m.annee === cible.annee && m.moisNumero === cible.moisNumero));
+          // feature 005 (backfill historique, 2026-09-04) : un connecteur
+          // dont la source ne decoupe pas sa liste par mois (config
+          // `granularite_liste: 'annuelle'`, cf. moteur.ts) peut signaler
+          // que ce seul succes couvre deja TOUTE l'annee de `cible`, pas
+          // seulement le mois demande - tous les autres mois cibles de
+          // cette meme annee, encore dans la file de CE run ou dans le
+          // checkpoint, sont alors retires d'un coup plutot que retentes
+          // un par un contre une page deja en main (moins de requetes vers
+          // un hebergeur deja fragile).
+          const anneesEntierementCouvertes = anneesCouvertes && anneesCouvertes.length > 0 ? new Set(anneesCouvertes) : null;
+          let nombreMoisResolus: number;
+          if (anneesEntierementCouvertes) {
+            nombreMoisResolus = etat.moisRestants.filter((m) => anneesEntierementCouvertes.has(m.annee)).length;
+            etat.moisRestants = etat.moisRestants.filter((m) => !anneesEntierementCouvertes.has(m.annee));
+            file.cibles = file.cibles.filter((m) => !anneesEntierementCouvertes.has(m.annee));
+          } else {
+            nombreMoisResolus = 1;
+            etat.moisRestants = etat.moisRestants.filter((m) => !(m.annee === cible.annee && m.moisNumero === cible.moisNumero));
+          }
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
           echecsReseauConsecutifs = 0;
-          rapportGroupe.moisReussis += 1;
+          rapportGroupe.moisReussis += nombreMoisResolus;
+          const suffixeCouverture =
+            anneesEntierementCouvertes && nombreMoisResolus > 1
+              ? ` - ${nombreMoisResolus} mois de ${cible.annee} obtenus d'un coup (liste annuelle)`
+              : '';
           log(
-            `[${groupe}] ${file.connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))`,
+            `[${groupe}] ${file.connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))${suffixeCouverture}`,
           );
           continue;
         }
