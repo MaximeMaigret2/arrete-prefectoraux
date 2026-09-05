@@ -172,8 +172,24 @@ export async function executerBackfill(
   const checkpoint = await lireCheckpoint(cheminCheckpoint);
 
   const profondeursAuditees = await deps.auditerProfondeurs(maintenant);
+  // FR-017 : quand un sous-ensemble pilote est fourni, l'ORDRE dans lequel ses
+  // identifiants sont listes est traite comme une priorite explicite - on ne
+  // se contente pas de filtrer `profondeursAuditees` (qui reste dans l'ordre
+  // de l'audit, alphabetique par fichier de config), on retrie le resultat
+  // selon la position de chaque connecteur dans `options.connecteurIds`.
+  // Sans ce tri, un pilote comme `--pilote=prefecture-30,prefecture-56,...`
+  // n'obtenait aucune garantie que 30 soit tente avant les autres : au sein
+  // d'un meme groupe d'hebergement, `regrouperParHebergement` preserve
+  // l'ordre du tableau qu'on lui passe, donc c'est bien cet ordre-ci qui
+  // determine qui passe en premier dans le round-robin (bug decouvert et
+  // corrige le 2026-09-05, cf. campagne du jour).
   const profondeurs = options.connecteurIds
-    ? profondeursAuditees.filter((p) => options.connecteurIds!.includes(p.connecteurId))
+    ? profondeursAuditees
+        .filter((p) => options.connecteurIds!.includes(p.connecteurId))
+        .sort(
+          (a, b) =>
+            options.connecteurIds!.indexOf(a.connecteurId) - options.connecteurIds!.indexOf(b.connecteurId),
+        )
     : profondeursAuditees;
 
   // Initialise l'etat de checkpoint des connecteurs jamais vus jusqu'ici -

@@ -314,6 +314,26 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     const checkpoint = await lireCheckpoint(cheminCheckpoint);
     expect(Object.keys(checkpoint.connecteurs)).toEqual(['conn-b']);
   });
+
+  it("(e bis) l'ordre donné dans --pilote fait foi, même s'il diffère de l'ordre de l'audit (bug corrigé le 2026-09-05)", async () => {
+    const traites: string[] = [];
+
+    await executerBackfill(
+      // conn-c en tête du pilote alors que l'audit (simulé ici dans l'ordre
+      // alphabétique, comme le fait réellement `auditerProfondeurs`) le
+      // liste en dernier - conn-c doit malgré tout être traité en premier.
+      { cheminCheckpoint, connecteurIds: ['conn-c', 'conn-a', 'conn-b'], espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 1), profondeur('conn-b', 1), profondeur('conn-c', 1)],
+        executerConnecteurPourBackfill: async (connecteur) => {
+          traites.push(connecteur.id);
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    expect(traites).toEqual(['conn-c', 'conn-a', 'conn-b']);
+  });
 });
 
 /**
