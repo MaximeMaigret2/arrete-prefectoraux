@@ -29123,5 +29123,290 @@
     "date_creation": "2026-09-05T07:22:26.213Z",
     "date_resolution": null,
     "evenement_resultant_id": null
+  },
+  {
+    "id": "b3628a8f-fca4-48b7-b355-f668f675d976",
+    "connecteur_id": "prefecture-34",
+    "execution_id": "49e2bdcc-4947-4434-a05e-38a0e5ddd48f",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:36:21.061Z"
+    },
+    "departement_code": "34",
+    "raison": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:36:22.250Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "33984bec-5e7d-4e8a-8391-6f676996d51a",
+    "connecteur_id": "prefecture-08",
+    "execution_id": "1ea07d94-564e-4423-b7d3-461b46cc16c1",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:36:53.372Z"
+    },
+    "departement_code": "08",
+    "raison": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:36:54.640Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "0f996820-7cba-4a6b-9b6e-a07f65dfe6ab",
+    "connecteur_id": "prefecture-10",
+    "execution_id": "7c290279-c433-4c4e-96f2-9fdf6a6b4e5c",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "contenu_brut_reference": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "date_collecte": "2026-09-05T08:37:02.780Z"
+    },
+    "departement_code": "10",
+    "raison": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:37:04.084Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "17c82d86-fefa-4193-a678-5632891b7349",
+    "connecteur_id": "prefecture-14",
+    "execution_id": "e5f2b769-0ce1-483c-a8ca-fa13d68b1a3f",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026",
+      "contenu_brut_reference": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026",
+      "date_collecte": "2026-09-05T08:37:12.230Z"
+    },
+    "departement_code": "14",
+    "raison": "Page liste \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026\" inaccessible : HTTP 503",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:37:14.995Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a8ca064b-1bb1-41e5-8abb-20f510e9b474",
+    "connecteur_id": "prefecture-34",
+    "execution_id": "929814bf-9b5e-46f4-86db-412208bf2ca4",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:45:46.135Z"
+    },
+    "departement_code": "34",
+    "raison": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:45:48.555Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "0871915d-8658-4cce-9b57-e9fb14ed1ed2",
+    "connecteur_id": "prefecture-08",
+    "execution_id": "4c374c08-24c7-4f2c-a29c-d6852a17289c",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:46:19.056Z"
+    },
+    "departement_code": "08",
+    "raison": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:46:20.183Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e48fbc47-fbef-48a6-bc9c-2d378a0ad528",
+    "connecteur_id": "prefecture-10",
+    "execution_id": "7d77d2b2-0f17-49c5-9fed-bba06ff2174f",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "contenu_brut_reference": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "date_collecte": "2026-09-05T08:46:28.326Z"
+    },
+    "departement_code": "10",
+    "raison": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:46:29.621Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "fec88e16-9973-4beb-9f41-0ba0ccf3850c",
+    "connecteur_id": "prefecture-14",
+    "execution_id": "b507210c-ed70-484e-9770-4115da50dcf6",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:46:37.756Z"
+    },
+    "departement_code": "14",
+    "raison": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:46:39.149Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "165c9c9b-d87b-4bf1-9360-b09db6c4cdfd",
+    "connecteur_id": "prefecture-16",
+    "execution_id": "485061de-c387-404a-b54a-787ef7a84e88",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "contenu_brut_reference": "https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2",
+      "date_collecte": "2026-09-05T08:46:47.261Z"
+    },
+    "departement_code": "16",
+    "raison": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:46:48.408Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e16edced-b4d4-49e2-88ad-168e27c645c3",
+    "connecteur_id": "prefecture-30",
+    "execution_id": "fdab6268-72a3-40b4-90ff-1fd77863d13e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "contenu_brut_reference": "https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs",
+      "date_collecte": "2026-09-05T08:50:25.117Z"
+    },
+    "departement_code": "30",
+    "raison": "Navigation : page \"https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:50:26.319Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8e3e0cbf-3884-4f7d-9157-3ab6074194dc",
+    "connecteur_id": "prefecture-34",
+    "execution_id": "56aef863-e9b9-4226-8f0e-fc541746a9b6",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:50:34.538Z"
+    },
+    "departement_code": "34",
+    "raison": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:50:35.074Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "ea4f76d7-a76f-476f-88a2-68e85c25e9a3",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "526e2061-2d7b-46b1-9c78-ef90b73037d2",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T08:50:43.200Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:50:44.412Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f59b0653-d0e0-4615-b6cf-036c711b7042",
+    "connecteur_id": "prefecture-08",
+    "execution_id": "8b84b9a9-0e12-4bdc-988d-3c475fb30236",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:50:52.543Z"
+    },
+    "departement_code": "08",
+    "raison": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:50:53.789Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c6e34417-c7ad-4325-a6ff-496b623db23e",
+    "connecteur_id": "prefecture-10",
+    "execution_id": "79d75b0c-59a6-4176-9a7f-e19137fb1c2a",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "contenu_brut_reference": "https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2",
+      "date_collecte": "2026-09-05T08:51:01.907Z"
+    },
+    "departement_code": "10",
+    "raison": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:51:03.166Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "dc7db0fd-50d6-46d3-9b9e-940fcc6ceebe",
+    "connecteur_id": "prefecture-14",
+    "execution_id": "3f3d5e33-ea23-4860-9407-16604e4cdbd1",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "contenu_brut_reference": "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs",
+      "date_collecte": "2026-09-05T08:51:11.292Z"
+    },
+    "departement_code": "14",
+    "raison": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T08:51:12.517Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
   }
 ]

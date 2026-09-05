@@ -186,7 +186,7 @@
       "17"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-05T08:46:56.462Z",
     "type_connecteur": "page_web"
   },
   {
@@ -326,7 +326,7 @@
       "30"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-05T08:41:25.631Z",
     "type_connecteur": "page_web"
   },
   {
@@ -576,7 +576,7 @@
       "56"
     ],
     "actif": true,
-    "derniere_collecte": null,
+    "derniere_collecte": "2026-09-05T08:45:56.692Z",
     "type_connecteur": "page_web"
   },
   {
