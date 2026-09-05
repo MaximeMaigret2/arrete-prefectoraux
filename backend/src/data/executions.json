@@ -2098,5 +2098,255 @@
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "25812788-86d7-4cb9-a102-ddc654cce7be",
+    "connecteur_id": "prefecture-33",
+    "date_execution": "2026-09-05T06:14:20.523Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "9d9c2751-4618-46b5-ad40-6bfa2b759575",
+    "connecteur_id": "prefecture-01",
+    "date_execution": "2026-09-05T06:14:32.223Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "db4fc94c-ccf1-478f-838c-da049df9b2b0",
+    "connecteur_id": "prefecture-02",
+    "date_execution": "2026-09-05T06:14:43.954Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "82c932b6-d844-467a-a292-e3b1abcb0d6e",
+    "connecteur_id": "prefecture-03",
+    "date_execution": "2026-09-05T06:14:55.813Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "196fa931-81d8-4aa6-be1b-9d78083735dc",
+    "connecteur_id": "prefecture-04",
+    "date_execution": "2026-09-05T06:15:07.500Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "0d17f9e7-e167-4fc7-be1d-575afd616f72",
+    "connecteur_id": "prefecture-05",
+    "date_execution": "2026-09-05T06:15:19.272Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "1df01875-b4a9-425f-96b4-8e71a5d98b9c",
+    "connecteur_id": "prefecture-02",
+    "date_execution": "2026-09-05T06:47:12.945Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "6e644350-efe0-4d1e-91d9-4c853908e48b",
+    "connecteur_id": "prefecture-03",
+    "date_execution": "2026-09-05T06:47:22.417Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "c966f10c-89cd-4f28-9a78-8cccded64602",
+    "connecteur_id": "prefecture-08",
+    "date_execution": "2026-09-05T06:47:31.848Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "854ec363-13a3-4e4a-900a-81ffc45123d0",
+    "connecteur_id": "prefecture-10",
+    "date_execution": "2026-09-05T06:47:41.047Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "f944d74e-b1f7-40ba-b70b-5292808f6968",
+    "connecteur_id": "prefecture-14",
+    "date_execution": "2026-09-05T06:47:50.376Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Page liste \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026\" inaccessible : HTTP 503"
+  },
+  {
+    "id": "df62f7f9-5133-43a6-83c8-b0d8e7747786",
+    "connecteur_id": "prefecture-15",
+    "date_execution": "2026-09-05T06:48:01.199Z",
+    "declenchement": "backfill",
+    "statut": "succes",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "message_erreur": null
+  },
+  {
+    "id": "041a97e6-6d06-4e9b-a547-aa102ad1395b",
+    "connecteur_id": "prefecture-16",
+    "date_execution": "2026-09-05T06:48:23.057Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "3149ec55-b92c-4ba6-ab30-6eb9bf516868",
+    "connecteur_id": "prefecture-17",
+    "date_execution": "2026-09-05T06:48:32.418Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "d3085119-32e8-4171-9037-44fb283870e1",
+    "connecteur_id": "prefecture-19",
+    "date_execution": "2026-09-05T06:48:41.794Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "005702a4-76b1-4de6-83b7-0bec904802e9",
+    "connecteur_id": "prefecture-2A",
+    "date_execution": "2026-09-05T06:48:51.043Z",
+    "declenchement": "backfill",
+    "statut": "succes",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "message_erreur": null
+  },
+  {
+    "id": "6bff91d8-3feb-4a99-ab58-8d7ee5f19452",
+    "connecteur_id": "prefecture-23",
+    "date_execution": "2026-09-05T06:51:10.413Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "e68dc147-347b-4af6-8eab-993b73706935",
+    "connecteur_id": "prefecture-25",
+    "date_execution": "2026-09-05T06:51:19.949Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "79e25629-78d4-408b-8c1c-7adb2df3cee2",
+    "connecteur_id": "prefecture-27",
+    "date_execution": "2026-09-05T06:51:29.236Z",
+    "declenchement": "backfill",
+    "statut": "succes",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "message_erreur": null
+  },
+  {
+    "id": "67c6a0a2-6667-466b-875b-20170aa01998",
+    "connecteur_id": "prefecture-02",
+    "date_execution": "2026-09-05T06:56:07.935Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "3d067947-a22b-4f72-9c3d-f8177f803ab9",
+    "connecteur_id": "prefecture-03",
+    "date_execution": "2026-09-05T06:56:17.173Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "30518619-63af-43de-aff6-6bd219f3d393",
+    "connecteur_id": "prefecture-08",
+    "date_execution": "2026-09-05T06:56:26.420Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "ea2fd234-533e-4afd-bf2f-caf892b6a2b2",
+    "connecteur_id": "prefecture-10",
+    "date_execution": "2026-09-05T06:56:35.789Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "d752302a-1c6f-4690-804f-088e431179ff",
+    "connecteur_id": "prefecture-14",
+    "date_execution": "2026-09-05T06:56:45.102Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "68c7cf0f-e621-4de8-8da7-e0d4b14373ad",
+    "connecteur_id": "prefecture-15",
+    "date_execution": "2026-09-05T06:56:54.286Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "message_erreur": "Navigation : page \"https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   }
 ]
