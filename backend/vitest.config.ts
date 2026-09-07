@@ -25,6 +25,16 @@ export default defineConfig({
     env: {
       ADMIN_USERNAME: 'test-admin',
       ADMIN_PASSWORD: 'test-admin-password-not-for-production',
+      // CORRECTIF (2026-09-07) : `moteur.ts` (page_web) espace désormais
+      // chaque téléchargement de PDF du précédent au sein d'une même
+      // collecte (`ESPACEMENT_PDF_MS_DEFAUT`, défaut réel 2000ms) — sans ce
+      // 0 explicite, les ~94 manifestes `reel-data-driven.test.ts` qui
+      // exercent 2 PDF réels (registry.ts, pas d'injection de dépendance)
+      // ajouteraient chacun un vrai délai de 2s à la suite. Les tests qui
+      // vérifient l'espacement lui-même l'injectent explicitement via
+      // `DependancesMoteurPageWeb.attendre` (moteurPageWeb.test.ts),
+      // indépendamment de cette variable d'environnement.
+      PAGE_WEB_PDF_ESPACEMENT_MS: '0',
     },
     coverage: {
       provider: 'v8',

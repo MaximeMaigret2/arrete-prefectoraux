@@ -66,6 +66,41 @@ function estPageIntrouvable(statut: number): boolean {
 }
 
 /**
+ * CORRECTIF (2026-09-07, campagne réelle de backfill sur prefecture-56) :
+ * un connecteur sans `page_detail` dont les titres ne portent jamais les
+ * mots-clés de pertinence (ex. Morbihan — "RAA Spécial du <date>") doit
+ * télécharger le PDF de CHAQUE candidat du mois pour trancher sa
+ * pertinence (cf. boucle de `collecter()` ci-dessous) — potentiellement une
+ * dizaine de requêtes HTTP d'un coup vers le même hébergeur. L'espacement
+ * déjà en place (`backfill-historique.ts`, `ESPACEMENT_MINIMUM_MS_DEFAUT`)
+ * ne protège QUE la transition entre deux mois, jamais les téléchargements
+ * à l'intérieur d'un même mois — cette rafale sans délai s'est avérée
+ * suffisante à elle seule pour faire échouer en `HTTP 503` la quasi-totalité
+ * des PDF d'un même mois (10/10 observé en conditions réelles), alors que
+ * la page liste, elle, répondait. Espacement minimum, configurable,
+ * appliqué désormais AVANT chaque téléchargement de PDF sauf le tout
+ * premier de la collecte (comportement générique du moteur, valable pour
+ * tout connecteur avec `selecteur_lien_pdf` — contrat §5, règle 7).
+ */
+export const ESPACEMENT_PDF_MS_DEFAUT = Number(process.env.PAGE_WEB_PDF_ESPACEMENT_MS ?? 2000);
+
+async function attendreParDefaut(ms: number): Promise<void> {
+  if (ms <= 0) return;
+  await new Promise<void>((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Dépendances injectables du moteur `page_web` — réservé aux tests (même
+ * principe que `DependancesBackfill` de `backfill-historique.ts`) : non
+ * fournies, `creerConnecteur` utilise l'implémentation réelle (`setTimeout`)
+ * par défaut. Ne jamais construire depuis du code applicatif.
+ */
+export interface DependancesMoteurPageWeb {
+  /** Attend `ms` millisecondes — réel en production, instantané/espionnable dans les tests qui l'injectent. */
+  attendre?: (ms: number) => Promise<void>;
+}
+
+/**
  * Moteur `page_web` (contracts/connecteur-interface.md §2). Générique :
  * aucune branche conditionnelle propre à un connecteur donné (contrat §5,
  * règle 7) — toute variation passe par `PageWebConfig`.
@@ -438,12 +473,17 @@ export async function compterPublicationsPourMois(
  * Construit l'interface commune `Connecteur` (contrat §1) pour un
  * connecteur `page_web` configuré.
  */
-export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown): Connecteur {
+export function creerConnecteur(
+  entree: ConnecteurEntree,
+  configBrute: unknown,
+  deps: DependancesMoteurPageWeb = {},
+): Connecteur {
   const config = PageWebConfigSchema.parse(configBrute);
   const departementCode = entree.departements_couverts[0];
   if (!departementCode) {
     throw new Error(`Connecteur "${entree.id}" : aucun département dans departements_couverts.`);
   }
+  const attendre = deps.attendre ?? attendreParDefaut;
 
   return {
     id: entree.id,
@@ -489,6 +529,11 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // de publication ce mois-ci.
       let totalPublicationsPageDetail = 0;
       let auMoinsUnAttributPageDetailPresent = false;
+      // CORRECTIF (2026-09-07) : compte les téléchargements de PDF déjà
+      // effectués dans CETTE collecte, pour espacer chaque nouveau
+      // téléchargement du précédent (jamais avant le premier) — cf.
+      // `ESPACEMENT_PDF_MS_DEFAUT` en tête de fichier.
+      let nombreTelechargementsPdf = 0;
 
       for (const element of $(config.selecteur_publications).toArray()) {
         const $publication = $(element);
@@ -554,6 +599,13 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
         // `selecteur_lien_pdf` (contrat §5, règle 7 : aucune branche par
         // connecteur), pas seulement pour enrichir un candidat déjà retenu.
         if (urlPdf) {
+          // CORRECTIF (2026-09-07) : espacer chaque téléchargement de PDF du
+          // précédent au sein de cette même collecte (jamais avant le
+          // premier) — cf. note en tête de fichier, `ESPACEMENT_PDF_MS_DEFAUT`.
+          if (nombreTelechargementsPdf > 0) {
+            await attendre(ESPACEMENT_PDF_MS_DEFAUT);
+          }
+          nombreTelechargementsPdf++;
           try {
             const resultatPdf = await telechargerEtExtraireTextePdf(urlPdf);
             const source: SourceBrute = {

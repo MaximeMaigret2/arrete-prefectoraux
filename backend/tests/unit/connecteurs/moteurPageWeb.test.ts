@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { creerConnecteur } from '../../../src/connecteurs/moteurs/pageWeb/moteur.js';
+import { creerConnecteur, ESPACEMENT_PDF_MS_DEFAUT } from '../../../src/connecteurs/moteurs/pageWeb/moteur.js';
 import { PageWebConfigSchema } from '../../../src/connecteurs/moteurs/pageWeb/config.schema.js';
 import type { Connecteur as ConnecteurEntree } from '../../../src/models/index.js';
 
@@ -644,6 +644,109 @@ describe('moteur page_web — candidatsNonResolus (feature 007, US1)', () => {
 
     expect(resultat.candidats).toEqual([]);
     expect(resultat.candidatsNonResolus).toBeUndefined();
+  });
+});
+
+/**
+ * CORRECTIF (2026-09-07, campagne réelle de backfill sur prefecture-56,
+ * Morbihan) : un connecteur sans `page_detail` dont aucun titre ne porte les
+ * mots-clés doit télécharger le PDF de chaque candidat pour trancher sa
+ * pertinence — sans espacement, une dizaine de candidats dans le même mois
+ * déclenchait une rafale de requêtes HTTP simultanées vers le même
+ * hébergeur, suffisante à elle seule pour provoquer des `HTTP 503` en
+ * cascade (observé en conditions réelles : 10/10 PDF échoués d'un coup).
+ * Ces tests verrouillent l'espacement ajouté entre chaque téléchargement de
+ * PDF (jamais avant le premier) via l'injection de dépendance
+ * `DependancesMoteurPageWeb.attendre` (même principe que `deps.attendre` de
+ * `backfill-historique.ts`).
+ */
+describe('moteur page_web — espacement entre téléchargements de PDF au sein d\'un même mois (correctif 2026-09-07)', () => {
+  const URL_LISTE_ESPACEMENT = 'https://exemple.gouv.fr/Publications/RAA-espacement';
+
+  function htmlAvecTroisPublications(): string {
+    return `
+      <ul class="raa-liste">
+        <li class="raa-item">
+          <span class="raa-item__titre">RAA Spécial du 3 janvier 2026</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-1.pdf">Télécharger le PDF</a>
+        </li>
+        <li class="raa-item">
+          <span class="raa-item__titre">RAA Spécial du 10 janvier 2026</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-2.pdf">Télécharger le PDF</a>
+        </li>
+        <li class="raa-item">
+          <span class="raa-item__titre">RAA Spécial du 17 janvier 2026</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-3.pdf">Télécharger le PDF</a>
+        </li>
+      </ul>
+    `;
+  }
+
+  it('attend avant chaque téléchargement de PDF sauf le premier, avec la durée par défaut', async () => {
+    const htmlEspacement = htmlAvecTroisPublications();
+    const ordreAppels: string[] = [];
+    const attendreEspion = vi.fn(async (ms: number) => {
+      ordreAppels.push(`attendre(${ms})`);
+    });
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_ESPACEMENT) {
+          return { ok: true, status: 200, text: async () => htmlEspacement } as unknown as Response;
+        }
+        // PDF inaccessible pour les 3 candidats : peu importe ici, seul
+        // l'espacement ENTRE les tentatives de téléchargement est vérifié.
+        ordreAppels.push(`fetch(${url})`);
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(
+      ENTREE,
+      { ...CONFIG_BASE, url_liste: URL_LISTE_ESPACEMENT },
+      { attendre: attendreEspion },
+    );
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidatsNonResolus).toHaveLength(3);
+    expect(attendreEspion).toHaveBeenCalledTimes(2);
+    expect(attendreEspion).toHaveBeenCalledWith(ESPACEMENT_PDF_MS_DEFAUT);
+    expect(ordreAppels).toEqual([
+      'fetch(https://exemple.gouv.fr/pieces-jointes/piece-1.pdf)',
+      `attendre(${ESPACEMENT_PDF_MS_DEFAUT})`,
+      'fetch(https://exemple.gouv.fr/pieces-jointes/piece-2.pdf)',
+      `attendre(${ESPACEMENT_PDF_MS_DEFAUT})`,
+      'fetch(https://exemple.gouv.fr/pieces-jointes/piece-3.pdf)',
+    ]);
+  });
+
+  it('un seul candidat avec PDF → aucun espacement (rien à espacer)', async () => {
+    const html007 = `
+      <ul class="raa-liste">
+        <li class="raa-item">
+          <span class="raa-item__titre">RAA Spécial du 3 janvier 2026</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-1.pdf">Télécharger le PDF</a>
+        </li>
+      </ul>
+    `;
+    const attendreEspion = vi.fn(async () => {});
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_ESPACEMENT) return { ok: true, status: 200, text: async () => html007 } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(
+      ENTREE,
+      { ...CONFIG_BASE, url_liste: URL_LISTE_ESPACEMENT },
+      { attendre: attendreEspion },
+    );
+    await connecteur.collecter();
+
+    expect(attendreEspion).not.toHaveBeenCalled();
   });
 });
 
