@@ -105,6 +105,31 @@ export interface ResultatCollecte {
      */
     causeReseau?: boolean;
   };
+  /**
+   * Candidats (feature 007, US1, FR-001/FR-005) dont le titre seul n'était
+   * pas pertinent ET dont la résolution du PDF joint (ou de la
+   * `page_detail` qui y mène) a échoué — pertinence jamais vérifiable,
+   * distinct à la fois d'un candidat retenu et d'un `echec_global` (qui
+   * concerne la source entière, pas un candidat isolé). Un candidat dont le
+   * titre seul est déjà pertinent (FR-002), ou dont le PDF a été lu avec
+   * succès qu'il contienne ou non un mot-clé (FR-003), ou dont le PDF lu
+   * n'a pas de texte extractible (scan, edge case dédié), n'apparaît jamais
+   * ici. Absent/vide (comportement historique inchangé) : aucun candidat
+   * non résolu pour cette collecte.
+   */
+  candidatsNonResolus?: CandidatNonResolu[];
+}
+
+/**
+ * Candidat dont la pertinence n'a jamais pu être établie (feature 007, US1)
+ * — le titre seul ne suffisait pas à décider, et la source qui aurait permis
+ * de trancher (PDF ou `page_detail`) n'a pas pu être lue.
+ */
+export interface CandidatNonResolu {
+  departement_code: string;
+  message: string;
+  /** URL du PDF ou de la `page_detail` dont la résolution a échoué. */
+  source: SourceBrute;
 }
 
 /**

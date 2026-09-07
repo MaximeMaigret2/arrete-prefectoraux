@@ -14,8 +14,13 @@ export type Declenchement = z.infer<typeof DeclenchementSchema>;
  * Résultat global d'une exécution. `partiel` signifie qu'au moins un
  * événement a été publié ET qu'au moins une anomalie a été produite
  * dans le même run (data-model.md, Entité "Exécution de collecte").
+ * `incertain` (feature 007, US2, FR-006) : au moins un candidat n'a pas pu
+ * être résolu (cf. `nombre_candidats_non_resolus`) — prioritaire sur
+ * `succes`/`partiel` même si des événements ont été publiés dans le même
+ * run, pour qu'un opérateur distingue ce cas au premier coup d'œil sur le
+ * statut, sans avoir à connaître un champ annexe.
  */
-export const StatutExecutionSchema = z.enum(['succes', 'echec', 'partiel']);
+export const StatutExecutionSchema = z.enum(['succes', 'echec', 'partiel', 'incertain']);
 export type StatutExecution = z.infer<typeof StatutExecutionSchema>;
 
 /**
@@ -32,6 +37,11 @@ export const ExecutionCollecteSchema = z
     statut: StatutExecutionSchema,
     nombre_evenements_publies: z.number().int().min(0),
     nombre_anomalies: z.number().int().min(0),
+    // feature 007 (US2, FR-006) : nombre de candidats dont la pertinence
+    // n'a jamais pu être établie pendant ce run — 0 par défaut, rétro-
+    // compatible pour les exécutions déjà persistées avant cette feature
+    // (`data/loader.ts`, ExecutionsCollecteListSchema.parse()).
+    nombre_candidats_non_resolus: z.number().int().min(0).default(0),
     message_erreur: z.string().nullable().default(null),
   })
   .superRefine((exec, ctx) => {
@@ -51,6 +61,23 @@ export const ExecutionCollecteSchema = z
         message:
           'statut = partiel requiert au moins un événement publié et au moins une anomalie',
         path: ['statut'],
+      });
+    }
+    // feature 007 (US2, FR-006) : cohérence stricte entre le statut
+    // `incertain` et le compteur de candidats non résolus — dans les deux
+    // sens, pour qu'aucun consommateur ne puisse observer l'un sans l'autre.
+    if (exec.nombre_candidats_non_resolus > 0 && exec.statut !== 'incertain') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'statut doit être incertain dès que nombre_candidats_non_resolus > 0',
+        path: ['statut'],
+      });
+    }
+    if (exec.statut === 'incertain' && exec.nombre_candidats_non_resolus === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'statut = incertain requiert nombre_candidats_non_resolus > 0',
+        path: ['nombre_candidats_non_resolus'],
       });
     }
   });

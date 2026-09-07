@@ -31,7 +31,14 @@ import type { Connecteur as ConnecteurEntree, ExecutionCollecte } from '../../..
 
 const MAINTENANT = new Date(Date.UTC(2026, 7, 13, 10, 0, 0));
 
-function executionFausse(statut: 'succes' | 'echec'): ExecutionCollecte {
+function executionFausse(
+  statut: 'succes' | 'echec' | 'incertain',
+  options?: { nombreCandidatsNonResolus?: number },
+): ExecutionCollecte {
+  // feature 007 (US3) : nombre_candidats_non_resolus par défaut à 1 pour
+  // 'incertain' (cohérent avec la règle de ExecutionCollecteSchema),
+  // toujours 0 pour 'succes'/'echec' sauf override explicite.
+  const nombreCandidatsNonResolus = options?.nombreCandidatsNonResolus ?? (statut === 'incertain' ? 1 : 0);
   return {
     id: `exec-${Math.random().toString(36).slice(2)}`,
     connecteur_id: 'test',
@@ -40,6 +47,7 @@ function executionFausse(statut: 'succes' | 'echec'): ExecutionCollecte {
     statut,
     nombre_evenements_publies: 0,
     nombre_anomalies: 0,
+    nombre_candidats_non_resolus: nombreCandidatsNonResolus,
     message_erreur: statut === 'echec' ? 'erreur simulée' : null,
   } as ExecutionCollecte;
 }
@@ -333,6 +341,77 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     );
 
     expect(traites).toEqual(['conn-c', 'conn-a', 'conn-b']);
+  });
+
+  it("(f) feature 007 (US3, FR-011/FR-013) : une exécution incertaine (candidat non résolu) ne retire JAMAIS le mois du checkpoint, ni ne compte dans le circuit-breaker", async () => {
+    const appels: string[] = [];
+
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilCircuitBreaker: 2, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 3)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          appels.push(`${connecteur.id}:${cible.moisNumero}`);
+          return { execution: executionFausse('incertain'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    // Les 3 mois cibles sont bien tentés (jamais interrompu par un circuit-breaker).
+    expect(appels).toHaveLength(3);
+    const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportGroupe.circuitOuvert).toBe(false);
+    expect(rapportGroupe.moisReussis).toBe(0);
+    expect(rapportGroupe.moisEchecReseau).toBe(0);
+    expect(rapportGroupe.moisNonResolus).toBe(3);
+    // La reprise effective (aucun mois perdu) est vérifiée par le test (f ter) ci-dessous,
+    // qui exerce deux runs successifs — plus fiable qu'une lecture directe du fichier de
+    // checkpoint, jamais écrit sur disque ici puisqu'aucun mois n'a réellement changé d'état.
+  });
+
+  it('(f bis) une exécution incertaine répétée ne déclenche jamais le circuit-breaker, contrairement à un échec réseau', async () => {
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilCircuitBreaker: 2, espacementMinimumMs: 0 },
+      deps({
+        // 5 mois cibles, largement au-dessus du seuil de 2 — si ce signal
+        // comptait comme un échec réseau, le circuit ouvrirait avant la fin.
+        auditerProfondeurs: async () => [profondeur('conn-a', 5)],
+        executerConnecteurPourBackfill: async () => ({ execution: executionFausse('incertain'), causeReseauSiEchec: null }),
+      }),
+    );
+
+    const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportGroupe.circuitOuvert).toBe(false);
+    expect(rapportGroupe.moisNonResolus).toBe(5);
+  });
+
+  it('(f ter) une reprise ultérieure retente normalement un mois laissé incertain — comportement identique à un échec réseau du point de vue de la reprise', async () => {
+    const appelsParRun: AnneeMois[][] = [[], []];
+    let runCourant = 0;
+
+    const executerConnecteurPourBackfillMock = async (_connecteur: Connecteur, cible: AnneeMois) => {
+      appelsParRun[runCourant]!.push(cible);
+      const estDeuxiemeMois = cible.moisNumero === '06'; // M-2 pour août 2026 = juin
+      const incertainCeRun = runCourant === 0 && estDeuxiemeMois;
+      return {
+        execution: incertainCeRun ? executionFausse('incertain') : executionFausse('succes'),
+        causeReseauSiEchec: null,
+      };
+    };
+
+    const optionsCommunes = { cheminCheckpoint, espacementMinimumMs: 0, seuilCircuitBreaker: 10 };
+    const auditerProfondeurs = async () => [profondeur('conn-a', 3)];
+
+    await executerBackfill(optionsCommunes, deps({ auditerProfondeurs, executerConnecteurPourBackfill: executerConnecteurPourBackfillMock }));
+    expect(appelsParRun[0]).toHaveLength(3);
+
+    runCourant = 1;
+    await executerBackfill(optionsCommunes, deps({ auditerProfondeurs, executerConnecteurPourBackfill: executerConnecteurPourBackfillMock }));
+
+    // Seul le mois laissé incertain au run 1 (juin 2026) est retenté au run 2.
+    expect(appelsParRun[1]).toEqual([{ annee: '2026', moisNumero: '06' }]);
+    const checkpoint = await lireCheckpoint(cheminCheckpoint);
+    expect(checkpoint.connecteurs['conn-a']?.moisRestants).toEqual([]);
   });
 });
 

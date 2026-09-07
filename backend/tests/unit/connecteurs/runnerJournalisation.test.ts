@@ -243,4 +243,114 @@ describe('executerConnecteur — journalisation (FR-011)', () => {
     expect(execution.nombre_evenements_publies).toBe(0);
     expect(execution.nombre_anomalies).toBe(0);
   });
+
+  // feature 007 (US2, FR-006) : un candidat dont la pertinence n'a jamais
+  // pu être établie (moteur page_web, US1) rend le statut de l'exécution
+  // 'incertain' — prioritaire sur 'succes'/'partiel', avec une anomalie
+  // candidat_non_resolu persistée par candidat concerné.
+  it("candidat non résolu, aucune autre publication → statut incertain, une anomalie candidat_non_resolu persistée", async () => {
+    const connecteur = makeFakeConnecteur(async () => ({
+      candidats: [],
+      candidatsNonResolus: [
+        {
+          departement_code: '2A',
+          message: 'Téléchargement du PDF "https://example.org/annexe.pdf" échoué : HTTP 503.',
+          source: {
+            type: 'pdf',
+            url: 'https://example.org/annexe.pdf',
+            contenu_brut_reference: 'https://example.org/annexe.pdf',
+            date_collecte: '2026-08-12T06:00:00.000Z',
+          },
+        },
+      ],
+    }));
+
+    const execution = await executerConnecteur(connecteur, 'planifie');
+
+    expect(execution.statut).toBe('incertain');
+    expect(execution.nombre_evenements_publies).toBe(0);
+    expect(execution.nombre_candidats_non_resolus).toBe(1);
+    expect(execution.message_erreur).toBeNull();
+
+    const store = await loadDataStore(true);
+    expect(store.anomalies).toHaveLength(1);
+    expect(store.anomalies[0].type_anomalie).toBe('candidat_non_resolu');
+    expect(store.anomalies[0].statut).toBe('en_attente');
+    // La source n'a pas échoué totalement (contrairement au chemin 3) :
+    // derniere_collecte est mise à jour, même esprit que succes/partiel.
+    const connecteurMisAJour = store.connecteurs.find((c) => c.id === FAKE_CONNECTEUR_ID);
+    expect(connecteurMisAJour?.derniere_collecte).toBe(execution.date_execution);
+  });
+
+  it("candidat non résolu ET publication réussie dans le même run → statut incertain, prioritaire sur succes (US2 Acceptance Scenario 3)", async () => {
+    const connecteur = makeFakeConnecteur(async () => ({
+      candidats: [
+        {
+          departement_code: '2A',
+          type_evenement: 'interdiction',
+          reference_arrete: '2026-2A-0003',
+          date_debut: '2026-08-12T00:00:00.000Z',
+          date_fin: null,
+          autorite_signataire: 'Le Préfet de Corse-du-Sud',
+          source: sourceFactice,
+        },
+      ],
+      candidatsNonResolus: [
+        {
+          departement_code: '2A',
+          message: 'Page de détail inaccessible.',
+          source: { ...sourceFactice, url: 'https://example.org/detail-indisponible' },
+        },
+      ],
+    }));
+
+    const execution = await executerConnecteur(connecteur, 'manuel');
+
+    expect(execution.statut).toBe('incertain');
+    expect(execution.nombre_evenements_publies).toBe(1);
+    expect(execution.nombre_candidats_non_resolus).toBe(1);
+  });
+
+  it("candidat non résolu, publication ET anomalie ordinaire dans le même run → statut incertain, prioritaire sur partiel", async () => {
+    const connecteur = makeFakeConnecteur(async () => ({
+      candidats: [
+        {
+          departement_code: '2A',
+          type_evenement: 'interdiction',
+          reference_arrete: '2026-2A-0004',
+          date_debut: '2026-08-12T00:00:00.000Z',
+          date_fin: null,
+          autorite_signataire: 'Le Préfet de Corse-du-Sud',
+          source: sourceFactice,
+        },
+        {
+          departement_code: '2A',
+          type_evenement: 'interdiction',
+          reference_arrete: null, // champ manquant → anomalie ordinaire
+          date_debut: '2026-08-13T00:00:00.000Z',
+          date_fin: null,
+          autorite_signataire: 'Le Préfet de Corse-du-Sud',
+          source: sourceFactice,
+        },
+      ],
+      candidatsNonResolus: [
+        {
+          departement_code: '2A',
+          message: 'Téléchargement du PDF échoué.',
+          source: { ...sourceFactice, url: 'https://example.org/pdf-indisponible' },
+        },
+      ],
+    }));
+
+    const execution = await executerConnecteur(connecteur, 'manuel');
+
+    expect(execution.statut).toBe('incertain');
+    expect(execution.nombre_evenements_publies).toBe(1);
+    expect(execution.nombre_anomalies).toBe(1);
+    expect(execution.nombre_candidats_non_resolus).toBe(1);
+
+    const store = await loadDataStore(true);
+    // Les deux anomalies coexistent : une ordinaire (champ_manquant) et une candidat_non_resolu.
+    expect(store.anomalies.map((a) => a.type_anomalie).sort()).toEqual(['candidat_non_resolu', 'champ_manquant']);
+  });
 });

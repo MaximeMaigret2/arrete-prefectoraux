@@ -29,6 +29,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-propre.html');
 const FIXTURE_PDF_LISTE_PATH = path.join(__dirname, '../../fixtures/connecteurs/pageWeb/publication-avec-pdf.html');
 const FIXTURE_PDF_PATH = path.join(__dirname, '../../fixtures/connecteurs/pdf/piece-jointe.pdf');
+// feature 007 (US1) : PDF valide, texte extractible, mais SANS aucun des
+// mots-clés de filtrage (FR-003) — réutilise une fixture existante plutôt
+// que d'en fabriquer une nouvelle (aucun connecteur réel n'est concerné,
+// c'est un simple texte de contrôle).
+const FIXTURE_PDF_SANS_MOTCLE_PATH = path.join(
+  __dirname,
+  '../../fixtures/connecteurs/reel/prefecture-01/bulletin-sans-arrete-pertinent.pdf',
+);
+// PDF valide (page blanche) sans texte extractible (< 20 caractères, FR-005) — cf. moteurPdf.test.ts.
+const FIXTURE_PDF_SANS_TEXTE_PATH = path.join(__dirname, '../../fixtures/connecteurs/pdf/page-sans-texte.pdf');
 
 const URL_LISTE = 'https://exemple.gouv.fr/Publications/RAA';
 const URL_LISTE_AVEC_PDF = 'https://exemple.gouv.fr/Publications/RAA-avec-pdf';
@@ -516,6 +526,124 @@ describe('moteur page_web — page_detail (V001c)', () => {
     // inatteignable) — liste vide, pas une erreur de run.
     expect(resultat.echec_global).toBeUndefined();
     expect(resultat.candidats).toEqual([]);
+    // feature 007 (US1, FR-001) : ce candidat n'est plus perdu silencieusement.
+    expect(resultat.candidatsNonResolus).toHaveLength(1);
+    const [nonResolu] = resultat.candidatsNonResolus!;
+    expect(nonResolu.source.type).toBe('page_web');
+    expect(nonResolu.source.url).toBe(URL_DETAIL);
+  });
+});
+
+/**
+ * feature 007 (US1, FR-001/FR-002/FR-003/FR-005/FR-011) — candidatsNonResolus :
+ * un candidat dont le titre seul n'est pas pertinent ET dont la résolution
+ * du PDF joint associé échoue ne doit plus disparaître silencieusement.
+ * Complète (sans le remplacer) le test symétrique de l'échec de
+ * `page_detail`, ci-dessus (describe 'page_detail (V001c)').
+ */
+describe('moteur page_web — candidatsNonResolus (feature 007, US1)', () => {
+  const URL_LISTE_007 = 'https://exemple.gouv.fr/Publications/RAA-007';
+  const URL_PDF_JOINT_007 = 'https://exemple.gouv.fr/pieces-jointes/piece-007.pdf';
+
+  function htmlAvecUnePublication(titre: string): string {
+    return `
+      <ul class="raa-liste">
+        <li class="raa-item">
+          <span class="raa-item__titre">${titre}</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-007.pdf">Télécharger le PDF</a>
+        </li>
+      </ul>
+    `;
+  }
+
+  it('titre non pertinent + téléchargement du PDF joint échoué → candidatsNonResolus (candidat non publié, pas de perte silencieuse)', async () => {
+    const html007 = htmlAvecUnePublication('Avis de réunion du conseil municipal');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_007) return { ok: true, status: 200, text: async () => html007 } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response; // PDF inaccessible
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, url_liste: URL_LISTE_007 });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidatsNonResolus).toHaveLength(1);
+    const [nonResolu] = resultat.candidatsNonResolus!;
+    expect(nonResolu.departement_code).toBe('77');
+    expect(nonResolu.source.type).toBe('pdf');
+    expect(nonResolu.source.url).toBe(URL_PDF_JOINT_007);
+    expect(nonResolu.message).toContain(URL_PDF_JOINT_007);
+  });
+
+  it('titre déjà pertinent + téléchargement du PDF joint échoué → candidat publié normalement, candidatsNonResolus vide (FR-002)', async () => {
+    const html007 = htmlAvecUnePublication('Arrêté portant interdiction de rave party non déclarée');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_007) return { ok: true, status: 200, text: async () => html007 } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, url_liste: URL_LISTE_007 });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidats).toHaveLength(1);
+    expect(resultat.candidatsNonResolus).toBeUndefined();
+  });
+
+  it('titre non pertinent + PDF lu avec succès mais sans mot-clé → candidat écarté (pertinence réellement vérifiée), candidatsNonResolus vide (FR-003)', async () => {
+    const pdfBuffer = await readFile(FIXTURE_PDF_SANS_MOTCLE_PATH);
+    const html007 = htmlAvecUnePublication('Avis administratif');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_007) return { ok: true, status: 200, text: async () => html007 } as unknown as Response;
+        if (url === URL_PDF_JOINT_007) {
+          return {
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => pdfBuffer.buffer.slice(pdfBuffer.byteOffset, pdfBuffer.byteOffset + pdfBuffer.byteLength),
+          } as unknown as Response;
+        }
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, url_liste: URL_LISTE_007 });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.candidatsNonResolus).toBeUndefined();
+  });
+
+  it('titre non pertinent + PDF lu mais sans texte extractible (scan) → comportement inchangé, candidatsNonResolus vide (edge case dédié)', async () => {
+    const pdfBuffer = await readFile(FIXTURE_PDF_SANS_TEXTE_PATH);
+    const html007 = htmlAvecUnePublication('Avis administratif');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_007) return { ok: true, status: 200, text: async () => html007 } as unknown as Response;
+        if (url === URL_PDF_JOINT_007) {
+          return {
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => pdfBuffer.buffer.slice(pdfBuffer.byteOffset, pdfBuffer.byteOffset + pdfBuffer.byteLength),
+          } as unknown as Response;
+        }
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, url_liste: URL_LISTE_007 });
+    const resultat = await connecteur.collecter();
+
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.candidatsNonResolus).toBeUndefined();
   });
 });
 
@@ -1208,6 +1336,32 @@ describe('moteur page_web — granularite_liste: annuelle (feature 005, backfill
     const connecteur = creerConnecteur(ENTREE, CONFIG_ANNUELLE);
     const resultat = await connecteur.collecter({ annee: '2026', moisNumero: '08' });
     expect(resultat.echec_global).toBeDefined();
+    expect(resultat.anneesCouvertes).toBeUndefined();
+  });
+
+  it("FR-011 (feature 007, défense en profondeur) : candidatsNonResolus non vide → anneesCouvertes n'est jamais émis, même si la page a bien été lue", async () => {
+    const URL_ANNEE = `${URL_RACINE}/annee-2026`;
+    const HTML_ANNEE_NON_RESOLU = `
+      <div class="raa-item">
+        <div class="raa-item__titre">Avis administratif sans rapport</div>
+        <a class="raa-item__piece-jointe" href="/pieces-jointes/annuel.pdf">Télécharger</a>
+      </div>
+    `;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_RACINE) return { ok: true, status: 200, text: async () => pageAnnee('2026', URL_ANNEE) } as unknown as Response;
+        if (url === URL_ANNEE) return { ok: true, status: 200, text: async () => HTML_ANNEE_NON_RESOLU } as unknown as Response;
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response; // PDF joint inaccessible
+      }),
+    );
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_ANNUELLE, selecteur_lien_pdf: '.raa-item__piece-jointe' });
+    const resultat = await connecteur.collecter({ annee: '2026', moisNumero: '08' });
+
+    expect(resultat.echec_global).toBeUndefined();
+    expect(resultat.candidats).toEqual([]);
+    expect(resultat.candidatsNonResolus).toHaveLength(1);
     expect(resultat.anneesCouvertes).toBeUndefined();
   });
 });

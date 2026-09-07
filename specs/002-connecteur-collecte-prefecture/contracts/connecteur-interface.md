@@ -33,6 +33,20 @@ interface ResultatCollecte {
   // Un candidat par publication détectée depuis la dernière collecte.
   // Liste vide = aucune nouvelle publication depuis la dernière exécution (US3, Acceptance Scenario 3).
   candidats: CandidatEvenement[];
+  // feature 007 (US1, FR-001/FR-005) : candidats dont le titre seul n'était pas
+  // pertinent ET dont la résolution du PDF joint (ou de la page_detail qui y
+  // mène) a échoué — pertinence jamais vérifiable, distinct à la fois d'un
+  // candidat retenu et d'un echec_global (qui concerne la source entière, pas
+  // un candidat isolé). Un candidat dont le titre seul est déjà pertinent
+  // (FR-002), ou dont le PDF a été lu avec succès qu'il contienne ou non un
+  // mot-clé (FR-003), ou dont le PDF lu n'a pas de texte extractible (scan,
+  // edge case dédié), n'apparaît jamais ici. Absent/vide : comportement
+  // historique inchangé (aucun candidat non résolu).
+  candidatsNonResolus?: {
+    departement_code: string;
+    message: string;
+    source: SourceBrute; // url du PDF ou de la page_detail dont la résolution a échoué
+  }[];
   // Renseigné uniquement si la source elle-même est inaccessible/illisible
   // (distinct d'un candidat individuel mal formé) — déclenche echec_lecture_source
   // pour l'ensemble du run de ce connecteur (data-model.md, étape 1).
@@ -125,7 +139,7 @@ const PageWebConfigSchema = z.object({
 4. Filtrer par `mots_cles_filtrage` (insensible à la casse) — seules les publications pertinentes pour rave/teknival deviennent des candidats.
 5. Pour chaque publication retenue : résoudre son PDF (soit directement via `selecteur_lien_pdf` dans la publication, soit — si `page_detail` est renseigné — en récupérant d'abord la page de détail pointée par `page_detail.attribut_lien` puis en y appliquant `selecteur_lien_pdf`, §2bis) et en extraire le texte (réutilise la logique du moteur `pdf`, §3) ; sinon, le texte du titre/de la ligne sert de base à l'extraction.
 6. Appliquer `pattern_reference` et `patterns_dates` (`extraction/champsCommuns.ts`, partagé avec le moteur `pdf`) sur ce texte pour produire les champs du candidat ; `autorite_signataire` est reprise telle quelle de la configuration.
-7. Si la résolution de `navigation` échoue, ou si la page liste effective est inaccessible → `echec_global`. Si une publication retenue ne produit aucun champ exploitable → le candidat est renvoyé avec les champs correspondants à `null` (jamais omis silencieusement, cf. Règle 2 ci-dessous). Un échec de résolution de `page_detail` propre à UNE publication n'est jamais global (isolation à l'échelle du candidat, Règle 6).
+7. Si la résolution de `navigation` échoue, ou si la page liste effective est inaccessible → `echec_global`. Si une publication retenue ne produit aucun champ exploitable → le candidat est renvoyé avec les champs correspondants à `null` (jamais omis silencieusement, cf. Règle 2 ci-dessous). Un échec de résolution de `page_detail` propre à UNE publication n'est jamais global (isolation à l'échelle du candidat, Règle 6) : si le titre seul de cette publication n'est pas déjà pertinent, elle rejoint `candidatsNonResolus` (feature 007) plutôt que de disparaître silencieusement — sauf si le PDF/la page de détail a bien pu être lu(e) sans révéler de mot-clé, auquel cas la publication reste simplement écartée (pertinence réellement vérifiée, négative).
 
 ### 2bis. Navigation multi-niveaux et page de détail (V001c, Phase 5bis — extension générique du moteur `page_web`)
 

@@ -19,7 +19,9 @@
     "test": "vitest run",
     "test:live-drift": "vitest run --config vitest.live.config.ts",
     "backfill:audit": "tsx src/scripts/backfill-historique.ts --audit",
-    "backfill:historique": "tsx src/scripts/backfill-historique.ts"
+    "backfill:historique": "tsx src/scripts/backfill-historique.ts",
+    "remediation:prioriser": "tsx src/scripts/prioriser-remediation.ts",
+    "remediation:reactiver": "tsx src/scripts/reactiver-mois-checkpoint.ts"
   },
   "dependencies": {
     "@fastify/basic-auth": "^6.3.0",

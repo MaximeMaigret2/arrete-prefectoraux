@@ -18,7 +18,7 @@ import {
   type TypeAnomalie,
 } from '../models/index.js';
 import { detecterDoublon } from './dedupe.js';
-import type { CandidatEvenement, Connecteur, SourceBrute } from './types.js';
+import type { CandidatEvenement, CandidatNonResolu, Connecteur, SourceBrute } from './types.js';
 import type { AnneeMois } from '../services/parisDate.js';
 
 /**
@@ -177,6 +177,34 @@ function construireAnomalieEchecLecture(params: {
 }
 
 /**
+ * Construit l'`AnomalieCollecte` `candidat_non_resolu` pour un candidat dont
+ * la pertinence n'a jamais pu être établie (feature 007, US1/US2,
+ * FR-001/FR-006) — parallèle à {@link construireAnomalieEchecLecture}, mais
+ * à l'échelle d'un seul candidat plutôt que de toute la source.
+ */
+function construireAnomalieNonResolu(params: {
+  connecteurId: string;
+  executionId: string;
+  candidatNonResolu: CandidatNonResolu;
+}): AnomalieCollecte {
+  const { candidatNonResolu } = params;
+  return AnomalieCollecteSchema.parse({
+    id: randomUUID(),
+    connecteur_id: params.connecteurId,
+    execution_id: params.executionId,
+    type_anomalie: 'candidat_non_resolu',
+    champs_extraits: {},
+    source_brute: candidatNonResolu.source,
+    departement_code: candidatNonResolu.departement_code,
+    raison: candidatNonResolu.message,
+    statut: 'en_attente',
+    date_creation: new Date().toISOString(),
+    date_resolution: null,
+    evenement_resultant_id: null,
+  });
+}
+
+/**
  * Exécute un connecteur : collecte, évalue chaque candidat, persiste les
  * publications/anomalies, puis journalise l'exécution (FR-011) et met à
  * jour `Connecteur.derniere_collecte` si la collecte n'a pas échoué
@@ -211,6 +239,7 @@ async function executerConnecteurAvecClassification(
 
   let nombrePublies = 0;
   let nombreAnomalies = 0;
+  let nombreCandidatsNonResolus = 0;
   let messageErreur: string | null = null;
   let causeReseauSiEchec: boolean | null = null;
   let anneesCouvertes: string[] | null = null;
@@ -238,6 +267,20 @@ async function executerConnecteurAvecClassification(
       }
     } else {
       anneesCouvertes = resultat.anneesCouvertes && resultat.anneesCouvertes.length > 0 ? resultat.anneesCouvertes : null;
+      // feature 007 (US1/US2, FR-001/FR-006) : chaque candidat dont la
+      // pertinence n'a jamais pu être établie laisse une trace individuelle,
+      // au même titre qu'une anomalie ordinaire — jamais compté dans
+      // nombreAnomalies (qui reste la mesure historique, cf. `partiel`),
+      // porté par son propre compteur pour piloter `determinerStatut`.
+      for (const candidatNonResolu of resultat.candidatsNonResolus ?? []) {
+        const anomalie = construireAnomalieNonResolu({
+          connecteurId: connecteur.id,
+          executionId,
+          candidatNonResolu,
+        });
+        await upsertAnomalie(anomalie);
+        nombreCandidatsNonResolus += 1;
+      }
       for (const candidat of resultat.candidats) {
         const historique = historiqueParDepartement.get(candidat.departement_code) ?? [];
         const evaluation = evaluerCandidat(candidat, historique);
@@ -268,7 +311,7 @@ async function executerConnecteurAvecClassification(
     messageErreur = err instanceof Error ? err.message : String(err);
   }
 
-  const statut = determinerStatut(messageErreur, nombrePublies, nombreAnomalies);
+  const statut = determinerStatut(messageErreur, nombrePublies, nombreAnomalies, nombreCandidatsNonResolus);
 
   const execution = ExecutionCollecteSchema.parse({
     id: executionId,
@@ -278,6 +321,9 @@ async function executerConnecteurAvecClassification(
     statut,
     nombre_evenements_publies: nombrePublies,
     nombre_anomalies: nombreAnomalies,
+    // feature 007 (US2) : 0 si l'exécution a échoué avant tout traitement
+    // de candidat (cohérent avec le statut echec) — sinon le compte réel.
+    nombre_candidats_non_resolus: statut === 'echec' ? 0 : nombreCandidatsNonResolus,
     message_erreur: statut === 'echec' ? messageErreur : null,
   });
   await appendExecution(execution);
@@ -335,6 +381,12 @@ export async function executerConnecteurPourBackfill(
  * collecte") :
  * - `echec` si la source n'a pas pu être lue du tout ou si `collecter()`
  *   a levé une exception (`messageErreur` renseigné) ;
+ * - `incertain` (feature 007, US2, FR-006) sinon, dès qu'au moins un
+ *   candidat n'a pas pu être résolu — PRIORITAIRE sur `partiel`, y compris
+ *   quand des événements ont été publiés dans le même run (Acceptance
+ *   Scenario US2.3) : un run n'est jamais affiché `succes`/`partiel` tant
+ *   qu'un candidat reste de pertinence inconnue, c'est précisément
+ *   l'ambiguïté que cette feature élimine ;
  * - `partiel` si au moins un événement a été publié ET au moins une
  *   anomalie produite dans le même run ;
  * - `succes` sinon — y compris quand la collecte n'a rien publié ni
@@ -348,8 +400,10 @@ function determinerStatut(
   messageErreur: string | null,
   nombrePublies: number,
   nombreAnomalies: number,
+  nombreCandidatsNonResolus: number,
 ): StatutExecution {
   if (messageErreur !== null) return 'echec';
+  if (nombreCandidatsNonResolus > 0) return 'incertain';
   if (nombrePublies > 0 && nombreAnomalies > 0) return 'partiel';
   return 'succes';
 }

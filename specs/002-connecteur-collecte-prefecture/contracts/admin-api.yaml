@@ -271,7 +271,7 @@ components:
           format: uuid
         type_anomalie:
           type: string
-          enum: [champ_manquant, date_ambigue, doublon_potentiel, echec_lecture_source]
+          enum: [champ_manquant, date_ambigue, doublon_potentiel, echec_lecture_source, candidat_non_resolu]
         departement_code:
           type: string
           example: "77"
@@ -355,13 +355,19 @@ components:
           enum: [planifie, manuel]
         statut:
           type: string
-          enum: [succes, echec, partiel]
+          enum: [succes, echec, partiel, incertain]
         nombre_evenements_publies:
           type: integer
           minimum: 0
         nombre_anomalies:
           type: integer
           minimum: 0
+        nombre_candidats_non_resolus:
+          type: integer
+          minimum: 0
+          description: >
+            Nombre de candidats dont la pertinence n'a jamais pu être établie
+            pendant ce run (feature 007). Statut `incertain` dès que > 0.
         message_erreur:
           type: string
           nullable: true

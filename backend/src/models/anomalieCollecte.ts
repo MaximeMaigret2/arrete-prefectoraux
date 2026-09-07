@@ -11,6 +11,11 @@ export const TypeAnomalieSchema = z.enum([
   'date_ambigue',
   'doublon_potentiel',
   'echec_lecture_source',
+  // feature 007 (US1/US2, FR-001/FR-006) : candidat dont le titre seul
+  // n'était pas pertinent et dont la résolution du PDF/page_detail associé
+  // a échoué — pertinence jamais vérifiable, distinct d'un echec_lecture_source
+  // (qui concerne la source entière du connecteur, pas un candidat isolé).
+  'candidat_non_resolu',
 ]);
 export type TypeAnomalie = z.infer<typeof TypeAnomalieSchema>;
 

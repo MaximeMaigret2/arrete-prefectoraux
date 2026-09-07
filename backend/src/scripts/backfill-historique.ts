@@ -97,8 +97,17 @@ export async function ecrireCheckpoint(chemin: string, etat: CheckpointBackfill)
   await writeFile(chemin, JSON.stringify(etat, null, 2), 'utf-8');
 }
 
-/** Construit la liste des mois cibles (M-1 a M-profondeur, du plus recent au plus ancien) pour une profondeur donnee - le mois courant (M) reste couvert par le cycle planifie quotidien, jamais resollicite ici (evite un travail redondant avec FR-013/feature 002). */
-function construireMoisCibles(maintenant: Date, profondeurCibleMois: number): AnneeMois[] {
+/**
+ * Construit la liste des mois cibles (M-1 a M-profondeur, du plus recent au
+ * plus ancien) pour une profondeur donnee - le mois courant (M) reste
+ * couvert par le cycle planifie quotidien, jamais resollicite ici (evite un
+ * travail redondant avec FR-013/feature 002).
+ *
+ * Exportee (feature 007, US4) pour reutilisation par `reactiver-mois-checkpoint.ts`,
+ * qui a besoin de reconstruire exactement le meme ensemble de mois cibles
+ * qu'au tout premier calcul, sans dupliquer cette logique.
+ */
+export function construireMoisCibles(maintenant: Date, profondeurCibleMois: number): AnneeMois[] {
   const moisCourant = parisAnneeMoisCourant(maintenant);
   const mois: AnneeMois[] = [];
   for (let i = 1; i <= profondeurCibleMois; i++) {
@@ -144,6 +153,8 @@ export interface RapportGroupe {
   moisReussis: number;
   moisEchecReseau: number;
   moisPageIntrouvable: number;
+  /** feature 007 (US3) : mois dont l'execution a produit au moins un candidat non resolu - jamais retire du checkpoint, jamais compte dans le circuit-breaker. */
+  moisNonResolus: number;
 }
 
 export interface RapportBackfill {
@@ -216,6 +227,7 @@ export async function executerBackfill(
       moisReussis: 0,
       moisEchecReseau: 0,
       moisPageIntrouvable: 0,
+      moisNonResolus: 0,
     };
     rapport.groupes.push(rapportGroupe);
     log(`[${groupe}] groupe : ${connecteurIds.length} connecteur(s) au perimetre`);
@@ -269,6 +281,22 @@ export async function executerBackfill(
         const libelleMois = `${cible.annee}-${cible.moisNumero}`;
 
         const { execution, causeReseauSiEchec, anneesCouvertes } = await deps.executerConnecteurPourBackfill(file.connecteur, cible);
+
+        if (execution.nombre_candidats_non_resolus > 0) {
+          // feature 007 (US3, FR-011/FR-013) : au moins un candidat de ce
+          // mois n'a pas pu etre resolu - jamais retire du checkpoint
+          // (ni ce mois, ni son annee, meme si anneesCouvertes est
+          // renseigne) tant que le signal persiste, et jamais compte dans
+          // le seuil du circuit-breaker (echecsReseauConsecutifs
+          // volontairement non touche) : ni un succes verifie, ni un echec
+          // de lecture, seulement une incertitude qui doit rester eligible
+          // a une reprise ulterieure (US4).
+          rapportGroupe.moisNonResolus += 1;
+          log(
+            `[${groupe}] ${file.connecteurId} ${libelleMois} : incertain (${execution.nombre_candidats_non_resolus} candidat(s) non resolu(s)) - mois conserve pour reprise`,
+          );
+          continue;
+        }
 
         if (execution.statut !== 'echec') {
           // feature 005 (backfill historique, 2026-09-04) : un connecteur
@@ -348,7 +376,7 @@ export async function executerBackfill(
     }
     if (!rapportGroupe.circuitOuvert) {
       log(
-        `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s)`,
+        `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s), ${rapportGroupe.moisNonResolus} incertain(s)`,
       );
     }
   }

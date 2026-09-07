@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 import type { Connecteur as ConnecteurEntree } from '../../../models/index.js';
-import type { CandidatEvenement, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
+import type { CandidatEvenement, CandidatNonResolu, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
 import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '../../extraction/champsCommuns.js';
 import { parisAnneeMoisCourant, type AnneeMois } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
@@ -23,6 +23,22 @@ type EnTetesSession = Record<string, string> | undefined;
  * remonte le temps, la limite naturelle et attendue des archives d'un site.
  */
 export class PageIntrouvableError extends Error {}
+
+/**
+ * Échec de résolution de l'URL du PDF d'UNE publication (feature 007, US1)
+ * — `page_detail` inaccessible (HTTP non-2xx ou échec réseau bas niveau).
+ * Porte l'URL effectivement tentée pour permettre au consommateur (boucle
+ * principale de `collecter()`) de construire une `SourceBrute` exploitable
+ * (FR-009 : accès à la source depuis l'espace de résolution) sans avoir à
+ * reparser le message d'erreur. Distinct de `PageIntrouvableError` (qui
+ * concerne la page LISTE, un échec global de tout le connecteur) — ici
+ * l'échec reste toujours isolé à une seule publication (contrat §5, règle 6).
+ */
+export class ResolutionUrlPdfError extends Error {
+  constructor(message: string, public readonly url: string) {
+    super(message);
+  }
+}
 
 /**
  * CORRECTIF (2026-09-02, campagne réelle de backfill feature 005) : une
@@ -208,9 +224,15 @@ async function resoudreUrlPdfPublication(
     const lienPublication = $publication.attr(config.page_detail.attribut_lien);
     if (!lienPublication) return null;
     const urlDetail = resoudreUrl(lienPublication, urlListeEffective);
-    const reponse = await fetchAvecEnTetes(urlDetail, { enTetesSupplementaires: enTetesSession });
+    let reponse: Awaited<ReturnType<typeof fetchAvecEnTetes>>;
+    try {
+      reponse = await fetchAvecEnTetes(urlDetail, { enTetesSupplementaires: enTetesSession });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      throw new ResolutionUrlPdfError(`Page de détail "${urlDetail}" inaccessible : ${message}`, urlDetail);
+    }
     if (!reponse.ok) {
-      throw new Error(`Page de détail "${urlDetail}" inaccessible (HTTP ${reponse.status}).`);
+      throw new ResolutionUrlPdfError(`Page de détail "${urlDetail}" inaccessible (HTTP ${reponse.status}).`, urlDetail);
     }
     const htmlDetail = await reponse.text();
     const $detail = cheerio.load(htmlDetail);
@@ -449,6 +471,10 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // Étapes 2-5 (contrat §2) : lister, filtrer, extraire.
       const $ = cheerio.load(html);
       const candidats: CandidatEvenement[] = [];
+      // feature 007 (US1, FR-001/FR-005) : candidats dont le titre seul
+      // n'était pas pertinent ET dont la résolution de page_detail/PDF a
+      // échoué — cf. types.ts, CandidatNonResolu.
+      const candidatsNonResolus: CandidatNonResolu[] = [];
 
       // Q-001 (lot Qualité, 2026-08-22) : détection du piège `page_detail`
       // déjà rencontré et corrigé après-coup sur 58, 60, 70, 71, 81 —
@@ -495,10 +521,28 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
         // on retombe sur le titre plutôt que de faire échouer tout le run
         // (même esprit que l'échec de téléchargement du PDF, ci-dessous).
         let urlPdf: string | null = null;
+        // feature 007 (US1) : trace de l'échec le plus récent qui a
+        // empêché de trancher la pertinence de CETTE publication — mise à
+        // jour au fil des étapes (résolution de l'URL, puis téléchargement),
+        // jamais les deux à la fois (l'échec de résolution empêche
+        // d'atteindre le téléchargement). Consommée uniquement si le titre
+        // seul s'avère non pertinent (cf. plus bas, FR-002).
+        let echecResolutionPdf: { message: string; source: SourceBrute } | null = null;
         try {
           urlPdf = await resoudreUrlPdfPublication($publication, config, urlListeEffective, enTetesSession);
-        } catch {
+        } catch (err) {
           urlPdf = null;
+          if (err instanceof ResolutionUrlPdfError) {
+            echecResolutionPdf = {
+              message: err.message,
+              source: {
+                type: 'page_web',
+                url: err.url,
+                contenu_brut_reference: err.url,
+                date_collecte: dateCollecte,
+              },
+            };
+          }
         }
 
         // Le PDF joint est tenté dès qu'il existe, pas seulement quand le
@@ -539,18 +583,38 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
               // même si l'extraction retombera sur le texte du titre.
               sourceCandidat = source;
             }
-          } catch {
+          } catch (err) {
             // Téléchargement du PDF joint échoué pour CETTE publication :
             // on retombe sur le titre plutôt que de faire échouer tout le
             // run pour une seule pièce jointe indisponible (isolation à
             // l'échelle du candidat, esprit du contrat §5 règle 6, qui
             // isole déjà les connecteurs entre eux). Si le titre seul
-            // n'était pas pertinent, ce candidat est perdu (échec isolé,
-            // pas de remontée en anomalie possible sans texte à examiner).
+            // n'était pas pertinent, la pertinence de ce candidat n'a
+            // jamais pu être vérifiée — feature 007 (US1, FR-001) : tracé
+            // dans candidatsNonResolus plutôt que perdu silencieusement.
+            const message = err instanceof Error ? err.message : String(err);
+            echecResolutionPdf = {
+              message: `Téléchargement du PDF "${urlPdf}" échoué : ${message}`,
+              source: {
+                type: 'pdf',
+                url: urlPdf,
+                contenu_brut_reference: urlPdf,
+                date_collecte: dateCollecte,
+              },
+            };
           }
         }
 
-        if (!pertinent) continue;
+        if (!pertinent) {
+          if (echecResolutionPdf) {
+            candidatsNonResolus.push({
+              departement_code: departementCode,
+              message: echecResolutionPdf.message,
+              source: echecResolutionPdf.source,
+            });
+          }
+          continue;
+        }
 
         candidats.push(construireCandidat(departementCode, texte, config, sourceCandidat));
       }
@@ -576,11 +640,21 @@ export function creerConnecteur(entree: ConnecteurEntree, configBrute: unknown):
       // que soit `cible.moisNumero` — signale donc au consommateur
       // (`backfill-historique.ts`) que cette collecte couvre déjà
       // l'intégralité de `cible.annee`, pas seulement le mois demandé.
+      const resultatBase: ResultatCollecte =
+        candidatsNonResolus.length > 0 ? { candidats, candidatsNonResolus } : { candidats };
+
       if (config.granularite_liste === 'annuelle') {
+        if (candidatsNonResolus.length > 0) {
+          // feature 007 (US1, FR-011, défense en profondeur) : ne jamais
+          // affirmer que l'année est intégralement couverte si au moins un
+          // candidat n'a pas pu être résolu — la protection principale
+          // reste côté orchestration (backfill-historique.ts, US3).
+          return resultatBase;
+        }
         return { candidats, anneesCouvertes: [cible.annee] };
       }
 
-      return { candidats };
+      return resultatBase;
     },
   };
 }
