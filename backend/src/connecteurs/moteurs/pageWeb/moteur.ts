@@ -1,6 +1,13 @@
 import * as cheerio from 'cheerio';
 import type { Connecteur as ConnecteurEntree } from '../../../models/index.js';
-import type { CandidatEvenement, CandidatNonResolu, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
+import type {
+  CandidatEvenement,
+  CandidatNonResolu,
+  Connecteur,
+  OptionsCollecte,
+  ResultatCollecte,
+  SourceBrute,
+} from '../../types.js';
 import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '../../extraction/champsCommuns.js';
 import { parisAnneeMoisCourant, type AnneeMois } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
@@ -488,7 +495,7 @@ export function creerConnecteur(
   return {
     id: entree.id,
     departements: [departementCode],
-    async collecter(cibleParam?: AnneeMois): Promise<ResultatCollecte> {
+    async collecter(cibleParam?: AnneeMois, options?: OptionsCollecte): Promise<ResultatCollecte> {
       const dateCollecte = new Date().toISOString();
       // feature 005 (US1, FR-001/FR-002) : mois cible explicite si fourni
       // (collecte historique, `backfill-historique.ts`), sinon le mois
@@ -590,6 +597,16 @@ export function creerConnecteur(
           }
         }
 
+        // CORRECTIF (2026-09-08, feature « PDF par PDF ») : un PDF déjà
+        // résolu (téléchargé et tranché — retenu ou écarté) lors d'une
+        // tentative précédente de reprise de ce même mois "incertain" ne
+        // doit pas être re-téléchargé — l'appelant (`runner.ts`) a déjà
+        // persisté son sort à ce moment-là. Un candidat sans PDF joint
+        // (`urlPdf === null`) n'est jamais concerné, faute d'URL à comparer.
+        if (urlPdf && options?.urlsDejaResolues?.has(urlPdf)) {
+          continue;
+        }
+
         // Le PDF joint est tenté dès qu'il existe, pas seulement quand le
         // titre est déjà pertinent : sur un bulletin RAA compilé (plusieurs
         // arrêtés dans un même PDF, ex. "RAA 33 SPECIAL N°2026-243"), le
@@ -659,16 +676,26 @@ export function creerConnecteur(
 
         if (!pertinent) {
           if (echecResolutionPdf) {
-            candidatsNonResolus.push({
+            const candidatNonResolu: CandidatNonResolu = {
               departement_code: departementCode,
               message: echecResolutionPdf.message,
               source: echecResolutionPdf.source,
-            });
+            };
+            candidatsNonResolus.push(candidatNonResolu);
+            // CORRECTIF (2026-09-08) : notifié immédiatement (persistance
+            // incrémentale côté `runner.ts`) plutôt que seulement à la fin
+            // de toute la collecte du mois — jamais pour ce statut ajouté à
+            // `urlsDejaResolues` côté appelant (échec réel, à retenter).
+            await options?.onCandidatResolu?.({ statut: 'non_resolu', urlPdf, candidatNonResolu });
+          } else {
+            await options?.onCandidatResolu?.({ statut: 'ecarte', urlPdf });
           }
           continue;
         }
 
-        candidats.push(construireCandidat(departementCode, texte, config, sourceCandidat));
+        const candidat = construireCandidat(departementCode, texte, config, sourceCandidat);
+        candidats.push(candidat);
+        await options?.onCandidatResolu?.({ statut: 'retenu', urlPdf, candidat });
       }
 
       // Q-001 : piège `page_detail` confirmé — aucun des éléments matchés

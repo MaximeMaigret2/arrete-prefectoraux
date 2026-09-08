@@ -85,15 +85,34 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     await rm(tempDir, { recursive: true, force: true }).catch(() => {});
   });
 
+  // Feature « PDF par PDF » (2026-09-08) : l'orchestration appelle désormais
+  // `executerConnecteurPourBackfillIncremental`, jamais plus
+  // `executerConnecteurPourBackfill` directement (cf. `executerBackfill`).
+  // Par défaut, `executerConnecteurPourBackfillIncremental` délègue tel
+  // quel à `executerConnecteurPourBackfill` (lu sur `resultat`, donc APRÈS
+  // application d'un éventuel override — un test qui ne fournit qu'un
+  // `executerConnecteurPourBackfill` continue de fonctionner sans
+  // modification), avec `urlsResoluesCetteExecution: []` (aucun des tests
+  // de ce bloc n'exerce le suivi par URL, réservé aux tests dédiés
+  // ci-dessous qui overrident `executerConnecteurPourBackfillIncremental`
+  // directement).
   function deps(overrides: Partial<DependancesBackfill>): DependancesBackfill {
-    return {
+    const resultat: DependancesBackfill = {
       auditerProfondeurs: async () => [],
       obtenirConnecteur: async (id) => connecteurFactice(id),
       executerConnecteurPourBackfill: async () => ({ execution: executionFausse('succes'), causeReseauSiEchec: null }),
+      executerConnecteurPourBackfillIncremental: async (connecteur, cible) => {
+        const { execution, causeReseauSiEchec, anneesCouvertes } = await resultat.executerConnecteurPourBackfill(
+          connecteur,
+          cible,
+        );
+        return { execution, causeReseauSiEchec, anneesCouvertes: anneesCouvertes ?? null, urlsResoluesCetteExecution: [] };
+      },
       attendre: async () => {},
       maintenant: () => MAINTENANT,
       ...overrides,
     };
+    return resultat;
   }
 
   it('(a) traite les connecteurs d\'un même groupe strictement séquentiellement, avec un espacement avant chaque requête', async () => {
@@ -413,6 +432,106 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     const checkpoint = await lireCheckpoint(cheminCheckpoint);
     expect(checkpoint.connecteurs['conn-a']?.moisRestants).toEqual([]);
   });
+
+  it(
+    "(f quater) feature « PDF par PDF » (2026-09-08) : urlsResoluesParMois du checkpoint est transmis en urlsDejaResolues, " +
+      'et onUrlResolue écrit le checkpoint IMMÉDIATEMENT (avant même le retour de executerConnecteurPourBackfillIncremental)',
+    async () => {
+      // Checkpoint pré-existant (reprise) : conn-a, juin 2026 déjà tenté une
+      // première fois, un PDF ("url-x") déjà résolu lors de cette tentative.
+      await writeFile(
+        cheminCheckpoint,
+        JSON.stringify({
+          version: 1,
+          connecteurs: {
+            'conn-a': {
+              profondeurCibleMois: 1,
+              moisRestants: [{ annee: '2026', moisNumero: '06' }],
+              archivesEpuisees: false,
+              urlsResoluesParMois: { '2026-06': ['url-x'] },
+            },
+          },
+        }),
+        'utf-8',
+      );
+
+      let urlsDejaResoluesRecue: ReadonlySet<string> | undefined;
+      let checkpointVuDepuisOnUrlResolue: unknown;
+
+      await executerBackfill(
+        { cheminCheckpoint, espacementMinimumMs: 0 },
+        deps({
+          auditerProfondeurs: async () => [profondeur('conn-a', 1)],
+          executerConnecteurPourBackfillIncremental: async (_connecteur, _cible, urlsDejaResolues, onUrlResolue) => {
+            urlsDejaResoluesRecue = urlsDejaResolues;
+            // Résout un NOUVEAU PDF ("url-y") — l'appelant doit écrire le
+            // checkpoint tout de suite, sans attendre que cette fonction
+            // revienne (simule une interruption juste après, cf. doc de
+            // `executerConnecteurPourBackfillIncremental`, runner.ts).
+            await onUrlResolue?.('url-y');
+            checkpointVuDepuisOnUrlResolue = await lireCheckpoint(cheminCheckpoint);
+            return {
+              execution: executionFausse('incertain'),
+              causeReseauSiEchec: null,
+              anneesCouvertes: null,
+              urlsResoluesCetteExecution: ['url-x', 'url-y'],
+            };
+          },
+        }),
+      );
+
+      expect(Array.from(urlsDejaResoluesRecue ?? []).sort()).toEqual(['url-x']);
+      // Déjà visible sur disque AVANT le retour de la fonction mockée.
+      expect(
+        (checkpointVuDepuisOnUrlResolue as { connecteurs: Record<string, { urlsResoluesParMois?: Record<string, string[]> }> })
+          .connecteurs['conn-a']?.urlsResoluesParMois?.['2026-06'],
+      ).toEqual(['url-x', 'url-y']);
+
+      const checkpointFinal = await lireCheckpoint(cheminCheckpoint);
+      // Mois resté "incertain" : le suivi par URL persiste pour la prochaine reprise.
+      expect(checkpointFinal.connecteurs['conn-a']?.urlsResoluesParMois?.['2026-06']).toEqual(['url-x', 'url-y']);
+    },
+  );
+
+  it(
+    '(f quinquies) le suivi urlsResoluesParMois est purgé dès que le mois quitte moisRestants (succès complet)',
+    async () => {
+      await writeFile(
+        cheminCheckpoint,
+        JSON.stringify({
+          version: 1,
+          connecteurs: {
+            'conn-a': {
+              profondeurCibleMois: 1,
+              moisRestants: [{ annee: '2026', moisNumero: '06' }],
+              archivesEpuisees: false,
+              urlsResoluesParMois: { '2026-06': ['url-x', 'url-y'] },
+            },
+          },
+        }),
+        'utf-8',
+      );
+
+      await executerBackfill(
+        { cheminCheckpoint, espacementMinimumMs: 0 },
+        deps({
+          auditerProfondeurs: async () => [profondeur('conn-a', 1)],
+          executerConnecteurPourBackfillIncremental: async () => ({
+            execution: executionFausse('succes'),
+            causeReseauSiEchec: null,
+            anneesCouvertes: null,
+            urlsResoluesCetteExecution: ['url-x', 'url-y'],
+          }),
+        }),
+      );
+
+      const checkpoint = await lireCheckpoint(cheminCheckpoint);
+      expect(checkpoint.connecteurs['conn-a']?.moisRestants).toEqual([]);
+      // Le mois a réussi intégralement : plus jamais besoin d'être repris,
+      // son suivi par URL n'a plus de raison d'être conservé.
+      expect(checkpoint.connecteurs['conn-a']?.urlsResoluesParMois?.['2026-06']).toBeUndefined();
+    },
+  );
 });
 
 /**

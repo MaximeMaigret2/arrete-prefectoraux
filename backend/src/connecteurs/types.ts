@@ -133,6 +133,49 @@ export interface CandidatNonResolu {
 }
 
 /**
+ * Résultat de la résolution d'UN candidat individuel (généralement un PDF),
+ * notifié au fur et à mesure via `OptionsCollecte.onCandidatResolu` plutôt
+ * que de tout renvoyer d'un coup à la fin de la collecte du mois (correctif
+ * 2026-09-08 : la persistance doit avancer PDF par PDF, pour qu'une
+ * interruption en cours de mois ne perde pas le travail déjà accompli).
+ *
+ * - 'retenu' : candidat pertinent, celui déjà présent dans
+ *   `ResultatCollecte.candidats`.
+ * - 'ecarte' : candidat jugé non pertinent, sans erreur — rien à publier ni
+ *   à consigner comme non résolu.
+ * - 'non_resolu' : échec de résolution (ex. échec de téléchargement PDF),
+ *   correspond à une entrée déjà présente dans
+ *   `ResultatCollecte.candidatsNonResolus`.
+ */
+export type CandidatResolu =
+  | { statut: 'retenu'; urlPdf: string | null; candidat: CandidatEvenement }
+  | { statut: 'ecarte'; urlPdf: string | null }
+  | { statut: 'non_resolu'; urlPdf: string | null; candidatNonResolu: CandidatNonResolu };
+
+/**
+ * Options facultatives de collecte (feature « PDF par PDF », 2026-09-08) —
+ * absentes (comportement historique inchangé) : aucune URL ignorée, aucune
+ * notification incrémentale, `ResultatCollecte` reste l'unique source de
+ * vérité consommée après la fin de `collecter()`.
+ */
+export interface OptionsCollecte {
+  /**
+   * URLs de PDF déjà résolues lors d'une tentative précédente (reprise d'un
+   * mois "incertain") : un moteur DEVRAIT les ignorer plutôt que de les
+   * re-télécharger, pour ne pas re-payer un coût déjà acquis.
+   */
+  urlsDejaResolues?: ReadonlySet<string>;
+  /**
+   * Appelé dès qu'un candidat individuel est résolu, avant la fin de toute
+   * la collecte du mois, pour permettre une persistance incrémentale côté
+   * appelant (`runner.ts`). Facultatif : un moteur qui ne l'appelle pas
+   * garde son comportement historique (résultat uniquement dans la valeur
+   * de retour de `collecter()`).
+   */
+  onCandidatResolu?: (resolu: CandidatResolu) => void | Promise<void>;
+}
+
+/**
  * Interface qu'un connecteur concret (une fois configuré par son moteur)
  * doit satisfaire pour le `runner`. `runner.ts` ne connaît que cette
  * interface — aucune branche conditionnelle sur `type_connecteur` ; c'est
@@ -151,6 +194,11 @@ export interface Connecteur {
    * Absent (comportement historique, inchangé) : résolution contre le mois
    * courant Europe/Paris, rigoureusement identique à l'existant (FR-002,
    * non-régression du cycle planifié et du déclenchement manuel).
+   *
+   * `options` (feature « PDF par PDF », 2026-09-08) : facultatif, ignoré par
+   * tout moteur qui ne le supporte pas — non-régression garantie par
+   * typage structurel (un moteur avec moins de paramètres reste assignable
+   * à `Connecteur`).
    */
-  collecter(cible?: AnneeMois): Promise<ResultatCollecte>;
+  collecter(cible?: AnneeMois, options?: OptionsCollecte): Promise<ResultatCollecte>;
 }

@@ -27,7 +27,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { obtenirConnecteur } from '../connecteurs/registry.js';
-import { executerConnecteurPourBackfill } from '../connecteurs/runner.js';
+import { executerConnecteurPourBackfill, executerConnecteurPourBackfillIncremental } from '../connecteurs/runner.js';
 import { auditerProfondeurs, type ProfondeurConnecteur } from '../connecteurs/volumetrie.js';
 import { regrouperParHebergement, type GroupeHebergement } from '../connecteurs/hebergement.js';
 import { decalerAnneeMois, parisAnneeMoisCourant, type AnneeMois } from '../services/parisDate.js';
@@ -67,6 +67,21 @@ export interface EtatConnecteurCheckpoint {
   moisRestants: AnneeMois[];
   /** `true` des qu'une page introuvable a ete rencontree pour ce connecteur (limite naturelle des archives, US1 Edge Case) - plus rien n'est tente pour lui ensuite. */
   archivesEpuisees: boolean;
+  /**
+   * Feature « PDF par PDF » (2026-09-08) : URLs de PDF deja resolues (retenu
+   * OU ecarte - jamais un echec) pour un mois donne, cle `"${annee}-${moisNumero}"`
+   * (ex. `"2026-03"`), ecrit AU FIL DE L'EAU des la resolution de chaque PDF
+   * (`executerConnecteurPourBackfillIncremental`, `onUrlResolue`) plutot que
+   * seulement a la fin du mois - la persistance des evenements/anomalies
+   * elle-meme (`appendEvenement`/`upsertAnomalie`, `runner.ts`) est deja
+   * immediate, mais sans ce suivi une interruption en cours de mois faisait
+   * retelecharger depuis zero, a la reprise, des PDF deja traites avec
+   * succes. Optionnel/retrocompatible (`VERSION_CHECKPOINT` INCHANGE) - un
+   * checkpoint existant sans ce champ se comporte comme un ensemble vide.
+   * Purge (cle retiree) des qu'un mois quitte `moisRestants` (succes complet
+   * ou archives epuisees) - jamais laisse grossir indefiniment.
+   */
+  urlsResoluesParMois?: Record<string, string[]>;
 }
 
 /** Etat de campagne persistant, hors modele de donnees applicatif (plan.md, Complexity Tracking). */
@@ -124,6 +139,26 @@ export interface DependancesBackfill {
     connecteur: Connecteur,
     cible: AnneeMois,
   ) => Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null; anneesCouvertes?: string[] | null }>;
+  /**
+   * Feature « PDF par PDF » (2026-09-08) : variante incrementale utilisee a
+   * la place de `executerConnecteurPourBackfill` ci-dessus pour CHAQUE mois
+   * tente - persiste chaque candidat (evenement/anomalie) des sa resolution
+   * individuelle plutot qu'a la toute fin du mois, et invoque `onUrlResolue`
+   * pour chaque URL de PDF dont le sort vient d'etre acquis (retenu ou
+   * ecarte), afin que l'orchestration puisse ecrire son checkpoint
+   * IMMEDIATEMENT (cf. `EtatConnecteurCheckpoint.urlsResoluesParMois`).
+   */
+  executerConnecteurPourBackfillIncremental: (
+    connecteur: Connecteur,
+    cible: AnneeMois,
+    urlsDejaResolues: ReadonlySet<string>,
+    onUrlResolue?: (urlPdf: string) => void | Promise<void>,
+  ) => Promise<{
+    execution: ExecutionCollecte;
+    causeReseauSiEchec: boolean | null;
+    anneesCouvertes: string[] | null;
+    urlsResoluesCetteExecution: string[];
+  }>;
   attendre: (ms: number) => Promise<void>;
   maintenant: () => Date;
   /**
@@ -280,7 +315,27 @@ export async function executerBackfill(
         await deps.attendre(espacementMinimumMs);
         const libelleMois = `${cible.annee}-${cible.moisNumero}`;
 
-        const { execution, causeReseauSiEchec, anneesCouvertes } = await deps.executerConnecteurPourBackfill(file.connecteur, cible);
+        // Feature « PDF par PDF » (2026-09-08) : URLs deja resolues pour CE
+        // mois lors d'une reprise precedente (mois reste "incertain") - le
+        // moteur les ignore plutot que de les retelecharger. `onUrlResolue`
+        // ecrit le checkpoint IMMEDIATEMENT a chaque nouvelle URL resolue,
+        // pour qu'une interruption en cours de mois ne perde jamais ce suivi
+        // (la persistance des evenements/anomalies eux-memes est deja
+        // immediate, candidat par candidat, cote `runner.ts`).
+        const urlsDejaResolues = new Set(etat.urlsResoluesParMois?.[libelleMois] ?? []);
+        const { execution, causeReseauSiEchec, anneesCouvertes } = await deps.executerConnecteurPourBackfillIncremental(
+          file.connecteur,
+          cible,
+          urlsDejaResolues,
+          async (urlPdf) => {
+            const dejaResolues = etat.urlsResoluesParMois ?? (etat.urlsResoluesParMois = {});
+            const pourCeMois = dejaResolues[libelleMois] ?? (dejaResolues[libelleMois] = []);
+            if (!pourCeMois.includes(urlPdf)) {
+              pourCeMois.push(urlPdf);
+              await ecrireCheckpoint(cheminCheckpoint, checkpoint);
+            }
+          },
+        );
 
         if (execution.nombre_candidats_non_resolus > 0) {
           // feature 007 (US3, FR-011/FR-013) : au moins un candidat de ce
@@ -292,6 +347,9 @@ export async function executerBackfill(
           // de lecture, seulement une incertitude qui doit rester eligible
           // a une reprise ulterieure (US4).
           rapportGroupe.moisNonResolus += 1;
+          // `etat.urlsResoluesParMois[libelleMois]` deja ecrit sur disque au
+          // fil de l'eau via `onUrlResolue` ci-dessus - rien de plus a
+          // persister ici pour ce suivi.
           log(
             `[${groupe}] ${file.connecteurId} ${libelleMois} : incertain (${execution.nombre_candidats_non_resolus} candidat(s) non resolu(s)) - mois conserve pour reprise`,
           );
@@ -312,11 +370,21 @@ export async function executerBackfill(
           let nombreMoisResolus: number;
           if (anneesEntierementCouvertes) {
             nombreMoisResolus = etat.moisRestants.filter((m) => anneesEntierementCouvertes.has(m.annee)).length;
+            // Feature « PDF par PDF » (2026-09-08) : purge le suivi par-URL
+            // de chaque mois qui quitte moisRestants - un mois integralement
+            // couvert (succes verifie) n'a plus jamais besoin d'etre repris,
+            // son suivi de reprise devient obsolete.
+            if (etat.urlsResoluesParMois) {
+              for (const m of etat.moisRestants) {
+                if (anneesEntierementCouvertes.has(m.annee)) delete etat.urlsResoluesParMois[`${m.annee}-${m.moisNumero}`];
+              }
+            }
             etat.moisRestants = etat.moisRestants.filter((m) => !anneesEntierementCouvertes.has(m.annee));
             file.cibles = file.cibles.filter((m) => !anneesEntierementCouvertes.has(m.annee));
           } else {
             nombreMoisResolus = 1;
             etat.moisRestants = etat.moisRestants.filter((m) => !(m.annee === cible.annee && m.moisNumero === cible.moisNumero));
+            delete etat.urlsResoluesParMois?.[libelleMois];
           }
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
           echecsReseauConsecutifs = 0;
@@ -337,6 +405,7 @@ export async function executerBackfill(
           // jamais un declencheur de circuit-breaker (FR-004/FR-014).
           etat.archivesEpuisees = true;
           etat.moisRestants = [];
+          etat.urlsResoluesParMois = undefined; // plus aucun mois a reprendre pour ce connecteur - suivi devenu sans objet.
           file.cibles = []; // plus rien a tenter pour lui non plus dans ce run.
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
           rapportGroupe.moisPageIntrouvable += 1;
@@ -425,6 +494,7 @@ async function main(): Promise<void> {
       auditerProfondeurs,
       obtenirConnecteur,
       executerConnecteurPourBackfill,
+      executerConnecteurPourBackfillIncremental,
       attendre: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
       maintenant: () => new Date(),
       log: (message) => console.log(`[${new Date().toISOString()}] ${message}`),

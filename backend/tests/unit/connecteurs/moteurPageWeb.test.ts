@@ -751,6 +751,115 @@ describe('moteur page_web — espacement entre téléchargements de PDF au sein 
 });
 
 /**
+ * Feature « PDF par PDF » (2026-09-08, suite directe du correctif
+ * d'espacement ci-dessus sur prefecture-56/Morbihan) : une interruption en
+ * cours de mois (timeout externe, process tué) ne doit plus faire perdre le
+ * travail déjà accompli — `runner.ts` persiste désormais chaque candidat dès
+ * sa résolution individuelle (`OptionsCollecte.onCandidatResolu`), et une
+ * reprise ultérieure d'un même mois "incertain" ne doit pas re-télécharger
+ * un PDF déjà tranché (`OptionsCollecte.urlsDejaResolues`). Ces tests
+ * verrouillent le comportement du moteur `page_web`, seul consommateur
+ * aujourd'hui de ces deux options (cf. `types.ts`).
+ */
+describe('moteur page_web — PDF par PDF : urlsDejaResolues / onCandidatResolu (feature 2026-09-08)', () => {
+  const URL_LISTE_PDF_PAR_PDF = 'https://exemple.gouv.fr/Publications/RAA-pdf-par-pdf';
+  const URL_PIECE_A = 'https://exemple.gouv.fr/pieces-jointes/piece-a.pdf';
+  const URL_PIECE_B = 'https://exemple.gouv.fr/pieces-jointes/piece-b.pdf';
+  const URL_PIECE_C = 'https://exemple.gouv.fr/pieces-jointes/piece-c.pdf';
+
+  function htmlTroisPublications(): string {
+    return `
+      <ul class="raa-liste">
+        <li class="raa-item">
+          <span class="raa-item__titre">Arrêté portant interdiction de rave party non déclarée</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-a.pdf">Télécharger le PDF</a>
+        </li>
+        <li class="raa-item">
+          <span class="raa-item__titre">Avis administratif B</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-b.pdf">Télécharger le PDF</a>
+        </li>
+        <li class="raa-item">
+          <span class="raa-item__titre">Avis administratif C</span>
+          <a class="raa-item__piece-jointe" href="/pieces-jointes/piece-c.pdf">Télécharger le PDF</a>
+        </li>
+      </ul>
+    `;
+  }
+
+  it('notifie onCandidatResolu pour chaque candidat au fil de l\'eau — retenu (titre déjà pertinent), non_resolu (échec de téléchargement), écarté (PDF lu, sans mot-clé)', async () => {
+    const htmlPdfParPdf = htmlTroisPublications();
+    const pdfSansMotCle = await readFile(FIXTURE_PDF_SANS_MOTCLE_PATH);
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_PDF_PAR_PDF) return { ok: true, status: 200, text: async () => htmlPdfParPdf } as unknown as Response;
+        if (url === URL_PIECE_A) return { ok: false, status: 404, text: async () => '' } as unknown as Response; // sans conséquence : titre déjà pertinent
+        if (url === URL_PIECE_B) return { ok: false, status: 404, text: async () => '' } as unknown as Response; // échec réel → non_resolu
+        if (url === URL_PIECE_C) {
+          return {
+            ok: true,
+            status: 200,
+            arrayBuffer: async () =>
+              pdfSansMotCle.buffer.slice(pdfSansMotCle.byteOffset, pdfSansMotCle.byteOffset + pdfSansMotCle.byteLength),
+          } as unknown as Response; // lu avec succès, sans mot-clé → écarté
+        }
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const resolutions: unknown[] = [];
+    const onCandidatResolu = vi.fn(async (resolu: unknown) => {
+      resolutions.push(resolu);
+    });
+
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, url_liste: URL_LISTE_PDF_PAR_PDF });
+    const resultat = await connecteur.collecter(undefined, { onCandidatResolu });
+
+    expect(onCandidatResolu).toHaveBeenCalledTimes(3);
+    expect(resolutions).toEqual([
+      expect.objectContaining({ statut: 'retenu', urlPdf: URL_PIECE_A }),
+      expect.objectContaining({ statut: 'non_resolu', urlPdf: URL_PIECE_B }),
+      expect.objectContaining({ statut: 'ecarte', urlPdf: URL_PIECE_C }),
+    ]);
+    // Le candidat notifié via le callback est bien celui présent dans le résultat final (même référence).
+    expect((resolutions[0] as { candidat: unknown }).candidat).toBe(resultat.candidats[0]);
+    expect((resolutions[1] as { candidatNonResolu: unknown }).candidatNonResolu).toBe(resultat.candidatsNonResolus?.[0]);
+  });
+
+  it('ignore (sans le retélécharger) un PDF déjà présent dans options.urlsDejaResolues', async () => {
+    const htmlPdfParPdf = htmlTroisPublications();
+    const urlsAppelees: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url: string) => {
+        if (url === URL_LISTE_PDF_PAR_PDF) return { ok: true, status: 200, text: async () => htmlPdfParPdf } as unknown as Response;
+        urlsAppelees.push(url);
+        return { ok: false, status: 404, text: async () => '' } as unknown as Response;
+      }),
+    );
+
+    const onCandidatResolu = vi.fn(async () => {});
+    const connecteur = creerConnecteur(ENTREE, { ...CONFIG_BASE, url_liste: URL_LISTE_PDF_PAR_PDF });
+    const resultat = await connecteur.collecter(undefined, {
+      urlsDejaResolues: new Set([URL_PIECE_B]),
+      onCandidatResolu,
+    });
+
+    // piece-b.pdf jamais retélécharegé : seul A (titre déjà pertinent, PDF
+    // quand même tenté) et C (titre non pertinent) déclenchent un fetch —
+    // C échoue également (404, non mocké spécifiquement ici) → non_resolu,
+    // exactement comme B l'aurait été s'il n'avait pas été ignoré.
+    expect(urlsAppelees).toEqual([URL_PIECE_A, URL_PIECE_C]);
+    // Candidat B totalement absent de ce résultat (déjà résolu et persisté
+    // par une tentative précédente, cf. runner.ts) — ni candidat, ni
+    // candidatNonResolu, ni notification via le callback : seul C y figure.
+    expect(onCandidatResolu).toHaveBeenCalledTimes(2);
+    expect(resultat.candidatsNonResolus).toHaveLength(1);
+    expect(resultat.candidatsNonResolus?.[0]?.source.url).toBe(URL_PIECE_C);
+  });
+});
+
+/**
  * Q-001 (lot Qualité — Durcissement, 2026-08-22) — verrouille par un test le
  * piège `page_detail` rencontré et corrigé APRÈS COUP sur 58, 60, 70, 71 et
  * 81 : `selecteur_publications` pointant sur le conteneur englobant de la

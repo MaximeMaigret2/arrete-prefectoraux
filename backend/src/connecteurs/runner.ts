@@ -18,7 +18,7 @@ import {
   type TypeAnomalie,
 } from '../models/index.js';
 import { detecterDoublon } from './dedupe.js';
-import type { CandidatEvenement, CandidatNonResolu, Connecteur, SourceBrute } from './types.js';
+import type { CandidatEvenement, CandidatNonResolu, CandidatResolu, Connecteur, SourceBrute } from './types.js';
 import type { AnneeMois } from '../services/parisDate.js';
 
 /**
@@ -205,6 +205,58 @@ function construireAnomalieNonResolu(params: {
 }
 
 /**
+ * Persiste une anomalie `candidat_non_resolu` (feature 007, US1). Extrait de
+ * la boucle de {@link executerConnecteurAvecClassification} (2026-09-08,
+ * feature « PDF par PDF ») pour être réutilisé tel quel, candidat par
+ * candidat, par {@link executerConnecteurPourBackfillIncremental}.
+ */
+async function persisterNonResolu(
+  connecteur: Connecteur,
+  executionId: string,
+  candidatNonResolu: CandidatNonResolu,
+): Promise<void> {
+  const anomalie = construireAnomalieNonResolu({ connecteurId: connecteur.id, executionId, candidatNonResolu });
+  await upsertAnomalie(anomalie);
+}
+
+/**
+ * Évalue puis persiste (publication ou anomalie) UN candidat retenu — extrait
+ * de la boucle de {@link executerConnecteurAvecClassification} (2026-09-08,
+ * feature « PDF par PDF ») pour être réutilisé tel quel, candidat par
+ * candidat, par {@link executerConnecteurPourBackfillIncremental}. Mute
+ * `historiqueParDepartement` (ajout de l'événement publié) exactement comme
+ * la boucle d'origine, pour que la détection de doublon des candidats
+ * suivants du même run reste correcte.
+ */
+async function persisterCandidatRetenu(
+  connecteur: Connecteur,
+  executionId: string,
+  historiqueParDepartement: Map<string, Evenement[]>,
+  candidat: CandidatEvenement,
+): Promise<'publie' | 'anomalie'> {
+  const historique = historiqueParDepartement.get(candidat.departement_code) ?? [];
+  const evaluation = evaluerCandidat(candidat, historique);
+
+  if (evaluation.action === 'publier') {
+    const evenement = construireEvenement(evaluation.candidat, connecteur.id);
+    await appendEvenement(evenement);
+    historique.push(evenement);
+    historiqueParDepartement.set(candidat.departement_code, historique);
+    return 'publie';
+  }
+
+  const anomalie = construireAnomalieCandidat({
+    connecteurId: connecteur.id,
+    executionId,
+    typeAnomalie: evaluation.type_anomalie,
+    raison: evaluation.raison,
+    candidat,
+  });
+  await upsertAnomalie(anomalie);
+  return 'anomalie';
+}
+
+/**
  * Exécute un connecteur : collecte, évalue chaque candidat, persiste les
  * publications/anomalies, puis journalise l'exécution (FR-011) et met à
  * jour `Connecteur.derniere_collecte` si la collecte n'a pas échoué
@@ -273,35 +325,13 @@ async function executerConnecteurAvecClassification(
       // nombreAnomalies (qui reste la mesure historique, cf. `partiel`),
       // porté par son propre compteur pour piloter `determinerStatut`.
       for (const candidatNonResolu of resultat.candidatsNonResolus ?? []) {
-        const anomalie = construireAnomalieNonResolu({
-          connecteurId: connecteur.id,
-          executionId,
-          candidatNonResolu,
-        });
-        await upsertAnomalie(anomalie);
+        await persisterNonResolu(connecteur, executionId, candidatNonResolu);
         nombreCandidatsNonResolus += 1;
       }
       for (const candidat of resultat.candidats) {
-        const historique = historiqueParDepartement.get(candidat.departement_code) ?? [];
-        const evaluation = evaluerCandidat(candidat, historique);
-
-        if (evaluation.action === 'publier') {
-          const evenement = construireEvenement(evaluation.candidat, connecteur.id);
-          await appendEvenement(evenement);
-          historique.push(evenement);
-          historiqueParDepartement.set(candidat.departement_code, historique);
-          nombrePublies += 1;
-        } else {
-          const anomalie = construireAnomalieCandidat({
-            connecteurId: connecteur.id,
-            executionId,
-            typeAnomalie: evaluation.type_anomalie,
-            raison: evaluation.raison,
-            candidat,
-          });
-          await upsertAnomalie(anomalie);
-          nombreAnomalies += 1;
-        }
+        const issue = await persisterCandidatRetenu(connecteur, executionId, historiqueParDepartement, candidat);
+        if (issue === 'publie') nombrePublies += 1;
+        else nombreAnomalies += 1;
       }
     }
   } catch (err) {
@@ -374,6 +404,173 @@ export async function executerConnecteurPourBackfill(
   cible: AnneeMois,
 ): Promise<{ execution: ExecutionCollecte; causeReseauSiEchec: boolean | null; anneesCouvertes: string[] | null }> {
   return executerConnecteurAvecClassification(connecteur, 'backfill', cible);
+}
+
+/**
+ * Variante incrémentale de {@link executerConnecteurPourBackfill} (feature
+ * « PDF par PDF », 2026-09-08) : au lieu d'attendre que `connecteur.collecter()`
+ * ait terminé TOUT le mois pour persister quoi que ce soit (limite constatée
+ * en conditions réelles — une interruption en cours de mois, ex. Morbihan,
+ * `prefecture-56`, perdait alors l'intégralité des PDF déjà téléchargés avec
+ * succès, y compris ceux traités juste avant l'interruption), chaque candidat
+ * est persisté dès sa résolution individuelle via `OptionsCollecte.onCandidatResolu`
+ * (`types.ts`) — un `appendEvenement`/`upsertAnomalie` par candidat, au fil de
+ * l'eau, comme la boucle historique de {@link executerConnecteurAvecClassification}
+ * mais candidat par candidat plutôt qu'après le seul `await connecteur.collecter(cible)`.
+ *
+ * `urlsDejaResolues` (checkpoint, `backfill-historique.ts`) est transmis au
+ * moteur pour qu'il ignore les PDF déjà traités lors d'une reprise
+ * précédente de ce même mois "incertain" (`OptionsCollecte.urlsDejaResolues`).
+ *
+ * `onUrlResolue`, appelé pour chaque URL de PDF dont le sort (retenu ou
+ * écarté — jamais un échec, cf. plus bas) vient d'être persisté, permet à
+ * l'appelant (`backfill-historique.ts`) d'écrire IMMÉDIATEMENT le checkpoint
+ * correspondant plutôt que d'attendre le retour de cette fonction (qui, en
+ * cas d'interruption du processus en cours de mois, ne revient jamais) — sans
+ * cela, le suivi des URLs déjà résolues resterait, comme avant cette feature,
+ * perdu en cas d'interruption malgré une persistance déjà faite sur disque.
+ *
+ * Un moteur qui NE notifie PAS `onCandidatResolu` (comportement historique,
+ * ex. moteurs `pdf`/`rss` aujourd'hui) reste rigoureusement compatible :
+ * après le retour de `collecter()`, tout candidat non déjà persisté via le
+ * callback (suivi par référence, `candidatsPersistes`/`nonResolusPersistes`)
+ * est persisté ici comme avant, exactement comme
+ * {@link executerConnecteurAvecClassification} — jamais de double
+ * persistance pour un moteur qui, lui, notifie systématiquement (`page_web`),
+ * jamais de perte pour un moteur qui ne notifie pas du tout.
+ *
+ * `urlsResoluesCetteExecution` (valeur de retour) résume, pour un appelant
+ * qui préfère ne mettre à jour son checkpoint qu'une fois à la fin plutôt que
+ * via `onUrlResolue`, l'ensemble des URLs "retenu"/"ecarte" de CETTE
+ * exécution — jamais une URL "non_resolu" (échec réel de téléchargement,
+ * à retenter lors d'une prochaine reprise, jamais traitée comme acquise).
+ */
+export async function executerConnecteurPourBackfillIncremental(
+  connecteur: Connecteur,
+  cible: AnneeMois,
+  urlsDejaResolues: ReadonlySet<string>,
+  onUrlResolue?: (urlPdf: string) => void | Promise<void>,
+): Promise<{
+  execution: ExecutionCollecte;
+  causeReseauSiEchec: boolean | null;
+  anneesCouvertes: string[] | null;
+  urlsResoluesCetteExecution: string[];
+}> {
+  const executionId = randomUUID();
+  const dateExecution = new Date().toISOString();
+
+  const store = await loadDataStore();
+  const historiqueParDepartement = new Map<string, Evenement[]>();
+  for (const [code, evenements] of store.evenementsByDepartement) {
+    historiqueParDepartement.set(code, [...evenements]);
+  }
+
+  let nombrePublies = 0;
+  let nombreAnomalies = 0;
+  let nombreCandidatsNonResolus = 0;
+  let messageErreur: string | null = null;
+  let causeReseauSiEchec: boolean | null = null;
+  let anneesCouvertes: string[] | null = null;
+  const urlsResoluesCetteExecution: string[] = [];
+  // Suivi par référence (pas par valeur) : les objets `candidat`/`candidatNonResolu`
+  // notifiés via le callback sont EXACTEMENT ceux que `resultat.candidats`/
+  // `resultat.candidatsNonResolus` portera au retour de `collecter()` (même
+  // référence, cf. `moteur.ts`) — permet de ne jamais persister deux fois le
+  // même candidat sans avoir à comparer son contenu.
+  const candidatsPersistes = new Set<CandidatEvenement>();
+  const nonResolusPersistes = new Set<CandidatNonResolu>();
+
+  const onCandidatResolu = async (resolu: CandidatResolu): Promise<void> => {
+    if (resolu.statut === 'retenu') {
+      candidatsPersistes.add(resolu.candidat);
+      const issue = await persisterCandidatRetenu(connecteur, executionId, historiqueParDepartement, resolu.candidat);
+      if (issue === 'publie') nombrePublies += 1;
+      else nombreAnomalies += 1;
+      if (resolu.urlPdf) {
+        urlsResoluesCetteExecution.push(resolu.urlPdf);
+        await onUrlResolue?.(resolu.urlPdf);
+      }
+    } else if (resolu.statut === 'non_resolu') {
+      nonResolusPersistes.add(resolu.candidatNonResolu);
+      await persisterNonResolu(connecteur, executionId, resolu.candidatNonResolu);
+      nombreCandidatsNonResolus += 1;
+      // Jamais transmis à `onUrlResolue`/`urlsResoluesCetteExecution` : un
+      // échec de téléchargement n'est pas une résolution acquise, il DOIT
+      // rester tenté à nouveau lors d'une prochaine reprise du mois.
+    } else {
+      // 'ecarte' : rien à persister (candidat jugé non pertinent, sans
+      // erreur), mais son URL de PDF, elle, a bien été résolue avec succès —
+      // inutile de la re-télécharger lors d'une reprise future.
+      if (resolu.urlPdf) {
+        urlsResoluesCetteExecution.push(resolu.urlPdf);
+        await onUrlResolue?.(resolu.urlPdf);
+      }
+    }
+  };
+
+  try {
+    const resultat = await connecteur.collecter(cible, { urlsDejaResolues, onCandidatResolu });
+
+    if (resultat.echec_global) {
+      messageErreur = resultat.echec_global.message;
+      causeReseauSiEchec = resultat.echec_global.causeReseau ?? true;
+      const departements = connecteur.departements.length > 0 ? connecteur.departements : [];
+      for (const departementCode of departements) {
+        const anomalie = construireAnomalieEchecLecture({
+          connecteurId: connecteur.id,
+          executionId,
+          departementCode,
+          message: resultat.echec_global.message,
+          source: resultat.echec_global.source,
+        });
+        await upsertAnomalie(anomalie);
+        nombreAnomalies += 1;
+      }
+    } else {
+      anneesCouvertes = resultat.anneesCouvertes && resultat.anneesCouvertes.length > 0 ? resultat.anneesCouvertes : null;
+      // Filet de sécurité pour un moteur qui ne notifie pas (ou notifie
+      // partiellement) via `onCandidatResolu` — cf. doc de la fonction.
+      for (const candidatNonResolu of resultat.candidatsNonResolus ?? []) {
+        if (nonResolusPersistes.has(candidatNonResolu)) continue;
+        await persisterNonResolu(connecteur, executionId, candidatNonResolu);
+        nombreCandidatsNonResolus += 1;
+      }
+      for (const candidat of resultat.candidats) {
+        if (candidatsPersistes.has(candidat)) continue;
+        const issue = await persisterCandidatRetenu(connecteur, executionId, historiqueParDepartement, candidat);
+        if (issue === 'publie') nombrePublies += 1;
+        else nombreAnomalies += 1;
+      }
+    }
+  } catch (err) {
+    messageErreur = err instanceof Error ? err.message : String(err);
+  }
+
+  const statut = determinerStatut(messageErreur, nombrePublies, nombreAnomalies, nombreCandidatsNonResolus);
+
+  const execution = ExecutionCollecteSchema.parse({
+    id: executionId,
+    connecteur_id: connecteur.id,
+    date_execution: dateExecution,
+    declenchement: 'backfill',
+    statut,
+    nombre_evenements_publies: nombrePublies,
+    nombre_anomalies: nombreAnomalies,
+    nombre_candidats_non_resolus: statut === 'echec' ? 0 : nombreCandidatsNonResolus,
+    message_erreur: statut === 'echec' ? messageErreur : null,
+  });
+  await appendExecution(execution);
+
+  if (statut !== 'echec') {
+    await updateConnecteur(connecteur.id, { derniere_collecte: dateExecution });
+  }
+
+  return {
+    execution,
+    causeReseauSiEchec: statut === 'echec' ? causeReseauSiEchec : null,
+    anneesCouvertes: statut === 'echec' ? null : anneesCouvertes,
+    urlsResoluesCetteExecution,
+  };
 }
 
 /**
