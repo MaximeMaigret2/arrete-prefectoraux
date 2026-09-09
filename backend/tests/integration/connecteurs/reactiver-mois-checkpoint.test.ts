@@ -74,6 +74,39 @@ describe('reactiverMoisCheckpoint (US4, FR-014/FR-015)', () => {
     expect(restants.filter((m) => m.annee === '2026' && m.moisNumero === '06')).toHaveLength(1);
   });
 
+  it(
+    'CORRECTIF (2026-09-09, demande utilisateur) : moisRestants reste trié du plus récent au plus ancien après réinjection, ' +
+      'même quand un mois ancien restait déjà en tête avant la réactivation',
+    async () => {
+      // Mois ancien déjà en attente AVANT les mois récents qui seront
+      // réinjectés — reproduit exactement le scénario observé en
+      // production (prefecture-56) : un simple append plaçait les mois
+      // récemment réactivés APRÈS un reliquat ancien, alors que
+      // `executerBackfill` consomme la file par le début (`shift()`) et
+      // doit donc traiter le plus récent en premier.
+      const moisAncienDejaEnAttente = { annee: '2023', moisNumero: '09' };
+      const initial: CheckpointBackfill = {
+        version: 1,
+        connecteurs: {
+          'conn-a': { profondeurCibleMois: 3, moisRestants: [moisAncienDejaEnAttente], archivesEpuisees: false },
+        },
+      };
+      await ecrireCheckpoint(cheminCheckpoint, initial);
+
+      // Les 3 mois cibles (M-1..M-3 depuis août 2026) sont juillet/juin/mai 2026 — tous plus récents que 2023-09.
+      await reactiverMoisCheckpoint({ connecteurIds: ['conn-a'], cheminCheckpoint }, deps());
+
+      const checkpointApres = await lireCheckpoint(cheminCheckpoint);
+      const restants = checkpointApres.connecteurs['conn-a']!.moisRestants;
+      expect(restants).toEqual([
+        { annee: '2026', moisNumero: '07' },
+        { annee: '2026', moisNumero: '06' },
+        { annee: '2026', moisNumero: '05' },
+        { annee: '2023', moisNumero: '09' },
+      ]);
+    },
+  );
+
   it('un connecteur jamais vu par le backfill (aucun état dans le checkpoint) ne bloque pas les autres du périmètre', async () => {
     const initial: CheckpointBackfill = {
       version: 1,

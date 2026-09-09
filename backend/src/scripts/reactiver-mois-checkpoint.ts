@@ -87,7 +87,17 @@ export async function reactiverMoisCheckpoint(
     const moisAjoutes = moisPossibles.filter((m) => !ensembleExistant.has(cleMois(m)));
 
     if (moisAjoutes.length > 0) {
-      etat.moisRestants = [...etat.moisRestants, ...moisAjoutes];
+      // CORRECTIF (2026-09-09, demande utilisateur : traiter les mois du
+      // plus récent au plus ancien) : un simple append en fin de tableau
+      // laissait les mois déjà présents (potentiellement anciens) devant
+      // les mois nouvellement réinjectés (potentiellement récents) —
+      // `executerBackfill` consomme `moisRestants` par le DÉBUT
+      // (`file.cibles.shift()`), donc cet ordre déterminait directement la
+      // priorité réelle de traitement, à l'opposé de l'intention de
+      // `construireMoisCibles` (M-1 en tête). Retrié systématiquement du
+      // plus récent au plus ancien après fusion — jamais de perte ni de
+      // doublon (l'union elle-même est inchangée), seul l'ordre change.
+      etat.moisRestants = [...etat.moisRestants, ...moisAjoutes].sort((a, b) => cleMois(b).localeCompare(cleMois(a)));
       // Un connecteur dont les archives avaient été marquées épuisées reste
       // bloqué par `executerBackfill` (qui ignore tout connecteur à
       // `archivesEpuisees: true`) tant que ce champ n'est pas explicitement
