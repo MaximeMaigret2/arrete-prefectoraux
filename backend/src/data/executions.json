@@ -7,6 +7,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -17,6 +18,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -27,6 +29,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.isere.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -37,6 +40,7 @@
     "statut": "partiel",
     "nombre_evenements_publies": 1,
     "nombre_anomalies": 14,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -47,6 +51,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 22,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -57,6 +62,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 30,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -67,6 +73,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -77,6 +84,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -87,6 +95,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -97,6 +106,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
   },
   {
@@ -107,6 +117,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -117,6 +128,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -127,6 +139,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -137,6 +150,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -147,6 +161,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -157,6 +172,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -167,6 +183,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -177,6 +194,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -187,6 +205,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aveyron.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -197,6 +216,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -207,6 +227,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -217,6 +238,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503)."
   },
   {
@@ -227,6 +249,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -237,6 +260,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires\" inaccessible (HTTP 503)."
   },
   {
@@ -247,6 +271,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -257,6 +282,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.corse-du-sud.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -267,6 +293,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haute-corse.gouv.fr/Publications/Publications-administratives-et-legales/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -277,6 +304,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cote-dor.gouv.fr/Publications/Recueils-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -287,6 +315,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -297,6 +326,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -307,6 +337,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -317,6 +348,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cotes-darmor.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -327,6 +359,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -337,6 +370,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.dordogne.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -347,6 +381,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -357,6 +392,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.drome.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -367,6 +403,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.eure.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -377,6 +414,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.eure-et-loir.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -387,6 +425,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.finistere.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -397,6 +436,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -407,6 +447,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haute-garonne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -417,6 +458,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gers.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -427,6 +469,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -437,6 +480,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -447,6 +491,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ille-et-vilaine.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -457,6 +502,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -467,6 +513,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -477,6 +524,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -487,6 +535,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -497,6 +546,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -507,6 +557,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -517,6 +568,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -527,6 +579,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.indre.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -537,6 +590,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.indre-et-loire.gouv.fr/Publications/Recueil-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -547,6 +601,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.jura.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -557,6 +612,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.landes.gouv.fr/Publications/Publications-legales/Le-Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -567,6 +623,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.loir-et-cher.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -577,6 +634,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.loire.gouv.fr/Publications/Publications-legales/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -587,6 +645,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haute-loire.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -597,6 +656,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.loire-atlantique.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-en-Loire-Atlantique\" inaccessible (HTTP 503)."
   },
   {
@@ -607,6 +667,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.loiret.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departementaux\" inaccessible (HTTP 503)."
   },
   {
@@ -617,6 +678,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.lot.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -627,6 +689,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.lot-et-garonne.gouv.fr/Publications/Publications-legales/RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -637,6 +700,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.lozere.gouv.fr/Publications/Recueil-des-Actes-Administratifs-R.A.A\" inaccessible (HTTP 503)."
   },
   {
@@ -647,6 +711,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.maine-et-loire.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -657,6 +722,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.manche.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -667,6 +733,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -677,6 +744,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.marne.gouv.fr/Publications/Publications-administratives-et-legales/RAA-Recueils-des-actes-administratifs/RAA-Recueils-des-actes-administratifs-de-la-prefecture-de-la-Marne\" inaccessible (HTTP 503)."
   },
   {
@@ -687,6 +755,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haute-marne.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -697,6 +766,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.mayenne.gouv.fr/Publications/Recueil-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -707,6 +777,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.meurthe-et-moselle.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -717,6 +788,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.meuse.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -727,6 +799,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -737,6 +810,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.nievre.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -747,6 +821,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.nord.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -757,6 +832,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.oise.gouv.fr/Publications/Publications-legales/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -767,6 +843,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.orne.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -777,6 +854,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.pas-de-calais.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -787,6 +865,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.puy-de-dome.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -797,6 +876,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.pyrenees-atlantiques.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -807,6 +887,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.hautes-pyrenees.gouv.fr/Publications/Recueil-d-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -817,6 +898,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.pyrenees-orientales.gouv.fr/Publications/Le-recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -827,6 +909,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.bas-rhin.gouv.fr/Publications/Publications-officielles/RAA-Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -837,6 +920,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haut-rhin.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -847,6 +931,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.rhone.gouv.fr/Publications/Recueil-des-actes-administratifs-du-Rhone-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -857,6 +942,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.sarthe.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -867,6 +953,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.savoie.gouv.fr/Publications/Recueils-hebdomadaires-et-speciaux-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -877,6 +964,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haute-savoie.gouv.fr/Publications/Actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -887,6 +975,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-maritime.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -897,6 +986,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.yvelines.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -907,6 +997,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.deux-sevres.gouv.fr/Publications/Le-Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -917,6 +1008,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.somme.gouv.fr/Publications/Recueil-des-actes-administratifs-du-departement-de-la-Somme\" inaccessible (HTTP 503)."
   },
   {
@@ -927,6 +1019,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.tarn.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -937,6 +1030,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.tarn-et-garonne.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -947,6 +1041,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.var.gouv.fr/Publications/RAA-Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -957,6 +1052,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.vaucluse.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -967,6 +1063,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.vendee.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -977,6 +1074,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.haute-vienne.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -987,6 +1085,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.vosges.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -997,6 +1096,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.yonne.gouv.fr/Publications/Publications-legales/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1007,6 +1107,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.territoire-de-belfort.gouv.fr/Publications/Le-recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1017,6 +1118,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1027,6 +1129,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.essonne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1037,6 +1140,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.hauts-de-seine.gouv.fr/Publications/Annonces-avis/Le-Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1047,6 +1151,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-saint-denis.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1057,6 +1162,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.val-de-marne.gouv.fr/Publications/Publications-legales/RAA-Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1067,6 +1173,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.val-doise.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1077,6 +1184,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 21,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1087,6 +1195,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 21,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1097,6 +1206,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 25,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1107,6 +1217,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 26,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1117,6 +1228,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 28,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1127,6 +1239,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 22,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1137,6 +1250,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 15,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1147,6 +1261,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 31,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1157,6 +1272,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 34,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1167,6 +1283,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 18,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1177,6 +1294,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 25,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1187,6 +1305,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 25,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1197,6 +1316,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 28,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1207,6 +1327,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 25,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1217,6 +1338,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 32,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1227,6 +1349,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 22,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1237,6 +1360,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 31,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1247,6 +1371,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 20,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1257,6 +1382,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 21,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1267,6 +1393,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 28,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1277,6 +1404,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 22,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1287,6 +1415,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 26,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1297,6 +1426,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 44,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1307,6 +1437,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 30,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1317,6 +1448,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 24,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1327,6 +1459,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 23,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1337,6 +1470,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 17,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1347,6 +1481,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 19,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1357,6 +1492,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 25,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1367,6 +1503,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 22,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1377,6 +1514,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 19,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1387,6 +1525,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 29,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1397,6 +1536,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 25,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1407,6 +1547,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1417,6 +1558,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1427,6 +1569,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1437,6 +1580,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1447,6 +1591,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1457,6 +1602,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1467,6 +1613,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1477,6 +1624,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1487,6 +1635,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1497,6 +1646,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1507,6 +1657,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1517,6 +1668,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1527,6 +1679,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1537,6 +1690,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1547,6 +1701,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1557,6 +1712,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1567,6 +1723,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1577,6 +1734,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1587,6 +1745,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1597,6 +1756,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1607,6 +1767,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1617,6 +1778,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1627,6 +1789,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1637,6 +1800,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1647,6 +1811,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1657,6 +1822,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1667,6 +1833,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1677,6 +1844,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.seine-et-marne.gouv.fr/Publications/Recueils-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1687,6 +1855,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1697,6 +1866,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1707,6 +1877,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1717,6 +1888,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1727,6 +1899,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1737,6 +1910,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1747,6 +1921,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1757,6 +1932,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1767,6 +1943,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1777,6 +1954,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -1787,6 +1965,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1797,6 +1976,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gironde.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1807,6 +1987,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1817,6 +1998,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1827,6 +2009,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1837,6 +2020,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1847,6 +2031,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1857,6 +2042,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
   },
   {
@@ -1867,6 +2053,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1877,6 +2064,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1887,6 +2075,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1897,6 +2086,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1907,6 +2097,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1917,6 +2108,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ariege.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1927,6 +2119,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1937,6 +2130,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aude.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -1947,6 +2141,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -1957,6 +2152,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1967,6 +2163,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1977,6 +2174,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503)."
   },
   {
@@ -1987,6 +2185,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -1997,6 +2196,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cher.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA-Arretes-et-circulaires\" inaccessible (HTTP 503)."
   },
   {
@@ -2007,6 +2207,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2017,6 +2218,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2027,6 +2229,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ain.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -2037,6 +2240,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2047,6 +2251,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
   },
   {
@@ -2057,6 +2262,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.alpes-de-haute-provence.gouv.fr/Publications/Publications-administratives-et-legales/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2067,6 +2273,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.hautes-alpes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2077,6 +2284,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.alpes-maritimes.gouv.fr/Publications/Recueil-des-actes-administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -2087,6 +2295,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardeche.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2097,6 +2306,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2107,6 +2317,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -2117,6 +2328,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -2127,6 +2339,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -2137,6 +2350,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -2147,6 +2361,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -2157,6 +2372,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "fetch failed"
   },
   {
@@ -2167,6 +2383,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2177,6 +2394,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
   },
   {
@@ -2187,6 +2405,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2197,6 +2416,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -2207,6 +2427,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Page liste \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026\" inaccessible : HTTP 503"
   },
   {
@@ -2217,6 +2438,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2227,6 +2449,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503)."
   },
   {
@@ -2237,6 +2460,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2247,6 +2471,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2257,6 +2482,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2267,6 +2493,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.creuse.gouv.fr/Publications/Les-Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2277,6 +2504,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.doubs.gouv.fr/Publications/Publications-Legales/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -2287,6 +2515,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2297,6 +2526,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aisne.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2307,6 +2537,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.allier.gouv.fr/Publications/Recueil-des-actes-administratifs-arretes\" inaccessible (HTTP 503)."
   },
   {
@@ -2317,6 +2548,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2327,6 +2559,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -2337,6 +2570,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2347,6 +2581,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.cantal.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2357,6 +2592,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2367,6 +2603,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2377,6 +2614,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2387,6 +2625,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -2397,6 +2636,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2407,6 +2647,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503)."
   },
   {
@@ -2417,6 +2658,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente-maritime.gouv.fr/Publications/RAA-Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2427,6 +2669,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.correze.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2437,6 +2680,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2447,6 +2691,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2457,6 +2702,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2467,6 +2713,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2477,6 +2724,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -2487,6 +2735,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Page liste \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs/Recueil-des-actes-administratifs-departemental/2026\" inaccessible : HTTP 503"
   },
   {
@@ -2497,6 +2746,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2507,6 +2757,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2517,6 +2768,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2527,6 +2779,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2537,6 +2790,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -2547,6 +2801,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2557,6 +2812,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.charente.gouv.fr/Publications/Recueil-des-actes-administratifs2\" inaccessible (HTTP 503)."
   },
   {
@@ -2567,6 +2823,7 @@
     "statut": "succes",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": null
   },
   {
@@ -2577,6 +2834,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.gard.gouv.fr/Publications/Recueil-des-Actes-Administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2587,6 +2845,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2597,6 +2856,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
   },
   {
@@ -2607,6 +2867,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.ardennes.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
   },
   {
@@ -2617,6 +2878,7 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.aube.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA2\" inaccessible (HTTP 503)."
   },
   {
@@ -2627,6 +2889,568 @@
     "statut": "echec",
     "nombre_evenements_publies": 0,
     "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
     "message_erreur": "Navigation : page \"https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "3e3eab91-4478-4566-8c7e-ac70c7ec2132",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:51:28.007Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "dfecfb8d-b3f9-4140-92c6-922e60e21487",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:51:38.130Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "e72d8894-4eee-4d04-bb8f-70640252ba70",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:51:49.472Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "15c2b6de-0175-458b-a30f-a6d2ea50b4c7",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:51:59.713Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "44011587-9283-4c44-acaf-288ba28e8446",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:52:10.029Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "5c28d9e7-56db-449a-9982-19a34d4f45ed",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:52:20.257Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "66148785-eb6b-4518-a9c0-a32effba2e93",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:54:42.896Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:54:52.311Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "998a1f5b-2dc5-475f-9449-c09a98b3ac21",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:55:15.494Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "6c267107-7f65-4b14-8391-18867e46ef85",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:55:24.702Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "dbc4273e-4cd8-4867-b524-999fb893a0f3",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:55:33.878Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "1d3c2577-04ea-46ef-9345-96c1013dc4be",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:55:43.055Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "97ad6635-7e0f-454a-8078-f0ed06d8be33",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-05T20:55:52.251Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:08:40.483Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "c33ea58d-9c66-46ce-914c-db5bd3f089db",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:09:06.577Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "00dedd3d-66e7-4828-81f6-353f272a85e1",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:09:15.801Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "8867064f-9a3a-4f51-a2ae-d416ec69ed42",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:09:25.056Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:09:34.278Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "45616db1-cc36-416e-90c1-c298aa9da66e",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:09:57.993Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:10:07.176Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "3f908d2d-12e7-4560-a1b0-4e466ec87865",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:10:30.904Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "90df38cb-0de3-4c7a-9838-1710fed00139",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:10:40.305Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503)."
+  },
+  {
+    "id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:28:25.460Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:29:06.129Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:29:47.503Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-07T20:30:28.205Z",
+    "declenchement": "backfill",
+    "statut": "incertain",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 0,
+    "nombre_candidats_non_resolus": 10,
+    "message_erreur": null
+  },
+  {
+    "id": "d98ef5f8-9630-469a-8251-cbc26f13eefb",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-08T19:43:23.536Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "268bc510-ae56-4253-99a5-f5cf2ee94333",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-08T19:43:33.727Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "6c893dfc-1a54-4ba3-9f4c-917327c325bf",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-08T19:43:44.203Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "98e3861c-cc64-4ed3-928b-e9864db5a0e6",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-08T19:43:54.589Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "e0a7b836-d256-4a4b-84dd-d6802582ea73",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-08T19:44:04.855Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "a24c221f-cf03-4903-a9e3-127b7b30c06a",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-08T19:44:15.243Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "4a95c497-db00-4a91-a012-e5bdc423e37d",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:01:15.101Z",
+    "declenchement": "backfill",
+    "statut": "succes",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 5,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": null
+  },
+  {
+    "id": "2cea2ca8-9cf4-40f0-9ae8-6386b8e6fb7d",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:04:14.617Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "ed0529c9-eb06-4c5c-a4e9-46c42d5cfedc",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:04:24.827Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "63c3303b-55ca-4f96-9546-3751abad5891",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:04:35.358Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "ff6b74af-9b28-467a-90f0-49dce55f38a1",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:04:45.682Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "5f15b368-d845-406c-b855-33e64806de95",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:04:56.118Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "aea4c3d4-83b7-4759-a5b7-f68e80eec9d7",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:05:06.523Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "28b47d64-647b-4e7b-88ad-8c730f2db8b0",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:55:00.037Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "bf854509-ebcf-4e8c-b84e-a57aa4290894",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:55:10.236Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "f9e6304b-4c33-4764-b6a0-3d1f88a0f7c3",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:55:21.658Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "c3d07498-9a55-442e-bc56-4aea196d9722",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:55:32.053Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "643f9b64-22b5-4060-ac5c-082762534dca",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:55:42.438Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "a560d733-5074-4e7e-b642-c0d112259ed3",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:55:52.770Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "b9bb0d8e-7c53-4515-b447-7c6c1e81f36c",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:57:03.215Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "5f004c47-979b-444b-9bf5-b8a3d133da12",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:57:13.388Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "04391509-7f29-4b08-ab70-ed2d4dbe163e",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:57:23.797Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "a17eb965-78a4-4ef3-be0d-7c7d3671597a",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:57:34.144Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "48bdd1ff-469c-4cc3-ab18-308d968c832b",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:57:44.439Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
+  },
+  {
+    "id": "951ba3e6-06d6-4a9f-b9ac-96ddad9e68be",
+    "connecteur_id": "prefecture-56",
+    "date_execution": "2026-09-09T05:57:54.957Z",
+    "declenchement": "backfill",
+    "statut": "echec",
+    "nombre_evenements_publies": 0,
+    "nombre_anomalies": 1,
+    "nombre_candidats_non_resolus": 0,
+    "message_erreur": "fetch failed"
   }
 ]

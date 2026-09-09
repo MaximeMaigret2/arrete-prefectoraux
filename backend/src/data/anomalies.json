@@ -29408,5 +29408,2555 @@
     "date_creation": "2026-09-05T08:51:12.517Z",
     "date_resolution": null,
     "evenement_resultant_id": null
+  },
+  {
+    "id": "39fcbd0d-118f-49d9-913e-b9ab05afc89b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "3e3eab91-4478-4566-8c7e-ac70c7ec2132",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:51:28.007Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:51:29.807Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e08ee9ae-415a-442b-bfef-02f1806fa79f",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "dfecfb8d-b3f9-4140-92c6-922e60e21487",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:51:38.347Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:51:41.174Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "7cdc0d6d-6712-4e2b-97c6-b3e151056fb2",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "e72d8894-4eee-4d04-bb8f-70640252ba70",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:51:49.673Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:51:51.429Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "edf9e638-16e2-4137-a4ef-3e4a92e5ee0a",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "15c2b6de-0175-458b-a30f-a6d2ea50b4c7",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:51:59.895Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:52:01.749Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "180e90e1-dd59-401a-ab4a-9e2937e96807",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "44011587-9283-4c44-acaf-288ba28e8446",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:52:10.212Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:52:11.984Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "bd51dfdd-ab79-4b02-b96a-4e472f8c2c4c",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5c28d9e7-56db-449a-9982-19a34d4f45ed",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:52:20.441Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:52:22.253Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "40ad3e5d-c440-4b21-bca2-e59214d4ecdb",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "66148785-eb6b-4518-a9c0-a32effba2e93",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:54:42.896Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:54:44.222Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2ff22d26-a313-47e4-a398-e691f4edf98b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.115Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8ff4d273-c510-4c33-a893-d5539fe7020c",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.175Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "71553e2a-c6b8-427f-afa8-74b4dea1369c",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.239Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "9082eba6-003c-492d-92fe-ef6f9793eeab",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.287Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d607b148-facf-40bd-8b1e-367b92bd9cd8",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.310Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "7285e361-378c-4bd4-ad80-1b406d520bc8",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.339Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a4385bbe-fd4d-40d8-b392-626511fdc139",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.361Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "05084296-bce1-461b-b34e-2e83b49cee26",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.404Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d4c89a36-8ad1-4dda-8e56-f3b142ea20a3",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.426Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "98ab3e0e-06aa-47b7-b291-aef6a9821051",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "cae454e1-be89-45eb-80de-00fe51b03ff1",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-05T20:54:52.376Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:07.451Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "1877469b-582c-4d45-bb12-e9ac88ef6aa2",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "998a1f5b-2dc5-475f-9449-c09a98b3ac21",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:55:15.545Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:16.667Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2e189c49-eb41-4bd2-a203-ad9d0e9c27b0",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "6c267107-7f65-4b14-8391-18867e46ef85",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:55:24.738Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:25.829Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "1f7ecbd8-3e57-4e96-a7a6-6d637b71a599",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "dbc4273e-4cd8-4867-b524-999fb893a0f3",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:55:33.921Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:35.020Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "b5490a7c-fb8a-4a0a-8dd6-173c0826bc36",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "1d3c2577-04ea-46ef-9345-96c1013dc4be",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:55:43.088Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:44.193Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "550d5820-e0c8-4bf1-b027-9dfe21bc16d7",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "97ad6635-7e0f-454a-8078-f0ed06d8be33",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-05T20:55:52.283Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-05T20:55:53.391Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c1715f59-38f3-4167-9377-27349f0d62ef",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:57.893Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "6339e7fe-246c-4e87-9a49-42274ef9cd1b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.006Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "bbb7aaeb-6e7b-4c77-b739-9b9cddd5e6fd",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.089Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "449d75c1-da6b-4bf0-82e7-647613796c22",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.145Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "32054747-1226-469d-a1d7-5031c7ef14a0",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.195Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "66105aa0-9b4d-45e5-aaae-6b3aedc89aa4",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.278Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e16a7044-fb9d-4ff3-9981-77a4d61a7c74",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.332Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c349b640-b907-430e-ac2d-2cf751760662",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.371Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5d5f9bce-56e4-4fec-9563-0f5c997a6d10",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.424Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f406781f-7ccd-46cb-a790-c78128eb11f4",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8aa7eefc-2ecd-4bec-8107-54856e838f1d",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:08:40.483Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:08:58.500Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5d14aea9-be96-4ef4-a145-d33569a1db92",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "c33ea58d-9c66-46ce-914c-db5bd3f089db",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-07T20:09:06.659Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:07.740Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "020c82f0-6bac-43c6-aa8f-6f5b0600333a",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "00dedd3d-66e7-4828-81f6-353f272a85e1",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-07T20:09:15.864Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:16.974Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5388d375-b1e4-4c97-b780-a82e13ba4bda",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "8867064f-9a3a-4f51-a2ae-d416ec69ed42",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-07T20:09:25.106Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:26.205Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a7ebad9b-fee8-46fd-8c43-2387cc4efe81",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.467Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "cabea15f-81cb-4e1f-9a5c-8846a3d968af",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.551Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "23ded032-9072-4c64-a7c5-cc57fc9275e1",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.613Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2a3809bd-bc93-497c-8bec-132b8ed89cef",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.654Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "4ed0ea07-89d6-4ea9-b1eb-89a0dfe2ebfe",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.697Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8111fa5c-5c18-41e1-b9ef-623eb919caea",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.733Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "07dff933-5859-4e08-8608-371ae1ff354a",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.793Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "47bbbf34-df6c-4927-8308-7a9e4b56ba73",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.832Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "801e3945-09c3-4679-a78f-54481326f117",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.873Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "eefd823d-35c0-431f-82aa-f9c3d1762d81",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "77ba7f98-553f-4457-b0eb-1334f92d10bf",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:09:34.325Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:49.907Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "6261ca23-4870-430c-84f7-e7eab997e465",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "45616db1-cc36-416e-90c1-c298aa9da66e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-07T20:09:58.076Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:09:59.119Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "548e52b0-23e6-40d9-81ad-2acac47dfb82",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.323Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e45935af-19db-4a3c-b45e-4f36eb1949ed",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.440Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "0f61164b-edd9-4129-8151-bdb79e1ad431",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.482Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2ac7c5be-322b-4cbd-ac14-5cd365358399",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.544Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d5904566-ea1c-4d4f-9266-8b2d9d30cc1b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.608Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "11dd4110-ba2e-40af-a1de-62bb9343417f",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.652Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "ad7c3627-63c7-441f-a313-3253fcc0479a",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.700Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "7d777868-7c6c-46a6-9790-c03f21df577b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.740Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "49df04bb-7433-4821-b0c8-3546c5fc7d88",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.805Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "4a7cb5b6-7d38-4c10-8994-406e6094ab48",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f48ea02-e196-498f-be34-ebcba0f87d00",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:10:07.237Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:22.844Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "fb0a5805-b814-4321-a030-7b5f6f591008",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "3f908d2d-12e7-4560-a1b0-4e466ec87865",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-07T20:10:31.019Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:32.232Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c831c9db-2f98-4585-b594-64a6c40375cb",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "90df38cb-0de3-4c7a-9838-1710fed00139",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-07T20:10:40.363Z"
+    },
+    "departement_code": "56",
+    "raison": "Navigation : page \"https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA\" inaccessible (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:10:42.203Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "13cac94d-bf94-4ca8-8def-396c942ef265",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.517Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "ffdbee91-e30e-46ce-8934-16083665e15e",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.603Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c05beff1-2302-4bcf-b00b-d93cd3666ac8",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.654Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "83e13c0a-1900-4b23-b34f-519981e22402",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.731Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "ee5add34-8404-4bc7-93a8-b69222dc967b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.784Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "9c362fe3-8839-44e7-99dc-eed0fb65b4b5",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.867Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "13acd396-fa40-4e85-94cf-ff58475d8c86",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.907Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "e10acb53-d415-4afd-91a8-33f52970f7e8",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:57.954Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "29731bd8-caeb-428d-8618-c632ed021c1c",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:58.019Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "02f5197b-02f7-4474-b299-2f146cc5f43b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "35780875-5865-4938-bb59-f15b26bc8a8f",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:28:25.461Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:28:58.061Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "9ac022af-53b8-4a91-932d-d1e794c75471",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.003Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "18fb86c5-ca1d-4045-84d5-d64464128f16",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.062Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c2a8750c-0030-40d3-be26-92f47bc215d6",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.127Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "960b55a3-168c-4c7e-b6ec-2855ba1b92ee",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.170Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a1c1d73c-0019-4fa1-92a5-7fb599132c06",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.217Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "3f886eb5-0039-4366-b778-521622344530",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.262Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "230e4459-2a1b-4682-ae3a-dac87fc19b83",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.333Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "fed432d3-1279-466a-a329-7d70aa558f0e",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.373Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "6cdf145a-0061-47d9-8bc9-ed35639babb2",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.417Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "6c436ef0-b7fe-4326-bce4-21c89dc4f2a1",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "502d9a62-edff-4d9f-b592-7cc84c35ec74",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:06.246Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:29:39.456Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "c0a56fa8-d9ab-4a92-a060-7309b3fa9c57",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.608Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "06c702b0-485b-425d-aa7c-1fb9e5cd7e79",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.720Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "abc782b5-1f07-4e5f-8290-95961d660327",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.767Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d60428a0-5093-43d6-bb9b-2de1f3c41f69",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.832Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "389d5bd6-a57f-4291-91f3-c3961fb60f70",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.905Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "0724c4d4-74d3-4973-a2c7-3cd3806c5df9",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.948Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "66f339e5-1501-4f73-9bc3-2bd4c357b50f",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:19.993Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "4dc98b92-e1e9-44ff-a6cc-09702331b2dc",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:20.033Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f3acdb78-f183-4240-a4ff-6e2bcbaf4ded",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:20.098Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "48046b79-8076-4ca1-9885-75f31cd60fe5",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "fe16bb3f-aa23-4e92-baed-6ac3ae77244a",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:29:47.559Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:30:20.139Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2f2d44ea-aef4-4577-aaae-38501b237964",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74422/576854/file/56-2024-118%20-%20RAA%20du%2031%20d%C3%A9cembre%202024%20-%202%C3%A8me%20quinzaine.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:01.812Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "056a0bfd-6945-45a5-b986-e12e852e3105",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:01.894Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5251e699-3d01-4275-8499-e6722e0e318b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:01.935Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f0778321-246a-4c29-9693-9b42fe2a9ca1",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74354/576448/file/56-2024-115%20-%20RAA%20Sp%C3%A9cial%20du%2024%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:01.979Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "976c5957-0b2f-4861-9c86-9e733451a86c",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:02.018Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "6757a09d-92b2-47eb-aba4-35959ac5b251",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74280/575926/file/56-2024-113%20-%20RAA%20Sp%C3%A9cial%20du%2017%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:02.081Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "97048355-84e1-4fbd-af09-980b51936cd0",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:02.120Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "b53e04b5-c77e-4b5e-9e4e-f0a50e462909",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74155/575126/file/56-2024-111%20-%20RAA%20Sp%C3%A9cial%20du%2011%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:02.164Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "fef2c647-b7fe-416e-9c84-54f5c5a80eb3",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:02.205Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a4460973-42fd-45d9-ad89-a09bd341db55",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "7ceb07a2-326a-47c5-869b-95b4778c0086",
+    "type_anomalie": "candidat_non_resolu",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-07T20:30:28.324Z"
+    },
+    "departement_code": "56",
+    "raison": "Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué : Téléchargement du PDF \"https://www.morbihan.gouv.fr/contenu/telechargement/74059/574549/file/56-2024-109%20-%20RAA%20Sp%C3%A9cial%20du%204%20d%C3%A9cembre%202024.pdf\" échoué (HTTP 503).",
+    "statut": "en_attente",
+    "date_creation": "2026-09-07T20:31:02.272Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "af27ce54-43ba-49ab-8c1a-7ded83d3fa41",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "d98ef5f8-9630-469a-8251-cbc26f13eefb",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-08T19:43:23.536Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-08T19:43:25.375Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5863ca77-5dcb-4ada-828e-1c7df7f76e8b",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "268bc510-ae56-4253-99a5-f5cf2ee94333",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-08T19:43:33.992Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-08T19:43:35.889Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a0e7b3ba-ef5c-4fbb-a552-f6db409c225d",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "6c893dfc-1a54-4ba3-9f4c-917327c325bf",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-08T19:43:44.442Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-08T19:43:46.276Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "5c14a45f-0912-42e4-ac42-978659b26a29",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "98e3861c-cc64-4ed3-928b-e9864db5a0e6",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-08T19:43:54.785Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-08T19:43:56.570Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f406ad63-75b9-437f-87ff-bd7e168bc1ba",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "e0a7b836-d256-4a4b-84dd-d6802582ea73",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-08T19:44:05.042Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-08T19:44:06.824Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "d42de617-e7c4-47f5-a4d7-633c9f819b57",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "a24c221f-cf03-4903-a9e3-127b7b30c06a",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-08T19:44:15.451Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-08T19:44:17.268Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "270cd774-42ca-4a51-8581-a07b3e6e1dfe",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "4a95c497-db00-4a91-a012-e5bdc423e37d",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74417/576829/file/56-2024-117%20-%20RAA%20Sp%C3%A9cial%20(NOMINATIF)%20du%2030%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-09T05:01:15.102Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:01:27.305Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2b8281f3-d1c6-4923-adf1-f7b1b04e6088",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "4a95c497-db00-4a91-a012-e5bdc423e37d",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74372/576593/file/56-2024-116%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-09T05:01:15.102Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:01:30.005Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "db22a1c5-ba81-46b7-ae1b-5e0427118c09",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "4a95c497-db00-4a91-a012-e5bdc423e37d",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74341/576361/file/56-2024-114%20-%20RAA%20Sp%C3%A9cial%20du%2020%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-09T05:01:15.102Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:01:35.341Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2be78bbb-14a6-483f-b27c-32be19bfe2a7",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "4a95c497-db00-4a91-a012-e5bdc423e37d",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74250/575714/file/56-2024-112%20-%20RAA%20du%2013%20d%C3%A9cembre%202024%20-%201%C3%A8re%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-09T05:01:15.102Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:01:44.172Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "a2e3beae-674b-4783-b8b5-005a8246ed34",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "4a95c497-db00-4a91-a012-e5bdc423e37d",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/74084/574686/file/56-2024-110%20-%20RAA%20Sp%C3%A9cial%20du%206%20d%C3%A9cembre%202024.pdf",
+      "date_collecte": "2026-09-09T05:01:15.102Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:01:49.548Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "aba36b7a-4148-44d1-96ab-19ca21f2bcf4",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "e7f5086c-e2f8-4c20-866c-68e85b583d24",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": "ZPPA-2023-0103",
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/69409/540383/file/56-2023-108%20-%20RAA%20du%2029%20d%C3%A9cembre%202023%20-%202%C3%A8me%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/69409/540383/file/56-2023-108%20-%20RAA%20du%2029%20d%C3%A9cembre%202023%20-%202%C3%A8me%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/69409/540383/file/56-2023-108%20-%20RAA%20du%2029%20d%C3%A9cembre%202023%20-%202%C3%A8me%20quinzaine%20de%20d%C3%A9cembre.pdf",
+      "date_collecte": "2026-09-09T05:02:14.702Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : date_debut.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:02:22.951Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "269a7560-6e59-4085-b0f8-a37201a99d37",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "e7f5086c-e2f8-4c20-866c-68e85b583d24",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/69407/540373/file/56-2023-107%20-%20RAA%20Sp%C3%A9cial%20du%2028%20d%C3%A9cembre%202023.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/69407/540373/file/56-2023-107%20-%20RAA%20Sp%C3%A9cial%20du%2028%20d%C3%A9cembre%202023.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/69407/540373/file/56-2023-107%20-%20RAA%20Sp%C3%A9cial%20du%2028%20d%C3%A9cembre%202023.pdf",
+      "date_collecte": "2026-09-09T05:02:14.702Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:02:25.662Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "fe3257b4-8b1b-41e8-a1bc-86c12e525b53",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "e7f5086c-e2f8-4c20-866c-68e85b583d24",
+    "type_anomalie": "champ_manquant",
+    "champs_extraits": {
+      "departement_code": "56",
+      "type_evenement": "interdiction",
+      "date_debut": null,
+      "date_fin": null,
+      "reference_arrete": null,
+      "autorite_signataire": "Le préfet du Morbihan",
+      "source_url": "https://www.morbihan.gouv.fr/contenu/telechargement/69402/540348/file/56-2023-106%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202023.pdf",
+      "connecteur_id": "prefecture-56",
+      "methode_collecte": "automatique"
+    },
+    "source_brute": {
+      "type": "pdf",
+      "url": "https://www.morbihan.gouv.fr/contenu/telechargement/69402/540348/file/56-2023-106%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202023.pdf",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/contenu/telechargement/69402/540348/file/56-2023-106%20-%20RAA%20Sp%C3%A9cial%20du%2027%20d%C3%A9cembre%202023.pdf",
+      "date_collecte": "2026-09-09T05:02:14.702Z"
+    },
+    "departement_code": "56",
+    "raison": "Champ requis manquant ou illisible : reference_arrete.",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:02:38.323Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "1ca35a58-447e-4c7b-b676-79a0ad92a591",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "2cea2ca8-9cf4-40f0-9ae8-6386b8e6fb7d",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:04:14.617Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:04:16.461Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "69f828f5-cc54-4c3c-bfcc-a067d96995ae",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "ed0529c9-eb06-4c5c-a4e9-46c42d5cfedc",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:04:25.114Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:04:27.050Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "cc28928e-18ba-4b55-8207-eb694c404a84",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "63c3303b-55ca-4f96-9546-3751abad5891",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:04:35.596Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:04:37.378Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "35622811-47ca-48be-bd37-2086d9e8db3e",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "ff6b74af-9b28-467a-90f0-49dce55f38a1",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:04:45.900Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:04:47.780Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "8982f1a1-e8d7-40f3-bfeb-7ff7110a8f9d",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f15b368-d845-406c-b855-33e64806de95",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:04:56.400Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:04:58.193Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "41e8e756-bcb4-4234-88e8-c496b6cba0c9",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "aea4c3d4-83b7-4759-a5b7-f68e80eec9d7",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:05:06.789Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:05:08.603Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "9b9f3515-8167-4126-91c2-9643022ca0df",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "28b47d64-647b-4e7b-88ad-8c730f2db8b0",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:55:00.038Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:55:01.838Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "887ff7d9-a161-40a0-b3ef-3bbae3dfa081",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "bf854509-ebcf-4e8c-b84e-a57aa4290894",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:55:10.550Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:55:13.328Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "491ed1bf-447a-4137-8aa4-c16a73e7ac7a",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "f9e6304b-4c33-4764-b6a0-3d1f88a0f7c3",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:55:21.921Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:55:23.748Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "743f6153-b341-4958-9839-86f6cf83e4d7",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "c3d07498-9a55-442e-bc56-4aea196d9722",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:55:32.319Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:55:34.106Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "f008af5d-28fe-44bf-9641-7b3d80184e10",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "643f9b64-22b5-4060-ac5c-082762534dca",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:55:42.692Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:55:44.457Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "96ec060b-665b-45cb-902d-3a0cbb61bd47",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "a560d733-5074-4e7e-b642-c0d112259ed3",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:55:53.018Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:55:54.807Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "97f87b41-8714-4ace-bad3-a5c42a04ad92",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "b9bb0d8e-7c53-4515-b447-7c6c1e81f36c",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:57:03.215Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:57:05.050Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "7a026adf-fe1f-415a-9808-2842a8f352ec",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "5f004c47-979b-444b-9bf5-b8a3d133da12",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:57:13.642Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:57:15.484Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "78f9c7f0-ddda-495f-a8f3-7f1c0a21e872",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "04391509-7f29-4b08-ab70-ed2d4dbe163e",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:57:24.046Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:57:25.844Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "525e011e-5a98-4878-89dd-dbd38657527a",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "a17eb965-78a4-4ef3-be0d-7c7d3671597a",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:57:34.379Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:57:36.134Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "2ed68c1c-ab24-4adb-816b-5420c6f76047",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "48bdd1ff-469c-4cc3-ab18-308d968c832b",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:57:44.744Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:57:46.663Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
+  },
+  {
+    "id": "cede8346-f729-40d0-8de8-27ff4c0459fe",
+    "connecteur_id": "prefecture-56",
+    "execution_id": "951ba3e6-06d6-4a9f-b9ac-96ddad9e68be",
+    "type_anomalie": "echec_lecture_source",
+    "champs_extraits": {},
+    "source_brute": {
+      "type": "page_web",
+      "url": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "contenu_brut_reference": "https://www.morbihan.gouv.fr/Publications/Recueil-des-Actes-Administratifs-RAA",
+      "date_collecte": "2026-09-09T05:57:55.225Z"
+    },
+    "departement_code": "56",
+    "raison": "fetch failed",
+    "statut": "en_attente",
+    "date_creation": "2026-09-09T05:57:57.022Z",
+    "date_resolution": null,
+    "evenement_resultant_id": null
   }
 ]
