@@ -160,53 +160,208 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     expect(ordreAppels).toEqual(['conn-a:07', 'conn-b:07', 'conn-a:06', 'conn-b:06', 'conn-a:05']);
   });
 
-  it('(b) le circuit-breaker interrompt uniquement la file concernée après le seuil d\'échecs réseau consécutifs, sans affecter les autres files', async () => {
+  it("(b) feature 008 (FR-001/FR-002/FR-006) : le circuit-breaker interrompt uniquement le connecteur concerné après SON PROPRE seuil d'échecs réseau consécutifs, sans jamais empêcher les autres connecteurs du même groupe d'être tentés", async () => {
     const appelsMutualise: string[] = [];
     let appelsMoselle = 0;
 
     const rapport = await executerBackfill(
-      { cheminCheckpoint, seuilCircuitBreaker: 2, espacementMinimumMs: 0 },
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
       deps({
-        auditerProfondeurs: async () => [profondeur('conn-a', 3), profondeur('conn-b', 1), profondeur('prefecture-57', 1)],
+        auditerProfondeurs: async () => [profondeur('conn-a', 3), profondeur('conn-b', 3), profondeur('prefecture-57', 1)],
         executerConnecteurPourBackfill: async (connecteur) => {
           if (connecteur.id === 'prefecture-57') {
             appelsMoselle += 1;
             return { execution: executionFausse('succes'), causeReseauSiEchec: null };
           }
           appelsMutualise.push(connecteur.id);
+          if (connecteur.id === 'conn-a') {
+            return { execution: executionFausse('echec'), causeReseauSiEchec: true };
+          }
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    // conn-a échoue à chaque tentative et atteint son propre seuil (2) au
+    // 2e tour — il est alors retiré du round-robin de ce run. conn-b, dans
+    // le MÊME groupe d'hébergement, continue pourtant d'être tenté à
+    // CHAQUE tour (round-robin) et obtient bien ses 3 succès : l'échec de
+    // conn-a n'a jamais empêché conn-b d'être tenté (FR-001).
+    expect(appelsMutualise).toEqual(['conn-a', 'conn-b', 'conn-a', 'conn-b', 'conn-b']);
+    const rapportMutualise = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportMutualise.moisReussis).toBe(3);
+    expect(rapportMutualise.connecteursTraites).toEqual(['conn-a', 'conn-b']);
+    // FR-006 : le rapport détaille, par connecteur, chaque interruption due à ce mécanisme.
+    expect(rapportMutualise.connecteursInterrompus).toEqual([
+      { connecteurId: 'conn-a', moisRestants: 3, raison: 'echecs_reseau_consecutifs' },
+    ]);
+
+    // La file Moselle (hébergeur distinct) n'est jamais affectée.
+    expect(appelsMoselle).toBe(1);
+    const rapportMoselle = rapport.groupes.find((g) => g.groupe === 'moselle')!;
+    expect(rapportMoselle.connecteursInterrompus).toEqual([]);
+    expect(rapportMoselle.moisReussis).toBe(1);
+
+    // conn-a n'a jamais réussi : ses mois restent au checkpoint pour une reprise ultérieure (FR-003).
+    // conn-b a réussi ses 3 mois cibles : plus rien en attente pour lui.
+    const checkpoint = await lireCheckpoint(cheminCheckpoint);
+    expect(checkpoint.connecteurs['conn-a']?.moisRestants).toHaveLength(3);
+    expect(checkpoint.connecteurs['conn-b']?.moisRestants).toHaveLength(0);
+  });
+
+  it("(g) feature 008 (FR-003) : après interruption par le circuit-breaker, une reprise retente exactement les mois non résolus, sans perte ni duplication", async () => {
+    const appelsParRun: string[][] = [[], []];
+    let runCourant = 0;
+    let echoueEncore = true;
+
+    const executerConnecteurPourBackfillMock = async (_connecteur: Connecteur, cible: AnneeMois) => {
+      appelsParRun[runCourant]!.push(`${cible.annee}-${cible.moisNumero}`);
+      if (echoueEncore) return { execution: executionFausse('echec'), causeReseauSiEchec: true };
+      return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+    };
+
+    const auditerProfondeurs = async () => [profondeur('conn-a', 3)]; // M-1, M-2, M-3 = juillet, juin, mai 2026
+    const optionsCommunes = { cheminCheckpoint, espacementMinimumMs: 0, seuilEchecsConnecteur: 2 };
+
+    const rapport1 = await executerBackfill(
+      optionsCommunes,
+      deps({ auditerProfondeurs, executerConnecteurPourBackfill: executerConnecteurPourBackfillMock }),
+    );
+
+    // Run 1 : conn-a échoue à ses 2 premières tentatives (seuil de 2) et est
+    // interrompu — son 3e mois cible n'est jamais tenté ce run.
+    expect(appelsParRun[0]).toEqual(['2026-07', '2026-06']);
+    expect(rapport1.groupes.find((g) => g.groupe === 'mutualise')?.connecteursInterrompus).toEqual([
+      { connecteurId: 'conn-a', moisRestants: 3, raison: 'echecs_reseau_consecutifs' },
+    ]);
+
+    runCourant = 1;
+    echoueEncore = false;
+    await executerBackfill(
+      optionsCommunes,
+      deps({ auditerProfondeurs, executerConnecteurPourBackfill: executerConnecteurPourBackfillMock }),
+    );
+
+    // Run 2 : les 3 mois cibles (les 2 déjà tentés en échec + le 3e jamais
+    // tenté au run 1) sont retentés — aucun perdu, aucun dupliqué.
+    expect(appelsParRun[1]).toEqual(['2026-07', '2026-06', '2026-05']);
+    const checkpointFinal = await lireCheckpoint(cheminCheckpoint);
+    expect(checkpointFinal.connecteurs['conn-a']?.moisRestants).toEqual([]);
+  });
+
+  it("(h) feature 008 (FR-005) : un connecteur qui alterne échec réseau et succès (jamais deux échecs consécutifs) n'est jamais interrompu, quel que soit le total d'échecs non consécutifs", async () => {
+    let compteur = 0;
+    const appels: string[] = [];
+
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 4)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          appels.push(`${cible.annee}-${cible.moisNumero}`);
+          compteur += 1;
+          // Échoue aux tentatives impaires, réussit aux tentatives paires — jamais deux échecs consécutifs.
+          const echoue = compteur % 2 === 1;
+          return { execution: executionFausse(echoue ? 'echec' : 'succes'), causeReseauSiEchec: echoue ? true : null };
+        },
+      }),
+    );
+
+    // Les 4 mois cibles sont bien tous tentés — jamais interrompu malgré 2 échecs au total (non consécutifs).
+    expect(appels).toHaveLength(4);
+    const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportGroupe.connecteursInterrompus).toEqual([]);
+    expect(rapportGroupe.moisReussis).toBe(2);
+    expect(rapportGroupe.moisEchecReseau).toBe(2);
+  });
+
+  it("(i) US1 Acceptance Scenario 5 : un groupe à un seul connecteur (Moselle) qui dépasse le seuil se comporte comme avant (rien d'autre à préserver dans ce groupe)", async () => {
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('prefecture-57', 3)],
+        executerConnecteurPourBackfill: async () => ({ execution: executionFausse('echec'), causeReseauSiEchec: true }),
+      }),
+    );
+
+    const rapportMoselle = rapport.groupes.find((g) => g.groupe === 'moselle')!;
+    expect(rapportMoselle.connecteursInterrompus).toEqual([
+      { connecteurId: 'prefecture-57', moisRestants: 3, raison: 'echecs_reseau_consecutifs' },
+    ]);
+    expect(rapportMoselle.moisReussis).toBe(0);
+    // Note : aucun succès n'est survenu de tout le run (groupe à un seul
+    // connecteur, échec systématique) - `ecrireCheckpoint` n'est donc jamais
+    // appelé (il ne l'est qu'après un succès, cf. runner) et le fichier de
+    // checkpoint reste absent. C'est le rapport, pas le fichier, qui porte
+    // l'information dans ce cas dégénéré (couvert plus en détail par le
+    // test (j) ci-dessous, avec un groupe à plusieurs connecteurs).
+  });
+
+  it("(j) un run où TOUS les connecteurs d'un groupe échouent se termine proprement (pas de boucle infinie), avec un rapport clair", async () => {
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 2), profondeur('conn-b', 2)],
+        executerConnecteurPourBackfill: async () => ({ execution: executionFausse('echec'), causeReseauSiEchec: true }),
+      }),
+    );
+
+    const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportGroupe.moisReussis).toBe(0);
+    expect(rapportGroupe.connecteursInterrompus).toHaveLength(2);
+    expect(rapportGroupe.connecteursInterrompus.map((c) => c.connecteurId).sort()).toEqual(['conn-a', 'conn-b']);
+  });
+
+  it("(k) US2/FR-007 : un nombre configurable de connecteurs consécutifs entièrement en échec, sans succès interposé, déclenche le signal de dégradation généralisée — jamais bloquant", async () => {
+    const appels: string[] = [];
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilEchecsConnecteur: 1, seuilDegradationGeneralisee: 2, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 1), profondeur('conn-b', 1), profondeur('conn-c', 1)],
+        executerConnecteurPourBackfill: async (connecteur) => {
+          appels.push(connecteur.id);
+          if (connecteur.id === 'conn-c') return { execution: executionFausse('succes'), causeReseauSiEchec: null };
           return { execution: executionFausse('echec'), causeReseauSiEchec: true };
         },
       }),
     );
 
-    // Ordonnancement round-robin (2026-09-03) : conn-a et conn-b se
-    // partagent la file mutualise tour par tour (un seul mois tenté chacun
-    // par tour) plutôt que conn-a épuisant seul tous ses mois avant que
-    // conn-b ne soit jamais touché. Avec un seuil de 2, le 1er échec de
-    // conn-a (tour 1) puis le 1er échec de conn-b (toujours tour 1, juste
-    // après) ouvrent le circuit — les deux ont donc bien été tentés une
-    // fois chacun avant l'arrêt de la file.
-    expect(appelsMutualise).toEqual(['conn-a', 'conn-b']);
-    const rapportMutualise = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
-    expect(rapportMutualise.circuitOuvert).toBe(true);
-    expect(rapportMutualise.connecteursTraites).toEqual(['conn-a', 'conn-b']);
+    // conn-a puis conn-b échouent entièrement (0 succès chacun), consécutifs, sans succès interposé.
+    // conn-c, 3e du groupe, est malgré tout tenté normalement — ce signal ne bloque jamais rien.
+    expect(appels).toEqual(['conn-a', 'conn-b', 'conn-c']);
+    const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportGroupe.degradationGeneraliseeDetectee).toBe(true);
+    expect(rapportGroupe.moisReussis).toBe(1);
+  });
 
-    // La file Moselle (hébergeur distinct) n'est jamais affectée.
-    expect(appelsMoselle).toBe(1);
-    const rapportMoselle = rapport.groupes.find((g) => g.groupe === 'moselle')!;
-    expect(rapportMoselle.circuitOuvert).toBe(false);
-    expect(rapportMoselle.moisReussis).toBe(1);
+  it("(l) US2/FR-007 : le signal de dégradation généralisée ne se déclenche jamais si un succès s'interpose entre les échecs, quel que soit le nombre total de connecteurs en échec", async () => {
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, seuilEchecsConnecteur: 1, seuilDegradationGeneralisee: 2, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [
+          profondeur('conn-a', 1),
+          profondeur('conn-b', 1),
+          profondeur('conn-c', 1),
+          profondeur('conn-d', 1),
+        ],
+        executerConnecteurPourBackfill: async (connecteur) => {
+          // conn-b et conn-d réussissent — jamais deux échecs totaux consécutifs sans succès interposé.
+          if (connecteur.id === 'conn-b' || connecteur.id === 'conn-d') {
+            return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+          }
+          return { execution: executionFausse('echec'), causeReseauSiEchec: true };
+        },
+      }),
+    );
 
-    // Aucun des mois tentés n'a été marqué réussi (tous ont échoué) : le checkpoint les conserve pour une reprise ultérieure.
-    const checkpoint = await lireCheckpoint(cheminCheckpoint);
-    expect(checkpoint.connecteurs['conn-a']?.moisRestants).toHaveLength(3);
-    expect(checkpoint.connecteurs['conn-b']?.moisRestants).toHaveLength(1);
+    const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
+    expect(rapportGroupe.degradationGeneraliseeDetectee).toBe(false);
   });
 
   it("(b bis) une page introuvable (archives épuisées) n'ouvre jamais le circuit-breaker, même répétée", async () => {
     let appels = 0;
     const rapport = await executerBackfill(
-      { cheminCheckpoint, seuilCircuitBreaker: 2, espacementMinimumMs: 0 },
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
       deps({
         auditerProfondeurs: async () => [profondeur('conn-a', 5), profondeur('conn-b', 1)],
         executerConnecteurPourBackfill: async (connecteur) => {
@@ -224,8 +379,8 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     // mois plus anciens dans le même run.
     expect(appels).toBe(1);
     const rapportMutualise = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
-    expect(rapportMutualise.circuitOuvert).toBe(false);
-    // conn-b, dans la même file, est bien atteint (le circuit n'a jamais ouvert).
+    expect(rapportMutualise.connecteursInterrompus).toEqual([]);
+    // conn-b, dans la même file, est bien atteint (le circuit-breaker par connecteur n'a jamais été déclenché).
     expect(rapportMutualise.connecteursTraites).toEqual(['conn-a', 'conn-b']);
 
     const checkpoint = await lireCheckpoint(cheminCheckpoint);
@@ -248,7 +403,7 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
       };
     };
 
-    const optionsCommunes = { cheminCheckpoint, espacementMinimumMs: 0, seuilCircuitBreaker: 10 };
+    const optionsCommunes = { cheminCheckpoint, espacementMinimumMs: 0, seuilEchecsConnecteur: 10 };
     const auditerProfondeurs = async () => [profondeur('conn-a', 3)]; // M-1, M-2, M-3 = juillet, juin, mai 2026
 
     await executerBackfill(optionsCommunes, deps({ auditerProfondeurs, executerConnecteurPourBackfill: executerConnecteurPourBackfillMock }));
@@ -366,7 +521,7 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     const appels: string[] = [];
 
     const rapport = await executerBackfill(
-      { cheminCheckpoint, seuilCircuitBreaker: 2, espacementMinimumMs: 0 },
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
       deps({
         auditerProfondeurs: async () => [profondeur('conn-a', 3)],
         executerConnecteurPourBackfill: async (connecteur, cible) => {
@@ -376,10 +531,10 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
       }),
     );
 
-    // Les 3 mois cibles sont bien tentés (jamais interrompu par un circuit-breaker).
+    // Les 3 mois cibles sont bien tentés (jamais interrompu par le circuit-breaker par connecteur).
     expect(appels).toHaveLength(3);
     const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
-    expect(rapportGroupe.circuitOuvert).toBe(false);
+    expect(rapportGroupe.connecteursInterrompus).toEqual([]);
     expect(rapportGroupe.moisReussis).toBe(0);
     expect(rapportGroupe.moisEchecReseau).toBe(0);
     expect(rapportGroupe.moisNonResolus).toBe(3);
@@ -390,17 +545,17 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
 
   it('(f bis) une exécution incertaine répétée ne déclenche jamais le circuit-breaker, contrairement à un échec réseau', async () => {
     const rapport = await executerBackfill(
-      { cheminCheckpoint, seuilCircuitBreaker: 2, espacementMinimumMs: 0 },
+      { cheminCheckpoint, seuilEchecsConnecteur: 2, espacementMinimumMs: 0 },
       deps({
         // 5 mois cibles, largement au-dessus du seuil de 2 — si ce signal
-        // comptait comme un échec réseau, le circuit ouvrirait avant la fin.
+        // comptait comme un échec réseau, ce connecteur serait interrompu avant la fin.
         auditerProfondeurs: async () => [profondeur('conn-a', 5)],
         executerConnecteurPourBackfill: async () => ({ execution: executionFausse('incertain'), causeReseauSiEchec: null }),
       }),
     );
 
     const rapportGroupe = rapport.groupes.find((g) => g.groupe === 'mutualise')!;
-    expect(rapportGroupe.circuitOuvert).toBe(false);
+    expect(rapportGroupe.connecteursInterrompus).toEqual([]);
     expect(rapportGroupe.moisNonResolus).toBe(5);
   });
 
@@ -418,7 +573,7 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
       };
     };
 
-    const optionsCommunes = { cheminCheckpoint, espacementMinimumMs: 0, seuilCircuitBreaker: 10 };
+    const optionsCommunes = { cheminCheckpoint, espacementMinimumMs: 0, seuilEchecsConnecteur: 10 };
     const auditerProfondeurs = async () => [profondeur('conn-a', 3)];
 
     await executerBackfill(optionsCommunes, deps({ auditerProfondeurs, executerConnecteurPourBackfill: executerConnecteurPourBackfillMock }));

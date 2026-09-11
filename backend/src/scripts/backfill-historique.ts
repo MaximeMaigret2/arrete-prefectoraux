@@ -5,8 +5,10 @@
  * `volumetrie.ts` (US2), de facon strictement sequentielle par groupe
  * d'hebergement (`hebergement.ts`, FR-011/FR-013), avec un espacement
  * minimum configurable entre deux requetes consecutives (FR-012), un
- * circuit-breaker par file qui n'est jamais declenche par une simple page
- * introuvable (FR-004/FR-014), et un checkpoint sur disque qui permet
+ * circuit-breaker PAR CONNECTEUR (feature 008, 2026-09-11 - la portee
+ * etait auparavant le groupe d'hebergement entier, cf. paragraphe dedie
+ * plus bas) qui n'est jamais declenche par une simple page
+ * introuvable (FR-004), et un checkpoint sur disque qui permet
  * d'interrompre et de reprendre sans jamais resolliciter un couple
  * (connecteur, mois) deja traite avec succes (FR-015/FR-016).
  *
@@ -22,6 +24,19 @@
  * retire alors d'un coup tous les autres mois cibles de cette meme annee
  * (checkpoint ET file du run en cours) plutot que de refaire une requete
  * par mois contre une page deja en main.
+ *
+ * Circuit-breaker par connecteur, pas par groupe (feature 008, 2026-09-11) :
+ * jusqu'ici, un seul compteur d'echecs reseau consecutifs etait partage par
+ * TOUS les connecteurs d'un meme groupe d'hebergement - un incident sur un
+ * seul connecteur en debut de file privait tous les connecteurs suivants du
+ * meme groupe de toute tentative pour le run en cours (cause identifiee de
+ * la faible couverture reelle observee lors des campagnes de backfill du
+ * 2026-09-02, cf. spec.md de cette feature). Le compteur vit desormais sur
+ * chaque `FileConnecteur` du round-robin : un connecteur qui atteint son
+ * propre seuil (`BACKFILL_SEUIL_CONNECTEUR`) est simplement retire du
+ * round-robin de CE run (ses mois restants ne sont jamais retires du
+ * checkpoint) - les connecteurs suivants du meme groupe continuent d'etre
+ * tentes normalement, jamais interrompus par l'echec d'un autre.
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -46,14 +61,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const ESPACEMENT_MINIMUM_MS_DEFAUT = Number(process.env.BACKFILL_ESPACEMENT_MS ?? 8000);
 
 /**
- * Nombre d'echecs reseau bas niveau CONSECUTIFS, au sein d'une meme file, avant ouverture du
- * circuit-breaker (FR-014).
- * Releve de 3 a 6 le 2026-09-03 (decision utilisateur), en meme temps que l'espacement ci-dessus :
- * un seuil de 3 se declenchait trop vite face aux rafales de 503 observees les 2026-09-02/03,
- * empechant d'absorber un blip transitoire sans interrompre toute la file. Reste un compromis :
- * un seuil trop eleve marteler un hote deja en difficulte plus longtemps avant de s'arreter.
+ * Nombre d'echecs reseau bas niveau CONSECUTIFS, PAR CONNECTEUR, avant que ce
+ * connecteur ne soit retire du round-robin pour le reste de CE run (FR-002,
+ * feature 008).
+ *
+ * Remplace, depuis le 2026-09-11 (feature 008), l'ancien `BACKFILL_SEUIL_CIRCUIT`
+ * qui s'appliquait a l'echelle du groupe entier - defaut ramene a 3 (valeur
+ * d'origine avant le relevement a 6 du 2026-09-03) : ce relevement compensait
+ * le fait que les echecs de PLUSIEURS connecteurs differents s'accumulaient
+ * dans un seul compteur partage ; une fois le compteur ramene a l'echelle
+ * d'un seul connecteur, ce raisonnement ne s'applique plus et 3 redevient le
+ * compromis pertinent entre absorber un blip transitoire et ne pas marteler
+ * un hote en difficulte.
  */
-export const SEUIL_CIRCUIT_BREAKER_DEFAUT = Number(process.env.BACKFILL_SEUIL_CIRCUIT ?? 6);
+export const SEUIL_ECHECS_CONNECTEUR_DEFAUT = Number(process.env.BACKFILL_SEUIL_CONNECTEUR ?? 3);
+
+/**
+ * Nombre de connecteurs CONSECUTIFS, au sein d'un meme groupe, entierement en
+ * echec (aucun mois reussi) SANS AUCUN SUCCES INTERPOSE, avant de signaler une
+ * degradation generalisee probable de l'hebergeur dans le rapport de fin de
+ * run (FR-007, feature 008, User Story 2). Purement informatif : ne modifie
+ * jamais le comportement du script, uniquement son rapport - jamais
+ * d'interruption du traitement sur la base de ce signal.
+ */
+export const SEUIL_DEGRADATION_GENERALISEE_DEFAUT = Number(process.env.BACKFILL_SEUIL_DEGRADATION ?? 8);
 
 /** Chemin par defaut du fichier de checkpoint (genere a l'execution, jamais committe - cf. .gitignore). */
 export const CHEMIN_CHECKPOINT_DEFAUT = path.join(__dirname, 'backfill-checkpoint.json');
@@ -177,19 +208,33 @@ export interface OptionsBackfill {
   /** Sous-ensemble explicite de connecteurs (pilote, FR-017) - absent = perimetre complet (tous les connecteurs actifs a `navigation`). */
   connecteurIds?: string[];
   espacementMinimumMs?: number;
-  seuilCircuitBreaker?: number;
+  /** Seuil d'echecs reseau consecutifs PAR CONNECTEUR avant retrait du round-robin de ce run (FR-002, feature 008 - anciennement `seuilCircuitBreaker`, a l'echelle du groupe). */
+  seuilEchecsConnecteur?: number;
+  /** Seuil de connecteurs consecutifs entierement en echec avant signal de degradation generalisee (FR-007, feature 008, purement informatif). */
+  seuilDegradationGeneralisee?: number;
   cheminCheckpoint?: string;
+}
+
+/** Detail d'un connecteur retire du round-robin de ce run par le circuit-breaker par connecteur (FR-006, feature 008). */
+export interface ConnecteurInterrompu {
+  connecteurId: string;
+  /** Nombre de mois restant en attente pour ce connecteur (checkpoint), non retires - eligibles a une prochaine reprise. */
+  moisRestants: number;
+  raison: 'echecs_reseau_consecutifs';
 }
 
 export interface RapportGroupe {
   groupe: GroupeHebergement;
   connecteursTraites: string[];
-  circuitOuvert: boolean;
   moisReussis: number;
   moisEchecReseau: number;
   moisPageIntrouvable: number;
   /** feature 007 (US3) : mois dont l'execution a produit au moins un candidat non resolu - jamais retire du checkpoint, jamais compte dans le circuit-breaker. */
   moisNonResolus: number;
+  /** feature 008 (US1, FR-006) : detail par connecteur des interruptions dues au circuit-breaker par connecteur - remplace l'ancien `circuitOuvert` (bit unique a l'echelle du groupe). */
+  connecteursInterrompus: ConnecteurInterrompu[];
+  /** feature 008 (US2, FR-007) : signal informatif uniquement, jamais bloquant - cf. `SEUIL_DEGRADATION_GENERALISEE_DEFAUT`. */
+  degradationGeneraliseeDetectee: boolean;
 }
 
 export interface RapportBackfill {
@@ -210,7 +255,8 @@ export async function executerBackfill(
   deps: DependancesBackfill,
 ): Promise<RapportBackfill> {
   const espacementMinimumMs = options.espacementMinimumMs ?? ESPACEMENT_MINIMUM_MS_DEFAUT;
-  const seuilCircuitBreaker = options.seuilCircuitBreaker ?? SEUIL_CIRCUIT_BREAKER_DEFAUT;
+  const seuilEchecsConnecteur = options.seuilEchecsConnecteur ?? SEUIL_ECHECS_CONNECTEUR_DEFAUT;
+  const seuilDegradationGeneralisee = options.seuilDegradationGeneralisee ?? SEUIL_DEGRADATION_GENERALISEE_DEFAUT;
   const cheminCheckpoint = options.cheminCheckpoint ?? CHEMIN_CHECKPOINT_DEFAUT;
   const log = deps.log ?? (() => {});
 
@@ -258,16 +304,21 @@ export async function executerBackfill(
     const rapportGroupe: RapportGroupe = {
       groupe,
       connecteursTraites: [],
-      circuitOuvert: false,
       moisReussis: 0,
       moisEchecReseau: 0,
       moisPageIntrouvable: 0,
       moisNonResolus: 0,
+      connecteursInterrompus: [],
+      degradationGeneraliseeDetectee: false,
     };
     rapport.groupes.push(rapportGroupe);
     log(`[${groupe}] groupe : ${connecteurIds.length} connecteur(s) au perimetre`);
 
-    let echecsReseauConsecutifs = 0;
+    // feature 008 (US2, FR-007) : nombre de connecteurs CONSECUTIFS (dans
+    // l'ordre ou ils sortent du round-robin de ce groupe) entierement en
+    // echec ce run (aucun mois reussi), sans aucun succes interpose -
+    // purement informatif, cf. SEUIL_DEGRADATION_GENERALISEE_DEFAUT.
+    let connecteursEchecTotalConsecutifs = 0;
 
     // Construit, pour chaque connecteur eligible de ce groupe, une file figee
     // des mois cibles a tenter DANS CE RUN (copie de `etat.moisRestants` au
@@ -290,6 +341,10 @@ export async function executerBackfill(
       connecteurId: string;
       connecteur: Connecteur;
       cibles: AnneeMois[];
+      /** feature 008 (FR-002/FR-005) : echecs reseau consecutifs PROPRES a ce connecteur - jamais partage avec un autre connecteur du meme groupe. */
+      echecsConsecutifs: number;
+      /** feature 008 (US2) : au moins un mois reussi pour ce connecteur au cours de CE run - alimente le signal de degradation generalisee. */
+      aEuUnSucces: boolean;
     }
     const filesActives: FileConnecteur[] = [];
     for (const connecteurId of connecteurIds) {
@@ -299,10 +354,10 @@ export async function executerBackfill(
       const connecteur = await deps.obtenirConnecteur(connecteurId);
       if (!connecteur) continue; // connecteur desactive/supprime depuis l'audit - ignore, jamais un blocage (FR-009 dans le meme esprit)
 
-      filesActives.push({ connecteurId, connecteur, cibles: [...etat.moisRestants] });
+      filesActives.push({ connecteurId, connecteur, cibles: [...etat.moisRestants], echecsConsecutifs: 0, aEuUnSucces: false });
     }
 
-    tourBoucle: while (filesActives.length > 0) {
+    while (filesActives.length > 0) {
       for (const file of filesActives) {
         const cible = file.cibles.shift();
         if (cible === undefined) continue; // file deja epuisee ce run, retiree lors du nettoyage en fin de tour ci-dessous
@@ -387,7 +442,8 @@ export async function executerBackfill(
             delete etat.urlsResoluesParMois?.[libelleMois];
           }
           await ecrireCheckpoint(cheminCheckpoint, checkpoint);
-          echecsReseauConsecutifs = 0;
+          file.echecsConsecutifs = 0;
+          file.aEuUnSucces = true;
           rapportGroupe.moisReussis += nombreMoisResolus;
           const suffixeCouverture =
             anneesEntierementCouvertes && nombreMoisResolus > 1
@@ -415,39 +471,58 @@ export async function executerBackfill(
 
         // Echec reseau bas niveau (ou nature non determinee, traitee
         // prudemment comme reseau) - compte dans le seuil du circuit-breaker
-        // DE CETTE FILE (groupe) uniquement (FR-014), quel que soit le
-        // connecteur qui l'a produit (round-robin : peut desormais
-        // s'accumuler a travers plusieurs connecteurs differents, pas
-        // seulement le meme). Le mois reste dans `moisRestants` (non
-        // retire), tente de nouveau a une reprise ulterieure (FR-015).
-        echecsReseauConsecutifs += 1;
+        // PROPRE A CE CONNECTEUR (FR-002/FR-005, feature 008 : la portee
+        // etait auparavant le groupe entier, cf. doc de tete du fichier). Le
+        // mois reste dans `moisRestants` (non retire), tente de nouveau a
+        // une reprise ulterieure (FR-003).
+        file.echecsConsecutifs += 1;
         rapportGroupe.moisEchecReseau += 1;
         log(
-          `[${groupe}] ${file.connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${echecsReseauConsecutifs}/${seuilCircuitBreaker} consecutif(s) pour cette file`,
+          `[${groupe}] ${file.connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${file.echecsConsecutifs}/${seuilEchecsConnecteur} consecutif(s) pour ce connecteur`,
         );
-        if (echecsReseauConsecutifs >= seuilCircuitBreaker) {
-          rapportGroupe.circuitOuvert = true;
-          log(`[${groupe}] circuit-breaker ouvert apres ${echecsReseauConsecutifs} echecs reseau consecutifs - arret de cette file`);
-          break tourBoucle;
+        if (file.echecsConsecutifs >= seuilEchecsConnecteur) {
+          // feature 008 (FR-001) : ce connecteur sort du round-robin de CE
+          // run - JAMAIS les autres connecteurs du groupe, qui continuent
+          // d'etre tentes normalement au tour suivant (pas de `break` ici).
+          // Ses mois restants (`etat.moisRestants`, inchange par cette
+          // branche) restent eligibles a une prochaine reprise (FR-003).
+          rapportGroupe.connecteursInterrompus.push({
+            connecteurId: file.connecteurId,
+            moisRestants: etat.moisRestants.length,
+            raison: 'echecs_reseau_consecutifs',
+          });
+          log(
+            `[${groupe}] ${file.connecteurId} : retire du round-robin de ce run apres ${file.echecsConsecutifs} echecs reseau consecutifs (${etat.moisRestants.length} mois restant(s) pour une prochaine reprise) - les autres connecteurs du groupe continuent`,
+          );
+          file.cibles = [];
         }
       }
 
       // Retire, avant le prochain tour, les connecteurs dont la file de ce
-      // run est desormais vide ou dont les archives viennent d'etre
-      // marquees epuisees.
+      // run est desormais vide (epuisee normalement, archives marquees
+      // epuisees, ou retiree par le circuit-breaker par connecteur
+      // ci-dessus) - feature 008 (US2, FR-007) : c'est aussi, pour chaque
+      // connecteur retire, le point ou l'on sait s'il a obtenu au moins un
+      // succes ce run, pour alimenter le signal de degradation generalisee.
       for (let i = filesActives.length - 1; i >= 0; i--) {
         const file = filesActives[i]!;
         const etat = checkpoint.connecteurs[file.connecteurId];
         if (!etat || etat.archivesEpuisees || file.cibles.length === 0) {
+          if (file.aEuUnSucces) {
+            connecteursEchecTotalConsecutifs = 0;
+          } else {
+            connecteursEchecTotalConsecutifs += 1;
+            if (connecteursEchecTotalConsecutifs >= seuilDegradationGeneralisee) {
+              rapportGroupe.degradationGeneraliseeDetectee = true;
+            }
+          }
           filesActives.splice(i, 1);
         }
       }
     }
-    if (!rapportGroupe.circuitOuvert) {
-      log(
-        `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s), ${rapportGroupe.moisNonResolus} incertain(s)`,
-      );
-    }
+    log(
+      `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s), ${rapportGroupe.moisNonResolus} incertain(s), ${rapportGroupe.connecteursInterrompus.length} connecteur(s) interrompu(s)`,
+    );
   }
 
   return rapport;
