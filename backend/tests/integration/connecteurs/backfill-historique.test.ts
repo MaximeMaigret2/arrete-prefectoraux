@@ -160,6 +160,55 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     expect(ordreAppels).toEqual(['conn-a:07', 'conn-b:07', 'conn-a:06', 'conn-b:06', 'conn-a:05']);
   });
 
+  it("(a ter bis) feature 008 bis (2026-09-11, decision utilisateur) : mode 'sequentiel' epuise la profondeur d'un connecteur avant de passer au suivant, contrairement au round-robin par defaut", async () => {
+    const ordreAppels: string[] = [];
+
+    await executerBackfill(
+      { cheminCheckpoint, espacementMinimumMs: 0, mode: 'sequentiel' },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 3), profondeur('conn-b', 2)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          ordreAppels.push(`${connecteur.id}:${cible.moisNumero}`);
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    // A l'oppose du round-robin (test (a bis) ci-dessus) : conn-a (3 mois
+    // cibles) est integralement traite avant que conn-b (2 mois cibles) ne
+    // soit tente une seule fois - comportement anterieur au 2026-09-03,
+    // reintroduit en mode explicite plutot qu'en defaut.
+    expect(ordreAppels).toEqual(['conn-a:07', 'conn-a:06', 'conn-a:05', 'conn-b:07', 'conn-b:06']);
+  });
+
+  it("(a ter ter) feature 008 bis : mode 'sequentiel' isole toujours les echecs par connecteur (le circuit-breaker per-connecteur de feature 008 s'applique aussi hors round-robin)", async () => {
+    const ordreAppels: string[] = [];
+
+    const rapport = await executerBackfill(
+      { cheminCheckpoint, espacementMinimumMs: 0, mode: 'sequentiel', seuilEchecsConnecteur: 2 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 3), profondeur('conn-b', 2)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          ordreAppels.push(`${connecteur.id}:${cible.moisNumero}`);
+          if (connecteur.id === 'conn-a') {
+            return { execution: executionFausse('echec'), causeReseauSiEchec: true };
+          }
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    // conn-a echoue 2 fois de suite (son seuil), est interrompu et ne
+    // consomme jamais son 3e mois cible - conn-b, traite ensuite en
+    // sequentiel, n'est jamais impacte et obtient ses 2 succes.
+    expect(ordreAppels).toEqual(['conn-a:07', 'conn-a:06', 'conn-b:07', 'conn-b:06']);
+    const groupe = rapport.groupes.find((g) => g.groupe === 'mutualise');
+    expect(groupe?.connecteursInterrompus).toEqual([
+      { connecteurId: 'conn-a', moisRestants: 3, raison: 'echecs_reseau_consecutifs' },
+    ]);
+    expect(groupe?.moisReussis).toBe(2);
+  });
+
   it("(b) feature 008 (FR-001/FR-002/FR-006) : le circuit-breaker interrompt uniquement le connecteur concerné après SON PROPRE seuil d'échecs réseau consécutifs, sans jamais empêcher les autres connecteurs du même groupe d'être tentés", async () => {
     const appelsMutualise: string[] = [];
     let appelsMoselle = 0;

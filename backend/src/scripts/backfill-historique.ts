@@ -37,6 +37,17 @@
  * round-robin de CE run (ses mois restants ne sont jamais retires du
  * checkpoint) - les connecteurs suivants du meme groupe continuent d'etre
  * tentes normalement, jamais interrompus par l'echec d'un autre.
+ *
+ * Mode d'ordonnancement configurable (feature 008 bis, 2026-09-11 - decision
+ * utilisateur) : `MODE_ORDONNANCEMENT_DEFAUT`/`--mode=` choisit, au sein de
+ * chaque groupe d'hebergement, entre `round-robin` (par defaut depuis le
+ * 2026-09-03 : un mois par connecteur a tour de role, cf. paragraphe
+ * ci-dessus) et `sequentiel` (comportement anterieur au 2026-09-03 : la
+ * profondeur cible d'un connecteur est epuisee avant de passer au suivant).
+ * Les deux modes partagent strictement la meme logique de traitement d'une
+ * cible et de finalisation de file (`traiterUneCible`/`finaliserSiTerminee`
+ * dans `executerBackfill`) - seul l'ordre dans lequel les cibles sont
+ * soumises change.
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -53,12 +64,32 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Espacement minimum par defaut (ms) entre deux requetes consecutives d'une meme file (FR-012).
- * Releve de 3000 a 8000 le 2026-09-03 (decision utilisateur) : les campagnes des 2026-09-02/03
- * ont montre un circuit-breaker qui s'ouvre apres seulement 1-3 succes lors des tentatives de
- * reprise, cohere avec un hebergeur mutualise encore fragile sous volume - un espacement plus
- * genereux vise a laisser respirer l'hebergeur entre deux requetes plutot qu'a le solliciter plus.
+ * Releve de 3000 a 8000 le 2026-09-03 (decision utilisateur), puis de 8000 a 30000 le 2026-09-11
+ * (decision utilisateur) : les campagnes des 2026-09-02/03 ont montre un circuit-breaker qui
+ * s'ouvre apres seulement 1-3 succes lors des tentatives de reprise, cohere avec un hebergeur
+ * mutualise encore fragile sous volume - un espacement plus genereux vise a laisser respirer
+ * l'hebergeur entre deux requetes plutot qu'a le solliciter plus.
  */
-export const ESPACEMENT_MINIMUM_MS_DEFAUT = Number(process.env.BACKFILL_ESPACEMENT_MS ?? 8000);
+export const ESPACEMENT_MINIMUM_MS_DEFAUT = Number(process.env.BACKFILL_ESPACEMENT_MS ?? 30000);
+
+/**
+ * Mode d'ordonnancement des connecteurs au sein d'un groupe d'hebergement
+ * (feature 008 bis, 2026-09-11, decision utilisateur) :
+ * - `round-robin` (par defaut, inchange depuis le 2026-09-03) : chaque
+ *   connecteur ne tente qu'UN SEUL mois par tour avant de ceder la place au
+ *   suivant - maximise le nombre de connecteurs distincts qui progressent
+ *   avant qu'un circuit-breaker n'interrompe la file.
+ * - `sequentiel` : epuise tous les mois cibles d'un connecteur (jusqu'a
+ *   succes de la profondeur voulue, page introuvable, ou son propre
+ *   circuit-breaker) avant de passer au connecteur suivant - c'est le mode
+ *   qui prevalait avant le 2026-09-03. Reintroduit en option pour
+ *   l'operateur qui prefere maximiser la profondeur des premiers
+ *   connecteurs traites plutot que repartir l'effort sur tous les
+ *   connecteurs du groupe a chaque tour.
+ */
+export type ModeOrdonnancement = 'round-robin' | 'sequentiel';
+export const MODE_ORDONNANCEMENT_DEFAUT: ModeOrdonnancement =
+  process.env.BACKFILL_MODE === 'sequentiel' ? 'sequentiel' : 'round-robin';
 
 /**
  * Nombre d'echecs reseau bas niveau CONSECUTIFS, PAR CONNECTEUR, avant que ce
@@ -208,6 +239,8 @@ export interface OptionsBackfill {
   /** Sous-ensemble explicite de connecteurs (pilote, FR-017) - absent = perimetre complet (tous les connecteurs actifs a `navigation`). */
   connecteurIds?: string[];
   espacementMinimumMs?: number;
+  /** Mode d'ordonnancement au sein de chaque groupe d'hebergement (feature 008 bis) - absent = `MODE_ORDONNANCEMENT_DEFAUT` (`round-robin`). */
+  mode?: ModeOrdonnancement;
   /** Seuil d'echecs reseau consecutifs PAR CONNECTEUR avant retrait du round-robin de ce run (FR-002, feature 008 - anciennement `seuilCircuitBreaker`, a l'echelle du groupe). */
   seuilEchecsConnecteur?: number;
   /** Seuil de connecteurs consecutifs entierement en echec avant signal de degradation generalisee (FR-007, feature 008, purement informatif). */
@@ -257,6 +290,7 @@ export async function executerBackfill(
   const espacementMinimumMs = options.espacementMinimumMs ?? ESPACEMENT_MINIMUM_MS_DEFAUT;
   const seuilEchecsConnecteur = options.seuilEchecsConnecteur ?? SEUIL_ECHECS_CONNECTEUR_DEFAUT;
   const seuilDegradationGeneralisee = options.seuilDegradationGeneralisee ?? SEUIL_DEGRADATION_GENERALISEE_DEFAUT;
+  const mode = options.mode ?? MODE_ORDONNANCEMENT_DEFAUT;
   const cheminCheckpoint = options.cheminCheckpoint ?? CHEMIN_CHECKPOINT_DEFAUT;
   const log = deps.log ?? (() => {});
 
@@ -357,179 +391,236 @@ export async function executerBackfill(
       filesActives.push({ connecteurId, connecteur, cibles: [...etat.moisRestants], echecsConsecutifs: 0, aEuUnSucces: false });
     }
 
-    while (filesActives.length > 0) {
-      for (const file of filesActives) {
-        const cible = file.cibles.shift();
-        if (cible === undefined) continue; // file deja epuisee ce run, retiree lors du nettoyage en fin de tour ci-dessous
-
-        const etat = checkpoint.connecteurs[file.connecteurId]!;
-        if (!rapportGroupe.connecteursTraites.includes(file.connecteurId)) {
-          rapportGroupe.connecteursTraites.push(file.connecteurId);
-        }
-
-        await deps.attendre(espacementMinimumMs);
-        const libelleMois = `${cible.annee}-${cible.moisNumero}`;
-
-        // Feature « PDF par PDF » (2026-09-08) : URLs deja resolues pour CE
-        // mois lors d'une reprise precedente (mois reste "incertain") - le
-        // moteur les ignore plutot que de les retelecharger. `onUrlResolue`
-        // ecrit le checkpoint IMMEDIATEMENT a chaque nouvelle URL resolue,
-        // pour qu'une interruption en cours de mois ne perde jamais ce suivi
-        // (la persistance des evenements/anomalies eux-memes est deja
-        // immediate, candidat par candidat, cote `runner.ts`).
-        const urlsDejaResolues = new Set(etat.urlsResoluesParMois?.[libelleMois] ?? []);
-        const { execution, causeReseauSiEchec, anneesCouvertes } = await deps.executerConnecteurPourBackfillIncremental(
-          file.connecteur,
-          cible,
-          urlsDejaResolues,
-          async (urlPdf) => {
-            const dejaResolues = etat.urlsResoluesParMois ?? (etat.urlsResoluesParMois = {});
-            const pourCeMois = dejaResolues[libelleMois] ?? (dejaResolues[libelleMois] = []);
-            if (!pourCeMois.includes(urlPdf)) {
-              pourCeMois.push(urlPdf);
-              await ecrireCheckpoint(cheminCheckpoint, checkpoint);
-            }
-          },
-        );
-
-        if (execution.nombre_candidats_non_resolus > 0) {
-          // feature 007 (US3, FR-011/FR-013) : au moins un candidat de ce
-          // mois n'a pas pu etre resolu - jamais retire du checkpoint
-          // (ni ce mois, ni son annee, meme si anneesCouvertes est
-          // renseigne) tant que le signal persiste, et jamais compte dans
-          // le seuil du circuit-breaker (echecsReseauConsecutifs
-          // volontairement non touche) : ni un succes verifie, ni un echec
-          // de lecture, seulement une incertitude qui doit rester eligible
-          // a une reprise ulterieure (US4).
-          rapportGroupe.moisNonResolus += 1;
-          // `etat.urlsResoluesParMois[libelleMois]` deja ecrit sur disque au
-          // fil de l'eau via `onUrlResolue` ci-dessus - rien de plus a
-          // persister ici pour ce suivi.
-          log(
-            `[${groupe}] ${file.connecteurId} ${libelleMois} : incertain (${execution.nombre_candidats_non_resolus} candidat(s) non resolu(s)) - mois conserve pour reprise`,
-          );
-          continue;
-        }
-
-        if (execution.statut !== 'echec') {
-          // feature 005 (backfill historique, 2026-09-04) : un connecteur
-          // dont la source ne decoupe pas sa liste par mois (config
-          // `granularite_liste: 'annuelle'`, cf. moteur.ts) peut signaler
-          // que ce seul succes couvre deja TOUTE l'annee de `cible`, pas
-          // seulement le mois demande - tous les autres mois cibles de
-          // cette meme annee, encore dans la file de CE run ou dans le
-          // checkpoint, sont alors retires d'un coup plutot que retentes
-          // un par un contre une page deja en main (moins de requetes vers
-          // un hebergeur deja fragile).
-          const anneesEntierementCouvertes = anneesCouvertes && anneesCouvertes.length > 0 ? new Set(anneesCouvertes) : null;
-          let nombreMoisResolus: number;
-          if (anneesEntierementCouvertes) {
-            nombreMoisResolus = etat.moisRestants.filter((m) => anneesEntierementCouvertes.has(m.annee)).length;
-            // Feature « PDF par PDF » (2026-09-08) : purge le suivi par-URL
-            // de chaque mois qui quitte moisRestants - un mois integralement
-            // couvert (succes verifie) n'a plus jamais besoin d'etre repris,
-            // son suivi de reprise devient obsolete.
-            if (etat.urlsResoluesParMois) {
-              for (const m of etat.moisRestants) {
-                if (anneesEntierementCouvertes.has(m.annee)) delete etat.urlsResoluesParMois[`${m.annee}-${m.moisNumero}`];
-              }
-            }
-            etat.moisRestants = etat.moisRestants.filter((m) => !anneesEntierementCouvertes.has(m.annee));
-            file.cibles = file.cibles.filter((m) => !anneesEntierementCouvertes.has(m.annee));
-          } else {
-            nombreMoisResolus = 1;
-            etat.moisRestants = etat.moisRestants.filter((m) => !(m.annee === cible.annee && m.moisNumero === cible.moisNumero));
-            delete etat.urlsResoluesParMois?.[libelleMois];
-          }
-          await ecrireCheckpoint(cheminCheckpoint, checkpoint);
-          file.echecsConsecutifs = 0;
-          file.aEuUnSucces = true;
-          rapportGroupe.moisReussis += nombreMoisResolus;
-          const suffixeCouverture =
-            anneesEntierementCouvertes && nombreMoisResolus > 1
-              ? ` - ${nombreMoisResolus} mois de ${cible.annee} obtenus d'un coup (liste annuelle)`
-              : '';
-          log(
-            `[${groupe}] ${file.connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))${suffixeCouverture}`,
-          );
-          continue;
-        }
-
-        if (causeReseauSiEchec === false) {
-          // Page introuvable : limite naturelle des archives pour CE
-          // connecteur (US1 Edge Case) - anomalie de lecture ordinaire,
-          // jamais un declencheur de circuit-breaker (FR-004/FR-014).
-          etat.archivesEpuisees = true;
-          etat.moisRestants = [];
-          etat.urlsResoluesParMois = undefined; // plus aucun mois a reprendre pour ce connecteur - suivi devenu sans objet.
-          file.cibles = []; // plus rien a tenter pour lui non plus dans ce run.
-          await ecrireCheckpoint(cheminCheckpoint, checkpoint);
-          rapportGroupe.moisPageIntrouvable += 1;
-          log(`[${groupe}] ${file.connecteurId} ${libelleMois} : page introuvable - archives epuisees pour ce connecteur, arret`);
-          continue;
-        }
-
-        // Echec reseau bas niveau (ou nature non determinee, traitee
-        // prudemment comme reseau) - compte dans le seuil du circuit-breaker
-        // PROPRE A CE CONNECTEUR (FR-002/FR-005, feature 008 : la portee
-        // etait auparavant le groupe entier, cf. doc de tete du fichier). Le
-        // mois reste dans `moisRestants` (non retire), tente de nouveau a
-        // une reprise ulterieure (FR-003).
-        file.echecsConsecutifs += 1;
-        rapportGroupe.moisEchecReseau += 1;
-        log(
-          `[${groupe}] ${file.connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${file.echecsConsecutifs}/${seuilEchecsConnecteur} consecutif(s) pour ce connecteur`,
-        );
-        if (file.echecsConsecutifs >= seuilEchecsConnecteur) {
-          // feature 008 (FR-001) : ce connecteur sort du round-robin de CE
-          // run - JAMAIS les autres connecteurs du groupe, qui continuent
-          // d'etre tentes normalement au tour suivant (pas de `break` ici).
-          // Ses mois restants (`etat.moisRestants`, inchange par cette
-          // branche) restent eligibles a une prochaine reprise (FR-003).
-          rapportGroupe.connecteursInterrompus.push({
-            connecteurId: file.connecteurId,
-            moisRestants: etat.moisRestants.length,
-            raison: 'echecs_reseau_consecutifs',
-          });
-          log(
-            `[${groupe}] ${file.connecteurId} : retire du round-robin de ce run apres ${file.echecsConsecutifs} echecs reseau consecutifs (${etat.moisRestants.length} mois restant(s) pour une prochaine reprise) - les autres connecteurs du groupe continuent`,
-          );
-          file.cibles = [];
-        }
+    /**
+     * Traite UNE cible (un mois, pour UN connecteur) - identique quel que
+     * soit le mode d'ordonnancement (feature 008 bis, 2026-09-11) : seul
+     * l'ORDRE dans lequel les cibles sont soumises a cette fonction differe
+     * entre le round-robin (un mois par connecteur par tour) et le mode
+     * sequentiel (tous les mois d'un connecteur avant de passer au suivant)
+     * - extrait ici pour ne jamais dupliquer cette logique entre les deux.
+     */
+    const traiterUneCible = async (file: FileConnecteur, cible: AnneeMois): Promise<void> => {
+      const etat = checkpoint.connecteurs[file.connecteurId]!;
+      if (!rapportGroupe.connecteursTraites.includes(file.connecteurId)) {
+        rapportGroupe.connecteursTraites.push(file.connecteurId);
       }
 
-      // Retire, avant le prochain tour, les connecteurs dont la file de ce
-      // run est desormais vide (epuisee normalement, archives marquees
-      // epuisees, ou retiree par le circuit-breaker par connecteur
-      // ci-dessus) - feature 008 (US2, FR-007) : c'est aussi, pour chaque
-      // connecteur retire, le point ou l'on sait s'il a obtenu au moins un
-      // succes ce run, pour alimenter le signal de degradation generalisee.
-      for (let i = filesActives.length - 1; i >= 0; i--) {
-        const file = filesActives[i]!;
-        const etat = checkpoint.connecteurs[file.connecteurId];
-        if (!etat || etat.archivesEpuisees || file.cibles.length === 0) {
-          if (file.aEuUnSucces) {
-            connecteursEchecTotalConsecutifs = 0;
-          } else {
-            connecteursEchecTotalConsecutifs += 1;
-            if (connecteursEchecTotalConsecutifs >= seuilDegradationGeneralisee) {
-              rapportGroupe.degradationGeneraliseeDetectee = true;
+      await deps.attendre(espacementMinimumMs);
+      const libelleMois = `${cible.annee}-${cible.moisNumero}`;
+
+      // Feature « PDF par PDF » (2026-09-08) : URLs deja resolues pour CE
+      // mois lors d'une reprise precedente (mois reste "incertain") - le
+      // moteur les ignore plutot que de les retelecharger. `onUrlResolue`
+      // ecrit le checkpoint IMMEDIATEMENT a chaque nouvelle URL resolue,
+      // pour qu'une interruption en cours de mois ne perde jamais ce suivi
+      // (la persistance des evenements/anomalies eux-memes est deja
+      // immediate, candidat par candidat, cote `runner.ts`).
+      const urlsDejaResolues = new Set(etat.urlsResoluesParMois?.[libelleMois] ?? []);
+      const { execution, causeReseauSiEchec, anneesCouvertes } = await deps.executerConnecteurPourBackfillIncremental(
+        file.connecteur,
+        cible,
+        urlsDejaResolues,
+        async (urlPdf) => {
+          const dejaResolues = etat.urlsResoluesParMois ?? (etat.urlsResoluesParMois = {});
+          const pourCeMois = dejaResolues[libelleMois] ?? (dejaResolues[libelleMois] = []);
+          if (!pourCeMois.includes(urlPdf)) {
+            pourCeMois.push(urlPdf);
+            await ecrireCheckpoint(cheminCheckpoint, checkpoint);
+          }
+        },
+      );
+
+      if (execution.nombre_candidats_non_resolus > 0) {
+        // feature 007 (US3, FR-011/FR-013) : au moins un candidat de ce
+        // mois n'a pas pu etre resolu - jamais retire du checkpoint
+        // (ni ce mois, ni son annee, meme si anneesCouvertes est
+        // renseigne) tant que le signal persiste, et jamais compte dans
+        // le seuil du circuit-breaker (echecsReseauConsecutifs
+        // volontairement non touche) : ni un succes verifie, ni un echec
+        // de lecture, seulement une incertitude qui doit rester eligible
+        // a une reprise ulterieure (US4).
+        rapportGroupe.moisNonResolus += 1;
+        // `etat.urlsResoluesParMois[libelleMois]` deja ecrit sur disque au
+        // fil de l'eau via `onUrlResolue` ci-dessus - rien de plus a
+        // persister ici pour ce suivi.
+        log(
+          `[${groupe}] ${file.connecteurId} ${libelleMois} : incertain (${execution.nombre_candidats_non_resolus} candidat(s) non resolu(s)) - mois conserve pour reprise`,
+        );
+        return;
+      }
+
+      if (execution.statut !== 'echec') {
+        // feature 005 (backfill historique, 2026-09-04) : un connecteur
+        // dont la source ne decoupe pas sa liste par mois (config
+        // `granularite_liste: 'annuelle'`, cf. moteur.ts) peut signaler
+        // que ce seul succes couvre deja TOUTE l'annee de `cible`, pas
+        // seulement le mois demande - tous les autres mois cibles de
+        // cette meme annee, encore dans la file de CE run ou dans le
+        // checkpoint, sont alors retires d'un coup plutot que retentes
+        // un par un contre une page deja en main (moins de requetes vers
+        // un hebergeur deja fragile).
+        const anneesEntierementCouvertes = anneesCouvertes && anneesCouvertes.length > 0 ? new Set(anneesCouvertes) : null;
+        let nombreMoisResolus: number;
+        if (anneesEntierementCouvertes) {
+          nombreMoisResolus = etat.moisRestants.filter((m) => anneesEntierementCouvertes.has(m.annee)).length;
+          // Feature « PDF par PDF » (2026-09-08) : purge le suivi par-URL
+          // de chaque mois qui quitte moisRestants - un mois integralement
+          // couvert (succes verifie) n'a plus jamais besoin d'etre repris,
+          // son suivi de reprise devient obsolete.
+          if (etat.urlsResoluesParMois) {
+            for (const m of etat.moisRestants) {
+              if (anneesEntierementCouvertes.has(m.annee)) delete etat.urlsResoluesParMois[`${m.annee}-${m.moisNumero}`];
             }
           }
-          filesActives.splice(i, 1);
+          etat.moisRestants = etat.moisRestants.filter((m) => !anneesEntierementCouvertes.has(m.annee));
+          file.cibles = file.cibles.filter((m) => !anneesEntierementCouvertes.has(m.annee));
+        } else {
+          nombreMoisResolus = 1;
+          etat.moisRestants = etat.moisRestants.filter((m) => !(m.annee === cible.annee && m.moisNumero === cible.moisNumero));
+          delete etat.urlsResoluesParMois?.[libelleMois];
+        }
+        await ecrireCheckpoint(cheminCheckpoint, checkpoint);
+        file.echecsConsecutifs = 0;
+        file.aEuUnSucces = true;
+        rapportGroupe.moisReussis += nombreMoisResolus;
+        const suffixeCouverture =
+          anneesEntierementCouvertes && nombreMoisResolus > 1
+            ? ` - ${nombreMoisResolus} mois de ${cible.annee} obtenus d'un coup (liste annuelle)`
+            : '';
+        log(
+          `[${groupe}] ${file.connecteurId} ${libelleMois} : succes (${execution.statut}, ${execution.nombre_evenements_publies} evenement(s) publie(s))${suffixeCouverture}`,
+        );
+        return;
+      }
+
+      if (causeReseauSiEchec === false) {
+        // Page introuvable : limite naturelle des archives pour CE
+        // connecteur (US1 Edge Case) - anomalie de lecture ordinaire,
+        // jamais un declencheur de circuit-breaker (FR-004/FR-014).
+        etat.archivesEpuisees = true;
+        etat.moisRestants = [];
+        etat.urlsResoluesParMois = undefined; // plus aucun mois a reprendre pour ce connecteur - suivi devenu sans objet.
+        file.cibles = []; // plus rien a tenter pour lui non plus dans ce run.
+        await ecrireCheckpoint(cheminCheckpoint, checkpoint);
+        rapportGroupe.moisPageIntrouvable += 1;
+        log(`[${groupe}] ${file.connecteurId} ${libelleMois} : page introuvable - archives epuisees pour ce connecteur, arret`);
+        return;
+      }
+
+      // Echec reseau bas niveau (ou nature non determinee, traitee
+      // prudemment comme reseau) - compte dans le seuil du circuit-breaker
+      // PROPRE A CE CONNECTEUR (FR-002/FR-005, feature 008 : la portee
+      // etait auparavant le groupe entier, cf. doc de tete du fichier). Le
+      // mois reste dans `moisRestants` (non retire), tente de nouveau a
+      // une reprise ulterieure (FR-003).
+      file.echecsConsecutifs += 1;
+      rapportGroupe.moisEchecReseau += 1;
+      log(
+        `[${groupe}] ${file.connecteurId} ${libelleMois} : echec reseau (${execution.message_erreur ?? 'sans message'}) - ${file.echecsConsecutifs}/${seuilEchecsConnecteur} consecutif(s) pour ce connecteur`,
+      );
+      if (file.echecsConsecutifs >= seuilEchecsConnecteur) {
+        // feature 008 (FR-001) : ce connecteur sort de la file de CE run -
+        // JAMAIS les autres connecteurs du groupe, qui continuent d'etre
+        // tentes normalement (round-robin : au tour suivant ; sequentiel :
+        // au prochain connecteur de la liste - pas de `break` ici). Ses
+        // mois restants (`etat.moisRestants`, inchange par cette branche)
+        // restent eligibles a une prochaine reprise (FR-003).
+        rapportGroupe.connecteursInterrompus.push({
+          connecteurId: file.connecteurId,
+          moisRestants: etat.moisRestants.length,
+          raison: 'echecs_reseau_consecutifs',
+        });
+        log(
+          `[${groupe}] ${file.connecteurId} : retire de la file de ce run apres ${file.echecsConsecutifs} echecs reseau consecutifs (${etat.moisRestants.length} mois restant(s) pour une prochaine reprise) - les autres connecteurs du groupe continuent`,
+        );
+        file.cibles = [];
+      }
+    };
+
+    /**
+     * Marque, si la file de ce run pour CE connecteur vient de se vider
+     * (epuisee normalement, archives marquees epuisees, ou retiree par le
+     * circuit-breaker par connecteur), son sort pour le signal de
+     * degradation generalisee (US2, FR-007) - identique quel que soit le
+     * mode. Retourne `true` si la file de ce connecteur est terminee.
+     */
+    const finaliserSiTerminee = (file: FileConnecteur): boolean => {
+      const etat = checkpoint.connecteurs[file.connecteurId];
+      if (!etat || etat.archivesEpuisees || file.cibles.length === 0) {
+        if (file.aEuUnSucces) {
+          connecteursEchecTotalConsecutifs = 0;
+        } else {
+          connecteursEchecTotalConsecutifs += 1;
+          if (connecteursEchecTotalConsecutifs >= seuilDegradationGeneralisee) {
+            rapportGroupe.degradationGeneraliseeDetectee = true;
+          }
+        }
+        return true;
+      }
+      return false;
+    };
+
+    if (mode === 'sequentiel') {
+      // Mode sequentiel (feature 008 bis, 2026-09-11, decision utilisateur) :
+      // epuise tous les mois cibles d'un connecteur (succes, page
+      // introuvable, ou son propre circuit-breaker) avant de passer au
+      // connecteur suivant - cf. doc de tete du fichier pour le detail des
+      // deux modes.
+      for (const file of filesActives) {
+        while (file.cibles.length > 0) {
+          const cible = file.cibles.shift()!;
+          await traiterUneCible(file, cible);
+        }
+        finaliserSiTerminee(file);
+      }
+    } else {
+      // Mode round-robin (par defaut depuis le 2026-09-03, decision
+      // utilisateur) : chaque connecteur du groupe ne tente qu'UN SEUL mois
+      // par tour, puis cede la place au suivant ; un nouveau tour ne
+      // commence qu'une fois tous les connecteurs actifs de ce groupe
+      // passes en revue une fois. Maximise le nombre de connecteurs
+      // distincts qui progressent avant qu'un circuit-breaker n'interrompe
+      // la file.
+      while (filesActives.length > 0) {
+        for (const file of filesActives) {
+          const cible = file.cibles.shift();
+          if (cible === undefined) continue; // file deja epuisee ce run, retiree lors du nettoyage en fin de tour ci-dessous
+          await traiterUneCible(file, cible);
+        }
+
+        // Retire, avant le prochain tour, les connecteurs dont la file de ce
+        // run est desormais vide.
+        for (let i = filesActives.length - 1; i >= 0; i--) {
+          if (finaliserSiTerminee(filesActives[i]!)) filesActives.splice(i, 1);
         }
       }
     }
     log(
-      `[${groupe}] groupe termine : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s), ${rapportGroupe.moisNonResolus} incertain(s), ${rapportGroupe.connecteursInterrompus.length} connecteur(s) interrompu(s)`,
+      `[${groupe}] groupe termine (mode ${mode}) : ${rapportGroupe.moisReussis} succes, ${rapportGroupe.moisEchecReseau} echec(s) reseau, ${rapportGroupe.moisPageIntrouvable} page(s) introuvable(s), ${rapportGroupe.moisNonResolus} incertain(s), ${rapportGroupe.connecteursInterrompus.length} connecteur(s) interrompu(s)`,
     );
   }
 
   return rapport;
 }
 
-function analyserArguments(argv: string[]): { mode: 'audit' | 'lancer'; connecteurIds?: string[] } {
+function analyserArguments(
+  argv: string[],
+): { mode: 'audit' | 'lancer'; connecteurIds?: string[]; modeOrdonnancement?: ModeOrdonnancement } {
   if (argv.includes('--audit')) return { mode: 'audit' };
+
+  // feature 008 bis (2026-09-11) : `--mode=sequentiel`/`--mode=round-robin`
+  // choisit explicitement l'ordonnancement au sein de chaque groupe
+  // d'hebergement (absent = MODE_ORDONNANCEMENT_DEFAUT). Nomme ici
+  // `modeOrdonnancement` pour ne pas entrer en collision avec le `mode`
+  // ('audit' | 'lancer') deja utilise par ce CLI pour un tout autre choix.
+  const modeArg = argv.find((a) => a.startsWith('--mode='));
+  const modeOrdonnancement: ModeOrdonnancement | undefined =
+    modeArg?.slice('--mode='.length) === 'sequentiel'
+      ? 'sequentiel'
+      : modeArg?.slice('--mode='.length) === 'round-robin'
+        ? 'round-robin'
+        : undefined;
+
   const piloteArg = argv.find((a) => a.startsWith('--pilote='));
   if (piloteArg) {
     const connecteurIds = piloteArg
@@ -537,9 +628,9 @@ function analyserArguments(argv: string[]): { mode: 'audit' | 'lancer'; connecte
       .split(',')
       .map((s) => s.trim())
       .filter((s) => s.length > 0);
-    return { mode: 'lancer', connecteurIds };
+    return { mode: 'lancer', connecteurIds, modeOrdonnancement };
   }
-  return { mode: 'lancer' };
+  return { mode: 'lancer', modeOrdonnancement };
 }
 
 async function main(): Promise<void> {
@@ -562,9 +653,10 @@ async function main(): Promise<void> {
       ? `Lancement pilote sur ${args.connecteurIds.length} connecteur(s) : ${args.connecteurIds.join(', ')}`
       : 'Lancement sur le perimetre complet des connecteurs actifs a navigation.',
   );
+  console.log(`Mode d'ordonnancement : ${args.modeOrdonnancement ?? MODE_ORDONNANCEMENT_DEFAUT}.`);
 
   const rapport = await executerBackfill(
-    { connecteurIds: args.connecteurIds },
+    { connecteurIds: args.connecteurIds, mode: args.modeOrdonnancement },
     {
       auditerProfondeurs,
       obtenirConnecteur,
