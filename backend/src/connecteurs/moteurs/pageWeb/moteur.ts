@@ -88,8 +88,15 @@ function estPageIntrouvable(statut: number): boolean {
  * appliqué désormais AVANT chaque téléchargement de PDF sauf le tout
  * premier de la collecte (comportement générique du moteur, valable pour
  * tout connecteur avec `selecteur_lien_pdf` — contrat §5, règle 7).
+ *
+ * Relevé de 2000 à 30000 ms le 2026-09-11 (décision utilisateur, en même
+ * temps que `ESPACEMENT_MINIMUM_MS_DEFAUT` dans `backfill-historique.ts`) :
+ * un espacement générique de 2s s'est révélé insuffisant pour éviter les
+ * rafales de `HTTP 503` sur l'hébergeur mutualisé encore fragile — aligné
+ * désormais sur le même espacement généreux que l'inter-mois, entre deux
+ * PDF d'un même mois.
  */
-export const ESPACEMENT_PDF_MS_DEFAUT = Number(process.env.PAGE_WEB_PDF_ESPACEMENT_MS ?? 2000);
+export const ESPACEMENT_PDF_MS_DEFAUT = Number(process.env.PAGE_WEB_PDF_ESPACEMENT_MS ?? 30000);
 
 async function attendreParDefaut(ms: number): Promise<void> {
   if (ms <= 0) return;

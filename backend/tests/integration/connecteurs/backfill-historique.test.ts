@@ -209,6 +209,50 @@ describe('backfill-historique — orchestration (US3, connecteurs/hébergeurs si
     expect(groupe?.moisReussis).toBe(2);
   });
 
+  it("(a quinquies) feature 008 ter (2026-09-11, decision utilisateur) : un mois deja entame (au moins un PDF deja resolu) est priorise en tete de la file d'un connecteur, meme s'il n'est pas le plus recent", async () => {
+    // Checkpoint pre-existant (reprise) : conn-a a 3 mois restants dans
+    // l'ordre chronologique habituel (le plus recent d'abord), mais
+    // 2026-06 (le plus ANCIEN des trois) porte deja un PDF resolu lors
+    // d'une tentative precedente - jamais laisser ce travail deja fait en
+    // attente derriere 2026-08/2026-07, qui n'ont pas encore commence.
+    await writeFile(
+      cheminCheckpoint,
+      JSON.stringify({
+        version: 1,
+        connecteurs: {
+          'conn-a': {
+            profondeurCibleMois: 3,
+            moisRestants: [
+              { annee: '2026', moisNumero: '08' },
+              { annee: '2026', moisNumero: '07' },
+              { annee: '2026', moisNumero: '06' },
+            ],
+            archivesEpuisees: false,
+            urlsResoluesParMois: { '2026-06': ['url-x'] },
+          },
+        },
+      }),
+      'utf-8',
+    );
+
+    const ordreAppels: string[] = [];
+
+    await executerBackfill(
+      { cheminCheckpoint, espacementMinimumMs: 0 },
+      deps({
+        auditerProfondeurs: async () => [profondeur('conn-a', 3)],
+        executerConnecteurPourBackfill: async (connecteur, cible) => {
+          ordreAppels.push(`${connecteur.id}:${cible.moisNumero}`);
+          return { execution: executionFausse('succes'), causeReseauSiEchec: null };
+        },
+      }),
+    );
+
+    // 2026-06 (deja entame) passe en premier ; 2026-08 puis 2026-07 (pas
+    // encore entames) suivent dans leur ordre chronologique d'origine.
+    expect(ordreAppels).toEqual(['conn-a:06', 'conn-a:08', 'conn-a:07']);
+  });
+
   it("(b) feature 008 (FR-001/FR-002/FR-006) : le circuit-breaker interrompt uniquement le connecteur concerné après SON PROPRE seuil d'échecs réseau consécutifs, sans jamais empêcher les autres connecteurs du même groupe d'être tentés", async () => {
     const appelsMutualise: string[] = [];
     let appelsMoselle = 0;

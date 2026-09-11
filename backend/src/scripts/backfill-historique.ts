@@ -48,6 +48,16 @@
  * cible et de finalisation de file (`traiterUneCible`/`finaliserSiTerminee`
  * dans `executerBackfill`) - seul l'ordre dans lequel les cibles sont
  * soumises change.
+ *
+ * Priorite aux mois deja entames (feature 008 ter, 2026-09-11 - decision
+ * utilisateur, suite a une reprise Morbihan avec des PDF deja resolus sur
+ * un mois ancien non prioritaire dans l'ordre chronologique par defaut) :
+ * au demarrage de chaque connecteur pour ce run, tout mois deja present
+ * dans `EtatConnecteurCheckpoint.urlsResoluesParMois` (au moins un PDF
+ * tranche lors d'une tentative precedente, feature "PDF par PDF" du
+ * 2026-09-08) passe en tete de sa file de cibles - jamais laisser du
+ * travail deja fait en attente derriere des mois pas encore entames.
+ * S'applique identiquement aux deux modes d'ordonnancement ci-dessus.
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -388,7 +398,26 @@ export async function executerBackfill(
       const connecteur = await deps.obtenirConnecteur(connecteurId);
       if (!connecteur) continue; // connecteur desactive/supprime depuis l'audit - ignore, jamais un blocage (FR-009 dans le meme esprit)
 
-      filesActives.push({ connecteurId, connecteur, cibles: [...etat.moisRestants], echecsConsecutifs: 0, aEuUnSucces: false });
+      // feature 008 ter (2026-09-11, decision utilisateur) : un mois deja
+      // entame (au moins un PDF resolu lors d'une tentative precedente, cf.
+      // `EtatConnecteurCheckpoint.urlsResoluesParMois`, feature "PDF par
+      // PDF" du 2026-09-08) est priorise EN TETE de la file de ce
+      // connecteur pour ce run - jamais laisser du travail deja fait (PDF
+      // deja telecharges et tranches) en attente derriere des mois pas
+      // encore entames. Tri stable : entre deux mois deja entames, ou entre
+      // deux mois pas encore entames, l'ordre d'origine (le plus recent
+      // d'abord) est preserve.
+      const moisDejaEntames = new Set(Object.keys(etat.urlsResoluesParMois ?? {}));
+      const cibles =
+        moisDejaEntames.size === 0
+          ? [...etat.moisRestants]
+          : [...etat.moisRestants].sort((a, b) => {
+              const aEntame = moisDejaEntames.has(`${a.annee}-${a.moisNumero}`);
+              const bEntame = moisDejaEntames.has(`${b.annee}-${b.moisNumero}`);
+              return aEntame === bEntame ? 0 : aEntame ? -1 : 1;
+            });
+
+      filesActives.push({ connecteurId, connecteur, cibles, echecsConsecutifs: 0, aEuUnSucces: false });
     }
 
     /**
