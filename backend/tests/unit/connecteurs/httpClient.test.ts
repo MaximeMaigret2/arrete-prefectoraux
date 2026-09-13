@@ -1,5 +1,28 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { execFile } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
 import { EN_TETES_HTTP_DEFAUT, fetchAvecEnTetes, construireEnTeteCookie } from '../../../src/connecteurs/httpClient.js';
+
+// Repli curl (2026-09-13) : `execFile`/`readFile` sont mockes globalement
+// pour ce fichier (pas de vrai sous-processus ni de vrai fichier temporaire
+// dans les tests unitaires) - seul `fetchAvecEnTetes` (le point d'entree
+// public) est exerce, jamais les fonctions privees `requeteViaCurl()` /
+// `estRefusParEgressSortant()` / `analyserEnTetesCurl()` directement.
+vi.mock('node:child_process', () => ({
+  execFile: vi.fn((_fichier: string, _args: string[], callback: (err: null, res: { stdout: string; stderr: string }) => void) =>
+    callback(null, { stdout: '', stderr: '' }),
+  ),
+}));
+
+vi.mock('node:fs/promises', () => ({
+  mkdtemp: vi.fn(async () => '/tmp/httpClient-curl-test'),
+  readFile: vi.fn(async (chemin: string) =>
+    String(chemin).endsWith('headers.txt')
+      ? 'HTTP/1.1 200 OK\r\nContent-Type: application/pdf\r\n\r\n'
+      : Buffer.from('contenu-pdf-simule'),
+  ),
+  rm: vi.fn(async () => undefined),
+}));
 
 /**
  * Q-007 (lot Qualité — Durcissement, 2026-08-22) — `fetchAvecEnTetes()`
@@ -96,6 +119,120 @@ describe('fetchAvecEnTetes (Q-007)', () => {
 
     expect(headersRecus?.Cookie).toBe('a=1; b=2');
     expect(headersRecus?.['User-Agent']).toBe(EN_TETES_HTTP_DEFAUT['User-Agent']);
+  });
+});
+
+/**
+ * Repli `curl` (2026-09-13, decision utilisateur, option 1) — quand
+ * `fetch()` recoit la reponse synthetique du proxy de sortie reseau du
+ * sandbox Cowork (403 + en-tete `x-deny-reason: host_not_allowed`, jamais
+ * emise par un vrai serveur prefecture), `fetchAvecEnTetes` rejoue la
+ * requete via `curl` plutot que de renvoyer ce faux 403 tel quel a
+ * l'appelant.
+ */
+describe('fetchAvecEnTetes — repli curl sur refus du proxy d\'egress (2026-09-13)', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.clearAllMocks();
+  });
+
+  it("bascule sur curl quand fetch() renvoie le refus synthetique du proxy (403 + x-deny-reason: host_not_allowed)", async () => {
+    let appelsFetch = 0;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        appelsFetch++;
+        return {
+          ok: false,
+          status: 403,
+          headers: { get: (nom: string) => (nom === 'x-deny-reason' ? 'host_not_allowed' : null) },
+        } as unknown as Response;
+      }),
+    );
+
+    const reponse = await fetchAvecEnTetes('https://exemple.gouv.fr/arrete.pdf');
+
+    expect(appelsFetch).toBe(1);
+    expect(execFile).toHaveBeenCalledTimes(1);
+    expect(reponse.status).toBe(200);
+    expect(reponse.headers.get('content-type')).toBe('application/pdf');
+    expect(await reponse.text()).toBe('contenu-pdf-simule');
+  });
+
+  it('passe l\'URL et les en-tetes (dont le User-Agent par defaut) a curl', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 403,
+        headers: { get: (nom: string) => (nom === 'x-deny-reason' ? 'host_not_allowed' : null) },
+      })) as unknown as typeof fetch,
+    );
+
+    await fetchAvecEnTetes('https://exemple.gouv.fr/arrete.pdf');
+
+    expect(execFile).toHaveBeenCalledWith(
+      'curl',
+      expect.arrayContaining([
+        '-H',
+        `User-Agent: ${EN_TETES_HTTP_DEFAUT['User-Agent']}`,
+        'https://exemple.gouv.fr/arrete.pdf',
+      ]),
+      expect.any(Function),
+    );
+  });
+
+  it("ne bascule PAS sur curl pour un vrai 403 sans l'en-tete x-deny-reason (reste une erreur metier normale, contrat §5, regle 6)", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 403,
+        headers: { get: () => null },
+        text: async () => 'Access Forbidden',
+      })) as unknown as typeof fetch,
+    );
+
+    const reponse = await fetchAvecEnTetes('https://exemple.gouv.fr/page');
+
+    expect(execFile).not.toHaveBeenCalled();
+    expect(reponse.status).toBe(403);
+    expect(await reponse.text()).toBe('Access Forbidden');
+  });
+
+  it("ne bascule PAS sur curl pour un 403 x-deny-reason d'une autre valeur (signature exacte requise)", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 403,
+        headers: { get: (nom: string) => (nom === 'x-deny-reason' ? 'quota_exceeded' : null) },
+      })) as unknown as typeof fetch,
+    );
+
+    await fetchAvecEnTetes('https://exemple.gouv.fr/page');
+
+    expect(execFile).not.toHaveBeenCalled();
+  });
+
+  it("ne retient que le DERNIER bloc d'en-tetes curl (apres suivi de redirection -L)", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 403,
+        headers: { get: (nom: string) => (nom === 'x-deny-reason' ? 'host_not_allowed' : null) },
+      })) as unknown as typeof fetch,
+    );
+    vi.mocked(readFile).mockImplementationOnce(
+      async () =>
+        'HTTP/1.1 301 Moved Permanently\r\nLocation: https://exemple.gouv.fr/nouvelle-page\r\n\r\nHTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n',
+    );
+
+    const reponse = await fetchAvecEnTetes('https://exemple.gouv.fr/page');
+
+    expect(reponse.status).toBe(200);
+    expect(reponse.headers.get('content-type')).toBe('text/html');
   });
 });
 

@@ -32,6 +32,14 @@
 // et `HeadersInit` n'y est donc pas résolu globalement, même si le `fetch()`
 // natif de Node l'accepte à l'exécution. `Record<string, string>` reste une
 // forme valide de `RequestInit.headers` et compile sans dépendre de la lib DOM.
+import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
+
 export const EN_TETES_HTTP_DEFAUT: Record<string, string> = {
   'User-Agent': 'Mozilla/5.0 (compatible; ArretesRaveTeknivalBot/1.0; +mailto:maxime.maigret2@gmail.com)',
 };
@@ -47,6 +55,92 @@ const DELAI_BASE_BACKOFF_MS = 500;
 
 async function attendre(ms: number): Promise<void> {
   await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Détecte le refus synthétique du proxy de sortie réseau du sandbox Cowork
+ * (2026-09-13, cf. issue GitHub #93643 — régression du sandbox observée
+ * entre le 2026-07-29 et le ~2026-09-04) : un hôte externe absent de
+ * l'allowlist d'égress reçoit un faux `403` généré par CE proxy — jamais une
+ * vraie réponse du serveur préfecture visé — identifiable par l'en-tête
+ * `x-deny-reason: host_not_allowed`, qu'aucune réponse HTTP légitime ne
+ * porte. Constaté (2026-09-11) : ce mécanisme bloque le `fetch()` natif de
+ * Node (undici) mais pas `curl`, alors que les deux passent par la même
+ * variable d'environnement `https_proxy` — écart reproductible (4/4 contre
+ * 4/4 lors de l'investigation), jamais aléatoire.
+ */
+function estRefusParEgressSortant(reponse: Response): boolean {
+  return reponse.status === 403 && reponse.headers.get('x-deny-reason') === 'host_not_allowed';
+}
+
+/**
+ * Parse la sortie `-D` de `curl` (en-têtes de réponse bruts ; un bloc par
+ * redirection suivie avec `-L`, blocs séparés par une ligne vide) et n'en
+ * retient que le DERNIER bloc — celui de la réponse finale, après toute
+ * redirection.
+ */
+function analyserEnTetesCurl(brut: string): { statut: number; statutTexte: string; enTetesReponse: Headers } {
+  const blocs = brut
+    .split(/\r?\n\r?\n/)
+    .map((bloc) => bloc.trim())
+    .filter((bloc) => bloc.length > 0);
+  const dernierBloc = blocs[blocs.length - 1] ?? '';
+  const lignes = dernierBloc.split(/\r?\n/);
+  const correspondance = /^HTTP\/\S+\s+(\d+)\s*(.*)$/.exec(lignes[0] ?? '');
+  const statut = correspondance ? Number(correspondance[1]) : 0;
+  const statutTexte = correspondance?.[2]?.trim() ?? '';
+
+  const enTetesReponse = new Headers();
+  for (const ligne of lignes.slice(1)) {
+    const indexDeuxPoints = ligne.indexOf(':');
+    if (indexDeuxPoints === -1) continue;
+    const nom = ligne.slice(0, indexDeuxPoints).trim();
+    const valeur = ligne.slice(indexDeuxPoints + 1).trim();
+    if (nom.length > 0) enTetesReponse.append(nom, valeur);
+  }
+  return { statut, statutTexte, enTetesReponse };
+}
+
+/**
+ * Rejoue une requête GET via un sous-processus `curl` plutôt que le
+ * `fetch()` natif de Node (2026-09-13, repli — cf.
+ * {@link estRefusParEgressSortant}). Écrit les en-têtes et le corps de la
+ * réponse dans des fichiers temporaires (`-D`/`-o`, plutôt que de les
+ * capturer sur stdout) pour ne jamais mélanger en-têtes et corps binaire
+ * dans un même flux ; nettoie systématiquement le dossier temporaire
+ * (`finally`), y compris en cas d'échec de `curl` lui-même. Suit les
+ * redirections (`-L`) comme le ferait `fetch()` par défaut.
+ */
+async function requeteViaCurl(url: string, enTetes: Record<string, string>): Promise<Response> {
+  const dossierTmp = await mkdtemp(path.join(tmpdir(), 'httpClient-curl-'));
+  const cheminEnTetes = path.join(dossierTmp, 'headers.txt');
+  const cheminCorps = path.join(dossierTmp, 'body.bin');
+  try {
+    const argsEnTetes = Object.entries(enTetes).flatMap(([nom, valeur]) => ['-H', `${nom}: ${valeur}`]);
+    await execFileAsync('curl', [
+      '-sS',
+      '-L',
+      '--max-time',
+      String(Math.ceil(DELAI_TIMEOUT_MS / 1000)),
+      '-D',
+      cheminEnTetes,
+      '-o',
+      cheminCorps,
+      ...argsEnTetes,
+      url,
+    ]);
+
+    const [brutEnTetes, corps] = await Promise.all([readFile(cheminEnTetes, 'utf-8'), readFile(cheminCorps)]);
+    const { statut, statutTexte, enTetesReponse } = analyserEnTetesCurl(brutEnTetes);
+    if (statut < 200 || statut > 599) {
+      throw new Error(`repli curl : impossible d'interpréter la réponse (statut=${statut})`);
+    }
+
+    const corpsFinal = statut === 204 || statut === 205 || statut === 304 ? null : corps;
+    return new Response(corpsFinal, { status: statut, statusText: statutTexte, headers: enTetesReponse });
+  } finally {
+    await rm(dossierTmp, { recursive: true, force: true });
+  }
 }
 
 export interface OptionsFetchAvecEnTetes {
@@ -79,6 +173,19 @@ export interface OptionsFetchAvecEnTetes {
  * erreur métier gérée telle quelle par chaque moteur (contrat §5, règle 6 :
  * un candidat/connecteur en échec n'est jamais masqué par une retentative
  * silencieuse côté transport — seul le transport lui-même est retenté).
+ *
+ * Repli `curl` (2026-09-13, décision utilisateur, option 1 retenue face à un
+ * blocage du proxy de sortie réseau du sandbox Cowork) : lorsqu'une réponse
+ * HTTP est bien reçue mais correspond exactement à la signature du refus
+ * synthétique du proxy d'égress d'Anthropic (cf. {@link estRefusParEgressSortant}
+ * — bug connu, issue GitHub #93643), elle n'est jamais renvoyée telle quelle
+ * à l'appelant : une requête équivalente est rejouée via un sous-processus
+ * `curl`, qui partage la même variable d'environnement `https_proxy` mais
+ * s'est révélé, de façon reproductible, ne PAS être bloqué par ce même
+ * mécanisme (contrairement à `fetch()`/undici). Ce repli est sans effet en
+ * dehors de ce cas précis : un vrai `403` renvoyé par un serveur préfecture
+ * (sans l'en-tête `x-deny-reason`) continue de remonter normalement à
+ * l'appelant comme une erreur métier (contrat §5, règle 6, inchangée).
  */
 export async function fetchAvecEnTetes(
   url: string,
@@ -92,10 +199,11 @@ export async function fetchAvecEnTetes(
 
   for (let tentative = 0; tentative <= tentativesSupplementaires; tentative++) {
     try {
-      return await fetch(url, {
+      const reponse = await fetch(url, {
         headers: enTetes,
         signal: AbortSignal.timeout(DELAI_TIMEOUT_MS),
       });
+      return estRefusParEgressSortant(reponse) ? await requeteViaCurl(url, enTetes) : reponse;
     } catch (err) {
       derniereErreur = err;
       if (tentative === tentativesSupplementaires) break;
