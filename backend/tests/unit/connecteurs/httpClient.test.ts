@@ -89,7 +89,7 @@ describe('fetchAvecEnTetes (Q-007)', () => {
     expect(reponse.status).toBe(404);
   });
 
-  it('applique systématiquement EN_TETES_HTTP_DEFAUT (User-Agent avec contact) à chaque appel', async () => {
+  it("applique systématiquement EN_TETES_HTTP_DEFAUT (User-Agent navigateur, 2026-09-13) à chaque appel", async () => {
     let headersRecus: Record<string, string> | undefined;
     vi.stubGlobal(
       'fetch',
@@ -102,7 +102,13 @@ describe('fetchAvecEnTetes (Q-007)', () => {
     await fetchAvecEnTetes('https://exemple.gouv.fr/page');
 
     expect(headersRecus).toEqual(EN_TETES_HTTP_DEFAUT);
-    expect(headersRecus?.['User-Agent']).toContain('mailto:');
+    // (2026-09-13, decision utilisateur - solution 2) : un User-Agent
+    // s'identifiant comme "Bot" declenchait un rejet systematique par le
+    // WAF de l'hebergeur mutualise (cf. doc de EN_TETES_HTTP_DEFAUT) - plus
+    // aucune auto-identification de robot, y compris "mailto:", a ne pas
+    // reintroduire sans revalider que le WAF ne la bloque plus.
+    expect(headersRecus?.['User-Agent']).toContain('Mozilla/5.0');
+    expect(headersRecus?.['User-Agent']).not.toMatch(/bot/i);
   });
 
   it('enTetesSupplementaires vient compléter (jamais remplacer) EN_TETES_HTTP_DEFAUT', async () => {

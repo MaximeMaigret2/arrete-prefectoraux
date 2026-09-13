@@ -9,23 +9,29 @@
  * l'investigation) : l'IP publique utilisée pour `npm run test:live-drift`
  * a été bloquée par l'hébergeur mutualisé derrière la quasi-totalité des
  * sites préfecture (une seule IP pour des dizaines de domaines `*.gouv.fr`)
- * après une rafale de requêtes sans aucun en-tête. S'identifier poliment
- * comme un robot est une pratique standard pour un client HTTP automatisé
- * légitime et réduit ce risque, y compris en production (une
- * resynchronisation de plusieurs connecteurs sur cet hébergeur mutualisé
- * pourrait sinon déclencher le même type de blocage).
+ * après une rafale de requêtes sans aucun en-tête.
  *
  * Générique par construction (contrat §5, règle 7) : ces en-têtes ne
  * dépendent d'aucun connecteur particulier, seulement du fait qu'il s'agit
  * d'un appel `fetch()` du moteur.
  *
- * Q-007 (lot Qualité — Durcissement, 2026-08-22) : ajoute un contact
- * (`+mailto:...`) au `User-Agent` — convention standard des bots HTTP
- * (cf. Googlebot, robots RFC 9309 §2.4) permettant à un administrateur de
+ * Q-007 (lot Qualité — Durcissement, 2026-08-22) puis RÉVISÉ (2026-09-13,
+ * décision utilisateur — solution 2) : portait à l'origine un `User-Agent`
+ * s'identifiant explicitement comme un robot (`ArretesRaveTeknivalBot/1.0`,
+ * contact `+mailto:...`) — convention standard des bots HTTP (cf.
+ * Googlebot, robots RFC 9309 §2.4) pour permettre à un administrateur de
  * site préfecture de signaler un problème plutôt que de bloquer l'IP en
- * silence ; pas d'URL de projet publique existante à ce jour (aucun domaine
- * trouvé dans le dépôt), donc contact direct par email plutôt qu'un domaine
- * inventé.
+ * silence. Abandonné après diagnostic sur prefecture-56/Morbihan : un test
+ * A/B `curl` isolé (même PDF, même instant, seul le `User-Agent` changeait)
+ * a montré que CE `User-Agent` précisément — vraisemblablement le mot
+ * "Bot" qu'il contient — déclenchait un rejet systématique et immédiat
+ * (`curl: (52) Empty reply from server`, y compris au tout premier essai —
+ * donc un filtrage sur signature de client, pas un rate-limiting temporel)
+ * par un pare-feu applicatif (WAF) devant l'hébergeur mutualisé, alors
+ * qu'un `User-Agent` de navigateur classique passait sans encombre.
+ * Remplacé par un `User-Agent` Chrome desktop générique : moins
+ * transparent qu'un bot auto-déclaré, mais nécessaire pour obtenir un
+ * accès réel aux PDF de cet hébergeur.
  */
 // `Record<string, string>` plutôt que le type ambiant `HeadersInit` : ce
 // projet compile avec `lib: ["ES2022"]` (pas de lib `DOM`, cf. tsconfig.json)
@@ -41,7 +47,7 @@ import { promisify } from 'node:util';
 const execFileAsync = promisify(execFile);
 
 export const EN_TETES_HTTP_DEFAUT: Record<string, string> = {
-  'User-Agent': 'Mozilla/5.0 (compatible; ArretesRaveTeknivalBot/1.0; +mailto:maxime.maigret2@gmail.com)',
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
 };
 
 /** Délai maximal avant abandon d'une tentative de requête (Q-007). */
