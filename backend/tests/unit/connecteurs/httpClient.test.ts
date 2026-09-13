@@ -174,6 +174,7 @@ describe('fetchAvecEnTetes — repli curl sur refus du proxy d\'egress (2026-09-
     expect(execFile).toHaveBeenCalledWith(
       'curl',
       expect.arrayContaining([
+        '--http1.1',
         '-H',
         `User-Agent: ${EN_TETES_HTTP_DEFAUT['User-Agent']}`,
         'https://exemple.gouv.fr/arrete.pdf',

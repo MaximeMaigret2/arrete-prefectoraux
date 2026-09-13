@@ -110,6 +110,16 @@ function analyserEnTetesCurl(brut: string): { statut: number; statutTexte: strin
  * dans un même flux ; nettoie systématiquement le dossier temporaire
  * (`finally`), y compris en cas d'échec de `curl` lui-même. Suit les
  * redirections (`-L`) comme le ferait `fetch()` par défaut.
+ *
+ * `--http1.1` forcé (2026-09-13, constaté lors de la campagne réelle
+ * Morbihan depuis le sandbox cloud) : `curl` négocie HTTP/2 par défaut, et
+ * l'hébergeur mutualisé (déjà documenté fragile, cf.
+ * {@link EN_TETES_HTTP_DEFAUT}) a fermé la quasi-totalité des téléchargements
+ * de PDF avec `HTTP/2 stream ... ENHANCE_YOUR_CALM` dès qu'un nombre modéré
+ * de requêtes s'enchaînait — un throttling au niveau du flux HTTP/2, pas de
+ * l'égress. HTTP/1.1 (une connexion par requête, sans multiplexage de flux)
+ * élimine ce mode d'échec spécifique à `curl`, absent avec `fetch()`/undici
+ * qui n'y était jamais confronté faute d'atteindre ce serveur.
  */
 async function requeteViaCurl(url: string, enTetes: Record<string, string>): Promise<Response> {
   const dossierTmp = await mkdtemp(path.join(tmpdir(), 'httpClient-curl-'));
@@ -120,6 +130,7 @@ async function requeteViaCurl(url: string, enTetes: Record<string, string>): Pro
     await execFileAsync('curl', [
       '-sS',
       '-L',
+      '--http1.1',
       '--max-time',
       String(Math.ceil(DELAI_TIMEOUT_MS / 1000)),
       '-D',
