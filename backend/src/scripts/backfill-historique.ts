@@ -107,15 +107,23 @@ export const MODE_ORDONNANCEMENT_DEFAUT: ModeOrdonnancement =
  * feature 008).
  *
  * Remplace, depuis le 2026-09-11 (feature 008), l'ancien `BACKFILL_SEUIL_CIRCUIT`
- * qui s'appliquait a l'echelle du groupe entier - defaut ramene a 3 (valeur
- * d'origine avant le relevement a 6 du 2026-09-03) : ce relevement compensait
- * le fait que les echecs de PLUSIEURS connecteurs differents s'accumulaient
- * dans un seul compteur partage ; une fois le compteur ramene a l'echelle
- * d'un seul connecteur, ce raisonnement ne s'applique plus et 3 redevient le
- * compromis pertinent entre absorber un blip transitoire et ne pas marteler
- * un hote en difficulte.
+ * qui s'appliquait a l'echelle du groupe entier - ramene a 3 le 2026-09-11
+ * (valeur d'origine avant le relevement a 6 du 2026-09-03, qui compensait
+ * l'accumulation des echecs de PLUSIEURS connecteurs dans un seul compteur
+ * partage, raisonnement caduc une fois le compteur scope a un seul
+ * connecteur).
+ *
+ * Releve a nouveau a 6 le 2026-09-14, suite a la campagne reelle
+ * prefecture-56 du 2026-09-13 (cf. journal projet) : l'acces reseau
+ * fonctionne desormais reellement (repli curl + http1.1 + user-agent
+ * navigateur, memes 2026-09-13), mais l'hebergeur mutualise reste sujet a
+ * des rafales d'echecs HTTP 503 CORRELEES dans le temps (plusieurs echecs
+ * consecutifs suivis d'un retour immediat a la normale, confirme par une
+ * sonde manuelle) plutot qu'a un blocage soutenu - 3 echecs consecutifs
+ * s'est revele trop sensible face a ce motif precis et interrompait le
+ * connecteur avant meme qu'une rafale ponctuelle ne se dissipe.
  */
-export const SEUIL_ECHECS_CONNECTEUR_DEFAUT = Number(process.env.BACKFILL_SEUIL_CONNECTEUR ?? 3);
+export const SEUIL_ECHECS_CONNECTEUR_DEFAUT = Number(process.env.BACKFILL_SEUIL_CONNECTEUR ?? 6);
 
 /**
  * Nombre de connecteurs CONSECUTIFS, au sein d'un meme groupe, entierement en
