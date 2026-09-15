@@ -1,0 +1,15 @@
+[
+  {
+    "id": "ee571fca-dcc3-452f-9c73-b712a7161779",
+    "departement_code": "35",
+    "type_evenement": "interdiction",
+    "date_debut": "2024-01-01T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "2010",
+    "autorite_signataire": "La préfète d'Ille-et-Vilaine",
+    "source_url": "https://www.ille-et-vilaine.gouv.fr/contenu/telechargement/83548/651116/file/recueil-35-2026-265-recueil-des-actes-administratifs-nominatifs.pdf",
+    "date_saisie": "2026-09-13T14:16:33.613Z",
+    "connecteur_id": "prefecture-35",
+    "methode_collecte": "automatique"
+  }
+]

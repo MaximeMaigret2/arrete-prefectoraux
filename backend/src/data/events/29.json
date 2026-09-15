@@ -1,0 +1,15 @@
+[
+  {
+    "id": "615b46e6-3bbc-480b-984a-a695640ddf86",
+    "departement_code": "29",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-10-21T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "29-2025-05-19-00012",
+    "autorite_signataire": "Le Préfet du Finistère",
+    "source_url": "https://www.finistere.gouv.fr/contenu/telechargement/74921/559280/file/RAA%2029-2026-166%20nominatifs%20du%207%20aout%202026.pdf",
+    "date_saisie": "2026-09-13T05:06:51.529Z",
+    "connecteur_id": "prefecture-29",
+    "methode_collecte": "automatique"
+  }
+]

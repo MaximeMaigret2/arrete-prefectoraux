@@ -1,0 +1,15 @@
+[
+  {
+    "id": "3197d2b9-2aee-42e8-aac7-8be8451cbdcb",
+    "departement_code": "30",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-08-24T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "instaurant",
+    "autorite_signataire": "La Préfète du Gard",
+    "source_url": "https://www.gard.gouv.fr/contenu/telechargement/68930/508321/file/recueil-30-2026-190-special%20du%2021%2008%202026.pdf",
+    "date_saisie": "2026-09-13T07:05:20.489Z",
+    "connecteur_id": "prefecture-30",
+    "methode_collecte": "automatique"
+  }
+]

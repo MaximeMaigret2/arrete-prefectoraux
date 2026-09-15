@@ -1,0 +1,15 @@
+[
+  {
+    "id": "e5c01063-d570-4a0a-8340-23a6a5f17a25",
+    "departement_code": "16",
+    "type_evenement": "interdiction",
+    "date_debut": "2025-12-01T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "178",
+    "autorite_signataire": "Le Préfet de la Charente",
+    "source_url": "https://www.charente.gouv.fr/contenu/telechargement/52538/416423/file/recueil-16-2026-087-recueil-des-actes-administratifs.pdf",
+    "date_saisie": "2026-09-12T19:38:13.107Z",
+    "connecteur_id": "prefecture-16",
+    "methode_collecte": "automatique"
+  }
+]

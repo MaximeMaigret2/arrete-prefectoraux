@@ -1,0 +1,67 @@
+[
+  {
+    "id": "3e259f75-6ab7-4c7e-b02b-a4823452ec21",
+    "departement_code": "23",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-09-11T00:00:00.000Z",
+    "date_fin": "2026-09-14T00:00:00.000Z",
+    "reference_arrete": "23-2026-09-08-001",
+    "autorite_signataire": "Le préfet de la Creuse",
+    "source_url": "https://www.creuse.gouv.fr/contenu/telechargement/23962/174434/file/2026-091.pdf",
+    "date_saisie": "2026-09-13T00:37:40.523Z",
+    "connecteur_id": "prefecture-23",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "09a89d8e-f1bc-476c-b53b-a531206d6d4a",
+    "departement_code": "23",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-08-28T00:00:00.000Z",
+    "date_fin": "2026-08-31T00:00:00.000Z",
+    "reference_arrete": "23-2026-08-19-002",
+    "autorite_signataire": "Le préfet de la Creuse",
+    "source_url": "https://www.creuse.gouv.fr/contenu/telechargement/23876/173939/file/2026-085.pdf",
+    "date_saisie": "2026-09-13T00:37:40.693Z",
+    "connecteur_id": "prefecture-23",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "71e91ef5-ef1b-4f91-8dca-965d04903eb2",
+    "departement_code": "23",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-08-14T00:00:00.000Z",
+    "date_fin": "2026-08-17T00:00:00.000Z",
+    "reference_arrete": "23-2026-08-11-0015",
+    "autorite_signataire": "Le préfet de la Creuse",
+    "source_url": "https://www.creuse.gouv.fr/contenu/telechargement/23844/173720/file/2026-081.pdf",
+    "date_saisie": "2026-09-13T00:37:40.747Z",
+    "connecteur_id": "prefecture-23",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "55b98916-508f-4180-ab00-5e4ef7f023a8",
+    "departement_code": "23",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-07-31T00:00:00.000Z",
+    "date_fin": "2026-08-03T00:00:00.000Z",
+    "reference_arrete": "23-2026-07-27-00005",
+    "autorite_signataire": "Le préfet de la Creuse",
+    "source_url": "https://www.creuse.gouv.fr/contenu/telechargement/23803/173494/file/2026-076.pdf",
+    "date_saisie": "2026-09-13T00:37:40.855Z",
+    "connecteur_id": "prefecture-23",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "3ccf2dd8-3e80-493b-bc30-1171ca52fdef",
+    "departement_code": "23",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-02-27T00:00:00.000Z",
+    "date_fin": "2026-03-02T00:00:00.000Z",
+    "reference_arrete": "23-2026-02-26-0002",
+    "autorite_signataire": "Le préfet de la Creuse",
+    "source_url": "https://www.creuse.gouv.fr/contenu/telechargement/22893/168106/file/2026-010.pdf",
+    "date_saisie": "2026-09-13T00:37:41.940Z",
+    "connecteur_id": "prefecture-23",
+    "methode_collecte": "automatique"
+  }
+]

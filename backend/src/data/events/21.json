@@ -1,0 +1,41 @@
+[
+  {
+    "id": "63ee9177-f536-4555-885f-3ca7c138949c",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-09-17T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "1492",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": "https://www.cote-dor.gouv.fr/contenu/telechargement/26922/205817/file/recueil-21-2026-159-recueil-des-actes-administratifs-special.pdf",
+    "date_saisie": "2026-09-12T23:44:34.880Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "dcc4316c-cc83-409c-a784-ad3b23416c86",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-06-29T00:00:00.000Z",
+    "date_fin": "2026-07-01T00:00:00.000Z",
+    "reference_arrete": "1060",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": "https://www.cote-dor.gouv.fr/contenu/telechargement/26390/201923/file/recueil-21-2026-116-recueil-des-actes-administratifs-special.pdf",
+    "date_saisie": "2026-09-12T23:44:36.030Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "automatique"
+  },
+  {
+    "id": "2839c5de-01ed-4fd0-a1e6-6cf90c2732e7",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-06-08T00:00:00.000Z",
+    "date_fin": "2026-06-09T00:00:00.000Z",
+    "reference_arrete": "974",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": "https://www.cote-dor.gouv.fr/contenu/telechargement/26258/200881/file/recueil-21-2026-098-recueil-des-actes-administratifs-special.pdf",
+    "date_saisie": "2026-09-12T23:44:36.525Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "automatique"
+  }
+]
