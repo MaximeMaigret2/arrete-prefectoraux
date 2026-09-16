@@ -8,9 +8,24 @@ import { EN_TETES_HTTP_DEFAUT, fetchAvecEnTetes, construireEnTeteCookie } from '
 // dans les tests unitaires) - seul `fetchAvecEnTetes` (le point d'entree
 // public) est exerce, jamais les fonctions privees `requeteViaCurl()` /
 // `estRefusParEgressSortant()` / `analyserEnTetesCurl()` directement.
+// Signature acceptant a la fois `execFile(fichier, args, callback)` et
+// `execFile(fichier, args, options, callback)` (2026-09-15, options de
+// timeout ajoutees a l'appel reel) - le vrai callback est le dernier
+// argument de type fonction, quel que soit sa position.
 vi.mock('node:child_process', () => ({
-  execFile: vi.fn((_fichier: string, _args: string[], callback: (err: null, res: { stdout: string; stderr: string }) => void) =>
-    callback(null, { stdout: '', stderr: '' }),
+  execFile: vi.fn(
+    (
+      _fichier: string,
+      _args: string[],
+      optionsOuCallback: unknown,
+      eventuelCallback?: (err: null, res: { stdout: string; stderr: string }) => void,
+    ) => {
+      const callback = (typeof optionsOuCallback === 'function' ? optionsOuCallback : eventuelCallback) as (
+        err: null,
+        res: { stdout: string; stderr: string },
+      ) => void;
+      callback(null, { stdout: '', stderr: '' });
+    },
   ),
 }));
 
@@ -185,8 +200,26 @@ describe('fetchAvecEnTetes — repli curl sur refus du proxy d\'egress (2026-09-
         `User-Agent: ${EN_TETES_HTTP_DEFAUT['User-Agent']}`,
         'https://exemple.gouv.fr/arrete.pdf',
       ]),
+      expect.objectContaining({ timeout: expect.any(Number), killSignal: 'SIGKILL' }),
       expect.any(Function),
     );
+  });
+
+  it("borne le sous-processus curl par son propre timeout Node, independamment de --max-time (2026-09-15, filet de securite anti-blocage)", async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 403,
+        headers: { get: (nom: string) => (nom === 'x-deny-reason' ? 'host_not_allowed' : null) },
+      })) as unknown as typeof fetch,
+    );
+
+    await fetchAvecEnTetes('https://exemple.gouv.fr/arrete.pdf');
+
+    const [, , options] = vi.mocked(execFile).mock.calls[0] as unknown as [string, string[], { timeout: number; killSignal: string }];
+    expect(options.timeout).toBeGreaterThan(0);
+    expect(options.killSignal).toBe('SIGKILL');
   });
 
   it("ne bascule PAS sur curl pour un vrai 403 sans l'en-tete x-deny-reason (reste une erreur metier normale, contrat §5, regle 6)", async () => {

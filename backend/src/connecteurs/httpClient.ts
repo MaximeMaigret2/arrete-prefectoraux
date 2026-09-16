@@ -126,6 +126,22 @@ function analyserEnTetesCurl(brut: string): { statut: number; statutTexte: strin
  * l'égress. HTTP/1.1 (une connexion par requête, sans multiplexage de flux)
  * élimine ce mode d'échec spécifique à `curl`, absent avec `fetch()`/undici
  * qui n'y était jamais confronté faute d'atteindre ce serveur.
+ *
+ * Timeout `execFile` en plus de `--max-time` (2026-09-15, suite à un run
+ * automatique quotidien bloqué ~23 minutes sur un seul connecteur, socket
+ * ouvert mais aucune progression ni consommation CPU, jusqu'à l'arrêt par
+ * le timeout dur de l'appelant — cf. `claude/2026-09-15-backfill-auto.md`
+ * du projet Cowork associé) : `--max-time` borne la durée de la requête
+ * HTTP elle-même vue PAR `curl`, mais un sous-processus qui ne démarre
+ * jamais réellement (ex. blocage lors de l'établissement de la connexion
+ * via le proxy de sortie réseau, avant que le chronomètre interne de
+ * `curl` ne s'applique) n'est pas nécessairement couvert par ce seul
+ * mécanisme. `execFile` reçoit désormais son propre `timeout` (délai du
+ * fetch + marge, {@link DELAI_TIMEOUT_MS} + 5s) en filet de sécurité
+ * indépendant, ceinture et bretelles : si `curl` ne s'arrête pas de
+ * lui-même, Node force l'arrêt du sous-processus (`killSignal: 'SIGKILL'`)
+ * plutôt que de laisser un appel unique de `fetchAvecEnTetes()` (et donc
+ * toute la campagne de backfill qui l'attend) bloqué indéfiniment.
  */
 async function requeteViaCurl(url: string, enTetes: Record<string, string>): Promise<Response> {
   const dossierTmp = await mkdtemp(path.join(tmpdir(), 'httpClient-curl-'));
@@ -133,19 +149,23 @@ async function requeteViaCurl(url: string, enTetes: Record<string, string>): Pro
   const cheminCorps = path.join(dossierTmp, 'body.bin');
   try {
     const argsEnTetes = Object.entries(enTetes).flatMap(([nom, valeur]) => ['-H', `${nom}: ${valeur}`]);
-    await execFileAsync('curl', [
-      '-sS',
-      '-L',
-      '--http1.1',
-      '--max-time',
-      String(Math.ceil(DELAI_TIMEOUT_MS / 1000)),
-      '-D',
-      cheminEnTetes,
-      '-o',
-      cheminCorps,
-      ...argsEnTetes,
-      url,
-    ]);
+    await execFileAsync(
+      'curl',
+      [
+        '-sS',
+        '-L',
+        '--http1.1',
+        '--max-time',
+        String(Math.ceil(DELAI_TIMEOUT_MS / 1000)),
+        '-D',
+        cheminEnTetes,
+        '-o',
+        cheminCorps,
+        ...argsEnTetes,
+        url,
+      ],
+      { timeout: DELAI_TIMEOUT_MS + 5_000, killSignal: 'SIGKILL' },
+    );
 
     const [brutEnTetes, corps] = await Promise.all([readFile(cheminEnTetes, 'utf-8'), readFile(cheminCorps)]);
     const { statut, statutTexte, enTetesReponse } = analyserEnTetesCurl(brutEnTetes);
