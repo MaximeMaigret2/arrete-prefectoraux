@@ -1,0 +1,6 @@
+# Normalise les fins de ligne en LF pour tous les fichiers texte, quelle
+# que soit la configuration git.core.autocrlf de la machine qui clone ou
+# extrait le depot (evite les diffs fantomes CRLF/LF constates sur
+# Windows). Les fichiers binaires sont detectes automatiquement par
+# "text=auto" et ne sont jamais convertis.
+* text=auto eol=lf
