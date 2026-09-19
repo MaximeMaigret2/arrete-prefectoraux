@@ -35,10 +35,62 @@
 # contenu PDF) qui retente la pertinence sur le texte du PDF avant
 # d'abandonner un candidat.
 #
-# Formulation exacte du texte réglementaire à l'intérieur d'un vrai PDF NON
-# vérifiée (même limite que les connecteurs précédents) —
-# `patterns_dates`/`pattern_reference` reprennent l'hypothèse déjà posée
-# ailleurs — à confirmer avant collecte réelle.
+# CORRECTIF (2026-09-19, exploitation manuelle de ~2350 PDF réels
+# téléchargés localement, feature hors-app) : `patterns_dates`/
+# `pattern_reference`/`mots_cles_filtrage` ci-dessous avaient été posés par
+# hypothèse (cf. version précédente de ce commentaire, "NON vérifiée") et se
+# sont révélés faux sur pièces. Constats, contre 2350 bulletins réels
+# (2018-2026) et 38 arrêtés d'interdiction "rassemblements festifs"
+# confirmés à l'œil :
+#
+# 1. Chaque bulletin "recueil-...-special.pdf" est un RAA compilé (des
+#    dizaines d'actes de nature variée dans un même PDF, jusqu'à 300+
+#    pages) — le moteur `pdf` (`telechargerEtExtraireTextePdf`) en extrait
+#    le texte COMPLET, concaténé, comme `texte` unique du candidat : tout
+#    `pattern_reference`/`patterns_dates` s'applique donc au bulletin
+#    entier, pas au seul arrêté pertinent. `pattern_reference` ci-dessous
+#    ancre donc désormais sa capture sur le voisinage immédiat de la
+#    locution "interdiction des rassemblements festifs" pour éviter de
+#    capturer la référence d'un acte sans rapport apparaissant plus tôt
+#    dans le même bulletin.
+#
+# 2. Les arrêtés d'interdiction eux-mêmes sont des PAGES SCANNÉES (image,
+#    sans couche de texte) dans la quasi-totalité des bulletins observés —
+#    seule la ligne de pied de page générée automatiquement par le RAA
+#    ("Préfecture du Calvados - <id_publication> - <titre>") porte du texte
+#    extractible par `pdf-parse`/`pdftotext` sur ces pages. Pour les
+#    bulletins les plus récents (constaté à partir de janv. 2026), la page
+#    de couverture de l'arrêté (titre seul, avant les visas/considérants)
+#    est en revanche nativement numérique et donc extractible en entier —
+#    mais PAS le corps de l'acte (visas, considérants, articles), toujours
+#    scanné. Conséquence directe : la date d'effet réelle (Art. 5,
+#    formulée "applicables du <jour> <date> à <heure> au <jour> <date> à
+#    <heure>") n'est EXTRACTIBLE PAR AUCUN MOYEN actuel de l'app (FR-005,
+#    jamais d'OCR) — `patterns_dates` ci-dessous est corrigé pour refléter
+#    la formulation réelle (elle ne matchait STRICTEMENT AUCUN document,
+#    l'ancienne version cherchait un format numérique "JJ/MM/AAAA" qui
+#    n'existe nulle part dans ces arrêtés), mais restera structurellement
+#    sans effet tant que ces pages resteront des scans : un candidat
+#    "rassemblements festifs" continuera de remonter en anomalie
+#    `champ_manquant` (date_debut manquante) plutôt que d'être publié
+#    automatiquement — c'est le comportement correct et volontaire du
+#    contrat (FR-008) face à une donnée réellement illisible, pas un bug
+#    restant à corriger côté connecteur.
+#
+# 3. `mots_cles_filtrage` ne matchait non plus AUCUN bulletin réel : "rave"
+#    et "teknival" n'apparaissent que dans le corps scanné (page de
+#    couverture 2024-2025) ou, pour les bulletins récents, dans le titre
+#    numérique de couverture ("free-party, rave-party, teknival") — mais
+#    "rassemblement musical non déclaré" (singulier) n'est la sous-chaîne
+#    d'aucune formulation réelle observée (toujours "rassemblements
+#    festifs à caractère musical [...] non déclarés", pluriel, avec
+#    "festifs à caractère" intercalé). Ajout de "rassemblements festifs",
+#    seule sous-chaîne confirmée extractible pour 100 % des 38 arrêtés
+#    confirmés (pied de page systématique, y compris quand la couverture
+#    elle-même est scannée).
+#
+# Détail de la campagne manuelle, scripts et fichiers intermédiaires :
+# dossier `calvados-raa/` (hors dépôt applicatif).
 type_connecteur: page_web
 url_liste: "https://www.calvados.gouv.fr/Publications/Recueil-des-actes-administratifs"
 navigation:
@@ -57,11 +109,25 @@ selecteur_titre: "a[href$='.pdf']"
 selecteur_lien_pdf: "a[href$='.pdf']"
 autorite_signataire: "Le Préfet du Calvados"
 type_evenement_par_defaut: interdiction
-mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
+mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré", "rassemblements festifs"]
 patterns_dates:
-  debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
-  fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
-pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"
+  # Formulation réelle (Art. 5 des arrêtés confirmés) : "applicables du
+  # <jour de la semaine> <JJ> <mois en toutes lettres> <AAAA> à <HH>h<MM>
+  # au <jour de la semaine> <JJ> <mois en toutes lettres> <AAAA> à
+  # <HH>h<MM>." — jamais un format numérique JJ/MM/AAAA. Restera sans effet
+  # tant que cette page (scannée) n'est pas extractible — cf. commentaire
+  # en tête de fichier, point 2.
+  debut: "applicables?[\\s\\S]{0,60}?du\\s+(?:\\w+\\s+)?(?<date>\\d{1,2}(?:er)?\\s+[a-zéèêûôîàâï]+\\s+\\d{4})"
+  fin: "applicables?[\\s\\S]{0,200}?\\bau\\s+(?:\\w+\\s+)?(?<date>\\d{1,2}(?:er)?\\s+[a-zéèêûôîàâï]+\\s+\\d{4})"
+# Ancré sur le voisinage de la locution "interdiction des rassemblements
+# festifs" (cf. commentaire en tête de fichier, point 1) pour éviter de
+# capturer par erreur la référence d'un acte sans rapport, plus tôt dans le
+# même bulletin compilé. Capture l'identifiant de publication du RAA
+# ("14-AAAA-MM-JJ-NNNNN"), seule référence extractible à 100 % (pied de
+# page systématique) — jamais le numéro d'arrêté interne ("N° 2026-25-CAB-
+# BSOP"), illisible dès que la page de couverture est scannée (arrêtés
+# 2024-2025).
+pattern_reference: "(?<reference>14-\\d{4}-\\d{2}-\\d{2}-\\d+)\\s*-\\s*(?:Arr[êe]t[ée]\\s+pr[ée]fectoral|AP)[\\s\\S]{0,80}?interdiction\\s+de[s]?\\s+rassemblements\\s+festifs"
 
 # feature 005 (backfill historique, 2026-09-04) : navigation year-scoped (aucune etape
 # ne depend du mois cible), la meme page couvre donc tous les mois d'une meme annee -
