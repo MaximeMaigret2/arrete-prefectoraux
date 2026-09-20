@@ -120,10 +120,36 @@ export interface DependancesMoteurPageWeb {
  * règle 7) — toute variation passe par `PageWebConfig`.
  */
 
-/** Filtrage par pertinence, insensible à la casse (contrat §2, étape 3). */
+/**
+ * Échappe les caractères spéciaux d'une chaîne pour un usage littéral
+ * dans une regex (aucun helper existant ailleurs dans le dépôt à réutiliser).
+ */
+function echapperPourRegex(chaine: string): string {
+  return chaine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Filtrage par pertinence, insensible à la casse (contrat §2, étape 3).
+ *
+ * CORRECTIF (2026-09-20) : un simple `includes()` matchait un mot-clé comme
+ * "rave" comme SOUS-CHAÎNE de n'importe quel mot français qui la contient
+ * (ex. "traversée", "entrave", "grave") — découvert sur un faux positif
+ * réel pour prefecture-49 (RAA du 23/01/2026, un recueil de 104 pages sans
+ * aucun rapport avec une rave-party, marqué pertinent uniquement à cause du
+ * mot "traversée" dans un paragraphe sur le mouillage fluvial à Angers, puis
+ * des dates/références d'un tout autre arrêté du même recueil récupérées à
+ * tort par les regex génériques). Chaque mot-clé est désormais recherché
+ * avec des limites de mot Unicode-aware (lookaround sur `\p{L}`/`\p{N}`,
+ * pas `\b` natif qui ignore les lettres accentuées et casserait un mot-clé
+ * comme "déclaré").
+ */
 function estPertinent(texte: string, motsCles: string[]): boolean {
   const normalise = texte.toLowerCase();
-  return motsCles.some((motCle) => normalise.includes(motCle.toLowerCase()));
+  return motsCles.some((motCle) => {
+    const motCleEchappe = echapperPourRegex(motCle.toLowerCase());
+    const motif = new RegExp(`(?<![\\p{L}\\p{N}_])${motCleEchappe}(?![\\p{L}\\p{N}_])`, 'u');
+    return motif.test(normalise);
+  });
 }
 
 /**

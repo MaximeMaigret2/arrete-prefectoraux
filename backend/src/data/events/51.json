@@ -1,15 +1,1 @@
-[
-  {
-    "id": "6691d598-ba3b-4033-b66b-e95d3b2b871c",
-    "departement_code": "51",
-    "type_evenement": "interdiction",
-    "date_debut": "2026-08-10T00:00:00.000Z",
-    "date_fin": null,
-    "reference_arrete": "LMF",
-    "autorite_signataire": "Le préfet de la Marne",
-    "source_url": "https://www.marne.gouv.fr/contenu/telechargement/54567/385971/file/recueil-51-2026-151-recueil-des-actes-administratifs-1.pdf",
-    "date_saisie": "2026-09-19T06:30:50.728Z",
-    "connecteur_id": "prefecture-51",
-    "methode_collecte": "automatique"
-  }
-]
+[]

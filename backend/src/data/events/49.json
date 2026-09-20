@@ -1,15 +1,1 @@
-[
-  {
-    "id": "b22bd336-4ab4-4961-92ee-4f1df3b65748",
-    "departement_code": "49",
-    "type_evenement": "interdiction",
-    "date_debut": "2026-01-21T00:00:00.000Z",
-    "date_fin": null,
-    "reference_arrete": "AP",
-    "autorite_signataire": "Le préfet de Maine-et-Loire",
-    "source_url": "https://www.maine-et-loire.gouv.fr/contenu/telechargement/29013/186910/file/017-RAA%20du%2023%20janvier%202026.pdf",
-    "date_saisie": "2026-09-19T04:52:50.071Z",
-    "connecteur_id": "prefecture-49",
-    "methode_collecte": "automatique"
-  }
-]
+[]

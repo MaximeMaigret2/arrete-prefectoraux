@@ -1,15 +1,1 @@
-[
-  {
-    "id": "69dd8d4e-bef3-411e-aa39-cfa2d5d86ee5",
-    "departement_code": "59",
-    "type_evenement": "interdiction",
-    "date_debut": "2026-09-01T00:00:00.000Z",
-    "date_fin": null,
-    "reference_arrete": "T26-",
-    "autorite_signataire": "Le préfet du Nord",
-    "source_url": "https://www.nord.gouv.fr/contenu/telechargement/108078/757548/file/Recueil%20n%C2%B0321%20du%2011%20septembre%202026.pdf",
-    "date_saisie": "2026-09-19T10:43:51.652Z",
-    "connecteur_id": "prefecture-59",
-    "methode_collecte": "automatique"
-  }
-]
+[]
