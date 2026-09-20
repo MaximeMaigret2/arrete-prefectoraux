@@ -284,5 +284,18 @@
     "date_saisie": "2026-09-20T09:00:00.000Z",
     "connecteur_id": "prefecture-34",
     "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "d3758f57-976c-4545-aa62-31c2cd6f60bd",
+    "departement_code": "34",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-01-01T00:00:00.000Z",
+    "date_fin": "2026-12-31T00:00:00.000Z",
+    "reference_arrete": "2025.12.DS.0834",
+    "autorite_signataire": "La préfète de l'Hérault",
+    "source_url": "https://www.herault.gouv.fr/contenu/telechargement/54670/402342/file/PDFsam_merge.pdf",
+    "date_saisie": "2026-09-20T15:52:35.000Z",
+    "connecteur_id": "prefecture-34",
+    "methode_collecte": "manuelle_verifiee"
   }
 ]
