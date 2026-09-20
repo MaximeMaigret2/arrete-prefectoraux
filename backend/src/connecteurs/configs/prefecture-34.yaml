@@ -41,9 +41,17 @@
 # bulletin très récent (« Recueil n°211 du 14 août 2026 », le jour même du
 # déploiement de ce connecteur) dont le titre seul ne permet pas de
 # préjuger du contenu. `bulletin-avec-arrete.pdf`/`bulletin-sans-arrete-pertinent.pdf`
-# sont donc synthétiques (`reportlab`) ; `patterns_dates`/`pattern_reference`
-# reprennent l'hypothèse générique déjà posée pour la plupart des
-# connecteurs précédents.
+# sont donc synthétiques (`reportlab`) ; `patterns_dates` reprend l'hypothèse
+# générique déjà posée pour la plupart des connecteurs précédents.
+#
+# CORRECTIF `pattern_reference` (2026-09-20, exploitation manuelle de 1979 vrais
+# PDF téléchargés hors sandbox par l'utilisateur, cf. doc de session
+# `2026-09-20-traitement-pdf-herault.md`) : la classe de caractères
+# `[A-Z0-9-]+` ne capturait pas le point, alors que de nombreuses références
+# réelles de ce département utilisent un format pointé, ex. "2022.03.DS.0189",
+# "2021.01.126", "2024.04.DS.0279", "2025.01.DS.0001" — la référence capturée
+# aurait été tronquée à la première occurrence du point. Élargi en
+# `[A-Z0-9.-]+`.
 type_connecteur: page_web
 url_liste: "https://www.herault.gouv.fr/Publications/Recueils-des-actes-administratifs"
 navigation:
@@ -58,7 +66,7 @@ mots_cles_filtrage: ["rave", "teknival", "rassemblement musical non déclaré"]
 patterns_dates:
   debut: "à compter du\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
   fin: "jusqu'au\\s+(?<date>\\d{2}/\\d{2}/\\d{4})"
-pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9-]+)"
+pattern_reference: "Arrêté\\s+n°\\s*(?<reference>[A-Z0-9.-]+)"
 
 # feature 005 (backfill historique, 2026-09-04) : navigation year-scoped (aucune etape
 # ne depend du mois cible), la meme page couvre donc tous les mois d'une meme annee -
