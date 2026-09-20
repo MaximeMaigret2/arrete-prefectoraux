@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "78fbb048-2be9-436c-88a9-5d1287c51b55",
+    "departement_code": "42",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-05-04T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "DS",
+    "autorite_signataire": "Le préfet de la Loire",
+    "source_url": "https://www.loire.gouv.fr/contenu/telechargement/23662/172935/file/prefecture_loire_RAA_42-2026-068_2026_04_23.pdf",
+    "date_saisie": "2026-09-19T00:55:51.726Z",
+    "connecteur_id": "prefecture-42",
+    "methode_collecte": "automatique"
+  }
+]

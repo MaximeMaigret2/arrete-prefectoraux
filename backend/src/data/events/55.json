@@ -1,0 +1,15 @@
+[
+  {
+    "id": "dbe1a906-03e0-423f-9a9c-8ec0edbc9fdf",
+    "departement_code": "55",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-10-01T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "11572-2026-DDT-SUH",
+    "autorite_signataire": "La préfète de la Meuse",
+    "source_url": "https://www.meuse.gouv.fr/contenu/telechargement/36697/260410/file/RAA%20n%C2%B0116%20du%2003%20septembre%202026.pdf",
+    "date_saisie": "2026-09-19T09:54:21.131Z",
+    "connecteur_id": "prefecture-55",
+    "methode_collecte": "automatique"
+  }
+]

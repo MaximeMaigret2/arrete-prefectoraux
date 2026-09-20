@@ -1,0 +1,15 @@
+[
+  {
+    "id": "53f94e0a-d7e5-4862-9eb8-de9680d9746a",
+    "departement_code": "58",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-09-01T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "portant",
+    "autorite_signataire": "Le préfet de la Nièvre",
+    "source_url": "https://www.nievre.gouv.fr/contenu/telechargement/25708/212876/file/recueil-58-2026-314-administratifs%20du%2010%20septembre%202026.pdf",
+    "date_saisie": "2026-09-19T10:30:50.389Z",
+    "connecteur_id": "prefecture-58",
+    "methode_collecte": "automatique"
+  }
+]

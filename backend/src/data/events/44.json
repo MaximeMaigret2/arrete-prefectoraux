@@ -1,0 +1,15 @@
+[
+  {
+    "id": "5e4c77c8-d30e-488a-89df-148d8925c422",
+    "departement_code": "44",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-09-01T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "BCRU-2026-02",
+    "autorite_signataire": "Le préfet de la Loire-Atlantique",
+    "source_url": "https://www.loire-atlantique.gouv.fr/contenu/telechargement/73809/530926/file/RAA%20n%C2%B0222%20du%2011%20septembre%202026.pdf",
+    "date_saisie": "2026-09-19T03:02:54.991Z",
+    "connecteur_id": "prefecture-44",
+    "methode_collecte": "automatique"
+  }
+]

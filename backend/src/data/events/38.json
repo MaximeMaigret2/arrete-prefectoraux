@@ -1,0 +1,15 @@
+[
+  {
+    "id": "b262220c-f445-4d5d-95b0-15715e448da3",
+    "departement_code": "38",
+    "type_evenement": "interdiction",
+    "date_debut": "2021-12-14T00:00:00.000Z",
+    "date_fin": null,
+    "reference_arrete": "38-2026-",
+    "autorite_signataire": "La préfète de l'Isère",
+    "source_url": "https://www.isere.gouv.fr/contenu/telechargement/84884/649857/file/recueil-38-2026-355-recueil-des-actes-administratifs-1.pdf",
+    "date_saisie": "2026-09-18T23:11:33.416Z",
+    "connecteur_id": "prefecture-38",
+    "methode_collecte": "automatique"
+  }
+]
