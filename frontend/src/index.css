@@ -23,29 +23,37 @@ body {
 }
 
 .app-shell {
+  /* Objectif (retour utilisateur, 2026-09-21) : la carte de France doit
+     tenir dans la fenêtre sans avoir à défiler. `min-height: 100vh` (plutôt
+     que pas de contrainte du tout) + un padding et des espacements resserrés
+     ci-dessous libèrent le maximum de hauteur pour `.map-container`, dont la
+     taille est elle-même pilotée par la fenêtre (voir plus bas). */
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
   max-width: 1100px;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: 1rem 1rem 1.25rem;
 }
 
 .app-header h1 {
-  font-size: 1.4rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.15rem;
+  margin: 0 0 0.2rem;
 }
 
 .app-disclaimer {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: #555;
   border-left: 3px solid var(--color-gris);
   padding-left: 0.6rem;
+  margin: 0.3rem 0;
 }
 
 .app-freshness {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #555;
+  margin: 0.2rem 0 0;
 }
 
 .app-controls {
@@ -53,7 +61,7 @@ body {
   flex-wrap: wrap;
   gap: 1.5rem;
   align-items: flex-start;
-  padding: 1rem;
+  padding: 0.6rem 0.85rem;
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -126,14 +134,26 @@ body {
 }
 
 .map-container {
+  /* Hauteur pilotée par la fenêtre plutôt que par la largeur de colonne
+     (retour utilisateur, 2026-09-21 : à pleine largeur, une hauteur dérivée
+     de la largeur dépassait largement la fenêtre et forçait un défilement
+     pour voir la France entière). `aspect-ratio` reprend le ratio réel du
+     viewBox recadré (`MAIN_MAP_VIEWBOX` dans Map.tsx, 553×536) : combinée à
+     une hauteur bornée par `vh`, la largeur s'en déduit automatiquement
+     (comportement standard grid stretch + aspect-ratio), sans déformation
+     ni bandes vides à combler. */
   position: relative;
   grid-column: 2;
   min-width: 0;
+  height: min(54vh, 560px);
+  aspect-ratio: 553 / 536;
+  max-width: 100%;
 }
 
 .map-svg {
+  display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .map-departement {
@@ -315,25 +335,45 @@ body {
   /* Sous la carte, en pleine largeur de .map-legend-row (préférence
      utilisateur, 2026-09-02 : disposition horizontale plutôt que dans la
      colonne latérale gauche). Traitement "carte" pour la détacher
-     visuellement de la carte au-dessus. */
-  margin-top: 1rem;
-  padding: 1rem 1.25rem;
+     visuellement de la carte au-dessus. Resserré (2026-09-21, objectif
+     "carte de France sans défiler") : le titre "Légende" et la description
+     de chaque entrée restent dans le DOM pour les lecteurs d'écran
+     (`.sr-only` sur Legend.tsx) mais ne prennent plus de hauteur visuelle —
+     seuls le symbole et le libellé court restent affichés, sur une ligne. */
+  margin-top: 0.4rem;
+  padding: 0.5rem 1rem;
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
 }
 
+.sr-only {
+  /* Masque visuellement sans retirer du DOM ni de l'arbre d'accessibilité
+     (motif standard) — utilisé pour garder du texte utile aux lecteurs
+     d'écran (titres, descriptions longues) sans lui faire prendre de place
+     à l'écran. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .map-departement--idf {
   /* Traitement permanent des 8 départements franciliens (2026-09-21, retour
-     utilisateur : la seule surbrillance au survol ne suffisait pas à
-     signaler que la zone est cliquable). Désature légèrement la couleur
-     d'état sans la masquer complètement — comme une pastille "grisée"
-     posée sur la zone — pour qu'on comprenne au premier coup d'œil, sans
-     avoir à survoler, qu'il s'agit d'une zone spéciale à part (trop petite
-     pour être cliquée département par département, cf. commentaire sur
-     `renderIdfDepartement`). */
-  filter: grayscale(0.55) brightness(1.05);
-  transition: filter 0.15s ease;
+     utilisateur : le premier essai — un simple filtre grayscale — assombrissait
+     le rouge/vert au lieu de l'éclaircir, donc restait peu visible). Une
+     opacité réduite laisse le fond presque blanc de la page transparaître
+     à travers la couleur d'état, ce qui se lit vraiment comme une zone
+     "grisée/blanchie" plutôt qu'une teinte juste plus sombre — tout en
+     laissant deviner l'état dessous. */
+  opacity: 0.5;
+  filter: grayscale(0.4);
+  transition: opacity 0.15s ease, filter 0.15s ease;
 }
 
 .map-departement--idf-hover {
@@ -344,9 +384,10 @@ body {
      contour, natif CSS, sur le seul élément survolé), cette classe est
      pilotée par l'état React `idfHovered` et appliquée aux 8 chemins à la
      fois, pour bien montrer qu'ils forment une seule zone cliquable.
-     Annule le grisé permanent de `.map-departement--idf` ci-dessus : au
-     survol, la couleur d'état revient pleine (confirmation de
+     Annule le blanchiment permanent de `.map-departement--idf` ci-dessus :
+     au survol, la couleur d'état revient pleine (confirmation de
      l'interaction), avec un contour plus marqué. */
+  opacity: 1;
   stroke: #000;
   stroke-width: 1.3;
   filter: grayscale(0) brightness(1.18);

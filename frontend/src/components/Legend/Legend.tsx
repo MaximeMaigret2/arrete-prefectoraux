@@ -37,7 +37,10 @@ const ENTRIES: LegendEntry[] = [
 export default function Legend() {
   return (
     <section aria-labelledby="legend-heading" className="legend">
-      <h2 id="legend-heading" style={{ fontSize: '1rem', margin: '0 0 0.75rem' }}>
+      {/* Titre gardé pour les lecteurs d'écran (`aria-labelledby` ci-dessus)
+          mais masqué visuellement : objectif "carte de France sans
+          défiler" (2026-09-21) — chaque ligne de hauteur compte. */}
+      <h2 id="legend-heading" className="sr-only">
         Légende
       </h2>
       <ul
@@ -48,14 +51,14 @@ export default function Legend() {
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'wrap',
-          gap: '1.5rem',
+          gap: '1.25rem',
         }}
       >
         {ENTRIES.map((entry) => (
           <li
             key={entry.etat}
             className={`legend-item legend-item--${entry.etat}`}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: '1 1 220px' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
           >
             <span
               aria-hidden="true"
@@ -64,10 +67,10 @@ export default function Legend() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '1.5rem',
-                height: '1.5rem',
+                width: '1.25rem',
+                height: '1.25rem',
                 borderRadius: '4px',
-                fontSize: '0.9rem',
+                fontSize: '0.8rem',
                 background:
                   entry.etat === 'vert' ? 'var(--color-vert)' : entry.etat === 'rouge' ? 'var(--color-rouge)' : 'var(--color-gris)',
                 color: '#fff',
@@ -76,9 +79,11 @@ export default function Legend() {
               {entry.symbole}
             </span>
             <span>
-              <strong>{entry.label}</strong>
-              <br />
-              <span style={{ fontSize: '0.8rem', color: '#555' }}>{entry.description}</span>
+              <strong style={{ fontSize: '0.9rem' }}>{entry.label}</strong>
+              {/* Description complète gardée pour les lecteurs d'écran,
+                  masquée visuellement (voir commentaire sur le titre
+                  ci-dessus). */}
+              <span className="sr-only"> — {entry.description}</span>
             </span>
           </li>
         ))}
