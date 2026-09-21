@@ -175,10 +175,14 @@ export default function Map({ departementsState, onSelectDepartement }: MapProps
 
   // Rendu d'un département francilien SUR LA CARTE PRINCIPALE : contrairement
   // à `renderDepartement`, le clic n'ouvre pas directement l'historique de CE
-  // département (trop peu fiable à cette échelle) mais la popin agrandie ;
-  // le survol met en surbrillance les 8 départements franciliens à la fois
-  // (`idfHoverPos` déclenche la classe `.map-departement--idf-hover` sur
-  // chacun, via `idfHovered` ci-dessous dans le corps du composant).
+  // département (trop peu fiable à cette échelle) mais la popin agrandie.
+  // `.map-departement--idf` est appliquée EN PERMANENCE (pas seulement au
+  // survol) : léger grisé pour signaler au premier coup d'œil, sans avoir à
+  // survoler, qu'il s'agit d'une zone cliquable à part (retour utilisateur,
+  // 2026-09-21 — la seule surbrillance au survol ne suffisait pas à le
+  // rendre visible). Le survol ajoute `.map-departement--idf-hover`
+  // par-dessus (`idfHovered` ci-dessous dans le corps du composant), qui
+  // restitue la couleur pleine + un contour, pour confirmer l'interaction.
   const renderIdfDepartement = (geo: any, idfHovered: boolean) => {
     const code: string = geo.properties.code ?? geo.id;
     const etat = departementsState.get(code)?.etat ?? 'gris';
@@ -196,7 +200,7 @@ export default function Map({ departementsState, onSelectDepartement }: MapProps
           tabIndex={0}
           role="button"
           aria-label="Île-de-France : 8 départements, trop petits pour être distingués ici. Appuyer sur Entrée pour agrandir et choisir un département."
-          className={`map-departement map-departement--${etat}${idfHovered ? ' map-departement--idf-hover' : ''}`}
+          className={`map-departement map-departement--${etat} map-departement--idf${idfHovered ? ' map-departement--idf-hover' : ''}`}
           data-code={code}
           data-etat={etat}
           data-idf="true"

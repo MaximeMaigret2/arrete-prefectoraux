@@ -323,6 +323,19 @@ body {
   border-radius: 8px;
 }
 
+.map-departement--idf {
+  /* Traitement permanent des 8 départements franciliens (2026-09-21, retour
+     utilisateur : la seule surbrillance au survol ne suffisait pas à
+     signaler que la zone est cliquable). Désature légèrement la couleur
+     d'état sans la masquer complètement — comme une pastille "grisée"
+     posée sur la zone — pour qu'on comprenne au premier coup d'œil, sans
+     avoir à survoler, qu'il s'agit d'une zone spéciale à part (trop petite
+     pour être cliquée département par département, cf. commentaire sur
+     `renderIdfDepartement`). */
+  filter: grayscale(0.55) brightness(1.05);
+  transition: filter 0.15s ease;
+}
+
 .map-departement--idf-hover {
   /* Surbrillance partagée des 8 départements franciliens au survol de
      N'IMPORTE LEQUEL d'entre eux (2026-09-02, remplace l'encart séparé —
@@ -330,10 +343,13 @@ body {
      principale). Contrairement à `.map-departement:hover` (opacité +
      contour, natif CSS, sur le seul élément survolé), cette classe est
      pilotée par l'état React `idfHovered` et appliquée aux 8 chemins à la
-     fois, pour bien montrer qu'ils forment une seule zone cliquable. */
+     fois, pour bien montrer qu'ils forment une seule zone cliquable.
+     Annule le grisé permanent de `.map-departement--idf` ci-dessus : au
+     survol, la couleur d'état revient pleine (confirmation de
+     l'interaction), avec un contour plus marqué. */
   stroke: #000;
   stroke-width: 1.3;
-  filter: brightness(1.18);
+  filter: grayscale(0) brightness(1.18);
 }
 
 .idf-modal-backdrop {
