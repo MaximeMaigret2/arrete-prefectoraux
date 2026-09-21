@@ -82,7 +82,13 @@ export default function Calendar({ onSelectionChange }: CalendarProps) {
                 type="radio"
                 name="calendar-mode"
                 checked={mode === 'single'}
-                onChange={() => setMode('single')}
+                onChange={() => {
+                  setMode('single');
+                  // Reporté dès le changement de mode, pas seulement au clic
+                  // sur un jour : la réglette de l'intervalle précédent doit
+                  // disparaître au moment où on bascule sur "Date unique".
+                  onSelectionChange({ mode: 'single', date: singleDate });
+                }}
               />{' '}
               Date unique
             </label>
@@ -91,7 +97,17 @@ export default function Calendar({ onSelectionChange }: CalendarProps) {
                 type="radio"
                 name="calendar-mode"
                 checked={mode === 'range'}
-                onChange={() => setMode('range')}
+                onChange={() => {
+                  setMode('range');
+                  // Si un intervalle complet avait déjà été sélectionné avant
+                  // de rebasculer sur "Date unique", le calendrier le montre
+                  // toujours (sélection encore surlignée) : le rebasculement
+                  // sur "Intervalle" doit donc réafficher sa réglette, pas
+                  // seulement la sélection visuelle dans la grille.
+                  if (range?.from && range?.to) {
+                    onSelectionChange({ mode: 'range', range });
+                  }
+                }}
               />{' '}
               Intervalle
             </label>
