@@ -100,6 +100,13 @@ export default function Calendar({ onSelectionChange }: CalendarProps) {
           {mode === 'single' ? (
             <DayPicker
               mode="single"
+              required
+              // `required` empêche react-day-picker de désélectionner (et donc
+              // d'appeler onSelect avec `undefined`) quand on clique sur le
+              // jour déjà affiché comme sélectionné — sans ça, cliquer sur la
+              // date du jour (mise en surbrillance par défaut) après avoir
+              // choisi un intervalle ne déclenchait plus onSelectionChange,
+              // et la réglette de l'intervalle précédent restait affichée.
               selected={singleDate}
               onSelect={(date) => {
                 if (!date) return;
