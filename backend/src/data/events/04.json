@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "b8d27237-2dc3-46a6-b821-1ed2111118dd",
+    "departement_code": "04",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-06-30T00:00:00.000Z",
+    "date_fin": "2026-09-30T00:00:00.000Z",
+    "reference_arrete": "04-2026-06-30-00007",
+    "autorite_signataire": "La Préfète des Alpes-de-Haute-Provence",
+    "source_url": null,
+    "date_saisie": "2026-09-28T08:41:52.573Z",
+    "connecteur_id": "prefecture-04",
+    "methode_collecte": "manuelle_verifiee"
+  }
+]
