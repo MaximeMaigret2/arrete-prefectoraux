@@ -479,5 +479,31 @@
     "date_saisie": "2026-09-19T13:00:33.295Z",
     "connecteur_id": "prefecture-14",
     "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "3e0f7a12-5d7c-4a66-ab13-606d997625c3",
+    "departement_code": "14",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-01-23T08:00:00+01:00",
+    "date_fin": "2026-01-26T08:00:00+01:00",
+    "reference_arrete": "14-2026-01-22-00003",
+    "autorite_signataire": "Le Préfet du Calvados",
+    "source_url": null,
+    "date_saisie": "2026-09-29T17:05:34.220Z",
+    "connecteur_id": "prefecture-14",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "d9f01e2a-f88a-487f-b182-5947791de109",
+    "departement_code": "14",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-05-13T18:00:00+02:00",
+    "date_fin": "2026-05-18T10:00:00+02:00",
+    "reference_arrete": "14-2026-05-13-00005",
+    "autorite_signataire": "Le Préfet du Calvados",
+    "source_url": null,
+    "date_saisie": "2026-09-29T17:05:34.220Z",
+    "connecteur_id": "prefecture-14",
+    "methode_collecte": "manuelle_verifiee"
   }
 ]
