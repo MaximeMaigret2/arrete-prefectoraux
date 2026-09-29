@@ -1,0 +1,54 @@
+[
+  {
+    "id": "bdc9d5b0-47a6-4419-9afa-8a2cc9e444e6",
+    "departement_code": "03",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-02-06T18:00:00+01:00",
+    "date_fin": "2026-02-09T20:00:00+01:00",
+    "reference_arrete": "203/2026",
+    "autorite_signataire": "Le Préfet de l'Allier",
+    "source_url": null,
+    "date_saisie": "2026-09-29T07:52:37.004Z",
+    "connecteur_id": "prefecture-03",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "a5fc7d26-feae-493e-a87f-1cbae5e9d168",
+    "departement_code": "03",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-02-13T18:00:00+01:00",
+    "date_fin": "2026-02-16T20:00:00+01:00",
+    "reference_arrete": "255/2026",
+    "autorite_signataire": "Le Préfet de l'Allier",
+    "source_url": null,
+    "date_saisie": "2026-09-29T07:52:37.004Z",
+    "connecteur_id": "prefecture-03",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "b0edf300-97a8-46b1-9793-be7b38594dbc",
+    "departement_code": "03",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-02-20T18:00:00+01:00",
+    "date_fin": "2026-02-23T20:00:00+01:00",
+    "reference_arrete": "337/2026",
+    "autorite_signataire": "Le Préfet de l'Allier",
+    "source_url": null,
+    "date_saisie": "2026-09-29T07:52:37.004Z",
+    "connecteur_id": "prefecture-03",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "2ec16514-52d9-4805-b80d-22c9e2d05cc6",
+    "departement_code": "03",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-03-13T14:00:00+01:00",
+    "date_fin": "2026-03-16T08:00:00+01:00",
+    "reference_arrete": "539/2026",
+    "autorite_signataire": "Le Préfet de l'Allier",
+    "source_url": null,
+    "date_saisie": "2026-09-29T07:52:37.004Z",
+    "connecteur_id": "prefecture-03",
+    "methode_collecte": "manuelle_verifiee"
+  }
+]
