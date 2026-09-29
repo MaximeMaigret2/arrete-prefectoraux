@@ -1,0 +1,41 @@
+[
+  {
+    "id": "d0880441-eed3-4e4e-a323-656afd21fffa",
+    "departement_code": "10",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-02-22T18:00:00+01:00",
+    "date_fin": "2026-03-23T08:00:00+01:00",
+    "reference_arrete": "BSIPA2026051-0001",
+    "autorite_signataire": "Le Préfet de l'Aube",
+    "source_url": null,
+    "date_saisie": "2026-09-29T17:05:33.813Z",
+    "connecteur_id": "prefecture-10",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "8aa0119d-9441-4c16-9811-1a640eb72116",
+    "departement_code": "10",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-06-22T08:00:00+02:00",
+    "date_fin": "2026-09-21T08:00:00+02:00",
+    "reference_arrete": "RAA-10-2026-173",
+    "autorite_signataire": "Le Préfet de l'Aube",
+    "source_url": null,
+    "date_saisie": "2026-09-29T17:05:33.813Z",
+    "connecteur_id": "prefecture-10",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "d2051017-bcce-4ee3-af28-563b6b982ba9",
+    "departement_code": "10",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-09-21T08:00:00+02:00",
+    "date_fin": "2026-12-31T23:59:00+01:00",
+    "reference_arrete": "BSIPA2026264-0003",
+    "autorite_signataire": "Le Préfet de l'Aube",
+    "source_url": null,
+    "date_saisie": "2026-09-29T17:05:33.813Z",
+    "connecteur_id": "prefecture-10",
+    "methode_collecte": "manuelle_verifiee"
+  }
+]
