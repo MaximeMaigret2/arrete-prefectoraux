@@ -1,1 +1,106 @@
-[]
+[
+  {
+    "id": "109845e4-f09a-4bf6-af65-6e529ca11020",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-03-06T16:00:00+01:00",
+    "date_fin": "2026-03-09T08:00:00+01:00",
+    "reference_arrete": "489",
+    "autorite_signataire": "Le préfet de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "4a09e734-9737-40e2-a018-f9d39c55e78f",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-04-03T16:00:00+02:00",
+    "date_fin": "2026-04-07T08:00:00+02:00",
+    "reference_arrete": "653",
+    "autorite_signataire": "Le préfet de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "1aa04f29-dfb7-492e-9f34-8325e51f413b",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-04-17T16:00:00+02:00",
+    "date_fin": "2026-04-20T08:00:00+02:00",
+    "reference_arrete": "717",
+    "autorite_signataire": "Le préfet de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "b2be48b5-c01c-4e54-932c-7f667bb24db0",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-04-24T16:00:00+02:00",
+    "date_fin": "2026-04-27T08:00:00+02:00",
+    "reference_arrete": "766",
+    "autorite_signataire": "Le préfet de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "ae71dad6-f33e-44a5-aabc-965062f3d6bc",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-04-30T16:00:00+02:00",
+    "date_fin": "2026-05-04T08:00:00+02:00",
+    "reference_arrete": "823",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "dbdc086a-6bf4-4190-ad76-1615763959db",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-05-07T16:00:00+02:00",
+    "date_fin": "2026-06-30T00:00:00+02:00",
+    "reference_arrete": "849",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "4356c3d5-a98d-4bd5-b59f-3c563f9e4f6f",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-07-01T00:00:00+02:00",
+    "date_fin": "2026-09-06T00:00:00+02:00",
+    "reference_arrete": "1097",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  },
+  {
+    "id": "da5612df-e940-41d3-8920-c27aad3ed05f",
+    "departement_code": "21",
+    "type_evenement": "interdiction",
+    "date_debut": "2026-09-07T00:00:00+02:00",
+    "date_fin": "2026-09-30T00:00:00+02:00",
+    "reference_arrete": "1482",
+    "autorite_signataire": "La préfète de la Côte-d'Or",
+    "source_url": null,
+    "date_saisie": "2026-09-30T07:44:58.582Z",
+    "connecteur_id": "prefecture-21",
+    "methode_collecte": "manuelle_verifiee"
+  }
+]
