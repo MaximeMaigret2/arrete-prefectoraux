@@ -8,7 +8,7 @@ import type {
   ResultatCollecte,
   SourceBrute,
 } from '../../types.js';
-import { extraireChampsCommuns, extraireDateAvecAmbiguite, NOMS_MOIS_FR } from '../../extraction/champsCommuns.js';
+import { estPertinent, extraireChampsCibles, NOMS_MOIS_FR } from '../../extraction/champsCommuns.js';
 import { parisAnneeMoisCourant, type AnneeMois } from '../../../services/parisDate.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { PageWebConfigSchema, type PageWebConfig } from './config.schema.js';
@@ -120,37 +120,11 @@ export interface DependancesMoteurPageWeb {
  * règle 7) — toute variation passe par `PageWebConfig`.
  */
 
-/**
- * Échappe les caractères spéciaux d'une chaîne pour un usage littéral
- * dans une regex (aucun helper existant ailleurs dans le dépôt à réutiliser).
- */
-function echapperPourRegex(chaine: string): string {
-  return chaine.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-/**
- * Filtrage par pertinence, insensible à la casse (contrat §2, étape 3).
- *
- * CORRECTIF (2026-09-20) : un simple `includes()` matchait un mot-clé comme
- * "rave" comme SOUS-CHAÎNE de n'importe quel mot français qui la contient
- * (ex. "traversée", "entrave", "grave") — découvert sur un faux positif
- * réel pour prefecture-49 (RAA du 23/01/2026, un recueil de 104 pages sans
- * aucun rapport avec une rave-party, marqué pertinent uniquement à cause du
- * mot "traversée" dans un paragraphe sur le mouillage fluvial à Angers, puis
- * des dates/références d'un tout autre arrêté du même recueil récupérées à
- * tort par les regex génériques). Chaque mot-clé est désormais recherché
- * avec des limites de mot Unicode-aware (lookaround sur `\p{L}`/`\p{N}`,
- * pas `\b` natif qui ignore les lettres accentuées et casserait un mot-clé
- * comme "déclaré").
- */
-function estPertinent(texte: string, motsCles: string[]): boolean {
-  const normalise = texte.toLowerCase();
-  return motsCles.some((motCle) => {
-    const motCleEchappe = echapperPourRegex(motCle.toLowerCase());
-    const motif = new RegExp(`(?<![\\p{L}\\p{N}_])${motCleEchappe}(?![\\p{L}\\p{N}_])`, 'u');
-    return motif.test(normalise);
-  });
-}
+// Filtrage par pertinence (contrat §2, étape 3) : `estPertinent`, partagé
+// avec le moteur `rss` dans `extraction/champsCommuns.ts` (limites de mot
+// Unicode-aware depuis le correctif du 2026-09-20 — "rave" ne matche plus
+// "traversée"/"entrave"/"grave" —, pluriels et CamelCase depuis le
+// 2026-09-30).
 
 /**
  * Résout un lien (attribut `href`/`value` brut issu du HTML) en URL
@@ -351,21 +325,26 @@ function resoudreLibelleFrere($publication: cheerio.Cheerio<any>, config: PageWe
 function construireCandidat(
   departementCode: string,
   texte: string,
-  config: Pick<PageWebConfig, 'autorite_signataire' | 'type_evenement_par_defaut' | 'pattern_reference' | 'patterns_dates'>,
+  config: Pick<
+    PageWebConfig,
+    'autorite_signataire' | 'type_evenement_par_defaut' | 'pattern_reference' | 'patterns_dates' | 'mots_cles_filtrage'
+  >,
   source: SourceBrute,
 ): CandidatEvenement {
-  const champs = extraireChampsCommuns(texte, {
+  // Extraction ciblée sur l'acte pertinent d'un RAA compilé plutôt que sur
+  // le texte entier (correctif du 2026-09-30, cf. `extraireChampsCibles`).
+  const champs = extraireChampsCibles(texte, {
     patternReference: config.pattern_reference,
     patternsDates: config.patterns_dates,
+    motsCles: config.mots_cles_filtrage,
   });
-  const fin = extraireDateAvecAmbiguite(texte, config.patterns_dates.fin);
   return {
     departement_code: departementCode,
     type_evenement: config.type_evenement_par_defaut,
     reference_arrete: champs.reference_arrete,
     date_debut: champs.date_debut,
     date_fin: champs.date_fin,
-    date_fin_ambigue: fin.ambigue,
+    date_fin_ambigue: champs.date_fin_ambigue,
     autorite_signataire: config.autorite_signataire,
     source,
   };

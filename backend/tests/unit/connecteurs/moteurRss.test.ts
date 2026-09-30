@@ -68,6 +68,21 @@ describe('moteur rss — collecter()', () => {
     expect(references).not.toContain('2026-33-0498');
   });
 
+  it('ne retient pas un item dont le mot-clé n\'apparaît que dans un autre mot (ex. "contraventions", "traversée")', async () => {
+    xml = xml.replace(
+      '</channel>',
+      `<item>
+      <title>Arrêté n° 2026-33-0530 réglementant la traversée du bac et les contraventions associées</title>
+      <link>https://exemple.gouv.fr/actualites/arrete-0530</link>
+      <description>Applicable à compter du 01/09/2026.</description>
+    </item>
+  </channel>`,
+    );
+    const connecteur = creerConnecteur(ENTREE, CONFIG_BASE);
+    const resultat = await connecteur.collecter();
+    expect(resultat.candidats.map((c) => c.reference_arrete)).not.toContain('2026-33-0530');
+  });
+
   it('extrait un candidat complet depuis titre + description (sans suivre le lien)', async () => {
     const connecteur = creerConnecteur(ENTREE, CONFIG_BASE);
     const resultat = await connecteur.collecter();

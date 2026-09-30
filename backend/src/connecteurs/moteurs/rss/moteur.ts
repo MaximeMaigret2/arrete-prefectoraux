@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import type { Connecteur as ConnecteurEntree } from '../../../models/index.js';
 import type { CandidatEvenement, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
-import { extraireChampsCommuns, extraireDateAvecAmbiguite } from '../../extraction/champsCommuns.js';
+import { estPertinent, extraireChampsCibles } from '../../extraction/champsCommuns.js';
 import { telechargerEtExtraireTextePdf } from '../pdf/moteur.js';
 import { RssConfigSchema, type RssConfig } from './config.schema.js';
 import { fetchAvecEnTetes } from '../../httpClient.js';
@@ -12,30 +12,33 @@ import { fetchAvecEnTetes } from '../../httpClient.js';
  * — toute variation passe par `RssConfig`.
  */
 
-/** Filtrage par pertinence, insensible à la casse (même logique que le moteur page_web). */
-function estPertinent(texte: string, motsCles: string[]): boolean {
-  const normalise = texte.toLowerCase();
-  return motsCles.some((motCle) => normalise.includes(motCle.toLowerCase()));
-}
+// Filtrage par pertinence : `estPertinent` partagé avec le moteur `page_web`
+// (`extraction/champsCommuns.ts`). CORRECTIF (2026-09-30) : ce moteur
+// faisait encore un simple `includes()` — "rave" matchait donc
+// "traversée", "contraventions", "grave"… (faux positifs corrigés le
+// 2026-09-20 pour `page_web` seulement).
 
 function construireCandidat(
   departementCode: string,
   texte: string,
-  config: Pick<RssConfig, 'autorite_signataire' | 'type_evenement_par_defaut' | 'pattern_reference' | 'patterns_dates'>,
+  config: Pick<
+    RssConfig,
+    'autorite_signataire' | 'type_evenement_par_defaut' | 'pattern_reference' | 'patterns_dates' | 'mots_cles_filtrage'
+  >,
   source: SourceBrute,
 ): CandidatEvenement {
-  const champs = extraireChampsCommuns(texte, {
+  const champs = extraireChampsCibles(texte, {
     patternReference: config.pattern_reference,
     patternsDates: config.patterns_dates,
+    motsCles: config.mots_cles_filtrage,
   });
-  const fin = extraireDateAvecAmbiguite(texte, config.patterns_dates.fin);
   return {
     departement_code: departementCode,
     type_evenement: config.type_evenement_par_defaut,
     reference_arrete: champs.reference_arrete,
     date_debut: champs.date_debut,
     date_fin: champs.date_fin,
-    date_fin_ambigue: fin.ambigue,
+    date_fin_ambigue: champs.date_fin_ambigue,
     autorite_signataire: config.autorite_signataire,
     source,
   };

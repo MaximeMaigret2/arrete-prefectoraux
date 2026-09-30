@@ -1,7 +1,7 @@
 import pdfParse from 'pdf-parse';
 import type { Connecteur as ConnecteurEntree } from '../../../models/index.js';
 import type { CandidatEvenement, Connecteur, ResultatCollecte, SourceBrute } from '../../types.js';
-import { extraireChampsCommuns, extraireDateAvecAmbiguite } from '../../extraction/champsCommuns.js';
+import { extraireChampsCibles } from '../../extraction/champsCommuns.js';
 import { PdfConfigSchema, type PdfConfig } from './config.schema.js';
 import { fetchAvecEnTetes } from '../../httpClient.js';
 
@@ -79,18 +79,19 @@ function construireCandidat(
   config: Pick<PdfConfig, 'autorite_signataire' | 'type_evenement_par_defaut' | 'pattern_reference' | 'patterns_dates'>,
   source: SourceBrute,
 ): CandidatEvenement {
-  const champs = extraireChampsCommuns(texte, {
+  // Pas de `mots_cles_filtrage` pour ce moteur : texte entier, avec le
+  // repli générique de dates (évolution du 2026-09-30).
+  const champs = extraireChampsCibles(texte, {
     patternReference: config.pattern_reference,
     patternsDates: config.patterns_dates,
   });
-  const fin = extraireDateAvecAmbiguite(texte, config.patterns_dates.fin);
   return {
     departement_code: departementCode,
     type_evenement: config.type_evenement_par_defaut,
     reference_arrete: champs.reference_arrete,
     date_debut: champs.date_debut,
     date_fin: champs.date_fin,
-    date_fin_ambigue: fin.ambigue,
+    date_fin_ambigue: champs.date_fin_ambigue,
     autorite_signataire: config.autorite_signataire,
     source,
   };
