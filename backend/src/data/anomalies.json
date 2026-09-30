@@ -52366,9 +52366,9 @@
     },
     "departement_code": "29",
     "raison": "Champ requis manquant ou illisible : date_debut.",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-13T05:06:52.219Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -52743,9 +52743,9 @@
     },
     "departement_code": "29",
     "raison": "Champ requis manquant ou illisible : date_debut.",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-13T05:06:52.893Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -113619,9 +113619,9 @@
     },
     "departement_code": "29",
     "raison": "Doublon potentiel avec l'événement existant 615b46e6-3bbc-480b-984a-a695640ddf86 (référence \"29-2025-05-19-00012\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T06:18:23.222Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -114025,9 +114025,9 @@
     },
     "departement_code": "29",
     "raison": "Champ requis manquant ou illisible : date_debut.",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T06:18:24.822Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -114402,9 +114402,9 @@
     },
     "departement_code": "29",
     "raison": "Champ requis manquant ou illisible : date_debut.",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T06:18:26.261Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -116543,9 +116543,9 @@
     },
     "departement_code": "30",
     "raison": "Doublon potentiel avec l'événement existant 3197d2b9-2aee-42e8-aac7-8be8451cbdcb (référence \"instaurant\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T08:27:45.145Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -124393,9 +124393,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:33.649Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -125089,9 +125089,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:36.543Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -126249,9 +126249,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:41.236Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -126510,9 +126510,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:42.374Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -126829,9 +126829,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:43.768Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -127148,9 +127148,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:45.165Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -127409,9 +127409,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:46.318Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -127670,9 +127670,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:47.457Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -127757,9 +127757,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:47.843Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -127931,9 +127931,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:48.617Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
@@ -128105,9 +128105,9 @@
     },
     "departement_code": "38",
     "raison": "Doublon potentiel avec l'événement existant b262220c-f445-4d5d-95b0-15715e448da3 (référence \"38-2026-\").",
-    "statut": "en_attente",
+    "statut": "rejetee",
     "date_creation": "2026-09-18T23:11:49.377Z",
-    "date_resolution": null,
+    "date_resolution": "2026-09-30T17:10:57.000Z",
     "evenement_resultant_id": null
   },
   {
